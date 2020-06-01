@@ -62,55 +62,63 @@ const SHOP_DATA = [
   },
   {
     id: 2,
-    title: "Sneakers",
-    routeName: "sneakers",
+    title: "Watches",
+    routeName: "watches",
     items: [
       {
         id: 10,
-        name: "Adidas NMD",
-        imageUrl: "https://i.ibb.co/0s3pdnc/adidas-nmd.png",
-        price: 220
+        name: "Promaster Diver",
+        imageUrl:
+          "https://embed.widencdn.net/img/citizenwatch/1db5a7ycwb/1000px/Promaster%20Diver.png?u=41zuoe",
+        price: 400
       },
       {
         id: 11,
-        name: "Adidas Yeezy",
-        imageUrl: "https://i.ibb.co/dJbG1cT/yeezy.png",
+        name: "Cluse",
+        imageUrl:
+          "https://images.unsplash.com/photo-1506796684999-9fa2770af9c3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80",
         price: 280
       },
       {
         id: 12,
-        name: "Black Converse",
-        imageUrl: "https://i.ibb.co/bPmVXyP/black-converse.png",
+        name: "Fossil",
+        imageUrl:
+          "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
         price: 110
       },
       {
         id: 13,
-        name: "Nike White AirForce",
-        imageUrl: "https://i.ibb.co/1RcFPk0/white-nike-high-tops.png",
+        name: "MVMT",
+        imageUrl:
+          "https://images.unsplash.com/photo-1495857000853-fe46c8aefc30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
         price: 160
       },
       {
         id: 14,
-        name: "Nike Red High Tops",
-        imageUrl: "https://i.ibb.co/QcvzydB/nikes-red.png",
+        name: "Citizen",
+        imageUrl:
+          "https://images.unsplash.com/photo-1511370235399-1802cae1d32f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1037&q=80",
         price: 160
       },
       {
         id: 15,
         name: "Nike Brown High Tops",
-        imageUrl: "https://i.ibb.co/fMTV342/nike-brown.png",
+        imageUrl:
+          "https://images.unsplash.com/photo-1507428861205-e8aab693190e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1060&q=80",
         price: 160
       },
       {
         id: 16,
-        name: "Air Jordan Limited",
-        imageUrl: "https://i.ibb.co/w4k6Ws9/nike-funky.png",
+        name: "Rolex",
+        imageUrl:
+          "https://images.unsplash.com/photo-1526045431048-f857369baa09?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
         price: 190
       },
       {
         id: 17,
         name: "Timberlands",
-        imageUrl: "https://i.ibb.co/Mhh6wBg/timberlands.png",
+        imageUrl:
+          "https://images.unsplash.com/photo-1532667449560-72a95c8d381b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         price: 200
       }
     ]
