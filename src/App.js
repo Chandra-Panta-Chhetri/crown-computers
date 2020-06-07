@@ -3,9 +3,10 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { HomePage } from "./pages/homepage/homepage.component";
 import { Header } from "./components/header/header.component";
+import { auth, addUserToDb } from "./utils/firebase";
 import Shop from "./pages/shop/shop.component";
 import LogIn from "./pages/login/login.component";
-import { auth, addUserToDb } from "./utils/firebase";
+import SignUp from "./pages/signup/signup.component";
 
 class App extends React.Component {
   constructor() {
@@ -48,6 +49,7 @@ class App extends React.Component {
             <Route exact path="/" component={HomePage} />
             <Route path="/shop" component={Shop} />
             <Route path="/login" component={LogIn} />
+            <Route path="/signup" component={SignUp} />
           </Switch>
         </div>
       </Router>

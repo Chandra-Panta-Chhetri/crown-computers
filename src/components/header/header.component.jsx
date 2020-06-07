@@ -26,7 +26,7 @@ export const Header = ({ currentUser }) => {
           </Link>
         )}
         {!currentUser ? (
-          <Link className="option" to="/register">
+          <Link className="option" to="/signup">
             Sign Up
           </Link>
         ) : null}

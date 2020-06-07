@@ -14,7 +14,7 @@ class LogIn extends React.Component {
   }
 
   storeCredentials = (e) => {
-    this.setState({ [e.target.type]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleSubmit = (e) => {
@@ -29,6 +29,7 @@ class LogIn extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <FormInput
             type={"email"}
+            name={"email"}
             label={"email"}
             value={this.state.email}
             handler={this.storeCredentials}
@@ -36,6 +37,7 @@ class LogIn extends React.Component {
           />
           <FormInput
             type={"password"}
+            name={"password"}
             label={"password"}
             value={this.state.password}
             handler={this.storeCredentials}
