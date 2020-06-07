@@ -5,7 +5,7 @@ import { HomePage } from "./pages/homepage/homepage.component";
 import { Header } from "./components/header/header.component";
 import Shop from "./pages/shop/shop.component";
 import LogIn from "./pages/login/login.component";
-import { auth } from "./configs/firebaseConfig";
+import { auth } from "./utils/firebase";
 
 class App extends React.Component {
   constructor() {
