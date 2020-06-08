@@ -2,7 +2,7 @@ import React from "react";
 import "./signup.styles.scss";
 import { FormInput } from "../../components/form-input/form-input.component";
 import { CustomButton } from "../../components/custom-button/custom-button.component";
-import { addUserToDb } from "../../utils/firebase";
+import { addUserToDb, auth } from "../../utils/firebase";
 
 class SignUp extends React.Component {
   constructor() {
@@ -11,18 +11,34 @@ class SignUp extends React.Component {
       displayName: "",
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      errorMessage: ""
     };
   }
 
-  createNewUser = (e) => {
+  createNewUser = async (e) => {
     e.preventDefault();
-    this.setState({
-      displayName: "",
-      email: "",
-      password: "",
-      confirmPassword: ""
-    });
+    const { displayName, email, password, confirmPassword } = this.state;
+    if (password !== confirmPassword) {
+      alert("Passwords must match!");
+      return;
+    }
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      console.log(user);
+      await addUserToDb(user, { displayName });
+      this.setState({
+        displayName: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+      });
+    } catch (e) {
+      this.setState({ errorMessage: e.message });
+    }
   };
 
   storeCredentials = (e) => {
@@ -36,6 +52,7 @@ class SignUp extends React.Component {
       <div className="sign-up">
         <h1 className="page-title">Sign Up</h1>
         <span>Create a new account using an email and password</span>
+        <p>{this.state.errorMessage}</p>
         <form onSubmit={this.createNewUser}>
           <FormInput
             type={"text"}

@@ -21,7 +21,7 @@ export const signInWithGoogle = () => auth.signInWithPopup(provider);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-export const addUserToDb = async (user, extraData = {}) => {
+export const addUserToDb = async (user, extraData) => {
   if (!user) {
     return;
   }
