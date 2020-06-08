@@ -3,13 +3,15 @@ import "./login.styles.scss";
 import { FormInput } from "../../components/form-input/form-input.component";
 import { CustomButton } from "../../components/custom-button/custom-button.component";
 import { signInWithGoogle } from "../../utils/firebase";
+import { auth } from "../../utils/firebase";
 
 class LogIn extends React.Component {
   constructor() {
     super();
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      errorMessage: ""
     };
   }
 
@@ -17,15 +19,22 @@ class LogIn extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    this.setState({ email: "", password: "" });
+    const { email, password } = this.state;
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      this.setState({ email: "", password: "" });
+    } catch (e) {
+      this.setState({ errorMessage: e.message, email: "", password: "" });
+    }
   };
 
   render() {
     return (
       <div className="login">
         <h2 className="page-title">Log In</h2>
+        <span>{this.state.errorMessage}</span>
         <form onSubmit={this.handleSubmit}>
           <FormInput
             type={"email"}
