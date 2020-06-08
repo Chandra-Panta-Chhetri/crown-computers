@@ -1,9 +1,9 @@
 import React from "react";
-import SHOP_DATA from "./shopData.js";
-import "./shop.styles.scss";
+import SHOP_DATA from "./productsData.js";
+import "./collection.styles.scss";
 import { CollectionPreview } from "../../components/collection-preview/collection-preview.component";
 
-class Shop extends React.Component {
+class Collection extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -21,4 +21,4 @@ class Shop extends React.Component {
   }
 }
 
-export default Shop;
+export default Collection;

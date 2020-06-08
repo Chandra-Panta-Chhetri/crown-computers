@@ -1,7 +1,7 @@
 import React from "react";
 import "./signup.styles.scss";
 import { FormInput } from "../../components/form-input/form-input.component";
-import { CustomButton } from "../../components/custom-button/custom-button.component";
+import { Button } from "../../components/button/button.component";
 import { addUserToDb, auth } from "../../utils/firebase";
 
 class SignUp extends React.Component {
@@ -86,7 +86,7 @@ class SignUp extends React.Component {
             handler={this.storeCredentials}
             required
           />
-          <CustomButton type="submit">Sign Up</CustomButton>
+          <Button type="submit">Sign Up</Button>
         </form>
       </div>
     );

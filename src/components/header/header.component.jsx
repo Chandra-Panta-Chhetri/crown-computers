@@ -13,8 +13,8 @@ export const Header = ({ currentUser }) => {
         </Link>
       </div>
       <div className="options">
-        <Link className="option" to="/shop">
-          Shop
+        <Link className="option" to="/collection">
+          Collection
         </Link>
         {!currentUser ? (
           <Link className="option" to="/login">

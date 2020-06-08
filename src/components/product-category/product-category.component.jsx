@@ -1,11 +1,11 @@
 import React from "react";
-import "./menu-item.styles.scss";
+import "./product-category.styles.scss";
 import { withRouter } from "react-router-dom";
 
-const MenuItem = ({ label, imageUrl, size, history, match }) => {
+const ProductCategory = ({ label, imageUrl, size, history, match }) => {
   return (
     <div
-      className={`menu-item ${size}`}
+      className={`product-category ${size}`}
       onClick={() => history.push(`${match.url}${label}`)}
     >
       <div
@@ -20,4 +20,4 @@ const MenuItem = ({ label, imageUrl, size, history, match }) => {
   );
 };
 
-export default withRouter(MenuItem);
+export default withRouter(ProductCategory);

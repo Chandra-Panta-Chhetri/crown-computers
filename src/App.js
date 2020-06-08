@@ -1,10 +1,10 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { HomePage } from "./pages/homepage/homepage.component";
+import { Home } from "./pages/home/home.component";
 import { Header } from "./components/header/header.component";
 import { auth, addUserToDb } from "./utils/firebase";
-import Shop from "./pages/shop/shop.component";
+import Collection from "./pages/collection/collection.component";
 import LogIn from "./pages/login/login.component";
 import SignUp from "./pages/signup/signup.component";
 
@@ -46,8 +46,8 @@ class App extends React.Component {
         <div className="App">
           <Header currentUser={this.state.currentUser} />
           <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route path="/shop" component={Shop} />
+            <Route exact path="/" component={Home} />
+            <Route path="/collection" component={Collection} />
             <Route path="/login" component={LogIn} />
             <Route path="/signup" component={SignUp} />
           </Switch>
