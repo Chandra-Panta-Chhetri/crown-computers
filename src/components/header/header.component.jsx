@@ -1,7 +1,6 @@
 import React from "react";
 import "./header.styles.scss";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/logo.svg";
 import { auth } from "../../utils/firebase";
 
 export const Header = ({ currentUser }) => {
@@ -9,7 +8,7 @@ export const Header = ({ currentUser }) => {
     <div className="header">
       <div className="logo-container">
         <Link to="/">
-          <img src={Logo} alt="" />
+          <i class="fas fa-crown fa-3x"></i>
         </Link>
       </div>
       <div className="options">
