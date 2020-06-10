@@ -60,7 +60,7 @@ class LogIn extends React.Component {
               </Button>
               <h5>Or login with</h5>
               <Button onClick={signInWithGoogle}>
-                <i class="fab fa-google"></i> Google
+                <i className="fab fa-google"></i> Google
               </Button>
               <h5>
                 Don't have an account? <Link to="/signup">Sign up now</Link>

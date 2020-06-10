@@ -1,10 +1,10 @@
 import React from "react";
 import "./button.styles.scss";
 
-export const Button = ({ children, stretch, ...otherButtonAttr }) => {
+export const Button = ({ children, ...otherButtonAttr }) => {
   return (
     <button
-      className={`button ${stretch ? "stretch" : ""}`}
+      className={`button ${otherButtonAttr.stretch ? "stretch" : ""}`}
       {...otherButtonAttr}
     >
       {children}

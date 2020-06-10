@@ -8,7 +8,7 @@ export const Header = ({ currentUser }) => {
     <div className="header">
       <div className="logo-container">
         <Link to="/">
-          <i class="fas fa-crown fa-3x"></i>
+          <i className="fas fa-crown fa-3x"></i>
         </Link>
       </div>
       <div className="options">
@@ -17,7 +17,7 @@ export const Header = ({ currentUser }) => {
         </Link>
         {!currentUser ? (
           <Link className="option" to="/login">
-            Log In <i class="fas fa-sign-in-alt"></i>
+            Log In <i className="fas fa-sign-in-alt"></i>
           </Link>
         ) : (
           <Link className="option" onClick={() => auth.signOut()} to="/">
@@ -26,7 +26,7 @@ export const Header = ({ currentUser }) => {
         )}
         {!currentUser ? (
           <Link className="option" to="/signup">
-            Sign Up <i class="fas fa-user-plus"></i>
+            Sign Up <i className="fas fa-user-plus"></i>
           </Link>
         ) : null}
       </div>
