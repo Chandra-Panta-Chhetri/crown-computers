@@ -17,7 +17,7 @@ export const Header = ({ currentUser }) => {
         </Link>
         {!currentUser ? (
           <Link className="option" to="/login">
-            Log In
+            Log In <i class="fas fa-sign-in-alt"></i>
           </Link>
         ) : (
           <Link className="option" onClick={() => auth.signOut()} to="/">
@@ -26,7 +26,7 @@ export const Header = ({ currentUser }) => {
         )}
         {!currentUser ? (
           <Link className="option" to="/signup">
-            Sign Up
+            Sign Up <i class="fas fa-user-plus"></i>
           </Link>
         ) : null}
       </div>
