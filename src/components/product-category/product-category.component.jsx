@@ -2,10 +2,10 @@ import React from "react";
 import "./product-category.styles.scss";
 import { withRouter } from "react-router-dom";
 
-const ProductCategory = ({ label, imageUrl, size, history, match }) => {
+const ProductCategory = ({ label, imageUrl, history, match }) => {
   return (
     <div
-      className={`product-category ${size}`}
+      className={`product-category`}
       onClick={() => history.push(`${match.url}${label}`)}
     >
       <div

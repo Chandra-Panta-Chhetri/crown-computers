@@ -8,36 +8,40 @@ class Directory extends React.Component {
     this.state = {
       menuItems: [
         {
-          label: "hats",
+          label: "monitors",
           id: 1,
           image:
-            "https://images.unsplash.com/photo-1529958030586-3aae4ca485ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+            "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
         },
         {
-          label: "watches",
+          label: "laptops",
           id: 2,
           image:
-            "https://images.unsplash.com/photo-1585477078060-d06978689e34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+            "https://images.unsplash.com/photo-1587133599421-40a3cd84831b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80"
         },
         {
-          label: "jackets",
+          label: "Storage Devices",
           id: 3,
           image:
-            "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+            "https://images.unsplash.com/photo-1577538926210-fc6cc624fde2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
         },
         {
-          label: "womens",
+          label: "Drives",
           id: 4,
           image:
-            "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80",
-          size: "large"
+            "https://images.unsplash.com/photo-1589995186011-a7b485edc4bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
         },
         {
-          label: "mens",
+          label: "Desktop Computers",
           id: 5,
           image:
-            "https://images.unsplash.com/photo-1567443022715-0d7ad3a48a9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-          size: "large"
+            "https://images.unsplash.com/photo-1547082299-de196ea013d6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+        },
+        {
+          label: "Keyboards & Mice",
+          id: 6,
+          image:
+            "https://images.unsplash.com/photo-1470054187619-8cf450e37193?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
         }
       ]
     };
@@ -51,7 +55,6 @@ class Directory extends React.Component {
             key={item.id}
             label={item.label}
             imageUrl={item.image}
-            size={item.size}
           />
         ))}
       </div>

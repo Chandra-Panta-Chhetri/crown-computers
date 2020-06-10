@@ -8,10 +8,7 @@
   border: 1px solid black;
   margin: 0 7.5px 15px;
   overflow: hidden;
-
-  &.large {
-    height: 300px;
-  }
+  border-radius: 25px;
 
   &:first-child {
     margin-right: 7.5px;
@@ -25,12 +22,12 @@
     cursor: pointer;
 
     & .background-image {
-      transform: scale(1.1);
+      transform: scale(1.6);
       transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
     }
 
     & .content {
-      opacity: 0.9;
+      opacity: 1;
     }
   }
 
@@ -52,6 +49,7 @@
     position: absolute;
     background-color: white;
     opacity: 0.8;
+    border-radius: 8px;
 
     .title {
       font-weight: bold;
