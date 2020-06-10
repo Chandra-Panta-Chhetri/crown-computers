@@ -4,6 +4,7 @@ import { FormInput } from "../../components/form-input/form-input.component";
 import { Button } from "../../components/button/button.component";
 import { signInWithGoogle } from "../../utils/firebase";
 import { auth } from "../../utils/firebase";
+import { Link } from "react-router-dom";
 
 class LogIn extends React.Component {
   constructor() {
@@ -33,30 +34,40 @@ class LogIn extends React.Component {
   render() {
     return (
       <div className="login">
-        <h2 className="page-title">Log In</h2>
-        <span>{this.state.errorMessage}</span>
-        <form onSubmit={this.handleSubmit}>
-          <FormInput
-            type={"email"}
-            name={"email"}
-            label={"email"}
-            value={this.state.email}
-            handler={this.storeCredentials}
-            required
-          />
-          <FormInput
-            type={"password"}
-            name={"password"}
-            label={"password"}
-            value={this.state.password}
-            handler={this.storeCredentials}
-            required
-          />
-          <div className="form-buttons">
-            <Button type="submit">Log In</Button>
-            <Button onClick={signInWithGoogle}>Log In With Google</Button>
-          </div>
-        </form>
+        <section>
+          <h2 className="page-title">LOGIN</h2>
+          <span>{this.state.errorMessage}</span>
+          <form onSubmit={this.handleSubmit}>
+            <FormInput
+              type={"email"}
+              name={"email"}
+              label={"Email"}
+              value={this.state.email}
+              handler={this.storeCredentials}
+              required
+            />
+            <FormInput
+              type={"password"}
+              name={"password"}
+              label={"Password"}
+              value={this.state.password}
+              handler={this.storeCredentials}
+              required
+            />
+            <div className="form-buttons">
+              <Button type="submit" stretch={true}>
+                Log In
+              </Button>
+              <h5>Or login with</h5>
+              <Button onClick={signInWithGoogle}>
+                <i class="fab fa-google"></i> Google
+              </Button>
+              <h5>
+                Don't have an account? <Link to="/signup">Sign up now</Link>
+              </h5>
+            </div>
+          </form>
+        </section>
       </div>
     );
   }
