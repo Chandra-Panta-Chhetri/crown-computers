@@ -27,7 +27,11 @@ class LogIn extends React.Component {
       await auth.signInWithEmailAndPassword(email, password);
       this.setState({ email: "", password: "" });
     } catch (e) {
-      this.setState({ errorMessage: e.message, email: "", password: "" });
+      this.setState({
+        errorMessage: "Incorrect password or email. Please try again.",
+        email: "",
+        password: ""
+      });
     }
   };
 
@@ -36,7 +40,7 @@ class LogIn extends React.Component {
       <div className="login">
         <section>
           <h2 className="page-title">LOGIN</h2>
-          <span>{this.state.errorMessage}</span>
+          <h5 className="error">{this.state.errorMessage}</h5>
           <form onSubmit={this.handleSubmit}>
             <FormInput
               type={"email"}
