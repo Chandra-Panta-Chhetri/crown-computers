@@ -10,6 +10,7 @@ class Collection extends React.Component {
       shopData: SHOP_DATA
     };
   }
+
   render() {
     return (
       <>
