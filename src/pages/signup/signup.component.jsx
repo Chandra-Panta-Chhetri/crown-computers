@@ -3,6 +3,7 @@ import "./signup.styles.scss";
 import { FormInput } from "../../components/form-input/form-input.component";
 import { Button } from "../../components/button/button.component";
 import { addUserToDb, auth } from "../../utils/firebase";
+import { Link } from "react-router-dom";
 
 class SignUp extends React.Component {
   constructor() {
@@ -19,11 +20,10 @@ class SignUp extends React.Component {
   createNewUser = async (e) => {
     e.preventDefault();
     const { displayName, email, password, confirmPassword } = this.state;
-    if (password !== confirmPassword) {
-      alert("Passwords must match!");
-      return;
-    }
     try {
+      if (password !== confirmPassword) {
+        throw new Error("Passwords must match");
+      }
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
@@ -37,7 +37,18 @@ class SignUp extends React.Component {
         confirmPassword: ""
       });
     } catch (e) {
-      this.setState({ errorMessage: e.message });
+      if (e.message !== "Passwords must match") {
+        return this.setState({
+          errorMessage: e.message,
+          displayName: "",
+          email: "",
+          password: "",
+          confirmPassword: ""
+        });
+      }
+      this.setState({
+        errorMessage: e.message
+      });
     }
   };
 
@@ -49,46 +60,52 @@ class SignUp extends React.Component {
 
   render() {
     return (
-      <div className="sign-up">
-        <h1 className="page-title">Sign Up</h1>
-        <span>Create a new account using an email and password</span>
-        <p>{this.state.errorMessage}</p>
-        <form onSubmit={this.createNewUser}>
-          <FormInput
-            type={"text"}
-            name={"displayName"}
-            label={"full name"}
-            value={this.state.displayName}
-            handler={this.storeCredentials}
-            required
-          />
-          <FormInput
-            type={"email"}
-            name={"email"}
-            label={"email"}
-            value={this.state.email}
-            handler={this.storeCredentials}
-            required
-          />
-          <FormInput
-            type={"password"}
-            name={"password"}
-            label={"password"}
-            value={this.state.password}
-            handler={this.storeCredentials}
-            required
-          />
-          <FormInput
-            type={"password"}
-            name={"confirmPassword"}
-            label={"confirm password"}
-            value={this.state.confirmPassword}
-            handler={this.storeCredentials}
-            required
-          />
-          <Button type="submit">Sign Up</Button>
-        </form>
-      </div>
+      <section className="container">
+        <div className="sign-up">
+          <h1 className="page-title">SIGN UP</h1>
+          <h5 className="error">{this.state.errorMessage}</h5>
+          <form onSubmit={this.createNewUser}>
+            <FormInput
+              type={"text"}
+              name={"displayName"}
+              label={"Full Name"}
+              value={this.state.displayName}
+              handler={this.storeCredentials}
+              required
+            />
+            <FormInput
+              type={"email"}
+              name={"email"}
+              label={"Email"}
+              value={this.state.email}
+              handler={this.storeCredentials}
+              required
+            />
+            <FormInput
+              type={"password"}
+              name={"password"}
+              label={"Password"}
+              value={this.state.password}
+              handler={this.storeCredentials}
+              required
+            />
+            <FormInput
+              type={"password"}
+              name={"confirmPassword"}
+              label={"Confirm Password"}
+              value={this.state.confirmPassword}
+              handler={this.storeCredentials}
+              required
+            />
+            <Button type="submit" stretch={true}>
+              Sign Up
+            </Button>
+          </form>
+          <h5>
+            Have an account? <Link to="/login">Login now</Link>
+          </h5>
+        </div>
+      </section>
     );
   }
 }

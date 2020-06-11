@@ -37,8 +37,8 @@ class LogIn extends React.Component {
 
   render() {
     return (
-      <div className="login">
-        <section>
+      <section className="container">
+        <div className="login">
           <h2 className="page-title">LOGIN</h2>
           <h5 className="error">{this.state.errorMessage}</h5>
           <form onSubmit={this.handleSubmit}>
@@ -58,21 +58,17 @@ class LogIn extends React.Component {
               handler={this.storeCredentials}
               required
             />
-            <div className="form-buttons">
-              <Button type="submit" stretch={true}>
-                Log In
-              </Button>
-              <h5>Or login with</h5>
-              <Button onClick={signInWithGoogle}>
-                <i className="fab fa-google"></i> Google
-              </Button>
-              <h5>
-                Don't have an account? <Link to="/signup">Sign up now</Link>
-              </h5>
-            </div>
+            <Button type="submit">Log In</Button>
+            <h5>Or login with</h5>
+            <Button onClick={signInWithGoogle}>
+              <i className="fab fa-google"></i> Google
+            </Button>
           </form>
-        </section>
-      </div>
+          <h5>
+            Don't have an account? <Link to="/signup">Sign up now</Link>
+          </h5>
+        </div>
+      </section>
     );
   }
 }

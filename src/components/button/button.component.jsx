@@ -3,10 +3,7 @@ import "./button.styles.scss";
 
 export const Button = ({ children, ...otherButtonAttr }) => {
   return (
-    <button
-      className={`button ${otherButtonAttr.stretch ? "stretch" : ""}`}
-      {...otherButtonAttr}
-    >
+    <button className="button" {...otherButtonAttr}>
       {children}
     </button>
   );
