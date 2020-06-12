@@ -21,7 +21,9 @@ class App extends React.Component {
   componentWillMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        const userRef = await addUserToDb(user);
+        const userRef = await addUserToDb(user, {
+          displayName: user.displayName
+        });
         userRef.onSnapshot((snapShot) => {
           this.setState({
             currentUser: {

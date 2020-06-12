@@ -14,7 +14,6 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
@@ -30,7 +29,6 @@ export const addUserToDb = async (user, extraData) => {
   if (!snapShot.exists) {
     try {
       await userRef.set({
-        displayName: user.displayName,
         email: user.email,
         createdAt: new Date(),
         ...extraData

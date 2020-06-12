@@ -20,19 +20,18 @@ class LogIn extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleSubmit = async (e) => {
+  loginUser = async (e) => {
     e.preventDefault();
     const { email, password } = this.state;
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      this.setState({ email: "", password: "" });
+      this.setState({ errorMessage: "" });
     } catch (e) {
       this.setState({
-        errorMessage: "Incorrect password or email. Please try again.",
-        email: "",
-        password: ""
+        errorMessage: "Incorrect password or email. Please try again."
       });
     }
+    this.setState({ email: "", password: "" });
   };
 
   render() {
@@ -41,7 +40,7 @@ class LogIn extends React.Component {
         <div className="login">
           <h2 className="page-title">LOGIN</h2>
           <h5 className="error">{this.state.errorMessage}</h5>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.loginUser}>
             <FormInput
               type={"email"}
               name={"email"}

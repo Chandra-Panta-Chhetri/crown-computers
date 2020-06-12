@@ -28,13 +28,13 @@ class SignUp extends React.Component {
         email,
         password
       );
-      console.log(user);
       await addUserToDb(user, { displayName });
       this.setState({
         displayName: "",
         email: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
+        errorMessage: ""
       });
     } catch (e) {
       if (e.message !== "Passwords must match") {
