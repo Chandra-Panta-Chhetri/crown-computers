@@ -97,9 +97,7 @@ class SignUp extends React.Component {
               handler={this.storeCredentials}
               required
             />
-            <Button type="submit" stretch={true}>
-              Sign Up
-            </Button>
+            <Button type="submit">Sign Up</Button>
           </form>
           <h5>
             Have an account? <Link to="/login">Login now</Link>
