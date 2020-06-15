@@ -1,11 +1,11 @@
 import React from "react";
-import "./cart.styles.scss";
+import "./cart-dropdown.styles.scss";
 import { Button } from "../button/button.component";
 
-export const Cart = () => {
+export const CartDropDown = () => {
   return (
-    <article className="cart">
-      <div className="cart-info">Your cart is empty</div>
+    <article className="cart-drop-down">
+      <div className="cart-items">Your cart is empty</div>
       <Button onClick={() => console.log("shopping button clicked")}>
         View Cart
       </Button>

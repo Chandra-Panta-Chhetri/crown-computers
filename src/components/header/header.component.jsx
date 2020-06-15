@@ -3,10 +3,10 @@ import "./header.styles.scss";
 import { Link } from "react-router-dom";
 import { auth } from "../../utils/firebase";
 import { connect } from "react-redux";
-import { Cart } from "../cart/cart.component";
-import { toggleCartVisibility } from "../../redux/cart/cart.actions";
+import { CartDropDown } from "../cart-dropdown/cart-dropdown.component";
+import CartIcon from "../cart-icon/cart-icon.component";
 
-const Header = ({ currentUser, toggleCart, hidden }) => {
+const Header = ({ currentUser, hidden }) => {
   return (
     <div className="header">
       <div className="logo-container">
@@ -32,12 +32,9 @@ const Header = ({ currentUser, toggleCart, hidden }) => {
             Sign Up
           </Link>
         ) : null}
-        <div className="cart-icon" onClick={toggleCart}>
-          <i className="fas fa-shopping-cart"></i>
-          <span>0</span>
-        </div>
+        <CartIcon />
       </div>
-      {hidden ? null : <Cart />}
+      {hidden ? null : <CartDropDown />}
     </div>
   );
 };
@@ -47,10 +44,4 @@ const mapStateToProps = (state) => ({
   hidden: state.cart.hidden
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleCart: () => dispatch(toggleCartVisibility())
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);

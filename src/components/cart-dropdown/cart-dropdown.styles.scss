@@ -1,4 +1,4 @@
-.cart {
+.cart-drop-down {
   border: 1px solid black;
   padding: 20px;
   position: absolute;
@@ -11,7 +11,7 @@
   right: 55px;
   background-color: white;
 
-  .cart-info {
+  .cart-items {
     overflow: scroll;
     height: 90%;
     margin-bottom: 15px;
