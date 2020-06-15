@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { auth } from "../../utils/firebase";
 import { connect } from "react-redux";
 import { Cart } from "../cart/cart.component";
+import { toggleCartVisibility } from "../../redux/cart/cart.actions";
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, toggleCart, hidden }) => {
   return (
     <div className="header">
       <div className="logo-container">
@@ -31,18 +32,25 @@ const Header = ({ currentUser }) => {
             Sign Up
           </Link>
         ) : null}
-        <div className="cart-icon">
+        <div className="cart-icon" onClick={toggleCart}>
           <i className="fas fa-shopping-cart"></i>
           <span>0</span>
         </div>
       </div>
-      <Cart />
+      {hidden ? null : <Cart />}
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  hidden: state.cart.hidden
 });
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleCart: () => dispatch(toggleCartVisibility())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
