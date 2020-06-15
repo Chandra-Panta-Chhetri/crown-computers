@@ -1,7 +1,9 @@
 import React from "react";
 import "./login.styles.scss";
+
 import { FormInput } from "../../components/form-input/form-input.component";
 import { Button } from "../../components/button/button.component";
+
 import { signInWithGoogle } from "../../utils/firebase";
 import { auth } from "../../utils/firebase";
 import { Link } from "react-router-dom";

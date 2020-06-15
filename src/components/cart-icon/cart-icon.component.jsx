@@ -1,5 +1,6 @@
 import React from "react";
 import "./cart-icon.styles.scss";
+
 import { connect } from "react-redux";
 import { toggleCartVisibility } from "../../redux/cart/cart.actions";
 

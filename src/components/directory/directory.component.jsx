@@ -1,5 +1,6 @@
 import React from "react";
 import "./directory.styles.scss";
+
 import ProductCategory from "../product-category/product-category.component";
 
 class Directory extends React.Component {

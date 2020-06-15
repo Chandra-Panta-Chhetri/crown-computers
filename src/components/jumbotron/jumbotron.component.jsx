@@ -1,6 +1,8 @@
 import React from "react";
 import "./jumbotron.styles.scss";
+
 import { Button } from "../button/button.component";
+
 import { withRouter } from "react-router-dom";
 
 const Jumbotron = ({ history }) => {

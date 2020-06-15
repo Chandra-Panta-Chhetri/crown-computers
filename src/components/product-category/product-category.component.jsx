@@ -1,5 +1,6 @@
 import React from "react";
 import "./product-category.styles.scss";
+
 import { withRouter } from "react-router-dom";
 
 const ProductCategory = ({ label, imageUrl, history, match }) => {

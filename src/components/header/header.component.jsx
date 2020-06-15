@@ -1,10 +1,12 @@
 import React from "react";
 import "./header.styles.scss";
+
+import { CartDropDown } from "../cart-dropdown/cart-dropdown.component";
+import CartIcon from "../cart-icon/cart-icon.component";
+
 import { Link } from "react-router-dom";
 import { auth } from "../../utils/firebase";
 import { connect } from "react-redux";
-import { CartDropDown } from "../cart-dropdown/cart-dropdown.component";
-import CartIcon from "../cart-icon/cart-icon.component";
 
 const Header = ({ currentUser, hidden }) => {
   return (
