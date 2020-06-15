@@ -3,6 +3,7 @@ import "./header.styles.scss";
 import { Link } from "react-router-dom";
 import { auth } from "../../utils/firebase";
 import { connect } from "react-redux";
+import { Cart } from "../cart/cart.component";
 
 const Header = ({ currentUser }) => {
   return (
@@ -30,11 +31,12 @@ const Header = ({ currentUser }) => {
             Sign Up
           </Link>
         ) : null}
-        <div className="cart">
-          <i class="fas fa-shopping-cart"></i>
+        <div className="cart-icon">
+          <i className="fas fa-shopping-cart"></i>
           <span>0</span>
         </div>
       </div>
+      <Cart />
     </div>
   );
 };

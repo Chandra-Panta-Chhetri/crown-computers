@@ -40,7 +40,6 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header />
-        <div>{console.log(this.props)}</div>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/collection" component={Collection} />
