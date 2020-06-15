@@ -18,7 +18,7 @@ const Header = ({ currentUser }) => {
         </Link>
         {!currentUser ? (
           <Link className="option" to="/login">
-            Log In <i className="fas fa-sign-in-alt"></i>
+            Log In
           </Link>
         ) : (
           <Link className="option" onClick={() => auth.signOut()} to="/">
@@ -27,9 +27,13 @@ const Header = ({ currentUser }) => {
         )}
         {!currentUser ? (
           <Link className="option" to="/signup">
-            Sign Up <i className="fas fa-user-plus"></i>
+            Sign Up
           </Link>
         ) : null}
+        <div className="cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span>0</span>
+        </div>
       </div>
     </div>
   );
