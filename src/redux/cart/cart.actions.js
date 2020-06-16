@@ -1,5 +1,5 @@
-import CART_ACTIONS from "./cart.action.types";
+import CART_ACTION_TYPES from "./cart.action.types";
 
 export const toggleCartVisibility = () => ({
-  type: CART_ACTIONS.TOGGLE_CART_VISIBILITY
+  type: CART_ACTION_TYPES.TOGGLE_CART_VISIBILITY
 });

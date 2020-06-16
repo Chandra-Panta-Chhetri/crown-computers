@@ -1,5 +1,5 @@
-const CART_ACTIONS = {
+const CART_ACTION_TYPES = {
   TOGGLE_CART_VISIBILITY: "TOGGLE_CART_VISIBILITY"
 };
 
-export default CART_ACTIONS;
+export default CART_ACTION_TYPES;
