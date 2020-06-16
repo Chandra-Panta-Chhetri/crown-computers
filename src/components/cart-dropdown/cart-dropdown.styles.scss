@@ -1,23 +1,34 @@
 .cart-drop-down {
   border: 1px solid black;
-  padding: 20px;
+  padding: 20px 10px;
   position: absolute;
   display: flex;
   flex-direction: column;
   z-index: 10;
-  width: 250px;
+  width: 260px;
   height: 340px;
   top: 85px;
   right: 55px;
   background-color: white;
+  border-radius: 25px;
 
   .cart-items {
-    overflow: scroll;
-    height: 90%;
+    overflow-y: scroll;
+    height: 100%;
     margin-bottom: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  button {
+    color: white;
+    background-color: black;
+
+    &:hover {
+      color: black;
+      background-color: #efefef;
+    }
   }
 }
