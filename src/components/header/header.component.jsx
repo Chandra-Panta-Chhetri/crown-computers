@@ -1,7 +1,7 @@
 import React from "react";
 import "./header.styles.scss";
 
-import { CartDropDown } from "../cart-dropdown/cart-dropdown.component";
+import CartDropDown from "../cart-dropdown/cart-dropdown.component";
 import CartIcon from "../cart-icon/cart-icon.component";
 
 import { Link } from "react-router-dom";
