@@ -1,7 +1,8 @@
 import CART_ACTION_TYPES from "./cart.action.types";
 const INITIALSTATE = {
   hidden: true,
-  shoppingCart: []
+  shoppingCart: [],
+  numItemsInCart: 0
 };
 
 const increaseQuantity = (shoppingCart, itemToBeAdded) => {
@@ -30,6 +31,7 @@ const cartReducer = (prevState = INITIALSTATE, action) => {
       );
       return {
         ...prevState,
+        numItemsInCart: prevState.numItemsInCart + 1,
         shoppingCart
       };
     default:
