@@ -11,16 +11,12 @@ const CartIcon = ({ toggleCartDropDown, numItemsInCart }) => (
   </div>
 );
 
-const mapStateToProps = ({ cart: { numItemsInCart } }) => {
-  return {
-    numItemsInCart
-  };
-};
+const mapStateToProps = ({ cart: { numItemsInCart } }) => ({
+  numItemsInCart
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleCartDropDown: () => dispatch(toggleCartVisibility())
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  toggleCartDropDown: () => dispatch(toggleCartVisibility())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);

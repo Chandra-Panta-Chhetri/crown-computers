@@ -10,8 +10,7 @@ const increaseQuantity = (shoppingCart, itemToBeAdded) => {
     return item.id === itemToBeAdded.id;
   });
   if (index === -1) {
-    itemToBeAdded.quantity = 1;
-    return [...shoppingCart, itemToBeAdded];
+    return [...shoppingCart, { ...itemToBeAdded, quantity: 1 }];
   }
   shoppingCart[index].quantity += 1;
   return [...shoppingCart];
@@ -25,14 +24,10 @@ const cartReducer = (prevState = INITIALSTATE, action) => {
         hidden: !prevState.hidden
       };
     case CART_ACTION_TYPES.ADD_TO_CART:
-      const shoppingCart = increaseQuantity(
-        prevState.shoppingCart,
-        action.payload
-      );
       return {
         ...prevState,
         numItemsInCart: prevState.numItemsInCart + 1,
-        shoppingCart
+        shoppingCart: increaseQuantity(prevState.shoppingCart, action.payload)
       };
     default:
       return prevState;
