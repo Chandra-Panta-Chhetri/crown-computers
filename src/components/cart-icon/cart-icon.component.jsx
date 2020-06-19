@@ -3,6 +3,7 @@ import "./cart-icon.styles.scss";
 
 import { connect } from "react-redux";
 import { toggleCartVisibility } from "../../redux/cart/cart.actions";
+import { selectNumCartItems } from "../../redux/cart/cart.selectors";
 
 const CartIcon = ({ toggleCartDropDown, numItemsInCart }) => (
   <div className="cart-icon" onClick={toggleCartDropDown}>
@@ -11,8 +12,8 @@ const CartIcon = ({ toggleCartDropDown, numItemsInCart }) => (
   </div>
 );
 
-const mapStateToProps = ({ cart: { numItemsInCart } }) => ({
-  numItemsInCart
+const mapStateToProps = (state) => ({
+  numItemsInCart: selectNumCartItems(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

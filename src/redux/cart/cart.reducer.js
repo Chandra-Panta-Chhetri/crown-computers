@@ -1,19 +1,9 @@
+import { addToCart } from "./cart.utils";
 import CART_ACTION_TYPES from "./cart.action.types";
 const INITIALSTATE = {
   hidden: true,
   shoppingCart: [],
   numItemsInCart: 0
-};
-
-const increaseQuantity = (shoppingCart, itemToBeAdded) => {
-  const index = shoppingCart.findIndex((item) => {
-    return item.id === itemToBeAdded.id;
-  });
-  if (index === -1) {
-    return [...shoppingCart, { ...itemToBeAdded, quantity: 1 }];
-  }
-  shoppingCart[index].quantity += 1;
-  return [...shoppingCart];
 };
 
 const cartReducer = (prevState = INITIALSTATE, action) => {
@@ -27,7 +17,7 @@ const cartReducer = (prevState = INITIALSTATE, action) => {
       return {
         ...prevState,
         numItemsInCart: prevState.numItemsInCart + 1,
-        shoppingCart: increaseQuantity(prevState.shoppingCart, action.payload)
+        shoppingCart: addToCart(prevState.shoppingCart, action.payload)
       };
     default:
       return prevState;
