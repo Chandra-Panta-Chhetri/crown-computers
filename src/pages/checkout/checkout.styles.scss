@@ -1,0 +1,16 @@
+.checkout {
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    justify-content: space-evenly;
+    margin-bottom: 0;
+  }
+
+  hr {
+    width: 85%;
+    margin-top: 0;
+    height: 1px;
+    border: 1px solid black;
+  }
+}

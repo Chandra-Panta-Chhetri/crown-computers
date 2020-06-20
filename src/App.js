@@ -6,6 +6,7 @@ import Collection from "./pages/collection/collection.component";
 import LogIn from "./pages/login/login.component";
 import SignUp from "./pages/signup/signup.component";
 import { Home } from "./pages/home/home.component";
+import CheckOut from "./pages/checkout/checkout.component";
 
 import { Route, Switch, Redirect } from "react-router-dom";
 import { auth, addUserToDb } from "./utils/firebase";
@@ -60,6 +61,7 @@ class App extends React.Component {
               this.props.currentUser ? <Redirect to="/" /> : <SignUp />
             }
           />
+          <Route exact path="/checkout" component={CheckOut} />
         </Switch>
       </div>
     );
