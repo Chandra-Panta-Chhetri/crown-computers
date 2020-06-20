@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { auth } from "../../utils/firebase";
 import { connect } from "react-redux";
 import { selectCartVisibility } from "../../redux/cart/cart.selectors";
+import { selectCurrentUser } from "../../redux/users/user.selectors";
 
 const Header = ({ currentUser, hidden }) => (
   <div className="header">
@@ -41,7 +42,7 @@ const Header = ({ currentUser, hidden }) => (
 );
 
 const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
+  currentUser: selectCurrentUser(state),
   hidden: selectCartVisibility(state)
 });
 
