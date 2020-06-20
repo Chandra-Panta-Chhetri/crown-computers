@@ -8,3 +8,6 @@ export const addToCart = (shoppingCart, itemToBeAdded) => {
   shoppingCart[index].quantity += 1;
   return [...shoppingCart];
 };
+
+export const removeFromCart = (shoppingCart, itemToBeRemoved) =>
+  shoppingCart.filter((item) => item.id !== itemToBeRemoved.id);
