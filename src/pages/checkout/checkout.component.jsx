@@ -4,9 +4,12 @@ import "./checkout.styles.scss";
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 
 import { connect } from "react-redux";
-import { selectCartItems } from "../../redux/cart/cart.selectors";
+import {
+  selectCartItems,
+  selectCartTotal
+} from "../../redux/cart/cart.selectors";
 
-const CheckOut = ({ cartItems }) => (
+const CheckOut = ({ cartItems, cartTotal }) => (
   <div className="checkout">
     <div className="header">
       <h4>Product</h4>
@@ -19,11 +22,15 @@ const CheckOut = ({ cartItems }) => (
     {cartItems.map((cartItem) => (
       <CheckoutItem key={cartItem.id} item={cartItem} />
     ))}
+    <div className="total">
+      <h4 className="cart-total">${cartTotal}</h4>
+    </div>
   </div>
 );
 
 const mapStateToProps = (state) => ({
-  cartItems: selectCartItems(state)
+  cartItems: selectCartItems(state),
+  cartTotal: selectCartTotal(state)
 });
 
 export default connect(mapStateToProps)(CheckOut);
