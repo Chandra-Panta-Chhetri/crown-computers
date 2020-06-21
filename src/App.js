@@ -5,10 +5,10 @@ import Header from "./components/header/header.component";
 import Collection from "./pages/collection/collection.component";
 import LogIn from "./pages/login/login.component";
 import SignUp from "./pages/signup/signup.component";
-import { Home } from "./pages/home/home.component";
 import CheckOut from "./pages/checkout/checkout.component";
-
+import { Home } from "./pages/home/home.component";
 import { Route, Switch, Redirect } from "react-router-dom";
+
 import { auth, addUserToDb } from "./utils/firebase";
 import { setCurrentUser } from "./redux/users/user.actions";
 import { connect } from "react-redux";
@@ -24,12 +24,12 @@ class App extends React.Component {
         const userRef = await addUserToDb(user, {
           displayName: user.displayName
         });
-        userRef.onSnapshot((snapShot) => {
+        userRef.onSnapshot((snapShot) =>
           setCurrentUser({
             id: snapShot.id,
             ...snapShot.data()
-          });
-        });
+          })
+        );
       } else {
         setCurrentUser(null);
       }

@@ -4,20 +4,17 @@ import "./cart-icon.styles.scss";
 import { connect } from "react-redux";
 import { toggleCartVisibility } from "../../redux/cart/cart.actions";
 import { selectNumCartItems } from "../../redux/cart/cart.selectors";
+import { createStructuredSelector } from "reselect";
 
-const CartIcon = ({ toggleCartDropDown, numItemsInCart }) => (
-  <div className="cart-icon" onClick={toggleCartDropDown}>
+const CartIcon = ({ numItemsInCart, dispatch }) => (
+  <div className="cart-icon" onClick={() => dispatch(toggleCartVisibility())}>
     <i className="fas fa-shopping-cart"></i>
     <span className="num-cart-items">{numItemsInCart}</span>
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  numItemsInCart: selectNumCartItems(state)
+const mapStateToProps = createStructuredSelector({
+  numItemsInCart: selectNumCartItems
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  toggleCartDropDown: () => dispatch(toggleCartVisibility())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
+export default connect(mapStateToProps)(CartIcon);

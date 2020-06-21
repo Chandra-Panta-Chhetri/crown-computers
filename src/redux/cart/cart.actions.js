@@ -14,12 +14,7 @@ export const removeFromCart = (item) => ({
   payload: item
 });
 
-export const changeQuantity = (item, newQuantity) => {
-  return {
-    type: CART_ACTION_TYPES.CHANGE_QUANTITY,
-    payload: {
-      item,
-      newQuantity
-    }
-  };
-};
+export const changeQuantity = (item, newQuantity) => ({
+  type: CART_ACTION_TYPES.CHANGE_QUANTITY,
+  payload: { item, newQuantity }
+});

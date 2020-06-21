@@ -18,9 +18,7 @@ class LogIn extends React.Component {
     };
   }
 
-  storeCredentials = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  storeCredentials = (e) => this.setState({ [e.target.name]: e.target.value });
 
   loginUser = async (e) => {
     e.preventDefault();

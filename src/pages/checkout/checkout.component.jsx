@@ -8,10 +8,11 @@ import {
   selectCartItems,
   selectCartTotal
 } from "../../redux/cart/cart.selectors";
+import { createStructuredSelector } from "reselect";
 
 const CheckOut = ({ cartItems, cartTotal }) => (
   <div className="checkout">
-    <div className="header">
+    <div className="checkout-header">
       <h4>Product</h4>
       <h4>Item Name</h4>
       <h4>Quantity</h4>
@@ -22,15 +23,13 @@ const CheckOut = ({ cartItems, cartTotal }) => (
     {cartItems.map((cartItem) => (
       <CheckoutItem key={cartItem.id} item={cartItem} />
     ))}
-    <div className="total">
-      <h4 className="cart-total">${cartTotal}</h4>
-    </div>
+    <h4 className="cart-total">${cartTotal}</h4>
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  cartItems: selectCartItems(state),
-  cartTotal: selectCartTotal(state)
+const mapStateToProps = createStructuredSelector({
+  cartItems: selectCartItems,
+  cartTotal: selectCartTotal
 });
 
 export default connect(mapStateToProps)(CheckOut);

@@ -6,13 +6,13 @@ import { Button } from "../button/button.component";
 import { connect } from "react-redux";
 import { addToCart } from "../../redux/cart/cart.actions";
 
-const CollectionItem = ({ item, addToCart }) => {
+const CollectionItem = ({ item, dispatch }) => {
   const { name, category, imageUrl, price } = item;
   return (
     <article className="collection-item">
       <div className="img-container">
         <img className="product-img" src={imageUrl} alt={name} />
-        <Button onClick={() => addToCart(item)}>
+        <Button onClick={() => dispatch(addToCart(item))}>
           <i className="fas fa-cart-plus"></i> Add To Cart
         </Button>
       </div>
@@ -25,8 +25,4 @@ const CollectionItem = ({ item, addToCart }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addToCart: (item) => dispatch(addToCart(item))
-});
-
-export default connect(null, mapDispatchToProps)(CollectionItem);
+export default connect()(CollectionItem);
