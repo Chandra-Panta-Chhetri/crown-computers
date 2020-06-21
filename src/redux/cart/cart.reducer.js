@@ -1,4 +1,4 @@
-import { addToCart } from "./cart.utils";
+import { addToCart, changeItemQuantity } from "./cart.utils";
 import { removeFromCart } from "./cart.utils";
 
 import CART_ACTION_TYPES from "./cart.action.types";
@@ -23,6 +23,11 @@ const cartReducer = (prevState = INITIALSTATE, action) => {
       return {
         ...prevState,
         shoppingCart: removeFromCart(prevState.shoppingCart, action.payload)
+      };
+    case CART_ACTION_TYPES.CHANGE_QUANTITY:
+      return {
+        ...prevState,
+        shoppingCart: changeItemQuantity(prevState.shoppingCart, action.payload)
       };
     default:
       return prevState;
