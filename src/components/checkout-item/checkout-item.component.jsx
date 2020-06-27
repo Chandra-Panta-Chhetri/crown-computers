@@ -7,27 +7,31 @@ import { removeFromCart, changeQuantity } from "../../redux/cart/cart.actions";
 const CheckoutItem = ({ item, removeItem, changeQuantity }) => {
   const { name, imageUrl, price, quantity } = item;
   return (
-    <div className="checkout-item">
-      <div className="product-image">
-        <img src={imageUrl} alt={name} />
-      </div>
-      <span className="name">{name}</span>
-      <span className="quantity">
-        <i
-          className="fa fa-minus"
-          onClick={() => changeQuantity(item, quantity - 1)}
-        ></i>
-        {quantity}
-        <i
-          className="fa fa-plus"
-          onClick={() => changeQuantity(item, quantity + 1)}
-        ></i>
-      </span>
-      <span className="price">${price} ea.</span>
-      <span className="remove" onClick={() => removeItem(item)}>
-        &#10005;
-      </span>
-    </div>
+    <article className="checkout-item">
+      <section className="item-meta">
+        <div className="product-image">
+          <img src={imageUrl} alt={name} />
+        </div>
+        <div className="item-modification">
+          <span className="name">{name}</span>
+          <span className="quantity">
+            <i
+              className="fa fa-minus"
+              onClick={() => changeQuantity(item, quantity - 1)}
+            ></i>
+            {quantity}
+            <i
+              className="fa fa-plus"
+              onClick={() => changeQuantity(item, quantity + 1)}
+            ></i>
+          </span>
+          <span className="remove" onClick={() => removeItem(item)}>
+            <i className="fas fa-trash"></i> Remove
+          </span>
+        </div>
+      </section>
+      <span className="price">${price * quantity}</span>
+    </article>
   );
 };
 

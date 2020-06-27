@@ -11,15 +11,8 @@ import {
 import { createStructuredSelector } from "reselect";
 
 const CheckOut = ({ cartItems, cartTotal }) => (
-  <div className="checkout">
-    <div className="checkout-header">
-      <h4>Product</h4>
-      <h4>Item Name</h4>
-      <h4>Quantity</h4>
-      <h4>Price</h4>
-      <h4>Remove</h4>
-    </div>
-    <hr />
+  <div className="checkout-summary">
+    <h3>Your Cart Summary</h3>
     {cartItems.map((cartItem) => (
       <CheckoutItem key={cartItem.id} item={cartItem} />
     ))}
