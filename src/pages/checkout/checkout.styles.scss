@@ -1,8 +1,8 @@
 .checkout-summary {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
 
-  .cart-total {
-    display: flex;
+  .checkout-items {
+    width: 70%;
   }
 }
