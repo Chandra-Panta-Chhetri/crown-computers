@@ -8,7 +8,7 @@ export const OrderSummary = ({ cartTotal }) => (
     <h2 className="order-summary-heading">Order Summary</h2>
     <section className="price-breakdown">
       <div>
-        Subtotal <span>${cartTotal}</span>
+        Subtotal <span>${Math.round(cartTotal * 100) / 100}</span>
       </div>
       <div>
         Total Tax <span>${Math.round(cartTotal * 0.13 * 100) / 100}</span>

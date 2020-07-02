@@ -19,7 +19,8 @@
     "reselect": "^4.0.0"
   },
   "scripts": {
-    "start": "env-cmd --rc-file ./.env-cmdrc -e dev react-scripts start",
+    "start": "react-scripts start",
+    "start_with_env": "env-cmd --rc-file ./.env-cmdrc -e dev react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
