@@ -3,10 +3,10 @@ import "./product-category.styles.scss";
 
 import { withRouter } from "react-router-dom";
 
-const ProductCategory = ({ label, imageUrl, history, match }) => (
+const ProductCategory = ({ label, imageUrl, history, match, routePath }) => (
   <div
     className={`product-category`}
-    onClick={() => history.push(`${match.url}${label}`)}
+    onClick={() => history.push(`${match.url}${routePath}`)}
   >
     <div
       style={{ backgroundImage: `url(${imageUrl})` }}
