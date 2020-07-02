@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 
 import Header from "./components/header/header.component";
-import Collection from "./pages/collection/collection.component";
+import { Collection } from "./pages/collection/collection.component";
 import LogIn from "./pages/login/login.component";
 import SignUp from "./pages/signup/signup.component";
 import CheckOut from "./pages/checkout/checkout.component";

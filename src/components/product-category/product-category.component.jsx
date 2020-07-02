@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 const ProductCategory = ({ label, imageUrl, history, match, routePath }) => (
   <div
     className={`product-category`}
-    onClick={() => history.push(`${match.url}${routePath}`)}
+    onClick={() => history.push(`/collection/${routePath}`)}
   >
     <div
       style={{ backgroundImage: `url(${imageUrl})` }}
