@@ -1,7 +1,7 @@
 const PRODUCT_DATA = [
   {
     id: 1,
-    title: "Monitors",
+    title: "monitors",
     routeName: "monitors",
     items: [
       {
@@ -86,8 +86,8 @@ const PRODUCT_DATA = [
   },
   {
     id: 3,
-    title: "Storage Devices",
-    routeName: "storage",
+    title: "storage devices",
+    routeName: "storage-devices",
     items: [
       {
         id: 11,
@@ -128,8 +128,8 @@ const PRODUCT_DATA = [
   },
   {
     id: 4,
-    title: "Drives",
-    routeName: "internaldrives",
+    title: "drives",
+    routeName: "internal-drives",
     items: [
       {
         id: 16,
@@ -170,7 +170,7 @@ const PRODUCT_DATA = [
   },
   {
     id: 5,
-    title: "Desktop Computers",
+    title: "desktop computers",
     routeName: "desktops",
     items: [
       {
@@ -214,8 +214,8 @@ const PRODUCT_DATA = [
   },
   {
     id: 6,
-    title: "Keyboards & Mice",
-    routeName: "keyboardsmice",
+    title: "keyboards & mice",
+    routeName: "keyboards-mice",
     items: [
       {
         id: 26,
