@@ -22,14 +22,14 @@ const directoryItems = [
   },
   {
     label: "Drives",
-    routePath: "drives",
+    routePath: "internal-drives",
     id: 4,
     imageUrl:
       "https://images.unsplash.com/photo-1589995186011-a7b485edc4bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
   },
   {
     label: "Desktop Computers",
-    routePath: "desktop-computers",
+    routePath: "desktops",
     id: 5,
     imageUrl:
       "https://images.unsplash.com/photo-1547082299-de196ea013d6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"

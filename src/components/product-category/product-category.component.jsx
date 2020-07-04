@@ -3,7 +3,7 @@ import "./product-category.styles.scss";
 
 import { withRouter } from "react-router-dom";
 
-const ProductCategory = ({ label, imageUrl, history, match, routePath }) => (
+const ProductCategory = ({ label, imageUrl, history, routePath }) => (
   <div
     className={`product-category`}
     onClick={() => history.push(`/collection/${routePath}`)}

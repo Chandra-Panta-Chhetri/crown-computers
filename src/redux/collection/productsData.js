@@ -2,7 +2,7 @@ const PRODUCT_DATA = [
   {
     id: 1,
     title: "monitors",
-    routeName: "monitors",
+    routePath: "monitors",
     items: [
       {
         id: 1,
@@ -44,7 +44,7 @@ const PRODUCT_DATA = [
   {
     id: 2,
     title: "laptops",
-    routeName: "laptops",
+    routePath: "laptops",
     items: [
       {
         id: 6,
@@ -87,7 +87,7 @@ const PRODUCT_DATA = [
   {
     id: 3,
     title: "storage devices",
-    routeName: "storage-devices",
+    routePath: "storage-devices",
     items: [
       {
         id: 11,
@@ -129,7 +129,7 @@ const PRODUCT_DATA = [
   {
     id: 4,
     title: "drives",
-    routeName: "internal-drives",
+    routePath: "internal-drives",
     items: [
       {
         id: 16,
@@ -171,13 +171,13 @@ const PRODUCT_DATA = [
   {
     id: 5,
     title: "desktop computers",
-    routeName: "desktops",
+    routePath: "desktops",
     items: [
       {
         id: 21,
         name: "Dell Inspiron - 9th gen Intel Core/8GB RAM/1TB HDD",
         imageUrl: "https://dummyimage.com/400x400",
-        category: "desktop computers",
+        category: "desktops",
         price: 499.99
       },
       {
@@ -185,21 +185,21 @@ const PRODUCT_DATA = [
         name:
           "Alienware Aurora R11 Gaming Desktop - 10th gen Intel Core/8GB RAM/1TB HDD",
         imageUrl: "https://dummyimage.com/400x400",
-        category: "desktop computers",
+        category: "desktops",
         price: 1299.99
       },
       {
         id: 23,
         name: "ASUS S340MF - Intel Core i5-9400/1TB HDD/256GB SSD/8GB RAM",
         imageUrl: "https://dummyimage.com/400x400",
-        category: "desktop computers",
+        category: "desktops",
         price: 799.99
       },
       {
         id: 24,
         name: "Acer Aspire TC - Intel Core Ci5-9400/1TB HDD/12GB RAM",
         imageUrl: "https://dummyimage.com/400x400",
-        category: "desktop computers",
+        category: "desktops",
         price: 719.99
       },
       {
@@ -207,7 +207,7 @@ const PRODUCT_DATA = [
         name:
           "Dell Vostro DT 3471 Business Desktop - 9th gen Intel Core/4GB RAM/1TB HDD",
         imageUrl: "https://dummyimage.com/400x400",
-        category: "desktop computers",
+        category: "desktops",
         price: 529.42
       }
     ]
@@ -215,7 +215,7 @@ const PRODUCT_DATA = [
   {
     id: 6,
     title: "keyboards & mice",
-    routeName: "keyboards-mice",
+    routePath: "keyboards-mice",
     items: [
       {
         id: 26,
