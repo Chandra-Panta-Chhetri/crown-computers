@@ -7,7 +7,7 @@ import { selectCategoryCollection } from "../../redux/collection/collection.sele
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
-const CategoryCollection = ({ collection, match }) => (
+const CategoryCollection = ({ collection }) => (
   <div className="category-collection">
     {collection.items.map((item) => (
       <CollectionItem key={item.id} item={item} />

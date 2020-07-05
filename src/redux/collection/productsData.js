@@ -1,5 +1,5 @@
-const PRODUCT_DATA = [
-  {
+const PRODUCT_DATA = {
+  monitors: {
     id: 1,
     title: "monitors",
     routePath: "monitors",
@@ -41,7 +41,7 @@ const PRODUCT_DATA = [
       }
     ]
   },
-  {
+  laptops: {
     id: 2,
     title: "laptops",
     routePath: "laptops",
@@ -84,7 +84,7 @@ const PRODUCT_DATA = [
       }
     ]
   },
-  {
+  "storage-devices": {
     id: 3,
     title: "storage devices",
     routePath: "storage-devices",
@@ -126,7 +126,7 @@ const PRODUCT_DATA = [
       }
     ]
   },
-  {
+  "internal-drives": {
     id: 4,
     title: "drives",
     routePath: "internal-drives",
@@ -168,7 +168,7 @@ const PRODUCT_DATA = [
       }
     ]
   },
-  {
+  desktops: {
     id: 5,
     title: "desktop computers",
     routePath: "desktops",
@@ -212,7 +212,7 @@ const PRODUCT_DATA = [
       }
     ]
   },
-  {
+  "keyboards-mice": {
     id: 6,
     title: "keyboards & mice",
     routePath: "keyboards-mice",
@@ -254,6 +254,6 @@ const PRODUCT_DATA = [
       }
     ]
   }
-];
+};
 
 export default PRODUCT_DATA;
