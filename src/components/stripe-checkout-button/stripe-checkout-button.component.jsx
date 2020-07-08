@@ -18,7 +18,6 @@ class StripeCheckOutButton extends React.Component {
         shippingAddress
         billingAddress={true}
         token={this.onToken}
-        ComponentClass="div"
         stripeKey="pk_test_51H2dKlGzDF5ZEPUIwxzCtFWIicqIlBU4ZJJ09f6XxAZX7O3spzP8FJrjZrB5Ey2VjY7oNZy3byehChIfHcOzjEpv002BfotJtp"
       >
         <Button>{label}</Button>
