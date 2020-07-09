@@ -1,8 +1,8 @@
 import React from "react";
 import "./signup.styles.scss";
 
-import { FormInput } from "../../components/form-input/form-input.component";
-import { Button } from "../../components/button/button.component";
+import FormInput from "../../components/form-input/form-input.component";
+import Button from "../../components/button/button.component";
 
 import { addUserToDb, auth } from "../../utils/firebase";
 import { Link } from "react-router-dom";

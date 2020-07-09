@@ -1,6 +1,7 @@
 import React from "react";
+
 import StripeCheckout from "react-stripe-checkout";
-import { Button } from "../button/button.component";
+import Button from "../button/button.component";
 
 class StripeCheckOutButton extends React.Component {
   onToken = (token) => {

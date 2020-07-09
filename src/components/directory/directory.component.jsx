@@ -1,16 +1,16 @@
 import React from "react";
 import "./directory.styles.scss";
 
-import ProductCategory from "../product-category/product-category.component";
+import CategoryDirectory from "../category-directory/category-directory.component";
 
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 import { selectProductCategories } from "../../redux/directory/directory.selectors";
 
 const Directory = ({ productCategories }) => (
-  <div className="directory-menu">
+  <div className="directory">
     {productCategories.map(({ id, ...otherProductFields }) => (
-      <ProductCategory key={id} {...otherProductFields} />
+      <CategoryDirectory key={id} {...otherProductFields} />
     ))}
   </div>
 );

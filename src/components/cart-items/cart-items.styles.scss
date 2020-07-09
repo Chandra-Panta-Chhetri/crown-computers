@@ -1,0 +1,12 @@
+.cart-items {
+  overflow-y: scroll;
+  height: 100%;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+
+  .empty-cart {
+    font-size: 18px;
+    margin: 45% auto;
+  }
+}

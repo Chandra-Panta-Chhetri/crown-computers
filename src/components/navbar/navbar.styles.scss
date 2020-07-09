@@ -1,4 +1,4 @@
-.header {
+.navbar {
   height: 70px;
   width: 100%;
   display: flex;
@@ -10,15 +10,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    img {
-      width: 100%;
-      height: 100%;
-      margin-left: 5px;
-    }
   }
 
-  .options {
+  .navbar-items {
     width: 50%;
     height: 100%;
     display: flex;
@@ -26,7 +20,7 @@
     justify-content: flex-end;
     text-transform: uppercase;
 
-    .option {
+    .nav-item {
       padding: 10px 15px;
       cursor: pointer;
       white-space: nowrap;

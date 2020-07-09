@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CollectionPreview } from "../../components/collection-preview/collection-preview.component";
+import CollectionPreview from "../../components/collection-preview/collection-preview.component";
 
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";

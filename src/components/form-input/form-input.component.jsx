@@ -1,7 +1,7 @@
 import React from "react";
 import "./form-input.styles.scss";
 
-export const FormInput = ({ label, handler, ...otherFieldProps }) => (
+const FormInput = ({ label, handler, ...otherFieldProps }) => (
   <div className="group">
     <label
       className={`form-input-label ${
@@ -13,3 +13,5 @@ export const FormInput = ({ label, handler, ...otherFieldProps }) => (
     <input className="form-input" onChange={handler} {...otherFieldProps} />
   </div>
 );
+
+export default FormInput;

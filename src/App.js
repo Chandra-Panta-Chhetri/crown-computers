@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.css";
 
-import Header from "./components/header/header.component";
-import { Collection } from "./pages/collection/collection.component";
+import NavBar from "./components/navbar/navbar.component";
 import LogIn from "./pages/login/login.component";
 import SignUp from "./pages/signup/signup.component";
-import CheckOut from "./pages/checkout/checkout.component";
-import { Home } from "./pages/home/home.component";
+import CartSummary from "./pages/cart-summary/cart-summary.component";
+import ProductCollection from "./pages/product-collection/product-collection.component";
+import Home from "./pages/home/home.component";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import { auth, addUserToDb } from "./utils/firebase";
@@ -20,19 +20,18 @@ class App extends React.Component {
   componentWillMount() {
     const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const userRef = await addUserToDb(user, {
-          displayName: user.displayName
-        });
-        userRef.onSnapshot((snapShot) =>
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          })
-        );
-      } else {
-        setCurrentUser(null);
+      if (!user) {
+        return setCurrentUser(null);
       }
+      const userRef = await addUserToDb(user, {
+        displayName: user.displayName
+      });
+      userRef.onSnapshot((snapShot) =>
+        setCurrentUser({
+          id: snapShot.id,
+          ...snapShot.data()
+        })
+      );
     });
   }
 
@@ -41,27 +40,24 @@ class App extends React.Component {
   }
 
   render() {
+    const { currentUser } = this.props;
     return (
       <div className="App">
-        <Header />
+        <NavBar />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/collection" component={Collection} />
+          <Route path="/product-collection" component={ProductCollection} />
           <Route
             exact
             path="/login"
-            render={() =>
-              this.props.currentUser ? <Redirect to="/" /> : <LogIn />
-            }
+            render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
           />
           <Route
             exact
             path="/signup"
-            render={() =>
-              this.props.currentUser ? <Redirect to="/" /> : <SignUp />
-            }
+            render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
           />
-          <Route exact path="/checkout" component={CheckOut} />
+          <Route exact path="/cart-summary" component={CartSummary} />
         </Switch>
       </div>
     );

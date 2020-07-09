@@ -1,5 +1,5 @@
 import React from "react";
-import "./checkout-item.styles.scss";
+import "./cart-summary-item.styles.scss";
 
 import { connect } from "react-redux";
 import { removeFromCart, changeQuantity } from "../../redux/cart/cart.actions";
@@ -7,14 +7,14 @@ import { removeFromCart, changeQuantity } from "../../redux/cart/cart.actions";
 const CheckoutItem = ({ item, removeItem, changeQuantity }) => {
   const { name, imageUrl, price, quantity } = item;
   return (
-    <article className="checkout-item">
-      <section className="item-meta">
-        <div className="product-image">
+    <article className="cart-summary-item">
+      <section className="summary-meta">
+        <div className="summary-img">
           <img src={imageUrl} alt={name} />
         </div>
-        <div className="item-modification">
-          <span className="name">{name}</span>
-          <span className="quantity">
+        <div className="summary-item-actions">
+          <span className="summary-item-name">{name}</span>
+          <span className="summary-item-quantity">
             <i
               className="fa fa-minus"
               onClick={() => changeQuantity(item, quantity - 1)}
@@ -25,12 +25,15 @@ const CheckoutItem = ({ item, removeItem, changeQuantity }) => {
               onClick={() => changeQuantity(item, quantity + 1)}
             ></i>
           </span>
-          <span className="remove" onClick={() => removeItem(item)}>
+          <span
+            className="summary-item-remove"
+            onClick={() => removeItem(item)}
+          >
             <i className="fas fa-trash"></i> Remove
           </span>
         </div>
       </section>
-      <span className="price">${price * quantity}</span>
+      <span className="summary-item-price">${price * quantity}</span>
     </article>
   );
 };

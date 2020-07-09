@@ -4,8 +4,8 @@ import CollectionOverview from "../../components/collection-overview/collection-
 import CategoryCollection from "../../components/category-collection/category-collection.component";
 import { Route } from "react-router-dom";
 
-export const Collection = ({ match }) => (
-  <div className="collection-page">
+const ProductCollection = ({ match }) => (
+  <div className="product-collection">
     <Route exact path={`${match.path}`} component={CollectionOverview} />
     <Route
       path={`${match.path}/:productCategory`}
@@ -14,4 +14,4 @@ export const Collection = ({ match }) => (
   </div>
 );
 
-export default Collection;
+export default ProductCollection;
