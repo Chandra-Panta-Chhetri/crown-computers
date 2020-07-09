@@ -24,37 +24,27 @@ class SignUp extends React.Component {
     const { displayName, email, password, confirmPassword } = this.state;
     try {
       if (password !== confirmPassword) {
-        throw new Error("Passwords must match");
+        return this.setState({
+          errorMessage: "Passwords must match"
+        });
       }
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
       );
       await addUserToDb(user, { displayName });
+    } catch (e) {
       this.setState({
+        errorMessage: e.message,
         displayName: "",
         email: "",
         password: "",
-        confirmPassword: "",
-        errorMessage: ""
-      });
-    } catch (e) {
-      if (e.message !== "Passwords must match") {
-        return this.setState({
-          errorMessage: e.message,
-          displayName: "",
-          email: "",
-          password: "",
-          confirmPassword: ""
-        });
-      }
-      this.setState({
-        errorMessage: e.message
+        confirmPassword: ""
       });
     }
   };
 
-  storeCredentials = (e) => this.setState({ [e.target.name]: e.target.value });
+  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
     return (
@@ -68,7 +58,7 @@ class SignUp extends React.Component {
               name={"displayName"}
               label={"Full Name"}
               value={this.state.displayName}
-              handler={this.storeCredentials}
+              handler={this.handleChange}
               required
             />
             <FormInput
@@ -76,7 +66,7 @@ class SignUp extends React.Component {
               name={"email"}
               label={"Email"}
               value={this.state.email}
-              handler={this.storeCredentials}
+              handler={this.handleChange}
               required
             />
             <FormInput
@@ -84,7 +74,7 @@ class SignUp extends React.Component {
               name={"password"}
               label={"Password"}
               value={this.state.password}
-              handler={this.storeCredentials}
+              handler={this.handleChange}
               required
             />
             <FormInput
@@ -92,7 +82,7 @@ class SignUp extends React.Component {
               name={"confirmPassword"}
               label={"Confirm Password"}
               value={this.state.confirmPassword}
-              handler={this.storeCredentials}
+              handler={this.handleChange}
               required
             />
             <Button type="submit">Sign Up</Button>
