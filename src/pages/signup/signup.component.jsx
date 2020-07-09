@@ -4,7 +4,7 @@ import "./signup.styles.scss";
 import FormInput from "../../components/form-input/form-input.component";
 import Button from "../../components/button/button.component";
 
-import { addUserToDb, auth } from "../../utils/firebase";
+import { addUserToDb, auth } from "../../utils/firebaseConfig";
 import { Link } from "react-router-dom";
 
 class SignUp extends React.Component {
