@@ -5,6 +5,7 @@
   width: 26%;
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
 
   .order-summary-heading {
     font-weight: bold;
