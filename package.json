@@ -1,8 +1,12 @@
 {
   "name": "crown-computers",
-  "homepage": "http://crown-computers.herokuapp.com/",
+  "homepage": "https://crown-computers.herokuapp.com/",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "6.13.4",
+    "node": "12.16.1"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -22,7 +26,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start_with_env": "env-cmd --rc-file ./.env-cmdrc -e dev react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
