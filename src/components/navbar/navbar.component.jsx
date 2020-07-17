@@ -5,7 +5,7 @@ import CartDropDown from "../cart-drop-down/cart-drop-down.component";
 import CartIcon from "../cart-icon/cart-icon.component";
 
 import { Link } from "react-router-dom";
-import { auth } from "../../utils/firebase";
+import { auth } from "../../utils/firebaseConfig";
 import { connect } from "react-redux";
 import { selectCartVisibility } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/users/user.selectors";
