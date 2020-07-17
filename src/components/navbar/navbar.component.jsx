@@ -1,5 +1,10 @@
 import React from "react";
-import "./navbar.styles.scss";
+import {
+  NavBarContainer,
+  LogoContainer,
+  NavBarItems,
+  NavItem
+} from "./navbar.styles";
 
 import CartDropDown from "../cart-drop-down/cart-drop-down.component";
 import CartIcon from "../cart-icon/cart-icon.component";
@@ -12,34 +17,26 @@ import { selectCurrentUser } from "../../redux/users/user.selectors";
 import { createStructuredSelector } from "reselect";
 
 const NavBar = ({ currentUser, hidden }) => (
-  <div className="navbar">
-    <div className="logo-container">
+  <NavBarContainer>
+    <LogoContainer>
       <Link to="/">
         <i className="fas fa-crown fa-3x"></i>
       </Link>
-    </div>
-    <div className="navbar-items">
-      <Link className="nav-item" to="/product-collection">
-        Collection
-      </Link>
+    </LogoContainer>
+    <NavBarItems>
+      <NavItem to="/product-collection">Collection</NavItem>
       {!currentUser ? (
-        <Link className="nav-item" to="/login">
-          Log In
-        </Link>
+        <NavItem to="/login">Log In</NavItem>
       ) : (
-        <Link className="nav-item" onClick={() => auth.signOut()} to="/">
+        <NavItem onClick={() => auth.signOut()} to="/">
           Log Out
-        </Link>
+        </NavItem>
       )}
-      {!currentUser ? (
-        <Link className="nav-item" to="/signup">
-          Sign Up
-        </Link>
-      ) : null}
+      {!currentUser ? <NavItem to="/signup">Sign Up</NavItem> : null}
       <CartIcon />
-    </div>
+    </NavBarItems>
     {hidden ? null : <CartDropDown />}
-  </div>
+  </NavBarContainer>
 );
 
 const mapStateToProps = createStructuredSelector({
