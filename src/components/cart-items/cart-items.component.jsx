@@ -1,5 +1,5 @@
 import React from "react";
-import "./cart-items.styles.scss";
+import { CartItemsContainer, EmptyCartText } from "./cart-items.styles";
 
 import CartItem from "../cart-item/cart-item.component";
 
@@ -8,13 +8,13 @@ import { createStructuredSelector } from "reselect";
 import { selectCartItems } from "../../redux/cart/cart.selectors";
 
 const CartItems = ({ shoppingCart }) => (
-  <div className="cart-items">
+  <CartItemsContainer>
     {!shoppingCart.length ? (
-      <span className="empty-cart">Your cart is empty</span>
+      <EmptyCartText>Your cart is empty</EmptyCartText>
     ) : (
       shoppingCart.map((item) => <CartItem key={item.id} item={item} />)
     )}
-  </div>
+  </CartItemsContainer>
 );
 
 const mapStateToProps = createStructuredSelector({
