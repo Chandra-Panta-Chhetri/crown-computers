@@ -1,5 +1,5 @@
 import React from "react";
-import "./directory.styles.scss";
+import { DirectoryContainer } from "./directory.styles";
 
 import CategoryDirectory from "../category-directory/category-directory.component";
 
@@ -8,11 +8,11 @@ import { connect } from "react-redux";
 import { selectProductCategories } from "../../redux/directory/directory.selectors";
 
 const Directory = ({ productCategories }) => (
-  <div className="directory">
+  <DirectoryContainer>
     {productCategories.map(({ id, ...otherProductFields }) => (
       <CategoryDirectory key={id} {...otherProductFields} />
     ))}
-  </div>
+  </DirectoryContainer>
 );
 
 const mapStateToProps = createStructuredSelector({
