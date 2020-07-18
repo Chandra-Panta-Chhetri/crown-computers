@@ -14,6 +14,7 @@ export const FormContainer = styled.div`
   flex-direction: column;
   border: 4px solid #efefef;
   align-items: center;
+  border-radius: 8px;
   width: 40%;
 `;
 

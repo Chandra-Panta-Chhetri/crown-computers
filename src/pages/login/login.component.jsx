@@ -1,12 +1,18 @@
 import React from "react";
-import "./login.styles.scss";
+import { LoginContainer } from "./login.styles";
+import {
+  FormContainer,
+  Form,
+  FormTitle,
+  ErrorText,
+  FormButton,
+  FormRedirectLink
+} from "../signup/signup.styles";
 
 import FormInput from "../../components/form-input/form-input.component";
-import Button from "../../components/button/button.component";
 
 import { signInWithGoogle } from "../../utils/firebaseConfig";
 import { auth } from "../../utils/firebaseConfig";
-import { Link } from "react-router-dom";
 
 class LogIn extends React.Component {
   constructor() {
@@ -36,11 +42,11 @@ class LogIn extends React.Component {
 
   render() {
     return (
-      <section className="container">
-        <div className="login">
-          <h2 className="page-title">LOGIN</h2>
-          <h5 className="error">{this.state.errorMessage}</h5>
-          <form onSubmit={this.loginUser}>
+      <LoginContainer>
+        <FormContainer>
+          <FormTitle>LOGIN</FormTitle>
+          <ErrorText>{this.state.errorMessage}</ErrorText>
+          <Form onSubmit={this.loginUser}>
             <FormInput
               type={"email"}
               name={"email"}
@@ -57,17 +63,18 @@ class LogIn extends React.Component {
               handler={this.storeCredentials}
               required
             />
-            <Button type="submit">Log In</Button>
+            <FormButton type="submit">Log In</FormButton>
             <h5>Or login with</h5>
-            <Button onClick={signInWithGoogle}>
+            <FormButton onClick={signInWithGoogle}>
               <i className="fab fa-google"></i> Google
-            </Button>
-          </form>
+            </FormButton>
+          </Form>
           <h5>
-            Don't have an account? <Link to="/signup">Sign up now</Link>
+            Don't have an account?{" "}
+            <FormRedirectLink to="/signup">Sign up now</FormRedirectLink>
           </h5>
-        </div>
-      </section>
+        </FormContainer>
+      </LoginContainer>
     );
   }
 }
