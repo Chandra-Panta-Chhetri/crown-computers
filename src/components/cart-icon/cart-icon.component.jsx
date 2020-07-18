@@ -1,5 +1,9 @@
 import React from "react";
-import "./cart-icon.styles.scss";
+import {
+  CartIconContainer,
+  NumCartItems,
+  ShoppingCartIcon
+} from "./cart-icon.styles";
 
 import { connect } from "react-redux";
 import { toggleCartVisibility } from "../../redux/cart/cart.actions";
@@ -7,10 +11,12 @@ import { selectNumCartItems } from "../../redux/cart/cart.selectors";
 import { createStructuredSelector } from "reselect";
 
 const CartIcon = ({ numItemsInCart, dispatch }) => (
-  <div className="cart-icon" onClick={() => dispatch(toggleCartVisibility())}>
-    <i className="fas fa-shopping-cart"></i>
-    <span className="num-cart-items">{numItemsInCart}</span>
-  </div>
+  <CartIconContainer onClick={() => dispatch(toggleCartVisibility())}>
+    <ShoppingCartIcon>
+      <i className="fas fa-shopping-cart"></i>
+    </ShoppingCartIcon>
+    <NumCartItems>{numItemsInCart}</NumCartItems>
+  </CartIconContainer>
 );
 
 const mapStateToProps = createStructuredSelector({
