@@ -1,11 +1,17 @@
 import React from "react";
-import "./signup.styles.scss";
+import {
+  SignUpContainer,
+  FormContainer,
+  Form,
+  FormTitle,
+  ErrorText,
+  FormButton,
+  FormRedirectLink
+} from "./signup.styles";
 
 import FormInput from "../../components/form-input/form-input.component";
-import Button from "../../components/button/button.component";
 
-import { addUserToDb, auth } from "../../utils/firebase";
-import { Link } from "react-router-dom";
+import { addUserToDb, auth } from "../../utils/firebaseConfig";
 
 class SignUp extends React.Component {
   constructor() {
@@ -48,11 +54,11 @@ class SignUp extends React.Component {
 
   render() {
     return (
-      <section className="container">
-        <div className="sign-up">
-          <h1 className="page-title">SIGN UP</h1>
-          <h5 className="error">{this.state.errorMessage}</h5>
-          <form onSubmit={this.createNewUser}>
+      <SignUpContainer>
+        <FormContainer>
+          <FormTitle>SIGN UP</FormTitle>
+          <ErrorText>{this.state.errorMessage}</ErrorText>
+          <Form onSubmit={this.createNewUser}>
             <FormInput
               type={"text"}
               name={"displayName"}
@@ -85,13 +91,14 @@ class SignUp extends React.Component {
               handler={this.handleChange}
               required
             />
-            <Button type="submit">Sign Up</Button>
-          </form>
+            <FormButton type="submit">Sign Up</FormButton>
+          </Form>
           <h5>
-            Have an account? <Link to="/login">Login now</Link>
+            Have an account?{" "}
+            <FormRedirectLink to="/login">Login now</FormRedirectLink>
           </h5>
-        </div>
-      </section>
+        </FormContainer>
+      </SignUpContainer>
     );
   }
 }

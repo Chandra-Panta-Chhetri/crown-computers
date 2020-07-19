@@ -1,5 +1,5 @@
 import React from "react";
-import "./category-collection.styles.scss";
+import { CategoryCollectionContainer } from "./category-collection.styles";
 
 import CollectionItem from "../collection-item/collection-item.component";
 
@@ -7,11 +7,11 @@ import { selectCategoryCollection } from "../../redux/collection/collection.sele
 import { connect } from "react-redux";
 
 const CategoryCollection = ({ collectionInCategory }) => (
-  <div className="category-collection">
+  <CategoryCollectionContainer>
     {collectionInCategory.items.map((item) => (
       <CollectionItem key={item.id} item={item} />
     ))}
-  </div>
+  </CategoryCollectionContainer>
 );
 
 const mapStateToProps = (state, ownProps) => ({

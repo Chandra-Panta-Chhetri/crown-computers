@@ -1,10 +1,8 @@
 import React from "react";
-import "./button.styles.scss";
+import { ButtonContainer } from "./button.styles";
 
 const Button = ({ children, ...otherButtonAttr }) => (
-  <button className="button" {...otherButtonAttr}>
-    {children}
-  </button>
+  <ButtonContainer {...otherButtonAttr}>{children}</ButtonContainer>
 );
 
 export default Button;

@@ -1,7 +1,6 @@
 import React from "react";
-import "./cart-drop-down.styles.scss";
+import { CartDropDownContainer, ViewCartButton } from "./cart-drop-down.styles";
 
-import Button from "../button/button.component";
 import CartItems from "../cart-items/cart-items.component";
 
 import { withRouter } from "react-router-dom";
@@ -9,17 +8,17 @@ import { toggleCartVisibility } from "../../redux/cart/cart.actions";
 import { connect } from "react-redux";
 
 const CartDropDown = ({ history, toggleCartVisibility }) => (
-  <article className="cart-drop-down">
+  <CartDropDownContainer>
     <CartItems />
-    <Button
+    <ViewCartButton
       onClick={() => {
         history.push("/cart-summary");
         toggleCartVisibility();
       }}
     >
       View Cart
-    </Button>
-  </article>
+    </ViewCartButton>
+  </CartDropDownContainer>
 );
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,22 +1,24 @@
 import React from "react";
-import "./category-directory.styles.scss";
+import {
+  CategoryDirectoryContainer,
+  DirectoryImage,
+  DirectoryContent,
+  DirectoryTitle,
+  DirectorySubtitle
+} from "./category-directory.styles";
 
 import { withRouter } from "react-router-dom";
 
 const CategoryDirectory = ({ label, imageUrl, history, routePath }) => (
-  <div
-    className="category-directory"
+  <CategoryDirectoryContainer
     onClick={() => history.push(`/product-collection/${routePath}`)}
   >
-    <div
-      style={{ backgroundImage: `url(${imageUrl})` }}
-      className="category-directory-img"
-    ></div>
-    <div className="category-directory-content">
-      <h1 className="category-title">{label.toUpperCase()}</h1>
-      <p className="category-subtitle">SHOP NOW</p>
-    </div>
-  </div>
+    <DirectoryImage imageUrl={imageUrl}></DirectoryImage>
+    <DirectoryContent>
+      <DirectoryTitle>{label.toUpperCase()}</DirectoryTitle>
+      <DirectorySubtitle>SHOP NOW</DirectorySubtitle>
+    </DirectoryContent>
+  </CategoryDirectoryContainer>
 );
 
 export default withRouter(CategoryDirectory);

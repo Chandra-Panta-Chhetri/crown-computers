@@ -1,5 +1,15 @@
 import React from "react";
-import "./cart-summary-item.styles.scss";
+import {
+  CartSummaryItemContainer,
+  ItemContent,
+  ImageContainer,
+  ItemImage,
+  ItemActions,
+  ItemQuantity,
+  ItemChangeQuantityIcon,
+  ItemRemoveContainer,
+  ItemPrice
+} from "./cart-summary-item.styles";
 
 import { connect } from "react-redux";
 import { removeFromCart, changeQuantity } from "../../redux/cart/cart.actions";
@@ -7,34 +17,34 @@ import { removeFromCart, changeQuantity } from "../../redux/cart/cart.actions";
 const CheckoutItem = ({ item, removeItem, changeQuantity }) => {
   const { name, imageUrl, price, quantity } = item;
   return (
-    <article className="cart-summary-item">
-      <section className="summary-meta">
-        <div className="summary-img">
-          <img src={imageUrl} alt={name} />
-        </div>
-        <div className="summary-item-actions">
-          <span className="summary-item-name">{name}</span>
-          <span className="summary-item-quantity">
-            <i
+    <CartSummaryItemContainer>
+      <ItemContent>
+        <ImageContainer>
+          <ItemImage src={imageUrl} alt={name} />
+        </ImageContainer>
+        <ItemActions>
+          <span>{name}</span>
+          <ItemQuantity>
+            <ItemChangeQuantityIcon
               className="fa fa-minus"
               onClick={() => changeQuantity(item, quantity - 1)}
-            ></i>
+            ></ItemChangeQuantityIcon>
             {quantity}
-            <i
+            <ItemChangeQuantityIcon
               className="fa fa-plus"
               onClick={() => changeQuantity(item, quantity + 1)}
-            ></i>
-          </span>
-          <span
+            ></ItemChangeQuantityIcon>
+          </ItemQuantity>
+          <ItemRemoveContainer
             className="summary-item-remove"
             onClick={() => removeItem(item)}
           >
             <i className="fas fa-trash"></i> Remove
-          </span>
-        </div>
-      </section>
-      <span className="summary-item-price">${price * quantity}</span>
-    </article>
+          </ItemRemoveContainer>
+        </ItemActions>
+      </ItemContent>
+      <ItemPrice>${price * quantity}</ItemPrice>
+    </CartSummaryItemContainer>
   );
 };
 

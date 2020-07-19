@@ -1,14 +1,14 @@
 import React from "react";
-import "./cart-summary-items.styles.scss";
+import { CartSummaryItemsContainer } from "./cart-summary-items.styles";
 
 import CartSummaryItem from "../../components/cart-summary-item/cart-summary-item.component";
 
 const CartSummaryItems = ({ cartItems }) => (
-  <section className="cart-summary-items">
+  <CartSummaryItemsContainer>
     {cartItems.map((cartItem) => (
       <CartSummaryItem key={cartItem.id} item={cartItem} />
     ))}
-  </section>
+  </CartSummaryItemsContainer>
 );
 
 export default CartSummaryItems;

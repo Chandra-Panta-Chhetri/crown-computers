@@ -1,14 +1,14 @@
 import React from "react";
-import "./collection-preview.styles.scss";
+import { CollectionPreviewContainer } from "./collection-preview.styles";
 
 import CollectionItem from "../collection-item/collection-item.component";
 
 const CollectionPreview = ({ items }) => (
-  <div className="collection-preview">
+  <CollectionPreviewContainer>
     {items.slice(0, 4).map((item) => (
       <CollectionItem key={item.id} item={item} />
     ))}
-  </div>
+  </CollectionPreviewContainer>
 );
 
 export default CollectionPreview;

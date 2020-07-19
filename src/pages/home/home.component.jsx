@@ -1,15 +1,15 @@
 import React from "react";
-import "./home.styles.scss";
+import { HomeContainer } from "./home.styles";
 
 import Directory from "../../components/directory/directory.component";
 import Jumbotron from "../../components/jumbotron/jumbotron.component";
 
 const Home = () => (
-  <div className="home">
+  <HomeContainer>
     <Jumbotron />
     <h2>Browse By Category</h2>
     <Directory />
-  </div>
+  </HomeContainer>
 );
 
 export default Home;

@@ -1,28 +1,33 @@
 import React from "react";
-import "./order-summary.styles.scss";
+import {
+  OrderSummaryContainer,
+  Heading,
+  PriceSummaryContainer,
+  Price
+} from "./order-summary.styles";
 
-import StripeCheckoutButton from "../stripe-checkout-button/stripe-checkout-button.component";
+import StripeCheckOutButton from "../stripe-checkout-button/stripe-checkout-button.component";
 
 const OrderSummary = ({ cartTotal }) => {
   const subtotal = Math.round(cartTotal * 100) / 100;
   const totalTax = Math.round(cartTotal * 0.13 * 100) / 100;
   const total = Math.round(cartTotal * 1.13 * 100) / 100;
   return (
-    <article className="order-summary">
-      <h2 className="order-summary-heading">Order Summary</h2>
-      <section className="price-breakdown">
+    <OrderSummaryContainer>
+      <Heading>Order Summary</Heading>
+      <PriceSummaryContainer>
         <div>
-          Subtotal <span>${subtotal}</span>
+          Subtotal <Price>${subtotal}</Price>
         </div>
         <div>
-          Total Tax <span>${totalTax}</span>
+          Total Tax <Price>${totalTax}</Price>
         </div>
         <div>
-          Total <span>${total}</span>
+          Total <Price>${total}</Price>
         </div>
-      </section>
-      <StripeCheckoutButton price={total} label="Pay Now" />
-    </article>
+      </PriceSummaryContainer>
+      <StripeCheckOutButton price={total} label="Pay Now" />
+    </OrderSummaryContainer>
   );
 };
 
