@@ -3,10 +3,10 @@ import { CollectionPreviewContainer } from "./collection-preview.styles";
 
 import CollectionItem from "../collection-item/collection-item.component";
 
-const CollectionPreview = ({ items, category }) => (
+const CollectionPreview = ({ items }) => (
   <CollectionPreviewContainer>
     {items.slice(0, 4).map((item) => (
-      <CollectionItem key={item.id} item={item} category={category} />
+      <CollectionItem key={item.id} item={item} />
     ))}
   </CollectionPreviewContainer>
 );

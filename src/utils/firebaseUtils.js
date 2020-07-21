@@ -57,13 +57,13 @@ export const getShopDataFromDb = async () => {
     const itemsInCategory = itemsSnapshot.docs.map((itemSnapshot) => {
       let item = {
         id: itemSnapshot.id,
-        ...itemSnapshot.data()
+        ...itemSnapshot.data(),
+        category
       };
       delete item.productCategoryRef;
       return item;
     });
     shopData[category] = {
-      category,
       id: categorySnapshot.id,
       items: itemsInCategory,
       routePath: encodeURI(category)

@@ -12,8 +12,8 @@ import {
 import { connect } from "react-redux";
 import { addToCart } from "../../redux/cart/cart.actions";
 
-const CollectionItem = ({ item, dispatch, category }) => {
-  const { name, imageUrl, price } = item;
+const CollectionItem = ({ item, dispatch }) => {
+  const { name, imageUrl, price, category } = item;
   return (
     <CollectionItemContainer>
       <ItemImageContainer>
