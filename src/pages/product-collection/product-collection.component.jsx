@@ -4,14 +4,31 @@ import CollectionOverview from "../../components/collection-overview/collection-
 import CategoryCollection from "../../components/category-collection/category-collection.component";
 import { Route } from "react-router-dom";
 
-const ProductCollection = ({ match }) => (
-  <div className="product-collection">
-    <Route exact path={`${match.path}`} component={CollectionOverview} />
-    <Route
-      path={`${match.path}/:productCategory`}
-      component={CategoryCollection}
-    />
-  </div>
-);
+import { selectCollectionFromKeys } from "../../redux/collection/collection.selectors";
+import { connect } from "react-redux";
+import { getShopDataFromDb } from "../../utils/firebaseConfig";
 
-export default ProductCollection;
+class ProductCollection extends React.Component {
+  async componentDidMount() {
+    const productCollection = await getShopDataFromDb();
+  }
+
+  render() {
+    const { match } = this.props;
+    return (
+      <div className="product-collection">
+        <Route exact path={`${match.path}`} component={CollectionOverview} />
+        <Route
+          path={`${match.path}/:productCategory`}
+          component={CategoryCollection}
+        />
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  products: selectCollectionFromKeys(state)
+});
+
+export default connect(mapStateToProps)(ProductCollection);
