@@ -14,10 +14,6 @@ export const selectCollectionFromKeys = createSelector(
 );
 
 export const selectCategoryCollection = (route) =>
-  createSelector([selectProductCollection], (productCollection) => {
-    var categoryProductCategory = productCollection[route];
-    if (!categoryProductCategory) {
-      categoryProductCategory = { items: [] };
-    }
-    return categoryProductCategory;
-  });
+  createSelector([selectProductCollection], (productCollection) =>
+    !productCollection[route] ? { items: [] } : productCollection[route]
+  );

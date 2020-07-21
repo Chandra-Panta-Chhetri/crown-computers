@@ -9,10 +9,11 @@ import ProductCollection from "./pages/product-collection/product-collection.com
 import Home from "./pages/home/home.component";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import { auth, addUserToDb } from "./utils/firebaseConfig";
 import { setCurrentUser } from "./redux/users/user.actions";
 import { connect } from "react-redux";
 import { selectCurrentUser } from "./redux/users/user.selectors";
+import { auth } from "./utils/firebaseConfig";
+import { addUserToDb } from "./utils/firebaseUtils";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;

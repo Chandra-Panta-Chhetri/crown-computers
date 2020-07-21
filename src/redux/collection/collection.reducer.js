@@ -1,11 +1,16 @@
-import PRODUCT_DATA from "./productsData";
+import COLLECTION_ACTION_TYPES from "./collection.action.types";
 
 const INITIAL_STATE = {
-  productCollection: PRODUCT_DATA
+  productCollection: {}
 };
 
 const collectionReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
+    case COLLECTION_ACTION_TYPES.SET_PRODUCT_COLLECTION:
+      return {
+        ...prevState,
+        productCollection: action.payload
+      };
     default:
       return prevState;
   }

@@ -6,11 +6,13 @@ import { Route } from "react-router-dom";
 
 import { selectCollectionFromKeys } from "../../redux/collection/collection.selectors";
 import { connect } from "react-redux";
-import { getShopDataFromDb } from "../../utils/firebaseConfig";
+import { getShopDataFromDb } from "../../utils/firebaseUtils";
+import { setProductCollection } from "../../redux/collection/collection.actions";
 
 class ProductCollection extends React.Component {
   async componentDidMount() {
     const productCollection = await getShopDataFromDb();
+    this.props.setProductCollection(productCollection);
   }
 
   render() {
@@ -31,4 +33,9 @@ const mapStateToProps = (state) => ({
   products: selectCollectionFromKeys(state)
 });
 
-export default connect(mapStateToProps)(ProductCollection);
+const mapDispatchToProps = (dispatch) => ({
+  setProductCollection: (productCollection) =>
+    dispatch(setProductCollection(productCollection))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCollection);

@@ -9,7 +9,11 @@ import { connect } from "react-redux";
 const CategoryCollection = ({ collectionInCategory }) => (
   <CategoryCollectionContainer>
     {collectionInCategory.items.map((item) => (
-      <CollectionItem key={item.id} item={item} />
+      <CollectionItem
+        key={item.id}
+        item={item}
+        category={collectionInCategory.category}
+      />
     ))}
   </CategoryCollectionContainer>
 );
