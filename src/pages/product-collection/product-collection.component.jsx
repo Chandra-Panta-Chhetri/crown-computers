@@ -7,12 +7,24 @@ import { Route } from "react-router-dom";
 import { selectCollectionFromKeys } from "../../redux/collection/collection.selectors";
 import { connect } from "react-redux";
 import { getShopDataFromDb } from "../../utils/firebaseUtils";
+import { firestore } from "../../utils/firebaseConfig";
 import { setProductCollection } from "../../redux/collection/collection.actions";
 
 class ProductCollection extends React.Component {
+  unsubscribeFromUpdatingShop = null;
+
   async componentDidMount() {
-    const productCollection = await getShopDataFromDb();
-    this.props.setProductCollection(productCollection);
+    const categoriesCollectionRef = firestore.collection("product_categories");
+    this.unsubscribeFromUpdatingShop = categoriesCollectionRef.onSnapshot(
+      async (categoriesSnapshot) => {
+        const productCollection = await getShopDataFromDb(categoriesSnapshot);
+        this.props.setProductCollection(productCollection);
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFromUpdatingShop();
   }
 
   render() {
