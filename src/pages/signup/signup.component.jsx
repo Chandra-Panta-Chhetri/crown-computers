@@ -15,16 +15,13 @@ import { auth } from "../../utils/firebaseConfig";
 import { addUserToDb } from "../../utils/firebaseUtils";
 
 class SignUp extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      displayName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      errorMessage: ""
-    };
-  }
+  state = {
+    displayName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    errorMessage: ""
+  };
 
   createNewUser = async (e) => {
     e.preventDefault();

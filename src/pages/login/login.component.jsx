@@ -15,14 +15,11 @@ import { signInWithGoogle } from "../../utils/firebaseConfig";
 import { auth } from "../../utils/firebaseConfig";
 
 class LogIn extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      email: "",
-      password: "",
-      errorMessage: ""
-    };
-  }
+  state = {
+    email: "",
+    password: "",
+    errorMessage: ""
+  };
 
   storeCredentials = (e) => this.setState({ [e.target.name]: e.target.value });
 
