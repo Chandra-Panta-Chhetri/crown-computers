@@ -41,8 +41,10 @@ export const addShopDataToDb = async (shopData) => {
   await batch.commit();
 };
 
-export const getShopDataFromDb = async (categoriesSnapshot) => {
+export const getShopDataFromDb = async () => {
   const shopData = {};
+  const categoriesCollectionRef = firestore.collection("product_categories");
+  const categoriesSnapshot = await categoriesCollectionRef.get();
   const productCollectionRef = firestore.collection("products");
   for (let categorySnapshot of categoriesSnapshot.docs) {
     const getItemsInCategoryQuery = productCollectionRef.where(

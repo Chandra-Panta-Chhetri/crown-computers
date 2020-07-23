@@ -17,3 +17,13 @@ export const selectCategoryCollection = (route) =>
   createSelector([selectProductCollection], (productCollection) =>
     !productCollection[route] ? { items: [] } : productCollection[route]
   );
+
+export const selectFetchingErrorMsg = createSelector(
+  [selectCollection],
+  (collection) => collection.fetchingErrorMsg
+);
+
+export const selectIsFetchingStatus = createSelector(
+  [selectCollection],
+  (collection) => collection.isFetchingFromDB
+);

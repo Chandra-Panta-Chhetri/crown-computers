@@ -6,47 +6,29 @@ import CategoryCollection from "../../components/category-collection/category-co
 import { Route } from "react-router-dom";
 import withSpinner from "../../components/with-spinner/with-spinner.component";
 
-import { selectCollectionFromKeys } from "../../redux/collection/collection.selectors";
 import { connect } from "react-redux";
-import { getShopDataFromDb } from "../../utils/firebaseUtils";
-import { firestore } from "../../utils/firebaseConfig";
-import { setProductCollection } from "../../redux/collection/collection.actions";
+import { getProductCollection } from "../../redux/collection/collection.actions";
+import { selectIsFetchingStatus } from "../../redux/collection/collection.selectors";
 
 const CollectionOverviewWithSpinner = withSpinner(CollectionOverview);
 const CategoryCollectionWithSpinner = withSpinner(CategoryCollection);
 
 class ProductCollection extends React.Component {
-  state = {
-    isLoadingItems: true
-  };
-  unsubscribeFromSnapshot = null;
-
   componentDidMount() {
-    const categoriesCollectionRef = firestore.collection("product_categories");
-    this.unsubscribeFromSnapshot = categoriesCollectionRef.onSnapshot(
-      async (categoriesSnapshot) => {
-        const productCollection = await getShopDataFromDb(categoriesSnapshot);
-        this.props.setProductCollection(productCollection);
-        this.setState({ isLoadingItems: false });
-      }
-    );
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromSnapshot();
+    this.props.fetchItemsFromDB();
   }
 
   render() {
     const { match } = this.props;
-    const { isLoadingItems } = this.state;
+    const { isFetchingItems } = this.props;
     return (
-      <ProductCollectionContainer spinnerActive={isLoadingItems}>
+      <ProductCollectionContainer spinnerActive={isFetchingItems}>
         <Route
           exact
           path={`${match.path}`}
           render={(props) => (
             <CollectionOverviewWithSpinner
-              loading={isLoadingItems}
+              loading={isFetchingItems}
               {...props}
             />
           )}
@@ -55,7 +37,7 @@ class ProductCollection extends React.Component {
           path={`${match.path}/:productCategory`}
           render={(props) => (
             <CategoryCollectionWithSpinner
-              loading={isLoadingItems}
+              loading={isFetchingItems}
               {...props}
             />
           )}
@@ -66,12 +48,11 @@ class ProductCollection extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  products: selectCollectionFromKeys(state)
+  isFetchingItems: selectIsFetchingStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setProductCollection: (productCollection) =>
-    dispatch(setProductCollection(productCollection))
+  fetchItemsFromDB: () => dispatch(getProductCollection())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCollection);
