@@ -11,19 +11,17 @@ import {
 
 import FormInput from "../../components/form-input/form-input.component";
 
-import { addUserToDb, auth } from "../../utils/firebaseConfig";
+import { auth } from "../../utils/firebaseConfig";
+import { addUserToDb } from "../../utils/firebaseUtils";
 
 class SignUp extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      displayName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      errorMessage: ""
-    };
-  }
+  state = {
+    displayName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    errorMessage: ""
+  };
 
   createNewUser = async (e) => {
     e.preventDefault();

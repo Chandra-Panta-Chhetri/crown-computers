@@ -15,28 +15,28 @@ const directoryItems = [
   },
   {
     label: "Storage Devices",
-    routePath: "storage-devices",
+    routePath: "storage%20devices",
     id: 3,
     imageUrl:
       "https://images.unsplash.com/photo-1577538926210-fc6cc624fde2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
   },
   {
     label: "Drives",
-    routePath: "internal-drives",
+    routePath: "drives",
     id: 4,
     imageUrl:
       "https://images.unsplash.com/photo-1589995186011-a7b485edc4bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
   },
   {
     label: "Desktop Computers",
-    routePath: "desktops",
+    routePath: "desktop%20computers",
     id: 5,
     imageUrl:
       "https://images.unsplash.com/photo-1547082299-de196ea013d6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
   },
   {
     label: "Keyboards & Mice",
-    routePath: "keyboards-mice",
+    routePath: "keyboards%20&%20mice",
     id: 6,
     imageUrl:
       "https://images.unsplash.com/photo-1470054187619-8cf450e37193?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
