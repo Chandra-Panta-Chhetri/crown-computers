@@ -7,7 +7,7 @@ import { Route } from "react-router-dom";
 import withSpinner from "../../components/with-spinner/with-spinner.component";
 
 import { connect } from "react-redux";
-import { getProductCollection } from "../../redux/collection/collection.actions";
+import { collectionFetchStarted } from "../../redux/collection/collection.actions";
 import { selectIsFetchingStatus } from "../../redux/collection/collection.selectors";
 
 const CollectionOverviewWithSpinner = withSpinner(CollectionOverview);
@@ -52,7 +52,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchItemsFromDB: () => dispatch(getProductCollection())
+  fetchItemsFromDB: () => dispatch(collectionFetchStarted())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCollection);

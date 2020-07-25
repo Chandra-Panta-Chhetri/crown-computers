@@ -8,18 +8,18 @@ const INITIAL_STATE = {
 
 const collectionReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
-    case COLLECTION_ACTION_TYPES.FETCHING_COLLECTION_FROM_DB:
+    case COLLECTION_ACTION_TYPES.COLLECTION_FETCH_START:
       return {
         ...prevState,
         isFetchingFromDB: true
       };
-    case COLLECTION_ACTION_TYPES.FETCHING_COLLECTION_SUCCESS:
+    case COLLECTION_ACTION_TYPES.COLLECTION_FETCH_SUCCESS:
       return {
         ...prevState,
         productCollection: action.payload,
         isFetchingFromDB: false
       };
-    case COLLECTION_ACTION_TYPES.FETCHING_COLLECTION_FAILED:
+    case COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAILED:
       return {
         ...prevState,
         isFetchingFromDB: false,
