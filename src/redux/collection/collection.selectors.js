@@ -25,5 +25,5 @@ export const selectFetchingErrorMsg = createSelector(
 
 export const selectIsFetchingStatus = createSelector(
   [selectCollection],
-  (collection) => collection.isFetchingFromDB
+  (collection) => collection.isFetchingCollection
 );

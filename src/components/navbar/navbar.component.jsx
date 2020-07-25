@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { auth } from "../../utils/firebaseConfig";
 import { connect } from "react-redux";
 import { selectCartVisibility } from "../../redux/cart/cart.selectors";
-import { selectCurrentUser } from "../../redux/users/user.selectors";
+import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
 
 const NavBar = ({ currentUser, hidden }) => (

@@ -2,7 +2,7 @@ import COLLECTION_ACTION_TYPES from "./collection.action.types";
 
 const INITIAL_STATE = {
   productCollection: {},
-  isFetchingFromDB: false,
+  isFetchingCollection: false,
   fetchingErrorMsg: null
 };
 
@@ -11,18 +11,18 @@ const collectionReducer = (prevState = INITIAL_STATE, action) => {
     case COLLECTION_ACTION_TYPES.COLLECTION_FETCH_START:
       return {
         ...prevState,
-        isFetchingFromDB: true
+        isFetchingCollection: true
       };
     case COLLECTION_ACTION_TYPES.COLLECTION_FETCH_SUCCESS:
       return {
         ...prevState,
         productCollection: action.payload,
-        isFetchingFromDB: false
+        isFetchingCollection: false
       };
     case COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAILED:
       return {
         ...prevState,
-        isFetchingFromDB: false,
+        isFetchingCollection: false,
         fetchingErrorMsg: action.payload
       };
     default:

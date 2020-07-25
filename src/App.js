@@ -9,36 +9,11 @@ import ProductCollection from "./pages/product-collection/product-collection.com
 import Home from "./pages/home/home.component";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import { setCurrentUser } from "./redux/users/user.actions";
 import { connect } from "react-redux";
-import { selectCurrentUser } from "./redux/users/user.selectors";
-import { auth } from "./utils/firebaseConfig";
-import { addUserToDb } from "./utils/firebaseUtils";
+import { selectCurrentUser } from "./redux/user/user.selectors";
 
 class App extends React.Component {
-  unsubscribeFromAuth = null;
-
-  componentDidMount() {
-    const { setCurrentUser } = this.props;
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        return setCurrentUser(null);
-      }
-      const userRef = await addUserToDb(user, {
-        displayName: user.displayName
-      });
-      userRef.onSnapshot((snapShot) =>
-        setCurrentUser({
-          id: snapShot.id,
-          ...snapShot.data()
-        })
-      );
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
+  componentDidMount() {}
 
   render() {
     const { currentUser } = this.props;
@@ -69,8 +44,8 @@ const mapStateToProps = (state) => ({
   currentUser: selectCurrentUser(state)
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user))
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   setCurrentUser: (user) => dispatch(setCurrentUser(user))
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

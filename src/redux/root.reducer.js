@@ -1,4 +1,4 @@
-import userReducer from "./users/user.reducer";
+import userReducer from "./user/user.reducer";
 import cartReducer from "./cart/cart.reducer";
 import directoryReducer from "./directory/directory.reducer";
 import collectionReducer from "./collection/collection.reducer";

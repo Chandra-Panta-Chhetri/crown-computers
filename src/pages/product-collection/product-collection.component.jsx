@@ -15,7 +15,7 @@ const CategoryCollectionWithSpinner = withSpinner(CategoryCollection);
 
 class ProductCollection extends React.Component {
   componentDidMount() {
-    this.props.fetchItemsFromDB();
+    this.props.startCollectionFetch();
   }
 
   render() {
@@ -52,7 +52,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchItemsFromDB: () => dispatch(collectionFetchStarted())
+  startCollectionFetch: () => dispatch(collectionFetchStarted())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCollection);

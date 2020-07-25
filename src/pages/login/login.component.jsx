@@ -11,14 +11,16 @@ import {
 
 import FormInput from "../../components/form-input/form-input.component";
 
-import { signInWithGoogle } from "../../utils/firebaseConfig";
-import { auth } from "../../utils/firebaseConfig";
+import {
+  googleSignInStarted,
+  emailSignInStarted
+} from "../../redux/user/user.actions";
+import { connect } from "react-redux";
 
 class LogIn extends React.Component {
   state = {
     email: "",
-    password: "",
-    errorMessage: ""
+    password: ""
   };
 
   storeCredentials = (e) => this.setState({ [e.target.name]: e.target.value });
@@ -26,23 +28,17 @@ class LogIn extends React.Component {
   loginUser = async (e) => {
     e.preventDefault();
     const { email, password } = this.state;
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      this.setState({ errorMessage: "" });
-    } catch (e) {
-      this.setState({
-        errorMessage: "Incorrect password or email. Please try again."
-      });
-    }
-    this.setState({ email: "", password: "" });
+    const { startEmailSignIn } = this.props;
+    startEmailSignIn(email, password);
   };
 
   render() {
+    const { startGoogleSignIn, loginErrorMsg } = this.props;
     return (
       <LoginContainer>
         <FormContainer>
           <FormTitle>LOGIN</FormTitle>
-          <ErrorText>{this.state.errorMessage}</ErrorText>
+          <ErrorText>{loginErrorMsg}</ErrorText>
           <Form onSubmit={this.loginUser}>
             <FormInput
               type={"email"}
@@ -62,7 +58,7 @@ class LogIn extends React.Component {
             />
             <FormButton type="submit">Log In</FormButton>
             <h5>Or login with</h5>
-            <FormButton onClick={signInWithGoogle}>
+            <FormButton type="button" onClick={startGoogleSignIn}>
               <i className="fab fa-google"></i> Google
             </FormButton>
           </Form>
@@ -76,4 +72,14 @@ class LogIn extends React.Component {
   }
 }
 
-export default LogIn;
+const mapStateToProps = (state) => ({
+  loginErrorMsg: state.user.authErrorMsg
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  startGoogleSignIn: () => dispatch(googleSignInStarted()),
+  startEmailSignIn: (email, password) =>
+    dispatch(emailSignInStarted(email, password))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
