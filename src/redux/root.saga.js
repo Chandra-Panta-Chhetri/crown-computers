@@ -1,13 +1,9 @@
 import { all, call } from "redux-saga/effects";
-import { watchCollectionFetchSaga } from "./collection/collection.sagas";
-import { watchEmailSignInSaga, watchGoogleSignInSaga } from "./user/user.sagas";
+import collectionSaga from "./collection/collection.sagas";
+import userSaga from "./user/user.sagas";
 
 function* rootSaga() {
-  yield all([
-    call(watchCollectionFetchSaga),
-    call(watchEmailSignInSaga),
-    call(watchGoogleSignInSaga)
-  ]);
+  yield all([call(collectionSaga), call(userSaga)]);
 }
 
 export default rootSaga;

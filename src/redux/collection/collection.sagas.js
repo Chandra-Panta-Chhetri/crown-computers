@@ -1,5 +1,5 @@
 import COLLECTION_ACTION_TYPES from "./collection.action.types";
-import { takeLatest, put, call } from "redux-saga/effects";
+import { takeLatest, put, call, all } from "redux-saga/effects";
 import {
   collectionFetchError,
   collectionFetchSuccess
@@ -15,9 +15,13 @@ function* fetchCollectionSaga() {
   }
 }
 
-export function* watchCollectionFetchSaga() {
+function* watchCollectionFetchSaga() {
   yield takeLatest(
     COLLECTION_ACTION_TYPES.COLLECTION_FETCH_START,
     fetchCollectionSaga
   );
+}
+
+export default function* collectionSaga() {
+  yield all([call(watchCollectionFetchSaga)]);
 }

@@ -1,4 +1,4 @@
-import { takeLatest, put, call } from "redux-saga/effects";
+import { takeLatest, put, call, all } from "redux-saga/effects";
 import USER_ACTION_TYPES from "./user.action.types";
 
 import { signInSuccess, signInFail } from "./user.actions";
@@ -16,7 +16,7 @@ function* signInWithGoogleSaga() {
   }
 }
 
-export function* watchGoogleSignInSaga() {
+function* watchGoogleSignInSaga() {
   yield takeLatest(
     USER_ACTION_TYPES.GOOGLE_SIGN_IN_START,
     signInWithGoogleSaga
@@ -34,6 +34,10 @@ function* signInWithEmail({ payload: { email, password } }) {
   }
 }
 
-export function* watchEmailSignInSaga() {
+function* watchEmailSignInSaga() {
   yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, signInWithEmail);
+}
+
+export default function* userSaga() {
+  yield all([call(watchGoogleSignInSaga), call(watchEmailSignInSaga)]);
 }
