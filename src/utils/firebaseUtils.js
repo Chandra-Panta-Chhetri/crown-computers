@@ -9,9 +9,6 @@ export const loginUserFromSession = () =>
   });
 
 export const addUserToDb = async (user, extraData) => {
-  if (!user) {
-    return;
-  }
   const userRef = firestore.doc(`users/${user.uid}`);
   const snapShot = await userRef.get();
   if (!snapShot.exists) {

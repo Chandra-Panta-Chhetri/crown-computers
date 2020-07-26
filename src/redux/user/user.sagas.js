@@ -14,7 +14,9 @@ import { addUserToDb, loginUserFromSession } from "../../utils/firebaseUtils";
 function* signInWithGoogleSaga() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
-    const userRef = yield call(addUserToDb, user);
+    const userRef = yield call(addUserToDb, user, {
+      displayName: user.displayName
+    });
     const userSnapshot = yield userRef.get();
     yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
   } catch (e) {
