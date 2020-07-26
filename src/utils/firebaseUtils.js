@@ -1,4 +1,12 @@
-import { firestore } from "./firebaseConfig";
+import { firestore, auth } from "./firebaseConfig";
+
+export const loginUserFromSession = () =>
+  new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      unsubscribe();
+      resolve(user);
+    }, reject);
+  });
 
 export const addUserToDb = async (user, extraData) => {
   if (!user) {

@@ -11,9 +11,13 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { selectCurrentUser } from "./redux/user/user.selectors";
+import { loginUserFromSession } from "./redux/user/user.actions";
 
 class App extends React.Component {
-  componentDidMount() {}
+  componentDidMount() {
+    const { loginUserFromSession } = this.props;
+    loginUserFromSession();
+  }
 
   render() {
     const { currentUser } = this.props;
@@ -44,8 +48,8 @@ const mapStateToProps = (state) => ({
   currentUser: selectCurrentUser(state)
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-//   setCurrentUser: (user) => dispatch(setCurrentUser(user))
-// });
+const mapDispatchToProps = (dispatch) => ({
+  loginUserFromSession: () => dispatch(loginUserFromSession())
+});
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

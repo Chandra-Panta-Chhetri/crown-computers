@@ -14,6 +14,7 @@ const userReducer = (prevState = INITIALSTATE, action) => {
         isLoggingIn: true
       };
     case USER_ACTION_TYPES.SIGN_IN_SUCCESS:
+    case USER_ACTION_TYPES.SIGN_IN_USER_FROM_SESSION:
       return {
         ...prevState,
         currentUser: action.payload,
