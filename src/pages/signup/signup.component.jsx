@@ -10,52 +10,33 @@ import {
 } from "./signup.styles";
 
 import FormInput from "../../components/form-input/form-input.component";
-
-import { auth } from "../../utils/firebaseConfig";
-import { addUserToDb } from "../../utils/firebaseUtils";
+import { signUpStart } from "../../redux/user/user.actions";
+import { connect } from "react-redux";
 
 class SignUp extends React.Component {
   state = {
     displayName: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    errorMessage: ""
+    confirmPassword: ""
   };
 
-  createNewUser = async (e) => {
+  createNewUser = (e) => {
     e.preventDefault();
     const { displayName, email, password, confirmPassword } = this.state;
-    try {
-      if (password !== confirmPassword) {
-        return this.setState({
-          errorMessage: "Passwords must match"
-        });
-      }
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      await addUserToDb(user, { displayName });
-    } catch (e) {
-      this.setState({
-        errorMessage: e.message,
-        displayName: "",
-        email: "",
-        password: "",
-        confirmPassword: ""
-      });
-    }
+    const { signUpUser } = this.props;
+    signUpUser({ email, password, confirmPassword, displayName });
   };
 
   handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
+    const { signUpError } = this.props;
     return (
       <SignUpContainer>
         <FormContainer>
           <FormTitle>SIGN UP</FormTitle>
-          <ErrorText>{this.state.errorMessage}</ErrorText>
+          <ErrorText>{signUpError}</ErrorText>
           <Form onSubmit={this.createNewUser}>
             <FormInput
               type={"text"}
@@ -101,4 +82,13 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp;
+const mapStateToProps = (state) => ({
+  signUpError: state.user.authErrorMsg
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  signUpUser: ({ email, password, confirmPassword, displayName }) =>
+    dispatch(signUpStart({ email, password, confirmPassword, displayName }))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

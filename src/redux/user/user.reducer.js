@@ -9,6 +9,7 @@ const userReducer = (prevState = INITIALSTATE, action) => {
   switch (action.type) {
     case USER_ACTION_TYPES.EMAIL_SIGN_IN_START:
     case USER_ACTION_TYPES.GOOGLE_SIGN_IN_START:
+    case USER_ACTION_TYPES.SIGN_UP_START:
       return {
         ...prevState,
         isLoggingIn: true
@@ -23,6 +24,7 @@ const userReducer = (prevState = INITIALSTATE, action) => {
       };
     case USER_ACTION_TYPES.SIGN_IN_FAIL:
     case USER_ACTION_TYPES.SIGN_OUT_FAIL:
+    case USER_ACTION_TYPES.SIGN_UP_FAIL:
       return {
         ...prevState,
         isLoggingIn: false,

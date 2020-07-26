@@ -4,8 +4,11 @@ import USER_ACTION_TYPES from "./user.action.types";
 import {
   signInSuccess,
   signInFail,
+  signUpSuccess,
+  signUpFail,
   signOutSuccess,
-  signOutFail
+  signOutFail,
+  emailSignInStarted
 } from "./user.actions";
 import { clearCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../utils/firebaseConfig";
@@ -79,11 +82,30 @@ function* watchSignOutSaga() {
   yield takeLatest(USER_ACTION_TYPES.SIGN_OUT_START, signOutUser);
 }
 
+function* signUpUser({
+  payload: { email, password, displayName, confirmPassword }
+}) {
+  try {
+    if (password !== confirmPassword) throw Error("Passwords must match");
+    const { user } = yield auth.createUserWithEmailAndPassword(email, password);
+    yield addUserToDb(user, { displayName });
+    yield put(signUpSuccess());
+    yield put(emailSignInStarted({ email, password }));
+  } catch (e) {
+    yield put(signUpFail(e.message));
+  }
+}
+
+function* watchSignUpSaga() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, signUpUser);
+}
+
 export default function* userSaga() {
   yield all([
     call(watchGoogleSignInSaga),
     call(watchEmailSignInSaga),
     call(watchloginUserFromSessionSaga),
-    call(watchSignOutSaga)
+    call(watchSignOutSaga),
+    call(watchSignUpSaga)
   ]);
 }

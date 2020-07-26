@@ -29,7 +29,7 @@ class LogIn extends React.Component {
     e.preventDefault();
     const { email, password } = this.state;
     const { startEmailSignIn } = this.props;
-    startEmailSignIn(email, password);
+    startEmailSignIn({ email, password });
   };
 
   render() {
