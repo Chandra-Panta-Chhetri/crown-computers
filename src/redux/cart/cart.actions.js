@@ -18,3 +18,7 @@ export const changeQuantity = (item, newQuantity) => ({
   type: CART_ACTION_TYPES.CHANGE_QUANTITY,
   payload: { item, newQuantity }
 });
+
+export const clearCart = () => ({
+  type: CART_ACTION_TYPES.CLEAR_CART
+});

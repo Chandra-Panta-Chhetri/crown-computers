@@ -29,6 +29,11 @@ const cartReducer = (prevState = INITIALSTATE, action) => {
         ...prevState,
         shoppingCart: changeItemQuantity(prevState.shoppingCart, action.payload)
       };
+    case CART_ACTION_TYPES.CLEAR_CART:
+      return {
+        ...prevState,
+        shoppingCart: []
+      };
     default:
       return prevState;
   }

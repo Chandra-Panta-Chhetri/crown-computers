@@ -18,13 +18,20 @@ const userReducer = (prevState = INITIALSTATE, action) => {
       return {
         ...prevState,
         currentUser: action.payload,
+        authErrorMsg: null,
         isLoggingIn: false
       };
     case USER_ACTION_TYPES.SIGN_IN_FAIL:
+    case USER_ACTION_TYPES.SIGN_OUT_FAIL:
       return {
         ...prevState,
         isLoggingIn: false,
         authErrorMsg: action.payload
+      };
+    case USER_ACTION_TYPES.SIGN_OUT_SUCCESS:
+      return {
+        ...prevState,
+        currentUser: null
       };
     default:
       return prevState;

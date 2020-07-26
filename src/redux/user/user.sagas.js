@@ -1,7 +1,13 @@
 import { takeLatest, put, call, all } from "redux-saga/effects";
 import USER_ACTION_TYPES from "./user.action.types";
 
-import { signInSuccess, signInFail } from "./user.actions";
+import {
+  signInSuccess,
+  signInFail,
+  signOutSuccess,
+  signOutFail
+} from "./user.actions";
+import { clearCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../utils/firebaseConfig";
 import { addUserToDb, loginUserFromSession } from "../../utils/firebaseUtils";
 
@@ -57,10 +63,25 @@ function* watchloginUserFromSessionSaga() {
   );
 }
 
+function* signOutUser() {
+  try {
+    yield auth.signOut();
+    yield put(signOutSuccess());
+    yield put(clearCart());
+  } catch (e) {
+    yield put(signOutFail(e.message));
+  }
+}
+
+function* watchSignOutSaga() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_OUT_START, signOutUser);
+}
+
 export default function* userSaga() {
   yield all([
     call(watchGoogleSignInSaga),
     call(watchEmailSignInSaga),
-    call(watchloginUserFromSessionSaga)
+    call(watchloginUserFromSessionSaga),
+    call(watchSignOutSaga)
   ]);
 }

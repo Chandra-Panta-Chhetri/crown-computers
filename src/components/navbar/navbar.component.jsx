@@ -10,13 +10,13 @@ import CartDropDown from "../cart-drop-down/cart-drop-down.component";
 import CartIcon from "../cart-icon/cart-icon.component";
 
 import { Link } from "react-router-dom";
-import { auth } from "../../utils/firebaseConfig";
 import { connect } from "react-redux";
 import { selectCartVisibility } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
+import { signOutStart } from "../../redux/user/user.actions";
 
-const NavBar = ({ currentUser, hidden }) => (
+const NavBar = ({ currentUser, hidden, logOut }) => (
   <NavBarContainer>
     <LogoContainer>
       <Link to="/">
@@ -28,7 +28,7 @@ const NavBar = ({ currentUser, hidden }) => (
       {!currentUser ? (
         <NavItem to="/login">Log In</NavItem>
       ) : (
-        <NavItem onClick={() => auth.signOut()} to="/">
+        <NavItem onClick={logOut} to="/">
           Log Out
         </NavItem>
       )}
@@ -44,4 +44,8 @@ const mapStateToProps = createStructuredSelector({
   hidden: selectCartVisibility
 });
 
-export default connect(mapStateToProps)(NavBar);
+const mapDispatchToProps = (dispatch) => ({
+  logOut: () => dispatch(signOutStart())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
