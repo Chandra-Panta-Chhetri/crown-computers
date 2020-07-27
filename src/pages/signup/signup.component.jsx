@@ -11,24 +11,25 @@ import {
 
 import FormInput from "../../components/form-input/form-input.component";
 import { signUpStart } from "../../redux/user/user.actions";
+import { selectAuthError } from "../../redux/user/user.selectors";
 import { connect } from "react-redux";
 
 class SignUp extends React.Component {
   state = {
-    displayName: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: ""
   };
 
+  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
   createNewUser = (e) => {
     e.preventDefault();
-    const { displayName, email, password, confirmPassword } = this.state;
+    const { fullName, email, password, confirmPassword } = this.state;
     const { signUpUser } = this.props;
-    signUpUser({ email, password, confirmPassword, displayName });
+    signUpUser({ email, password, confirmPassword, fullName });
   };
-
-  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
     const { signUpError } = this.props;
@@ -40,9 +41,9 @@ class SignUp extends React.Component {
           <Form onSubmit={this.createNewUser}>
             <FormInput
               type={"text"}
-              name={"displayName"}
+              name={"fullName"}
               label={"Full Name"}
-              value={this.state.displayName}
+              value={this.state.fullName}
               handler={this.handleChange}
               required
             />
@@ -83,12 +84,12 @@ class SignUp extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  signUpError: state.user.authErrorMsg
+  signUpError: selectAuthError(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  signUpUser: ({ email, password, confirmPassword, displayName }) =>
-    dispatch(signUpStart({ email, password, confirmPassword, displayName }))
+  signUpUser: ({ email, password, confirmPassword, fullName }) =>
+    dispatch(signUpStart({ email, password, confirmPassword, fullName }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

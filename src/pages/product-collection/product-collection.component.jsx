@@ -3,24 +3,24 @@ import { ProductCollectionContainer } from "./product-collection.styles";
 
 import CollectionOverview from "../../components/collection-overview/collection-overview.component";
 import CategoryCollection from "../../components/category-collection/category-collection.component";
-import { Route } from "react-router-dom";
 import withSpinner from "../../components/with-spinner/with-spinner.component";
+import { Route } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { collectionFetchStarted } from "../../redux/collection/collection.actions";
-import { selectIsFetchingStatus } from "../../redux/collection/collection.selectors";
+import { selectIsFetchingCollection } from "../../redux/collection/collection.selectors";
 
 const CollectionOverviewWithSpinner = withSpinner(CollectionOverview);
 const CategoryCollectionWithSpinner = withSpinner(CategoryCollection);
 
 class ProductCollection extends React.Component {
   componentDidMount() {
-    this.props.startCollectionFetch();
+    const { startCollectionFetch } = this.props;
+    startCollectionFetch();
   }
 
   render() {
-    const { match } = this.props;
-    const { isFetchingItems } = this.props;
+    const { match, isFetchingItems } = this.props;
     return (
       <ProductCollectionContainer spinnerActive={isFetchingItems}>
         <Route
@@ -48,7 +48,7 @@ class ProductCollection extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  isFetchingItems: selectIsFetchingStatus(state)
+  isFetchingItems: selectIsFetchingCollection(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

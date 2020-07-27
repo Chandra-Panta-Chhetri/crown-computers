@@ -1,10 +1,10 @@
 import USER_ACTION_TYPES from "./user.action.types";
 
-export const googleSignInStarted = () => ({
+export const googleSignInStart = () => ({
   type: USER_ACTION_TYPES.GOOGLE_SIGN_IN_START
 });
 
-export const emailSignInStarted = ({ email, password }) => ({
+export const emailSignInStart = ({ email, password }) => ({
   type: USER_ACTION_TYPES.EMAIL_SIGN_IN_START,
   payload: { email, password }
 });
@@ -23,7 +23,7 @@ export const getUserFromSession = () => ({
   type: USER_ACTION_TYPES.SIGN_IN_USER_FROM_SESSION
 });
 
-export const signOutStart = () => ({
+export const logOutStart = () => ({
   type: USER_ACTION_TYPES.SIGN_OUT_START
 });
 
@@ -39,11 +39,11 @@ export const signOutFail = (errorMsg) => ({
 export const signUpStart = ({
   email,
   password,
-  displayName,
+  fullName,
   confirmPassword
 }) => ({
   type: USER_ACTION_TYPES.SIGN_UP_START,
-  payload: { email, password, displayName, confirmPassword }
+  payload: { email, password, fullName, confirmPassword }
 });
 
 export const signUpSuccess = () => ({

@@ -8,7 +8,7 @@ import {
   signUpFail,
   signOutSuccess,
   signOutFail,
-  emailSignInStarted
+  emailSignInStart
 } from "./user.actions";
 import { clearCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../utils/firebase.config";
@@ -21,7 +21,7 @@ function* signInWithGoogleSaga() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
     const userRef = yield call(createOrGetUser, user, {
-      displayName: user.displayName
+      fullName: user.fullName
     });
     const userSnapshot = yield userRef.get();
     yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
@@ -86,14 +86,14 @@ function* watchSignOutSaga() {
 }
 
 function* signUpUser({
-  payload: { email, password, displayName, confirmPassword }
+  payload: { email, password, fullName, confirmPassword }
 }) {
   try {
     if (password !== confirmPassword) throw Error("Passwords must match");
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-    yield createOrGetUser(user, { displayName });
+    yield createOrGetUser(user, { fullName });
     yield put(signUpSuccess());
-    yield put(emailSignInStarted({ email, password }));
+    yield put(emailSignInStart({ email, password }));
   } catch (e) {
     yield put(signUpFail(e.message));
   }

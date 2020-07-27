@@ -12,10 +12,11 @@ import {
 import FormInput from "../../components/form-input/form-input.component";
 
 import {
-  googleSignInStarted,
-  emailSignInStarted
+  googleSignInStart,
+  emailSignInStart
 } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
+import { selectAuthError } from "../../redux/user/user.selectors";
 
 class LogIn extends React.Component {
   state = {
@@ -25,7 +26,7 @@ class LogIn extends React.Component {
 
   storeCredentials = (e) => this.setState({ [e.target.name]: e.target.value });
 
-  loginUser = async (e) => {
+  loginUser = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
     const { startEmailSignIn } = this.props;
@@ -73,13 +74,13 @@ class LogIn extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  loginErrorMsg: state.user.authErrorMsg
+  loginErrorMsg: selectAuthError(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  startGoogleSignIn: () => dispatch(googleSignInStarted()),
-  startEmailSignIn: (email, password) =>
-    dispatch(emailSignInStarted(email, password))
+  startGoogleSignIn: () => dispatch(googleSignInStart()),
+  startEmailSignIn: ({ email, password }) =>
+    dispatch(emailSignInStart({ email, password }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

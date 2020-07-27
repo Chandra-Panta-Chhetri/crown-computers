@@ -6,3 +6,8 @@ export const selectCurrentUser = createSelector(
   [selectUser],
   (user) => user.currentUser
 );
+
+export const selectAuthError = createSelector(
+  [selectUser],
+  (user) => user.authErrorMsg
+);

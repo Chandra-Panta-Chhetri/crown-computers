@@ -23,7 +23,7 @@ export const selectFetchingErrorMsg = createSelector(
   (collection) => collection.fetchingErrorMsg
 );
 
-export const selectIsFetchingStatus = createSelector(
+export const selectIsFetchingCollection = createSelector(
   [selectCollection],
   (collection) => collection.isFetchingCollection
 );
