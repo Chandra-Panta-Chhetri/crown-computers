@@ -19,7 +19,7 @@ const collectionReducer = (prevState = INITIAL_STATE, action) => {
         productCollection: action.payload,
         isFetchingCollection: false
       };
-    case COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAILED:
+    case COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL:
       return {
         ...prevState,
         isFetchingCollection: false,

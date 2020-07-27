@@ -1,14 +1,13 @@
 import { takeLatest, put, call, all } from "redux-saga/effects";
 import USER_ACTION_TYPES from "./user.action.types";
-
 import {
   signInSuccess,
   signInFail,
   signUpSuccess,
   signUpFail,
-  signOutSuccess,
-  signOutFail,
-  emailSignInStart
+  logOutSuccess,
+  logOutFail,
+  startEmailSignIn
 } from "./user.actions";
 import { auth, googleProvider } from "../../utils/firebase.config";
 import {
@@ -16,24 +15,17 @@ import {
   getUserFromSession
 } from "../../utils/firebase.utils";
 
-function* signInWithGoogleSaga() {
+function* signInWithGoogle() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
     const userRef = yield call(createOrGetUser, user, {
-      fullName: user.fullName
+      fullName: user.displayName
     });
     const userSnapshot = yield userRef.get();
     yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
   } catch (e) {
     yield put(signInFail(e.message));
   }
-}
-
-function* watchGoogleSignInSaga() {
-  yield takeLatest(
-    USER_ACTION_TYPES.GOOGLE_SIGN_IN_START,
-    signInWithGoogleSaga
-  );
 }
 
 function* signInWithEmail({ payload: { email, password } }) {
@@ -45,10 +37,6 @@ function* signInWithEmail({ payload: { email, password } }) {
   } catch (e) {
     yield put(signInFail(e.message));
   }
-}
-
-function* watchEmailSignInSaga() {
-  yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, signInWithEmail);
 }
 
 function* setUserFromSession() {
@@ -63,24 +51,13 @@ function* setUserFromSession() {
   }
 }
 
-function* watchgetUserFromSessionSaga() {
-  yield takeLatest(
-    USER_ACTION_TYPES.SIGN_IN_USER_FROM_SESSION,
-    setUserFromSession
-  );
-}
-
 function* signOutUser() {
   try {
     yield auth.signOut();
-    yield put(signOutSuccess());
+    yield put(logOutSuccess());
   } catch (e) {
-    yield put(signOutFail(e.message));
+    yield put(logOutFail(e.message));
   }
-}
-
-function* watchSignOutSaga() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_OUT_START, signOutUser);
 }
 
 function* signUpUser({
@@ -91,22 +68,41 @@ function* signUpUser({
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
     yield createOrGetUser(user, { fullName });
     yield put(signUpSuccess());
-    yield put(emailSignInStart({ email, password }));
+    yield put(startEmailSignIn({ email, password }));
   } catch (e) {
     yield put(signUpFail(e.message));
   }
 }
 
-function* watchSignUpSaga() {
+function* watchGoogleSignIn() {
+  yield takeLatest(USER_ACTION_TYPES.GOOGLE_SIGN_IN_START, signInWithGoogle);
+}
+
+function* watchEmailSignIn() {
+  yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, signInWithEmail);
+}
+
+function* watchSignOut() {
+  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_START, signOutUser);
+}
+
+function* watchgetUserFromSession() {
+  yield takeLatest(
+    USER_ACTION_TYPES.SIGN_IN_USER_FROM_SESSION,
+    setUserFromSession
+  );
+}
+
+function* watchSignUp() {
   yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, signUpUser);
 }
 
-export default function* userSaga() {
+export default function* userSagas() {
   yield all([
-    call(watchGoogleSignInSaga),
-    call(watchEmailSignInSaga),
-    call(watchgetUserFromSessionSaga),
-    call(watchSignOutSaga),
-    call(watchSignUpSaga)
+    call(watchGoogleSignIn),
+    call(watchEmailSignIn),
+    call(watchgetUserFromSession),
+    call(watchSignOut),
+    call(watchSignUp)
   ]);
 }

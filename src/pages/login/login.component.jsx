@@ -12,8 +12,8 @@ import {
 import FormInput from "../../components/form-input/form-input.component";
 
 import {
-  googleSignInStart,
-  emailSignInStart
+  startGoogleSignIn,
+  startEmailSignIn
 } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
 import { selectAuthError } from "../../redux/user/user.selectors";
@@ -78,9 +78,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  startGoogleSignIn: () => dispatch(googleSignInStart()),
+  startGoogleSignIn: () => dispatch(startGoogleSignIn()),
   startEmailSignIn: ({ email, password }) =>
-    dispatch(emailSignInStart({ email, password }))
+    dispatch(startEmailSignIn({ email, password }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

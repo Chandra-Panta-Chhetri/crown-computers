@@ -9,9 +9,9 @@ function* saveCart() {
 }
 
 function* watchSuccessfulLogOut() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_OUT_SUCCESS, saveCart);
+  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_SUCCESS, saveCart);
 }
 
-export default function* cartSaga() {
+export default function* cartSagas() {
   yield all([call(watchSuccessfulLogOut)]);
 }

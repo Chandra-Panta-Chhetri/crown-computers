@@ -6,7 +6,7 @@ import {
 } from "./collection.actions";
 import { getShopData } from "../../utils/firebase.utils";
 
-function* fetchCollectionSaga() {
+function* fetchCollection() {
   try {
     const productCollection = yield call(getShopData);
     yield put(collectionFetchSuccess(productCollection));
@@ -15,13 +15,13 @@ function* fetchCollectionSaga() {
   }
 }
 
-function* watchCollectionFetchSaga() {
+function* watchCollectionFetch() {
   yield takeLatest(
     COLLECTION_ACTION_TYPES.COLLECTION_FETCH_START,
-    fetchCollectionSaga
+    fetchCollection
   );
 }
 
-export default function* collectionSaga() {
-  yield all([call(watchCollectionFetchSaga)]);
+export default function* collectionSagas() {
+  yield all([call(watchCollectionFetch)]);
 }

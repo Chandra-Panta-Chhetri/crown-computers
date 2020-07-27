@@ -1,6 +1,6 @@
 import COLLECTION_ACTION_TYPES from "./collection.action.types";
 
-export const collectionFetchStarted = () => ({
+export const startCollectionFetch = () => ({
   type: COLLECTION_ACTION_TYPES.COLLECTION_FETCH_START
 });
 
@@ -10,6 +10,6 @@ export const collectionFetchSuccess = (productCollection) => ({
 });
 
 export const collectionFetchError = (errorMsg) => ({
-  type: COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAILED,
+  type: COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL,
   payload: errorMsg
 });

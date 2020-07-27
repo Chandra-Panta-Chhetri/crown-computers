@@ -11,12 +11,12 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { selectCurrentUser } from "./redux/user/user.selectors";
-import { getUserFromSession } from "./redux/user/user.actions";
+import { signInUserFromSession } from "./redux/user/user.actions";
 
 class App extends React.Component {
   componentDidMount() {
-    const { getUserFromSession } = this.props;
-    getUserFromSession();
+    const { signInUserFromSession } = this.props;
+    signInUserFromSession();
   }
 
   render() {
@@ -49,7 +49,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getUserFromSession: () => dispatch(getUserFromSession())
+  signInUserFromSession: () => dispatch(signInUserFromSession())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
