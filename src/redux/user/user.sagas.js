@@ -10,7 +10,6 @@ import {
   signOutFail,
   emailSignInStart
 } from "./user.actions";
-import { clearCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../utils/firebase.config";
 import {
   createOrGetUser,
@@ -75,7 +74,6 @@ function* signOutUser() {
   try {
     yield auth.signOut();
     yield put(signOutSuccess());
-    yield put(clearCart());
   } catch (e) {
     yield put(signOutFail(e.message));
   }
