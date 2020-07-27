@@ -2,9 +2,14 @@ import React from "react";
 import { CategoryCollectionContainer } from "./category-collection.styles";
 
 import CollectionItem from "../collection-item/collection-item.component";
+import withSpinner from "../with-spinner/with-spinner.component";
 
-import { selectCategoryCollection } from "../../redux/collection/collection.selectors";
+import {
+  selectCategoryCollection,
+  selectIsFetchingCollection
+} from "../../redux/collection/collection.selectors";
 import { connect } from "react-redux";
+import { compose } from "redux";
 
 const CategoryCollection = ({ collectionInCategory }) => (
   <CategoryCollectionContainer>
@@ -17,7 +22,11 @@ const CategoryCollection = ({ collectionInCategory }) => (
 const mapStateToProps = (state, ownProps) => ({
   collectionInCategory: selectCategoryCollection(
     ownProps.match.params.productCategory
-  )(state)
+  )(state),
+  isLoading: selectIsFetchingCollection(state)
 });
 
-export default connect(mapStateToProps)(CategoryCollection);
+export default compose(
+  connect(mapStateToProps),
+  withSpinner
+)(CategoryCollection);

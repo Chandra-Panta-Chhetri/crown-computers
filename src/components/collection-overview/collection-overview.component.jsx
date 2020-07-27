@@ -1,10 +1,15 @@
 import React from "react";
 
 import CollectionPreview from "../../components/collection-preview/collection-preview.component";
+import withSpinner from "../with-spinner/with-spinner.component";
 
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
-import { selectCollectionFromKeys } from "../../redux/collection/collection.selectors";
+import { compose } from "redux";
+import {
+  selectCollectionFromKeys,
+  selectIsFetchingCollection
+} from "../../redux/collection/collection.selectors";
 
 const CollectionOverview = ({ productCollection }) => (
   <div className="collection-overview">
@@ -15,7 +20,11 @@ const CollectionOverview = ({ productCollection }) => (
 );
 
 const mapStateToProps = createStructuredSelector({
-  productCollection: selectCollectionFromKeys
+  productCollection: selectCollectionFromKeys,
+  isLoading: selectIsFetchingCollection
 });
 
-export default connect(mapStateToProps)(CollectionOverview);
+export default compose(
+  connect(mapStateToProps),
+  withSpinner
+)(CollectionOverview);
