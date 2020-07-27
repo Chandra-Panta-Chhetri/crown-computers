@@ -4,11 +4,11 @@ import {
   collectionFetchError,
   collectionFetchSuccess
 } from "./collection.actions";
-import { getShopDataFromDb } from "../../utils/firebaseUtils";
+import { getShopData } from "../../utils/firebase.utils";
 
 function* fetchCollectionSaga() {
   try {
-    const productCollection = yield call(getShopDataFromDb);
+    const productCollection = yield call(getShopData);
     yield put(collectionFetchSuccess(productCollection));
   } catch (e) {
     yield put(collectionFetchError(e.message));
