@@ -13,7 +13,8 @@ import FormInput from "../../components/form-input/form-input.component";
 
 import {
   startGoogleSignIn,
-  startEmailSignIn
+  startEmailSignIn,
+  clearAuthError
 } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
 import { selectAuthError } from "../../redux/user/user.selectors";
@@ -23,6 +24,11 @@ class LogIn extends React.Component {
     email: "",
     password: ""
   };
+
+  componentDidMount() {
+    const { clearAuthError } = this.props;
+    clearAuthError();
+  }
 
   storeCredentials = (e) => this.setState({ [e.target.name]: e.target.value });
 
@@ -80,7 +86,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   startGoogleSignIn: () => dispatch(startGoogleSignIn()),
   startEmailSignIn: ({ email, password }) =>
-    dispatch(startEmailSignIn({ email, password }))
+    dispatch(startEmailSignIn({ email, password })),
+  clearAuthError: () => dispatch(clearAuthError())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

@@ -54,3 +54,7 @@ export const logOutFail = (errorMsg) => ({
   type: USER_ACTION_TYPES.LOG_OUT_FAIL,
   payload: errorMsg
 });
+
+export const clearAuthError = () => ({
+  type: USER_ACTION_TYPES.CLEAR_AUTH_ERRORS
+});

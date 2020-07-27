@@ -10,7 +10,7 @@ import {
 } from "./signup.styles";
 
 import FormInput from "../../components/form-input/form-input.component";
-import { signUpStart } from "../../redux/user/user.actions";
+import { signUpStart, clearAuthError } from "../../redux/user/user.actions";
 import { selectAuthError } from "../../redux/user/user.selectors";
 import { connect } from "react-redux";
 
@@ -21,6 +21,11 @@ class SignUp extends React.Component {
     password: "",
     confirmPassword: ""
   };
+
+  componentDidMount() {
+    const { clearAuthError } = this.props;
+    clearAuthError();
+  }
 
   handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
@@ -89,7 +94,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   signUpUser: ({ email, password, confirmPassword, fullName }) =>
-    dispatch(signUpStart({ email, password, confirmPassword, fullName }))
+    dispatch(signUpStart({ email, password, confirmPassword, fullName })),
+  clearAuthError: () => dispatch(clearAuthError())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

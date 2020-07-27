@@ -34,6 +34,11 @@ const userReducer = (prevState = INITIALSTATE, action) => {
         ...prevState,
         currentUser: null
       };
+    case USER_ACTION_TYPES.CLEAR_AUTH_ERRORS:
+      return {
+        ...prevState,
+        authErrorMsg: null
+      };
     default:
       return prevState;
   }
