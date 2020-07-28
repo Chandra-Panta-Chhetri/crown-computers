@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 
 import NavBar from "./components/navbar/navbar.component";
@@ -13,36 +13,32 @@ import { connect } from "react-redux";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { signInUserFromSession } from "./redux/user/user.actions";
 
-class App extends React.Component {
-  componentDidMount() {
-    const { signInUserFromSession } = this.props;
+const App = ({ signInUserFromSession, currentUser }) => {
+  useEffect(() => {
     signInUserFromSession();
-  }
+  }, [signInUserFromSession]);
 
-  render() {
-    const { currentUser } = this.props;
-    return (
-      <div className="App">
-        <NavBar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/product-collection" component={ProductCollection} />
-          <Route
-            exact
-            path="/login"
-            render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
-          />
-          <Route
-            exact
-            path="/signup"
-            render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
-          />
-          <Route exact path="/cart-summary" component={CartSummary} />
-        </Switch>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      <NavBar />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/product-collection" component={ProductCollection} />
+        <Route
+          exact
+          path="/login"
+          render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
+        />
+        <Route
+          exact
+          path="/signup"
+          render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
+        />
+        <Route exact path="/cart-summary" component={CartSummary} />
+      </Switch>
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => ({
   currentUser: selectCurrentUser(state)
