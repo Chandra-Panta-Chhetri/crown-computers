@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ProductCollectionContainer } from "./product-collection.styles";
 
 import CollectionOverview from "../../components/collection-overview/collection-overview.component";
@@ -9,25 +9,25 @@ import { connect } from "react-redux";
 import { startCollectionFetch } from "../../redux/collection/collection.actions";
 import { selectIsFetchingCollection } from "../../redux/collection/collection.selectors";
 
-class ProductCollection extends React.Component {
-  componentDidMount() {
-    const { startCollectionFetch } = this.props;
+const ProductCollection = ({
+  startCollectionFetch,
+  match,
+  isFetchingItems
+}) => {
+  useEffect(() => {
     startCollectionFetch();
-  }
+  }, [startCollectionFetch]);
 
-  render() {
-    const { match, isFetchingItems } = this.props;
-    return (
-      <ProductCollectionContainer spinnerActive={isFetchingItems}>
-        <Route exact path={`${match.path}`} component={CollectionOverview} />
-        <Route
-          path={`${match.path}/:productCategory`}
-          component={CategoryCollection}
-        />
-      </ProductCollectionContainer>
-    );
-  }
-}
+  return (
+    <ProductCollectionContainer spinnerActive={isFetchingItems}>
+      <Route exact path={`${match.path}`} component={CollectionOverview} />
+      <Route
+        path={`${match.path}/:productCategory`}
+        component={CategoryCollection}
+      />
+    </ProductCollectionContainer>
+  );
+};
 
 const mapStateToProps = (state) => ({
   isFetchingItems: selectIsFetchingCollection(state)

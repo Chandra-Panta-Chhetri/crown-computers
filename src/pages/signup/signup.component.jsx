@@ -45,33 +45,33 @@ const SignUp = ({ clearAuthError, signUpUser, signUpError }) => {
         <ErrorText>{signUpError}</ErrorText>
         <Form onSubmit={createNewUser}>
           <FormInput
-            type={"text"}
-            name={"fullName"}
-            label={"Full Name"}
+            type="text"
+            name="fullName"
+            label="Full Name"
             value={fullName}
             handler={handleChange}
             required
           />
           <FormInput
-            type={"email"}
-            name={"email"}
-            label={"Email"}
+            type="email"
+            name="email"
+            label="Email"
             value={email}
             handler={handleChange}
             required
           />
           <FormInput
-            type={"password"}
-            name={"password"}
-            label={"Password"}
+            type="password"
+            name="password"
+            label="Password"
             value={password}
             handler={handleChange}
             required
           />
           <FormInput
-            type={"password"}
-            name={"confirmPassword"}
-            label={"Confirm Password"}
+            type="password"
+            name="confirmPassword"
+            label="Confirm Password"
             value={confirmPassword}
             handler={handleChange}
             required

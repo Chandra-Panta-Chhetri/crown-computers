@@ -53,17 +53,17 @@ const LogIn = ({
         <ErrorText>{loginErrorMsg}</ErrorText>
         <Form onSubmit={loginUser}>
           <FormInput
-            type={"email"}
-            name={"email"}
-            label={"Email"}
+            type="email"
+            name="email"
+            label="Email"
             value={email}
             handler={storeCredentials}
             required
           />
           <FormInput
-            type={"password"}
-            name={"password"}
-            label={"Password"}
+            type="password"
+            name="password"
+            label="Password"
             value={password}
             handler={storeCredentials}
             required
