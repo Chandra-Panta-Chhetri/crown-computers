@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   SignUpContainer,
   FormContainer,
@@ -14,79 +14,78 @@ import { signUpStart, clearAuthError } from "../../redux/user/user.actions";
 import { selectAuthError } from "../../redux/user/user.selectors";
 import { connect } from "react-redux";
 
-class SignUp extends React.Component {
-  state = {
+const SignUp = ({ clearAuthError, signUpUser, signUpError }) => {
+  const [newUserInfo, setNewUserInfo] = useState({
     fullName: "",
     email: "",
     password: "",
     confirmPassword: ""
-  };
+  });
 
-  componentDidMount() {
-    const { clearAuthError } = this.props;
+  useEffect(() => {
     clearAuthError();
-  }
+  }, [clearAuthError]);
 
-  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+  const { fullName, email, password, confirmPassword } = newUserInfo;
 
-  createNewUser = (e) => {
-    e.preventDefault();
-    const { fullName, email, password, confirmPassword } = this.state;
-    const { signUpUser } = this.props;
-    signUpUser({ email, password, confirmPassword, fullName });
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setNewUserInfo({ ...newUserInfo, [name]: value });
   };
 
-  render() {
-    const { signUpError } = this.props;
-    return (
-      <SignUpContainer>
-        <FormContainer>
-          <FormTitle>SIGN UP</FormTitle>
-          <ErrorText>{signUpError}</ErrorText>
-          <Form onSubmit={this.createNewUser}>
-            <FormInput
-              type={"text"}
-              name={"fullName"}
-              label={"Full Name"}
-              value={this.state.fullName}
-              handler={this.handleChange}
-              required
-            />
-            <FormInput
-              type={"email"}
-              name={"email"}
-              label={"Email"}
-              value={this.state.email}
-              handler={this.handleChange}
-              required
-            />
-            <FormInput
-              type={"password"}
-              name={"password"}
-              label={"Password"}
-              value={this.state.password}
-              handler={this.handleChange}
-              required
-            />
-            <FormInput
-              type={"password"}
-              name={"confirmPassword"}
-              label={"Confirm Password"}
-              value={this.state.confirmPassword}
-              handler={this.handleChange}
-              required
-            />
-            <FormButton type="submit">Sign Up</FormButton>
-          </Form>
-          <h5>
-            Have an account?{" "}
-            <FormRedirectLink to="/login">Login now</FormRedirectLink>
-          </h5>
-        </FormContainer>
-      </SignUpContainer>
-    );
-  }
-}
+  const createNewUser = (e) => {
+    e.preventDefault();
+    signUpUser(newUserInfo);
+  };
+
+  return (
+    <SignUpContainer>
+      <FormContainer>
+        <FormTitle>SIGN UP</FormTitle>
+        <ErrorText>{signUpError}</ErrorText>
+        <Form onSubmit={createNewUser}>
+          <FormInput
+            type={"text"}
+            name={"fullName"}
+            label={"Full Name"}
+            value={fullName}
+            handler={handleChange}
+            required
+          />
+          <FormInput
+            type={"email"}
+            name={"email"}
+            label={"Email"}
+            value={email}
+            handler={handleChange}
+            required
+          />
+          <FormInput
+            type={"password"}
+            name={"password"}
+            label={"Password"}
+            value={password}
+            handler={handleChange}
+            required
+          />
+          <FormInput
+            type={"password"}
+            name={"confirmPassword"}
+            label={"Confirm Password"}
+            value={confirmPassword}
+            handler={handleChange}
+            required
+          />
+          <FormButton type="submit">Sign Up</FormButton>
+        </Form>
+        <h5>
+          Have an account?{" "}
+          <FormRedirectLink to="/login">Login now</FormRedirectLink>
+        </h5>
+      </FormContainer>
+    </SignUpContainer>
+  );
+};
 
 const mapStateToProps = (state) => ({
   signUpError: selectAuthError(state)
