@@ -1,13 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy } from "react";
 import { ProductCollectionContainer } from "./product-collection.styles";
 
-import CollectionOverview from "../../components/collection-overview/collection-overview.component";
-import CategoryCollection from "../../components/category-collection/category-collection.component";
 import { Route } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { startCollectionFetch } from "../../redux/collection/collection.actions";
 import { selectIsFetchingCollection } from "../../redux/collection/collection.selectors";
+
+const CollectionOverview = lazy(() =>
+  import("../../components/collection-overview/collection-overview.component")
+);
+
+const CategoryCollection = lazy(() =>
+  import("../../components/category-collection/category-collection.component")
+);
 
 const ProductCollection = ({
   startCollectionFetch,
