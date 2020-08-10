@@ -1,7 +1,8 @@
-import React, { useEffect, lazy } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { ProductCollectionContainer } from "./product-collection.styles";
 
 import { Route } from "react-router-dom";
+import Spinner from "../../components/spinner/spinner.component";
 
 import { connect } from "react-redux";
 import { startCollectionFetch } from "../../redux/collection/collection.actions";
@@ -26,11 +27,13 @@ const ProductCollection = ({
 
   return (
     <ProductCollectionContainer spinnerActive={isFetchingItems}>
-      <Route exact path={`${match.path}`} component={CollectionOverview} />
-      <Route
-        path={`${match.path}/:productCategory`}
-        component={CategoryCollection}
-      />
+      <Suspense fallback={<Spinner />}>
+        <Route exact path={`${match.path}`} component={CollectionOverview} />
+        <Route
+          path={`${match.path}/:productCategory`}
+          component={CategoryCollection}
+        />
+      </Suspense>
     </ProductCollectionContainer>
   );
 };

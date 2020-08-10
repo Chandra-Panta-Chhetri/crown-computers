@@ -28,7 +28,7 @@ const App = ({ signInUserFromSession, currentUser }) => {
     <div className="App">
       <NavBar />
       <Switch>
-        <Suspense fallback={Spinner}>
+        <Suspense fallback={<Spinner />}>
           <Route exact path="/" component={Home} />
           <Route path="/product-collection" component={ProductCollection} />
           <Route
