@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const compression = require("compression");
 
+app.use(compression());
 app.use(express.json());
 
 app.post("/checkout", async (req, res) => {
