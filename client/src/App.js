@@ -4,6 +4,7 @@ import "./App.css";
 import NavBar from "./components/navbar/navbar.component";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Spinner from "./components/spinner/spinner.component";
+import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 
 import { connect } from "react-redux";
 import { selectCurrentUser } from "./redux/user/user.selectors";
@@ -27,23 +28,25 @@ const App = ({ signInUserFromSession, currentUser }) => {
   return (
     <div className="App">
       <NavBar />
-      <Switch>
+      <ErrorBoundary>
         <Suspense fallback={<Spinner />}>
-          <Route exact path="/" component={Home} />
-          <Route path="/product-collection" component={ProductCollection} />
-          <Route
-            exact
-            path="/login"
-            render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
-          />
-          <Route
-            exact
-            path="/signup"
-            render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
-          />
-          <Route exact path="/cart-summary" component={CartSummary} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/product-collection" component={ProductCollection} />
+            <Route
+              exact
+              path="/login"
+              render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
+            />
+            <Route
+              exact
+              path="/signup"
+              render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
+            />
+            <Route exact path="/cart-summary" component={CartSummary} />
+          </Switch>
         </Suspense>
-      </Switch>
+      </ErrorBoundary>
     </div>
   );
 };
