@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from "react";
-import "./App.css";
+import { GlobalStyles } from "./global.styles";
 
 import NavBar from "./components/navbar/navbar.component";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -26,7 +26,8 @@ const App = ({ signInUserFromSession, currentUser }) => {
   }, [signInUserFromSession]);
 
   return (
-    <div className="App">
+    <div>
+      <GlobalStyles />
       <NavBar />
       <ErrorBoundary>
         <Suspense fallback={<Spinner />}>
