@@ -20,7 +20,7 @@ const NavBar = ({ currentUser, hidden, logOut }) => (
   <NavBarContainer>
     <LogoContainer>
       <Link to="/">
-        <i className="fas fa-crown fa-3x"></i>
+        <i className="fas fa-home fa-3x"></i>
       </Link>
     </LogoContainer>
     <NavBarItems>
