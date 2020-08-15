@@ -1,51 +1,37 @@
 {
-  "name": "crown-computers",
-  "homepage": "https://crown-computers.herokuapp.com/",
-  "version": "0.1.0",
-  "private": true,
+  "name": "crown-computers-server",
+  "version": "1.0.0",
+  "description": "backend server for crown-computers",
+  "main": "server.js",
   "engines": {
-    "npm": "6.13.4",
-    "node": "12.16.1"
-  },
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "firebase": "^7.16.0",
-    "node-sass": "^4.14.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-redux": "^7.2.0",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
-    "react-stripe-checkout": "^2.6.3",
-    "redux": "^4.0.5",
-    "redux-logger": "^3.0.6",
-    "redux-persist": "^6.0.0",
-    "reselect": "^4.0.0"
+    "node": "12.16.1",
+    "npm": "6.13.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node server.js",
+    "server": "env-cmd --rc-file ./.env-cmdrc -e dev nodemon server.js",
+    "dev": "concurrently \"npm:server\" \"npm:client\"",
+    "client": "npm run start_with_env --prefix client",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm i --prefix client && npm run build --prefix client"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chandra-Panta-Chhetri/crown-computers.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Chandra-Panta-Chhetri/crown-computers/issues"
+  },
+  "homepage": "https://github.com/Chandra-Panta-Chhetri/crown-computers#readme",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "express-sslify": "^1.2.0",
+    "stripe": "^8.80.0"
   },
   "devDependencies": {
+    "concurrently": "^5.2.0",
     "env-cmd": "^10.1.0"
   }
 }
