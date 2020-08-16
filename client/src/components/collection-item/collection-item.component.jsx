@@ -65,13 +65,12 @@ const CollectionItem = ({ item, dispatch }) => {
 
   const handleAddToCartClick = (item) => {
     dispatch(addToCart(item));
-    console.log(list);
     showToast("success", item.id);
   };
 
   return (
     <>
-      <Toast toastList={list} />
+      <Toast toastList={list} autoDelete />
       <CollectionItemContainer>
         <ItemImageContainer>
           <ItemImage src={imageUrl} alt={name} />

@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./toast.styles.scss";
 
-const Toast = ({ toastList, position = "bottom-left" }) => {
+const Toast = ({
+  toastList,
+  position = "bottom-left",
+  autoDelete,
+  dismissTime = 2000
+}) => {
   const [list, setList] = useState(toastList);
 
   useEffect(() => {
@@ -13,6 +18,18 @@ const Toast = ({ toastList, position = "bottom-left" }) => {
     list.splice(index, 1);
     setList([...list]);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (autoDelete && toastList.length && list.length) {
+        deleteToast(toastList[0].id);
+      }
+    }, dismissTime);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [toastList, autoDelete, dismissTime, list]);
 
   return (
     <div className={`notification-container ${position}`}>
