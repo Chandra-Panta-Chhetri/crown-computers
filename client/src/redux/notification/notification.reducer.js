@@ -1,5 +1,5 @@
 import NOTIFICATION_ACTION_TYPES from "./notification.action.types";
-import { removeNotificationById } from "./notification.utils";
+import { deleteNotificationById } from "./notification.utils";
 
 const INITIAL_STATE = {
   notifications: [],
@@ -21,9 +21,9 @@ const notificationReducer = (prevState = INITIAL_STATE, action) => {
     case NOTIFICATION_ACTION_TYPES.DELETE_NOTIFICATION:
       return {
         ...prevState,
-        notifications: removeNotificationById(
+        notifications: deleteNotificationById(
           prevState.notifications,
-          idOfNotification
+          action.payload
         )
       };
     default:

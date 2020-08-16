@@ -46,5 +46,5 @@ export const addWarningNotification = (id, message, title) => ({
 
 export const deleteNotificationById = (id) => ({
   type: NOTIFICATION_ACTION_TYPES.DELETE_NOTIFICATION,
-  paylod: id
+  payload: id
 });

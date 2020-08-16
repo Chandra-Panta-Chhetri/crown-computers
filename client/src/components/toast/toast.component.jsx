@@ -1,50 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./toast.styles.scss";
 
-const Toast = ({
-  toastList,
-  position = "bottom-left",
-  autoDelete,
-  dismissTime = 2000
-}) => {
-  const [list, setList] = useState(toastList);
+import { connect } from "react-redux";
+import { deleteNotificationById } from "../../redux/notification/notification.actions";
 
-  useEffect(() => {
-    setList(toastList);
-  }, [toastList, list]);
+const Toast = ({ toastList, position, deleteNotification }) => {
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (autoDelete && list.length) {
+  //       deleteToast(list[0].id);
+  //     }
+  //   }, dismissTime);
 
-  const deleteToast = (id) => {
-    const index = list.findIndex((e) => e.id === id);
-    list.splice(index, 1);
-    setList([...list]);
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (autoDelete && list.length) {
-        deleteToast(list[0].id);
-      }
-    }, dismissTime);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [autoDelete, dismissTime, list]);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [autoDelete, dismissTime, list]);
 
   return (
     <div className={`notification-container ${position}`}>
-      {list.map((toast, i) => (
+      {toastList.map((toast, i) => (
         <div
           key={i}
           className={`notification toast ${position}`}
           style={{ backgroundColor: toast.backgroundColor }}
         >
-          <button onClick={() => deleteToast(toast.id)}>X</button>
+          <button onClick={() => deleteNotification(toast.id)}>X</button>
           <div className="notification-body">
-            <div className="notification-image">{toast.icon}</div>
+            <div className="notification-image">
+              <i className={toast.iconClassName} />
+            </div>
             <div>
               <p className="notification-title">{toast.title}</p>
-              <p className="notification-message">{toast.description}</p>
+              <p className="notification-message">{toast.message}</p>
             </div>
           </div>
         </div>
@@ -53,4 +41,13 @@ const Toast = ({
   );
 };
 
-export default Toast;
+const mapStateToProps = (state) => ({
+  toastList: state.notification.notifications,
+  position: state.notification.position
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  deleteNotification: (id) => dispatch(deleteNotificationById(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Toast);

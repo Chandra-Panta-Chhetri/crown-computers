@@ -5,6 +5,7 @@ import NavBar from "./components/navbar/navbar.component";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Spinner from "./components/spinner/spinner.component";
 import ErrorBoundary from "./components/error-boundary/error-boundary.component";
+import Toast from "./components/toast/toast.component";
 
 import { connect } from "react-redux";
 import { selectCurrentUser } from "./redux/user/user.selectors";
@@ -48,6 +49,7 @@ const App = ({ signInUserFromSession, currentUser }) => {
           </Switch>
         </Suspense>
       </ErrorBoundary>
+      <Toast />
     </div>
   );
 };

@@ -1,5 +1,9 @@
-export const removeNotificationById = (notifications, idToDelete) => {
-  const index = list.findIndex((e) => e.id === id);
-  list.splice(index, 1);
-  setList([...list]);
+export const deleteNotificationById = (notifications, idToDelete) => {
+  console.log(notifications, idToDelete);
+
+  const newArr = notifications.filter(
+    (notification) => notification.id !== idToDelete
+  );
+  console.log(newArr);
+  return newArr;
 };
