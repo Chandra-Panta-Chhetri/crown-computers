@@ -1,6 +1,6 @@
 import NOTIFICATION_ACTION_TYPES from "./notification.action.types";
 
-export const addSuccessNotification = (id, message, title) => ({
+export const addSuccessNotification = (id, title, message) => ({
   type: NOTIFICATION_ACTION_TYPES.ADD_SUCCESS_NOTIFICATION,
   payload: {
     id,
@@ -11,7 +11,7 @@ export const addSuccessNotification = (id, message, title) => ({
   }
 });
 
-export const addErrorNotification = (id, message, title) => ({
+export const addErrorNotification = (id, title, message) => ({
   type: NOTIFICATION_ACTION_TYPES.ADD_ERROR_NOTIFICATION,
   payload: {
     id,
@@ -22,7 +22,7 @@ export const addErrorNotification = (id, message, title) => ({
   }
 });
 
-export const addInfoNotification = (id, message, title) => ({
+export const addInfoNotification = (id, title, message) => ({
   type: NOTIFICATION_ACTION_TYPES.ADD_INFO_NOTIFICATION,
   payload: {
     id,
@@ -33,7 +33,7 @@ export const addInfoNotification = (id, message, title) => ({
   }
 });
 
-export const addWarningNotification = (id, message, title) => ({
+export const addWarningNotification = (id, title, message) => ({
   type: NOTIFICATION_ACTION_TYPES.ADD_WARNING_NOTIFICATION,
   payload: {
     id,
