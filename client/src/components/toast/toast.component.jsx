@@ -21,15 +21,15 @@ const Toast = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (autoDelete && toastList.length && list.length) {
-        deleteToast(toastList[0].id);
+      if (autoDelete && list.length) {
+        deleteToast(list[0].id);
       }
     }, dismissTime);
 
     return () => {
       clearInterval(interval);
     };
-  }, [toastList, autoDelete, dismissTime, list]);
+  }, [autoDelete, dismissTime, list]);
 
   return (
     <div className={`notification-container ${position}`}>

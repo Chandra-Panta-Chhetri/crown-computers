@@ -12,13 +12,13 @@ import { signInUserFromSession } from "./redux/user/user.actions";
 
 const LogIn = lazy(() => import("./pages/login/login.component"));
 const SignUp = lazy(() => import("./pages/signup/signup.component"));
+const Home = lazy(() => import("./pages/home/home.component"));
 const CartSummary = lazy(() =>
   import("./pages/cart-summary/cart-summary.component")
 );
 const ProductCollection = lazy(() =>
   import("./pages/product-collection/product-collection.component")
 );
-const Home = lazy(() => import("./pages/home/home.component"));
 
 const App = ({ signInUserFromSession, currentUser }) => {
   useEffect(() => {

@@ -58,7 +58,7 @@ const CollectionItem = ({ item, dispatch }) => {
         };
         break;
       default:
-        setList([]);
+        return setList([]);
     }
     setList([...list, toastProperties]);
   };
