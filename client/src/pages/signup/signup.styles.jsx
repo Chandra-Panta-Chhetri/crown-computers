@@ -26,10 +26,6 @@ export const FormTitle = styled.h1`
   margin-bottom: 0;
 `;
 
-export const ErrorText = styled.h5`
-  color: red;
-`;
-
 export const FormButton = styled(Button)`
   width: 100%;
   margin-bottom: 15px;

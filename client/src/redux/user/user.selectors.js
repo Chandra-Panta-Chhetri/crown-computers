@@ -7,7 +7,7 @@ export const selectCurrentUser = createSelector(
   (user) => user.currentUser
 );
 
-export const selectAuthError = createSelector(
+export const selectIsLogginIn = createSelector(
   [selectUser],
-  (user) => user.authErrorMsg
+  (user) => user.isLoggingIn
 );

@@ -1,7 +1,6 @@
 import USER_ACTION_TYPES from "./user.action.types";
 const INITIALSTATE = {
   currentUser: null,
-  authErrorMsg: null,
   isLoggingIn: false
 };
 
@@ -18,7 +17,6 @@ const userReducer = (prevState = INITIALSTATE, action) => {
       return {
         ...prevState,
         currentUser: action.payload,
-        authErrorMsg: null,
         isLoggingIn: false
       };
     case USER_ACTION_TYPES.SIGN_IN_FAIL:
@@ -26,18 +24,12 @@ const userReducer = (prevState = INITIALSTATE, action) => {
     case USER_ACTION_TYPES.SIGN_UP_FAIL:
       return {
         ...prevState,
-        isLoggingIn: false,
-        authErrorMsg: action.payload
+        isLoggingIn: false
       };
     case USER_ACTION_TYPES.LOG_OUT_SUCCESS:
       return {
         ...prevState,
         currentUser: null
-      };
-    case USER_ACTION_TYPES.CLEAR_AUTH_ERRORS:
-      return {
-        ...prevState,
-        authErrorMsg: null
       };
     default:
       return prevState;

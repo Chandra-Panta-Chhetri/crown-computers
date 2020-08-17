@@ -1,30 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   SignUpContainer,
   FormContainer,
   Form,
   FormTitle,
-  ErrorText,
   FormButton,
   FormRedirectLink
 } from "./signup.styles";
 
 import FormInput from "../../components/form-input/form-input.component";
-import { signUpStart, clearAuthError } from "../../redux/user/user.actions";
-import { selectAuthError } from "../../redux/user/user.selectors";
+import { signUpStart } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
 
-const SignUp = ({ clearAuthError, signUpUser, signUpError }) => {
+const SignUp = ({ signUpUser }) => {
   const [newUserInfo, setNewUserInfo] = useState({
     fullName: "",
     email: "",
     password: "",
     confirmPassword: ""
   });
-
-  useEffect(() => {
-    clearAuthError();
-  }, [clearAuthError]);
 
   const { fullName, email, password, confirmPassword } = newUserInfo;
 
@@ -42,7 +36,6 @@ const SignUp = ({ clearAuthError, signUpUser, signUpError }) => {
     <SignUpContainer>
       <FormContainer>
         <FormTitle>SIGN UP</FormTitle>
-        <ErrorText>{signUpError}</ErrorText>
         <Form onSubmit={createNewUser}>
           <FormInput
             type="text"
@@ -87,14 +80,9 @@ const SignUp = ({ clearAuthError, signUpUser, signUpError }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  signUpError: selectAuthError(state)
-});
-
 const mapDispatchToProps = (dispatch) => ({
   signUpUser: ({ email, password, confirmPassword, fullName }) =>
-    dispatch(signUpStart({ email, password, confirmPassword, fullName })),
-  clearAuthError: () => dispatch(clearAuthError())
+    dispatch(signUpStart({ email, password, confirmPassword, fullName }))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(null, mapDispatchToProps)(SignUp);

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { LoginContainer } from "./login.styles";
 import {
   FormContainer,
   Form,
   FormTitle,
-  ErrorText,
   FormButton,
   FormRedirectLink
 } from "../signup/signup.styles";
@@ -13,26 +12,15 @@ import FormInput from "../../components/form-input/form-input.component";
 
 import {
   startGoogleSignIn,
-  startEmailSignIn,
-  clearAuthError
+  startEmailSignIn
 } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
-import { selectAuthError } from "../../redux/user/user.selectors";
 
-const LogIn = ({
-  startGoogleSignIn,
-  loginErrorMsg,
-  clearAuthError,
-  startEmailSignIn
-}) => {
+const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     password: ""
   });
-
-  useEffect(() => {
-    clearAuthError();
-  }, [clearAuthError]);
 
   const { email, password } = userCredentials;
 
@@ -50,7 +38,6 @@ const LogIn = ({
     <LoginContainer>
       <FormContainer>
         <FormTitle>LOGIN</FormTitle>
-        <ErrorText>{loginErrorMsg}</ErrorText>
         <Form onSubmit={loginUser}>
           <FormInput
             type="email"
@@ -83,15 +70,10 @@ const LogIn = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  loginErrorMsg: selectAuthError(state)
-});
-
 const mapDispatchToProps = (dispatch) => ({
   startGoogleSignIn: () => dispatch(startGoogleSignIn()),
   startEmailSignIn: ({ email, password }) =>
-    dispatch(startEmailSignIn({ email, password })),
-  clearAuthError: () => dispatch(clearAuthError())
+    dispatch(startEmailSignIn({ email, password }))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
+export default connect(null, mapDispatchToProps)(LogIn);
