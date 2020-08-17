@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./toast.styles.scss";
 
 import { connect } from "react-redux";
 import { deleteNotificationById } from "../../redux/notification/notification.actions";
 
-const Toast = ({ toastList, position, deleteNotification }) => {
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (autoDelete && list.length) {
-  //       deleteToast(list[0].id);
-  //     }
-  //   }, dismissTime);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [autoDelete, dismissTime, list]);
+const Toast = ({
+  toastList,
+  position,
+  deleteNotification,
+  autoDelete,
+  dismissTime
+}) => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (autoDelete && toastList.length) {
+        deleteNotification(toastList[0].id);
+      }
+    }, dismissTime);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [autoDelete, dismissTime, toastList, deleteNotification]);
 
   return (
     <div className={`notification-container ${position}`}>
@@ -42,8 +47,7 @@ const Toast = ({ toastList, position, deleteNotification }) => {
 };
 
 const mapStateToProps = (state) => ({
-  toastList: state.notification.notifications,
-  position: state.notification.position
+  toastList: state.notification.notifications
 });
 
 const mapDispatchToProps = (dispatch) => ({

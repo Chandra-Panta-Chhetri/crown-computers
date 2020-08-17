@@ -2,10 +2,7 @@ import NOTIFICATION_ACTION_TYPES from "./notification.action.types";
 import { deleteNotificationById } from "./notification.utils";
 
 const INITIAL_STATE = {
-  notifications: [],
-  autoDelete: true,
-  dismissTime: 2000,
-  position: "bottom-left"
+  notifications: []
 };
 
 const notificationReducer = (prevState = INITIAL_STATE, action) => {
