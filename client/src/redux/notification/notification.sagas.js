@@ -1,6 +1,10 @@
-import { takeEvery, call, all, put } from "redux-saga/effects";
+import { takeEvery, call, all, put, takeLatest } from "redux-saga/effects";
 import CART_ACTION_TYPES from "../cart/cart.action.types";
-import { addSuccessNotification } from "./notification.actions";
+import USER_ACTION_TYPES from "../user/user.action.types";
+import {
+  addSuccessNotification,
+  addErrorNotification
+} from "./notification.actions";
 
 function* showAddedToCartNotification({ payload: { id, name, price } }) {
   yield put(
@@ -11,6 +15,26 @@ function* showAddedToCartNotification({ payload: { id, name, price } }) {
 function* showRemovedFromCartNotification({ payload: { id, name, price } }) {
   yield put(
     addSuccessNotification(id, "Removed From Cart", `${name} ($${price} ea.)`)
+  );
+}
+
+function* showSignInFailNotification({ payload }) {
+  yield put(
+    addErrorNotification(
+      USER_ACTION_TYPES.SIGN_IN_FAIL,
+      "Sign In Failed",
+      `${payload}`
+    )
+  );
+}
+
+function* showSignInSuccessNotification({ payload: { fullName } }) {
+  yield put(
+    addSuccessNotification(
+      USER_ACTION_TYPES.SIGN_IN_SUCCESS,
+      "Sign In Success",
+      `Welcome back ${fullName.toUpperCase()}!`
+    )
   );
 }
 
@@ -25,6 +49,22 @@ function* watchRemoveFromCart() {
   );
 }
 
+function* watchSignInFail() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_IN_FAIL, showSignInFailNotification);
+}
+
+function* watchSignInSuccess() {
+  yield takeLatest(
+    USER_ACTION_TYPES.SIGN_IN_SUCCESS,
+    showSignInSuccessNotification
+  );
+}
+
 export default function* notificationSagas() {
-  yield all([call(watchAddToCart), call(watchRemoveFromCart)]);
+  yield all([
+    call(watchAddToCart),
+    call(watchRemoveFromCart),
+    call(watchSignInFail),
+    call(watchSignInSuccess)
+  ]);
 }
