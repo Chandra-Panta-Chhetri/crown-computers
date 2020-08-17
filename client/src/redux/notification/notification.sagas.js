@@ -18,12 +18,12 @@ function* showRemovedFromCartNotification({ payload: { id, name, price } }) {
   );
 }
 
-function* showSignInFailNotification({ payload }) {
+function* showSignInFailNotification({ payload: signInFailMsg }) {
   yield put(
     addErrorNotification(
       USER_ACTION_TYPES.SIGN_IN_FAIL,
       "Sign In Failed",
-      `${payload}`
+      `${signInFailMsg}`
     )
   );
 }
@@ -34,6 +34,16 @@ function* showSignInSuccessNotification({ payload: { fullName } }) {
       USER_ACTION_TYPES.SIGN_IN_SUCCESS,
       "Sign In Success",
       `Welcome back ${fullName.toUpperCase()}!`
+    )
+  );
+}
+
+function* showLogOutFailNotification({ payload: logOutFailMsg }) {
+  yield put(
+    addErrorNotification(
+      USER_ACTION_TYPES.LOG_OUT_FAIL,
+      "Log Out Failed",
+      `${logOutFailMsg}`
     )
   );
 }
@@ -60,11 +70,16 @@ function* watchSignInSuccess() {
   );
 }
 
+function* watchLogOutFail() {
+  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_FAIL, showLogOutFailNotification);
+}
+
 export default function* notificationSagas() {
   yield all([
     call(watchAddToCart),
     call(watchRemoveFromCart),
     call(watchSignInFail),
-    call(watchSignInSuccess)
+    call(watchSignInSuccess),
+    call(watchLogOutFail)
   ]);
 }

@@ -49,7 +49,7 @@ const App = ({ signInUserFromSession, currentUser }) => {
           </Switch>
         </Suspense>
       </ErrorBoundary>
-      <Toast autoDelete dismissTime={1500} />
+      <Toast autoDelete dismissTime={2500} />
     </div>
   );
 };
