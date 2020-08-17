@@ -23,7 +23,7 @@ function* showSignInFailNotification({ payload: signInFailMsg }) {
     addErrorNotification(
       USER_ACTION_TYPES.SIGN_IN_FAIL,
       "Sign In Failed",
-      `${signInFailMsg}`
+      signInFailMsg
     )
   );
 }
@@ -32,7 +32,7 @@ function* showSignInSuccessNotification({ payload: { fullName } }) {
   yield put(
     addSuccessNotification(
       USER_ACTION_TYPES.SIGN_IN_SUCCESS,
-      "Sign In Success",
+      "Sign In Successful",
       `Welcome back ${fullName.toUpperCase()}!`
     )
   );
@@ -43,7 +43,17 @@ function* showLogOutFailNotification({ payload: logOutFailMsg }) {
     addErrorNotification(
       USER_ACTION_TYPES.LOG_OUT_FAIL,
       "Log Out Failed",
-      `${logOutFailMsg}`
+      logOutFailMsg
+    )
+  );
+}
+
+function* showSignUpFailNotification({ payload: signUpFailMsg }) {
+  yield put(
+    addErrorNotification(
+      USER_ACTION_TYPES.SIGN_UP_FAIL,
+      "Sign Up Failed",
+      signUpFailMsg
     )
   );
 }
@@ -74,12 +84,17 @@ function* watchLogOutFail() {
   yield takeLatest(USER_ACTION_TYPES.LOG_OUT_FAIL, showLogOutFailNotification);
 }
 
+function* watchSignUpFail() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_FAIL, showSignUpFailNotification);
+}
+
 export default function* notificationSagas() {
   yield all([
     call(watchAddToCart),
     call(watchRemoveFromCart),
     call(watchSignInFail),
     call(watchSignInSuccess),
-    call(watchLogOutFail)
+    call(watchLogOutFail),
+    call(watchSignUpFail)
   ]);
 }
