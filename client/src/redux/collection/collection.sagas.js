@@ -11,7 +11,11 @@ function* fetchCollection() {
     const productCollection = yield call(getShopData);
     yield put(collectionFetchSuccess(productCollection));
   } catch (e) {
-    yield put(collectionFetchError(e.message));
+    yield put(
+      collectionFetchError(
+        "There was a problem with displaying the product collection."
+      )
+    );
   }
 }
 
