@@ -23,7 +23,7 @@ function* signInWithGoogle() {
     const userSnapshot = yield userRef.get();
     yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
   } catch (e) {
-    yield put(signInFail(e.message));
+    yield put(signInFail("Google sign in was unsuccessful"));
   }
 }
 
@@ -34,7 +34,7 @@ function* signInWithEmail({ payload: { email, password } }) {
     const userSnapshot = yield userRef.get();
     yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
   } catch (e) {
-    yield put(signInFail(e.message));
+    yield put(signInFail("Email or password incorrect"));
   }
 }
 
