@@ -18,11 +18,6 @@ export const selectCategoryCollection = (route) =>
     !productCollection[route] ? { items: [] } : productCollection[route]
   );
 
-export const selectFetchingErrorMsg = createSelector(
-  [selectCollection],
-  (collection) => collection.fetchingErrorMsg
-);
-
 export const selectIsFetchingCollection = createSelector(
   [selectCollection],
   (collection) => collection.isFetchingCollection
