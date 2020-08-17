@@ -3,6 +3,7 @@ import "./toast.styles.scss";
 
 import { connect } from "react-redux";
 import { deleteNotificationById } from "../../redux/notification/notification.actions";
+import { selectNotifications } from "../../redux/notification/notification.selectors";
 
 const Toast = ({
   toastList,
@@ -47,7 +48,7 @@ const Toast = ({
 };
 
 const mapStateToProps = (state) => ({
-  toastList: state.notification.notifications
+  toastList: selectNotifications(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
