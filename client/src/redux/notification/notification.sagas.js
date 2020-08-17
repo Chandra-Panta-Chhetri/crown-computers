@@ -1,6 +1,7 @@
 import { takeEvery, call, all, put, takeLatest } from "redux-saga/effects";
 import CART_ACTION_TYPES from "../cart/cart.action.types";
 import USER_ACTION_TYPES from "../user/user.action.types";
+import COLLECTION_ACTION_TYPES from "../collection/collection.action.types";
 import {
   addSuccessNotification,
   addErrorNotification
@@ -58,6 +59,16 @@ function* showSignUpFailNotification({ payload: signUpFailMsg }) {
   );
 }
 
+function* showCollectionFetchFailNotification({ payload: collectionFailMsg }) {
+  yield put(
+    addErrorNotification(
+      COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL,
+      "Fetching Collection Failed",
+      collectionFailMsg
+    )
+  );
+}
+
 function* watchAddToCart() {
   yield takeEvery(CART_ACTION_TYPES.ADD_TO_CART, showAddedToCartNotification);
 }
@@ -88,6 +99,13 @@ function* watchSignUpFail() {
   yield takeLatest(USER_ACTION_TYPES.SIGN_UP_FAIL, showSignUpFailNotification);
 }
 
+function* watchCollectionFetchFail() {
+  yield takeLatest(
+    COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL,
+    showCollectionFetchFailNotification
+  );
+}
+
 export default function* notificationSagas() {
   yield all([
     call(watchAddToCart),
@@ -95,6 +113,7 @@ export default function* notificationSagas() {
     call(watchSignInFail),
     call(watchSignInSuccess),
     call(watchLogOutFail),
-    call(watchSignUpFail)
+    call(watchSignUpFail),
+    call(watchCollectionFetchFail)
   ]);
 }
