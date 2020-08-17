@@ -42,10 +42,11 @@ function* signInWithEmail({ payload: { email, password } }) {
 function* setUserFromSession() {
   try {
     const user = yield getUserFromSession();
-    if (!user) throw Error("No user session found");
-    const userRef = yield call(createOrGetUser, user);
-    const userSnapshot = yield userRef.get();
-    yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
+    if (user) {
+      const userRef = yield call(createOrGetUser, user);
+      const userSnapshot = yield userRef.get();
+      yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
+    }
   } catch (e) {
     yield put(signInFail(e.message));
   }
