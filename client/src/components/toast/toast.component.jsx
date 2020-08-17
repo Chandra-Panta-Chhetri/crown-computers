@@ -1,5 +1,13 @@
 import React, { useEffect } from "react";
-import "./toast.styles.scss";
+import {
+  NotificationsContainer,
+  Notification,
+  NotificationBody,
+  NotificationImageContainer,
+  NotificationMessage,
+  NotificationTitle,
+  RemoveNotificationButton
+} from "./toast.styles";
 
 import { connect } from "react-redux";
 import { deleteNotificationById } from "../../redux/notification/notification.actions";
@@ -18,26 +26,26 @@ const Toast = ({ toastList, deleteNotification, autoDelete, dismissTime }) => {
   }, [autoDelete, dismissTime, toastList, deleteNotification]);
 
   return (
-    <div className="notification-container bottom-left">
+    <NotificationsContainer>
       {toastList.map((toast, i) => (
-        <div
-          key={i}
-          className="notification toast bottom-left"
-          style={{ backgroundColor: toast.backgroundColor }}
-        >
-          <button onClick={() => deleteNotification(toast.id)}>X</button>
-          <div className="notification-body">
-            <div className="notification-image">
+        <Notification key={i} backgroundColor={toast.backgroundColor}>
+          <RemoveNotificationButton
+            onClick={() => deleteNotification(toast.id)}
+          >
+            X
+          </RemoveNotificationButton>
+          <NotificationBody>
+            <NotificationImageContainer>
               <i className={toast.iconClassName} />
-            </div>
+            </NotificationImageContainer>
             <div>
-              <p className="notification-title">{toast.title}</p>
-              <p className="notification-message">{toast.message}</p>
+              <NotificationTitle>{toast.title}</NotificationTitle>
+              <NotificationMessage>{toast.message}</NotificationMessage>
             </div>
-          </div>
-        </div>
+          </NotificationBody>
+        </Notification>
       ))}
-    </div>
+    </NotificationsContainer>
   );
 };
 
