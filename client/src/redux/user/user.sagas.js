@@ -3,7 +3,6 @@ import USER_ACTION_TYPES from "./user.action.types";
 import {
   signInSuccess,
   signInFail,
-  signUpSuccess,
   signUpFail,
   logOutSuccess,
   logOutFail,
@@ -68,7 +67,6 @@ function* signUpUser({
     if (password !== confirmPassword) throw Error("Passwords must match");
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
     yield createOrGetUser(user, { fullName });
-    yield put(signUpSuccess());
     yield put(startEmailSignIn({ email, password }));
   } catch (e) {
     yield put(signUpFail(e.message));

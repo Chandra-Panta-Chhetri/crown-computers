@@ -33,10 +33,6 @@ export const signUpStart = ({
   payload: { email, password, fullName, confirmPassword }
 });
 
-export const signUpSuccess = () => ({
-  type: USER_ACTION_TYPES.SIGN_UP_SUCCESS
-});
-
 export const signUpFail = (errorMsg) => ({
   type: USER_ACTION_TYPES.SIGN_UP_FAIL,
   payload: errorMsg
