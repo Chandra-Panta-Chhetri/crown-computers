@@ -4,25 +4,14 @@ import { CartDropDownContainer, ViewCartButton } from "./cart-drop-down.styles";
 import CartItems from "../cart-items/cart-items.component";
 
 import { withRouter } from "react-router-dom";
-import { toggleCartVisibility } from "../../redux/cart/cart.actions";
-import { connect } from "react-redux";
 
-const CartDropDown = ({ history, toggleCartVisibility }) => (
+const CartDropDown = ({ history }) => (
   <CartDropDownContainer>
     <CartItems />
-    <ViewCartButton
-      onClick={() => {
-        history.push("/cart-summary");
-        toggleCartVisibility();
-      }}
-    >
+    <ViewCartButton onClick={() => history.push("/cart-summary")}>
       View Cart
     </ViewCartButton>
   </CartDropDownContainer>
 );
 
-const mapDispatchToProps = (dispatch) => ({
-  toggleCartVisibility: () => dispatch(toggleCartVisibility())
-});
-
-export default withRouter(connect(null, mapDispatchToProps)(CartDropDown));
+export default withRouter(CartDropDown);
