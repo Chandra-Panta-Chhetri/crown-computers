@@ -7,11 +7,16 @@ import Spinner from "./components/spinner/spinner.component";
 import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 import Toast from "./components/toast/toast.component";
 import PageNotFound from "./components/page-not-found/page-not-found.component";
+import withSpinner from "./components/with-spinner/with-spinner.component";
 
-import { selectCurrentUser } from "./redux/user/user.selectors";
+import {
+  selectCurrentUser,
+  selectIsLogginIn
+} from "./redux/user/user.selectors";
 import { signInUserFromSession } from "./redux/user/user.actions";
 import { selectCartVisibility } from "./redux/cart/cart.selectors";
 import { toggleCartVisibility } from "./redux/cart/cart.actions";
+import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
@@ -73,9 +78,10 @@ const App = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  currentUser: selectCurrentUser(state),
-  isCartHidden: selectCartVisibility(state)
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  isCartHidden: selectCartVisibility,
+  isLoading: selectIsLogginIn
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -85,5 +91,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withRouter
+  withRouter,
+  withSpinner
 )(App);
