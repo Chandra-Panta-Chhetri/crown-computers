@@ -6,6 +6,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Spinner from "./components/spinner/spinner.component";
 import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 import Toast from "./components/toast/toast.component";
+import PageNotFound from "./components/page-not-found/page-not-found.component";
 
 import { connect } from "react-redux";
 import { selectCurrentUser } from "./redux/user/user.selectors";
@@ -46,6 +47,7 @@ const App = ({ signInUserFromSession, currentUser }) => {
               render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
             />
             <Route exact path="/cart-summary" component={CartSummary} />
+            <Route component={PageNotFound} />
           </Switch>
         </Suspense>
       </ErrorBoundary>
