@@ -59,6 +59,12 @@ export const ItemInfoContainer = styled.div`
 `;
 
 export const ItemCategory = styled.h5`
+  cursor: pointer;
+  width: fit-content;
+
+  &:hover {
+    color: blue;
+  }
   ${secondaryStyles}
 `;
 

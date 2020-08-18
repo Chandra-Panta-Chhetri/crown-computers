@@ -11,10 +11,10 @@ import {
 
 import { connect } from "react-redux";
 import { addToCart } from "../../redux/cart/cart.actions";
+import { withRouter } from "react-router-dom";
 
-const CollectionItem = ({ item, addToCart }) => {
+const CollectionItem = ({ item, addToCart, history, match }) => {
   const { name, imageUrl, price, category } = item;
-
   return (
     <CollectionItemContainer>
       <ItemImageContainer>
@@ -24,7 +24,13 @@ const CollectionItem = ({ item, addToCart }) => {
         </AddToCartButton>
       </ItemImageContainer>
       <ItemInfoContainer>
-        <ItemCategory>{category.toUpperCase()}</ItemCategory>
+        <ItemCategory
+          onClick={() =>
+            history.push(`/product-collection/${encodeURI(category)}`)
+          }
+        >
+          {category.toUpperCase()}
+        </ItemCategory>
         <h4>{name}</h4>
         <ItemPrice>${price}</ItemPrice>
       </ItemInfoContainer>
@@ -36,4 +42,4 @@ const mapDispatchToProps = (dispatch) => ({
   addToCart: (item) => dispatch(addToCart(item))
 });
 
-export default connect(null, mapDispatchToProps)(CollectionItem);
+export default connect(null, mapDispatchToProps)(withRouter(CollectionItem));
