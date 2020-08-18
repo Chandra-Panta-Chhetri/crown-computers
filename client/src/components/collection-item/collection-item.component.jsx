@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { addToCart } from "../../redux/cart/cart.actions";
 import { withRouter } from "react-router-dom";
 
-const CollectionItem = ({ item, addToCart, history, match }) => {
+const CollectionItem = ({ item, addToCart, history }) => {
   const { name, imageUrl, price, category } = item;
   return (
     <CollectionItemContainer>
