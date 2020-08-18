@@ -7,113 +7,94 @@ import {
   addErrorNotification
 } from "./notification.actions";
 
-function* showAddedToCartNotification({ payload: { id, name, price } }) {
-  yield put(
-    addSuccessNotification(id, "Added To Cart", `${name} ($${price} ea.)`)
-  );
+function* createSuccessNotification(id, title, message) {
+  yield put(addSuccessNotification(id, title, message));
 }
 
-function* showRemovedFromCartNotification({ payload: { id, name, price } }) {
-  yield put(
-    addSuccessNotification(id, "Removed From Cart", `${name} ($${price} ea.)`)
-  );
+function* createErrorNotification(id, title, message) {
+  yield put(addErrorNotification(id, title, message));
 }
 
-function* showSignInFailNotification({ payload: signInFailMsg }) {
-  yield put(
-    addErrorNotification(
-      USER_ACTION_TYPES.SIGN_IN_FAIL,
-      "Sign In Failed",
-      signInFailMsg
-    )
-  );
+function* createNotificationByActionType(action) {
+  const { payload } = action;
+  switch (action.type) {
+    case CART_ACTION_TYPES.ADD_TO_CART:
+      return yield createSuccessNotification(
+        payload.id,
+        "Added To Cart",
+        `${payload.name} ($${payload.price} ea.)`
+      );
+    case CART_ACTION_TYPES.REMOVE_FROM_CART:
+      return yield createSuccessNotification(
+        payload.id,
+        "Removed From Cart",
+        payload.name
+      );
+    case USER_ACTION_TYPES.SIGN_IN_SUCCESS:
+      return yield createSuccessNotification(
+        action.type,
+        "Sign In Successful",
+        `Welcome back ${payload.fullName.toUpperCase()}!`
+      );
+    case COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL:
+      return yield createErrorNotification(
+        action.type,
+        "Collection Fetching Failed",
+        payload
+      );
+    case USER_ACTION_TYPES.SIGN_UP_FAIL:
+      return yield createErrorNotification(
+        action.type,
+        "Sign Up Failed",
+        payload
+      );
+    case USER_ACTION_TYPES.LOG_OUT_FAIL:
+      return yield createErrorNotification(
+        action.type,
+        "Log Out Failed",
+        payload
+      );
+    case USER_ACTION_TYPES.SIGN_IN_FAIL:
+      return yield createErrorNotification(
+        action.type,
+        "Sign In Failed",
+        payload
+      );
+    default:
+      break;
+  }
 }
 
-function* showSignInSuccessNotification({ payload: { fullName } }) {
-  yield put(
-    addSuccessNotification(
-      USER_ACTION_TYPES.SIGN_IN_SUCCESS,
-      "Sign In Successful",
-      `Welcome back ${fullName.toUpperCase()}!`
-    )
-  );
-}
-
-function* showLogOutFailNotification({ payload: logOutFailMsg }) {
-  yield put(
-    addErrorNotification(
-      USER_ACTION_TYPES.LOG_OUT_FAIL,
-      "Log Out Failed",
-      logOutFailMsg
-    )
-  );
-}
-
-function* showSignUpFailNotification({ payload: signUpFailMsg }) {
-  yield put(
-    addErrorNotification(
-      USER_ACTION_TYPES.SIGN_UP_FAIL,
-      "Sign Up Failed",
-      signUpFailMsg
-    )
-  );
-}
-
-function* showCollectionFetchFailNotification({ payload: collectionFailMsg }) {
-  yield put(
-    addErrorNotification(
-      COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL,
-      "Fetching Collection Failed",
-      collectionFailMsg
-    )
-  );
-}
-
-function* watchAddToCart() {
-  yield takeEvery(CART_ACTION_TYPES.ADD_TO_CART, showAddedToCartNotification);
-}
-
-function* watchRemoveFromCart() {
+function* watchCartModification() {
   yield takeEvery(
-    CART_ACTION_TYPES.REMOVE_FROM_CART,
-    showRemovedFromCartNotification
+    [CART_ACTION_TYPES.ADD_TO_CART, CART_ACTION_TYPES.REMOVE_FROM_CART],
+    createNotificationByActionType
   );
 }
 
-function* watchSignInFail() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_IN_FAIL, showSignInFailNotification);
-}
-
-function* watchSignInSuccess() {
+function* watchUserAuthChange() {
   yield takeLatest(
-    USER_ACTION_TYPES.SIGN_IN_SUCCESS,
-    showSignInSuccessNotification
+    [
+      USER_ACTION_TYPES.SIGN_IN_FAIL,
+      USER_ACTION_TYPES.SIGN_IN_SUCCESS,
+      USER_ACTION_TYPES.LOG_OUT_FAIL,
+      USER_ACTION_TYPES.SIGN_UP_FAIL
+    ],
+    createNotificationByActionType
   );
-}
-
-function* watchLogOutFail() {
-  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_FAIL, showLogOutFailNotification);
-}
-
-function* watchSignUpFail() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_FAIL, showSignUpFailNotification);
 }
 
 function* watchCollectionFetchFail() {
   yield takeLatest(
     COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL,
-    showCollectionFetchFailNotification
+    createNotificationByActionType
   );
 }
 
 export default function* notificationSagas() {
   yield all([
-    call(watchAddToCart),
-    call(watchRemoveFromCart),
-    call(watchSignInFail),
-    call(watchSignInSuccess),
-    call(watchLogOutFail),
-    call(watchSignUpFail),
+    call(watchCartModification),
+    call(watchUserAuthChange),
     call(watchCollectionFetchFail)
   ]);
 }
