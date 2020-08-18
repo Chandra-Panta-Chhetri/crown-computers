@@ -2,15 +2,18 @@ import React, { useEffect, lazy, Suspense } from "react";
 import { GlobalStyles } from "./global.styles";
 
 import NavBar from "./components/navbar/navbar.component";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import Spinner from "./components/spinner/spinner.component";
 import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 import Toast from "./components/toast/toast.component";
 import PageNotFound from "./components/page-not-found/page-not-found.component";
 
-import { connect } from "react-redux";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { signInUserFromSession } from "./redux/user/user.actions";
+import { selectCartVisibility } from "./redux/cart/cart.selectors";
+import { toggleCartVisibility } from "./redux/cart/cart.actions";
+import { connect } from "react-redux";
+import { compose } from "redux";
 
 const LogIn = lazy(() => import("./pages/login/login.component"));
 const SignUp = lazy(() => import("./pages/signup/signup.component"));
@@ -22,10 +25,24 @@ const ProductCollection = lazy(() =>
   import("./pages/product-collection/product-collection.component")
 );
 
-const App = ({ signInUserFromSession, currentUser }) => {
+const App = ({
+  signInUserFromSession,
+  currentUser,
+  history,
+  isCartHidden,
+  toggleCartVisibility
+}) => {
   useEffect(() => {
     signInUserFromSession();
   }, [signInUserFromSession]);
+
+  useEffect(() => {
+    return history.listen(() => {
+      if (!isCartHidden) {
+        toggleCartVisibility();
+      }
+    });
+  }, [history, toggleCartVisibility, isCartHidden]);
 
   return (
     <div>
@@ -57,11 +74,16 @@ const App = ({ signInUserFromSession, currentUser }) => {
 };
 
 const mapStateToProps = (state) => ({
-  currentUser: selectCurrentUser(state)
+  currentUser: selectCurrentUser(state),
+  isCartHidden: selectCartVisibility(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  signInUserFromSession: () => dispatch(signInUserFromSession())
+  signInUserFromSession: () => dispatch(signInUserFromSession()),
+  toggleCartVisibility: () => dispatch(toggleCartVisibility())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter
+)(App);
