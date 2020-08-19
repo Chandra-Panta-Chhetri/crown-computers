@@ -7,7 +7,6 @@ import Spinner from "./components/spinner/spinner.component";
 import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 import Toast from "./components/toast/toast.component";
 import PageNotFound from "./components/page-not-found/page-not-found.component";
-import withSpinner from "./components/with-spinner/with-spinner.component";
 
 import {
   selectCurrentUser,
@@ -35,7 +34,8 @@ const App = ({
   currentUser,
   history,
   isCartHidden,
-  toggleCartVisibility
+  toggleCartVisibility,
+  isLoading
 }) => {
   useEffect(() => {
     signInUserFromSession();
@@ -52,27 +52,39 @@ const App = ({
   return (
     <div>
       <GlobalStyles />
-      <NavBar />
-      <ErrorBoundary>
-        <Suspense fallback={<Spinner />}>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/product-collection" component={ProductCollection} />
-            <Route
-              exact
-              path="/login"
-              render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
-            />
-            <Route
-              exact
-              path="/signup"
-              render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
-            />
-            <Route exact path="/cart-summary" component={CartSummary} />
-            <Route component={PageNotFound} />
-          </Switch>
-        </Suspense>
-      </ErrorBoundary>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <NavBar />
+
+          <ErrorBoundary>
+            <Suspense fallback={<Spinner />}>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route
+                  path="/product-collection"
+                  component={ProductCollection}
+                />
+                <Route
+                  exact
+                  path="/login"
+                  render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
+                />
+                <Route
+                  exact
+                  path="/signup"
+                  render={() =>
+                    currentUser ? <Redirect to="/" /> : <SignUp />
+                  }
+                />
+                <Route exact path="/cart-summary" component={CartSummary} />
+                <Route component={PageNotFound} />
+              </Switch>
+            </Suspense>
+          </ErrorBoundary>
+        </>
+      )}
       <Toast autoDelete dismissTime={3000} />
     </div>
   );
@@ -91,6 +103,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withRouter,
-  withSpinner
+  withRouter
 )(App);
