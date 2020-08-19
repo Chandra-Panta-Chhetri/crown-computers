@@ -3,7 +3,6 @@ import React from "react";
 import CollectionPreview from "../../components/collection-preview/collection-preview.component";
 import withSpinner from "../with-spinner/with-spinner.component";
 
-import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import {
@@ -19,9 +18,10 @@ const CollectionOverview = ({ productCollection }) => (
   </div>
 );
 
-const mapStateToProps = createStructuredSelector({
-  productCollection: selectCollectionFromKeys,
-  isLoading: selectIsFetchingCollection
+const mapStateToProps = (state) => ({
+  productCollection: selectCollectionFromKeys(state),
+  isLoading: selectIsFetchingCollection(state),
+  loadingText: "Getting latest products"
 });
 
 export default compose(

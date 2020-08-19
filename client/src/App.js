@@ -6,7 +6,6 @@ import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import Spinner from "./components/spinner/spinner.component";
 import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 import Toast from "./components/toast/toast.component";
-import PageNotFound from "./components/page-not-found/page-not-found.component";
 
 import {
   selectCurrentUser,
@@ -27,6 +26,9 @@ const CartSummary = lazy(() =>
 );
 const ProductCollection = lazy(() =>
   import("./pages/product-collection/product-collection.component")
+);
+const PageNotFound = lazy(() =>
+  import("./components/page-not-found/page-not-found.component")
 );
 
 const App = ({
@@ -53,7 +55,7 @@ const App = ({
     <div>
       <GlobalStyles />
       {isLoggingIn ? (
-        <Spinner />
+        <Spinner loadingText="Signing In" />
       ) : (
         <>
           <NavBar />

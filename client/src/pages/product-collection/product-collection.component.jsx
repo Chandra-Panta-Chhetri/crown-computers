@@ -1,7 +1,7 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { ProductCollectionContainer } from "./product-collection.styles";
 
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Spinner from "../../components/spinner/spinner.component";
 
 import { connect } from "react-redux";
@@ -11,9 +11,11 @@ import { selectIsFetchingCollection } from "../../redux/collection/collection.se
 const CollectionOverview = lazy(() =>
   import("../../components/collection-overview/collection-overview.component")
 );
-
 const CategoryCollection = lazy(() =>
   import("../../components/category-collection/category-collection.component")
+);
+const PageNotFound = lazy(() =>
+  import("../../components/page-not-found/page-not-found.component")
 );
 
 const ProductCollection = ({
@@ -28,11 +30,15 @@ const ProductCollection = ({
   return (
     <ProductCollectionContainer spinnerActive={isFetchingItems}>
       <Suspense fallback={<Spinner />}>
-        <Route exact path={`${match.path}`} component={CollectionOverview} />
-        <Route
-          path={`${match.path}/:productCategory`}
-          component={CategoryCollection}
-        />
+        <Switch>
+          <Route exact path={`${match.path}`} component={CollectionOverview} />
+          <Route
+            exact
+            path={`${match.path}/:productCategory`}
+            component={CategoryCollection}
+          />
+          <Route component={PageNotFound} />
+        </Switch>
       </Suspense>
     </ProductCollectionContainer>
   );
