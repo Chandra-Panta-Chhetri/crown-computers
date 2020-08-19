@@ -1,9 +1,14 @@
 import React from "react";
-import { SpinnerContainer, SpinnerOverlay } from "./spinner.styles";
+import {
+  SpinnerContainer,
+  SpinnerOverlay,
+  SpinnerText
+} from "./spinner.styles";
 
-const Spinner = () => (
+const Spinner = ({ loadingText = "Loading" }) => (
   <SpinnerOverlay>
     <SpinnerContainer />
+    <SpinnerText>{loadingText}</SpinnerText>
   </SpinnerOverlay>
 );
 

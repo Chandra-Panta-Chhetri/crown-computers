@@ -35,7 +35,7 @@ const App = ({
   history,
   isCartHidden,
   toggleCartVisibility,
-  isLoading
+  isLoggingIn
 }) => {
   useEffect(() => {
     signInUserFromSession();
@@ -52,12 +52,11 @@ const App = ({
   return (
     <div>
       <GlobalStyles />
-      {isLoading ? (
+      {isLoggingIn ? (
         <Spinner />
       ) : (
         <>
           <NavBar />
-
           <ErrorBoundary>
             <Suspense fallback={<Spinner />}>
               <Switch>
@@ -93,7 +92,7 @@ const App = ({
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   isCartHidden: selectCartVisibility,
-  isLoading: selectIsLogginIn
+  isLoggingIn: selectIsLogginIn
 });
 
 const mapDispatchToProps = (dispatch) => ({
