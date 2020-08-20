@@ -9,7 +9,7 @@ export const categoriesFetchSuccess = (productCategories) => ({
   payload: productCategories
 });
 
-export const categoriesFetchError = (errorMsg) => ({
+export const categoriesFetchFail = (errorMsg) => ({
   type: DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_FAIL,
   payload: errorMsg
 });

@@ -1,7 +1,7 @@
 import COLLECTION_ACTION_TYPES from "./collection.action.types";
 import { takeLatest, put, call, all } from "redux-saga/effects";
 import {
-  collectionFetchError,
+  collectionFetchFail,
   collectionFetchSuccess
 } from "./collection.actions";
 import { getShopData } from "../../utils/firebase.utils";
@@ -12,8 +12,8 @@ function* fetchCollection() {
     yield put(collectionFetchSuccess(productCollection));
   } catch (e) {
     yield put(
-      collectionFetchError(
-        "There was a problem with displaying the product collection."
+      collectionFetchFail(
+        "There was a problem with displaying the product collection"
       )
     );
   }

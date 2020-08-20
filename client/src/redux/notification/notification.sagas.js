@@ -1,8 +1,8 @@
-import { takeEvery, call, all, put, takeLatest } from "redux-saga/effects";
 import CART_ACTION_TYPES from "../cart/cart.action.types";
 import USER_ACTION_TYPES from "../user/user.action.types";
 import COLLECTION_ACTION_TYPES from "../collection/collection.action.types";
 import DIRECTORY_ACTION_TYPES from "../directory/directory.action.types";
+import { takeEvery, call, all, put, takeLatest } from "redux-saga/effects";
 import {
   addSuccessNotification,
   addErrorNotification
@@ -72,44 +72,27 @@ function* createNotificationByActionType(action) {
   }
 }
 
-function* watchCartModification() {
+function* watchEveryActionDispatch() {
   yield takeEvery(
     [CART_ACTION_TYPES.ADD_TO_CART, CART_ACTION_TYPES.REMOVE_FROM_CART],
     createNotificationByActionType
   );
 }
 
-function* watchUserAuthChange() {
+function* watchLatestActionDispatch() {
   yield takeLatest(
     [
       USER_ACTION_TYPES.SIGN_IN_FAIL,
       USER_ACTION_TYPES.SIGN_IN_SUCCESS,
       USER_ACTION_TYPES.LOG_OUT_FAIL,
-      USER_ACTION_TYPES.SIGN_UP_FAIL
+      USER_ACTION_TYPES.SIGN_UP_FAIL,
+      COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL,
+      DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_FAIL
     ],
     createNotificationByActionType
   );
 }
 
-function* watchCollectionFetchFail() {
-  yield takeLatest(
-    COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL,
-    createNotificationByActionType
-  );
-}
-
-function* watchCategoriesFetchFail() {
-  yield takeLatest(
-    DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_FAIL,
-    createNotificationByActionType
-  );
-}
-
 export default function* notificationSagas() {
-  yield all([
-    call(watchCartModification),
-    call(watchUserAuthChange),
-    call(watchCollectionFetchFail),
-    call(watchCategoriesFetchFail)
-  ]);
+  yield all([call(watchEveryActionDispatch), call(watchLatestActionDispatch)]);
 }

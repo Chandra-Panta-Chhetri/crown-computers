@@ -1,6 +1,6 @@
 import { takeLatest, call, all, put } from "redux-saga/effects";
 import {
-  categoriesFetchError,
+  categoriesFetchFail,
   categoriesFetchSuccess
 } from "./directory.actions";
 import { getShopCategories } from "../../utils/firebase.utils";
@@ -12,8 +12,8 @@ function* fetchCategories() {
     yield put(categoriesFetchSuccess(productCategories));
   } catch (e) {
     yield put(
-      categoriesFetchError(
-        "There was a problem with displaying the product categories."
+      categoriesFetchFail(
+        "There was a problem with displaying the product categories"
       )
     );
   }

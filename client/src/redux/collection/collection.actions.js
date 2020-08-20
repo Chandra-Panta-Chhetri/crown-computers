@@ -9,7 +9,7 @@ export const collectionFetchSuccess = (productCollection) => ({
   payload: productCollection
 });
 
-export const collectionFetchError = (errorMsg) => ({
+export const collectionFetchFail = (errorMsg) => ({
   type: COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL,
   payload: errorMsg
 });
