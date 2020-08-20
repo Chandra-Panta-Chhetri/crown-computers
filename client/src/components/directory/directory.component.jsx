@@ -3,27 +3,39 @@ import { DirectoryContainer } from "./directory.styles";
 
 import CategoryDirectory from "../category-directory/category-directory.component";
 
-import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
-import { selectProductCategories } from "../../redux/directory/directory.selectors";
+import {
+  selectProductCategories,
+  selectIsFetchingCategories
+} from "../../redux/directory/directory.selectors";
 import { startCategoriesFetch } from "../../redux/directory/directory.actions";
+import Spinner from "../spinner/spinner.component";
 
-const Directory = ({ productCategories, getProductCategories }) => {
+const Directory = ({
+  productCategories,
+  getProductCategories,
+  isFetchingCategories
+}) => {
   useEffect(() => {
     getProductCategories();
   }, [getProductCategories]);
 
   return (
     <DirectoryContainer>
-      {productCategories.map(({ id, ...otherProductFields }) => (
-        <CategoryDirectory key={id} {...otherProductFields} />
-      ))}
+      {isFetchingCategories ? (
+        <Spinner loadingText="Getting latest categories" />
+      ) : (
+        productCategories.map(({ id, ...otherProductFields }) => (
+          <CategoryDirectory key={id} {...otherProductFields} />
+        ))
+      )}
     </DirectoryContainer>
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  productCategories: selectProductCategories
+const mapStateToProps = (state) => ({
+  productCategories: selectProductCategories(state),
+  isFetchingCategories: selectIsFetchingCategories(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
