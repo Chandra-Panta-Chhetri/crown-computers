@@ -2,6 +2,7 @@ import { takeEvery, call, all, put, takeLatest } from "redux-saga/effects";
 import CART_ACTION_TYPES from "../cart/cart.action.types";
 import USER_ACTION_TYPES from "../user/user.action.types";
 import COLLECTION_ACTION_TYPES from "../collection/collection.action.types";
+import DIRECTORY_ACTION_TYPES from "../directory/directory.action.types";
 import {
   addSuccessNotification,
   addErrorNotification
@@ -40,6 +41,12 @@ function* createNotificationByActionType(action) {
       return yield createErrorNotification(
         action.type,
         "Collection Fetching Failed",
+        payload
+      );
+    case DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_FAIL:
+      return yield createErrorNotification(
+        action.type,
+        "Categories Fetching Failed",
         payload
       );
     case USER_ACTION_TYPES.SIGN_UP_FAIL:
@@ -91,10 +98,18 @@ function* watchCollectionFetchFail() {
   );
 }
 
+function* watchCategoriesFetchFail() {
+  yield takeLatest(
+    DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_FAIL,
+    createNotificationByActionType
+  );
+}
+
 export default function* notificationSagas() {
   yield all([
     call(watchCartModification),
     call(watchUserAuthChange),
-    call(watchCollectionFetchFail)
+    call(watchCollectionFetchFail),
+    call(watchCategoriesFetchFail)
   ]);
 }
