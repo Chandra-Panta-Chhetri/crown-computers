@@ -14,14 +14,18 @@ import {
   getUserFromSession
 } from "../../utils/firebase.utils";
 
+function* setUserFromSnapShot(userSnapShot, additionalData) {
+  const userRef = yield call(createOrGetUser, userSnapShot, additionalData);
+  const userSnapshot = yield userRef.get();
+  yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
+}
+
 function* signInWithGoogle() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
-    const userRef = yield call(createOrGetUser, user, {
+    yield setUserFromSnapShot(user, {
       fullName: user.displayName
     });
-    const userSnapshot = yield userRef.get();
-    yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
   } catch (e) {
     yield put(signInFail("Google sign in was unsuccessful"));
   }
@@ -30,9 +34,7 @@ function* signInWithGoogle() {
 function* signInWithEmail({ payload: { email, password } }) {
   try {
     const { user } = yield auth.signInWithEmailAndPassword(email, password);
-    const userRef = yield call(createOrGetUser, user);
-    const userSnapshot = yield userRef.get();
-    yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
+    yield setUserFromSnapShot(user);
   } catch (e) {
     yield put(signInFail("Email or password incorrect"));
   }
@@ -42,9 +44,7 @@ function* setUserFromSession() {
   try {
     const user = yield getUserFromSession();
     if (user) {
-      const userRef = yield call(createOrGetUser, user);
-      const userSnapshot = yield userRef.get();
-      yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
+      yield setUserFromSnapShot(user);
     }
   } catch (e) {
     yield put(signInFail(e.message));

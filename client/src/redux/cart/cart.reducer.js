@@ -34,6 +34,11 @@ const cartReducer = (prevState = INITIALSTATE, action) => {
         ...prevState,
         shoppingCart: []
       };
+    case CART_ACTION_TYPES.RESTORE_CART_FROM_DB:
+      return {
+        ...prevState,
+        shoppingCart: action.payload
+      };
     default:
       return prevState;
   }

@@ -22,3 +22,8 @@ export const changeQuantity = (item, newQuantity) => ({
 export const clearCart = () => ({
   type: CART_ACTION_TYPES.CLEAR_CART
 });
+
+export const restoreCartFromDB = (cart) => ({
+  type: CART_ACTION_TYPES.RESTORE_CART_FROM_DB,
+  payload: cart
+});

@@ -8,6 +8,8 @@ export const getUserFromSession = () =>
     }, reject);
   });
 
+export const saveCartToDb = async (userId, cart) => {};
+
 export const createOrGetUser = async (user, extraData) => {
   const userRef = firestore.doc(`users/${user.uid}`);
   const snapShot = await userRef.get();
@@ -16,6 +18,7 @@ export const createOrGetUser = async (user, extraData) => {
       await userRef.set({
         email: user.email,
         createdAt: new Date(),
+        cart: [],
         ...extraData
       });
     } catch (e) {
