@@ -2,7 +2,8 @@ import NOTIFICATION_ACTION_TYPES from "./notification.action.types";
 import { deleteNotificationById } from "./notification.utils";
 
 const INITIAL_STATE = {
-  notifications: []
+  notifications: [],
+  id: 0
 };
 
 const notificationReducer = (prevState = INITIAL_STATE, action) => {
@@ -13,7 +14,8 @@ const notificationReducer = (prevState = INITIAL_STATE, action) => {
     case NOTIFICATION_ACTION_TYPES.ADD_WARNING_NOTIFICATION:
       return {
         ...prevState,
-        notifications: [...prevState.notifications, action.payload]
+        notifications: [...prevState.notifications, action.payload],
+        id: prevState.id + 1
       };
     case NOTIFICATION_ACTION_TYPES.DELETE_NOTIFICATION:
       return {
