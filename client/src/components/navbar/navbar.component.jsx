@@ -9,7 +9,6 @@ import {
 import CartDropDown from "../cart-drop-down/cart-drop-down.component";
 import CartIcon from "../cart-icon/cart-icon.component";
 
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { selectCartVisibility } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
@@ -19,11 +18,10 @@ import { logOutStart } from "../../redux/user/user.actions";
 const NavBar = ({ currentUser, hidden, logOut }) => (
   <NavBarContainer>
     <LogoContainer>
-      <Link to="/">
-        <i className="fas fa-home fa-3x"></i>
-      </Link>
+      <i className="fas fa-plug fa-3x"></i>
     </LogoContainer>
     <NavBarItems>
+      <NavItem to="/">Home</NavItem>
       <NavItem to="/product-collection">Collection</NavItem>
       {!currentUser ? (
         <NavItem to="/login">Log In</NavItem>
