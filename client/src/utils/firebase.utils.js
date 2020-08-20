@@ -25,6 +25,15 @@ export const createOrGetUser = async (user, extraData) => {
   return userRef;
 };
 
+export const getShopCategories = async () => {
+  const categoriesCollectionRef = firestore.collection("product_categories");
+  const categoriesSnapShot = await categoriesCollectionRef.get();
+  return categoriesSnapShot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+};
+
 export const getShopData = async () => {
   const shopData = {};
   const categoriesCollectionRef = firestore.collection("product_categories");

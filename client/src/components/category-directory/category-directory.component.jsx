@@ -9,13 +9,13 @@ import {
 
 import { withRouter } from "react-router-dom";
 
-const CategoryDirectory = ({ label, imageUrl, history, routePath }) => (
+const CategoryDirectory = ({ category, imageUrl, history }) => (
   <CategoryDirectoryContainer
-    onClick={() => history.push(`/product-collection/${routePath}`)}
+    onClick={() => history.push(`/product-collection/${encodeURI(category)}`)}
   >
     <DirectoryImage imageUrl={imageUrl}></DirectoryImage>
     <DirectoryContent>
-      <DirectoryTitle>{label.toUpperCase()}</DirectoryTitle>
+      <DirectoryTitle>{category.toUpperCase()}</DirectoryTitle>
       <DirectorySubtitle>SHOP NOW</DirectorySubtitle>
     </DirectoryContent>
   </CategoryDirectoryContainer>
