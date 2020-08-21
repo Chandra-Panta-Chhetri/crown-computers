@@ -13,6 +13,34 @@ export const createNewCart = async (userRef) => {
   await cartCollectionRef.add({ products: [], isWishlist: false, userRef });
 };
 
+export const getUserCart = async (userRef) => {
+  const cartCollectionRef = firestore.collection("carts");
+  const getUserCartQuery = cartCollectionRef
+    .where("userRef", "==", userRef)
+    .where("isWishlist", "==", false);
+  const userCartSnapshot = await getUserCartQuery.get();
+  const cart = userCartSnapshot.docs[0].data().products;
+  const populatedCart = await populateCart(cart);
+  return populatedCart;
+};
+
+export const populateCart = async (cart) => {
+  const populatedCart = [];
+  for (let cartItemRef of cart) {
+    let cartItemSnapshot = await cartItemRef.get();
+    let { productRef, quantity } = cartItemSnapshot.data();
+    let productSnapshot = await productRef.get();
+    let product = productSnapshot.data();
+    delete product.productCategoryRef;
+    populatedCart.push({
+      id: productSnapshot.id,
+      ...product,
+      quantity
+    });
+  }
+  return populatedCart;
+};
+
 export const saveCartToDb = async (currentUser, cart) => {};
 
 export const createOrGetUser = async (user, extraData) => {

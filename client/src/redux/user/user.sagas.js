@@ -12,13 +12,16 @@ import { restoreCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../utils/firebase.config";
 import {
   createOrGetUser,
-  getUserFromSession
+  getUserFromSession,
+  getUserCart
 } from "../../utils/firebase.utils";
 
 function* setUserFromSnapShot(userSnapShot, additionalData) {
   const userRef = yield call(createOrGetUser, userSnapShot, additionalData);
   const userSnapshot = yield userRef.get();
   yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
+  const userCart = yield call(getUserCart, userRef);
+  yield put(restoreCart(userCart));
 }
 
 function* signInWithGoogle() {
