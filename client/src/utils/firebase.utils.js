@@ -8,7 +8,7 @@ export const getUserFromSession = () =>
     }, reject);
   });
 
-export const saveCartToDb = async (userId, cart) => {};
+export const saveCartToDb = async (currentUser, cart) => {};
 
 export const createOrGetUser = async (user, extraData) => {
   const userRef = firestore.doc(`users/${user.uid}`);

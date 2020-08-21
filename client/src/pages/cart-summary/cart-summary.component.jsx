@@ -6,7 +6,7 @@ import OrderSummary from "../../components/order-summary/order-summary.component
 
 import { connect } from "react-redux";
 import {
-  selectCartItems,
+  selectShoppingCart,
   selectCartTotal
 } from "../../redux/cart/cart.selectors";
 import { createStructuredSelector } from "reselect";
@@ -19,7 +19,7 @@ const CartSummary = ({ cartItems, cartTotal }) => (
 );
 
 const mapStateToProps = createStructuredSelector({
-  cartItems: selectCartItems,
+  cartItems: selectShoppingCart,
   cartTotal: selectCartTotal
 });
 

@@ -5,7 +5,7 @@ import CartItem from "../cart-item/cart-item.component";
 
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { selectCartItems } from "../../redux/cart/cart.selectors";
+import { selectShoppingCart } from "../../redux/cart/cart.selectors";
 
 const CartItems = ({ shoppingCart }) => (
   <CartItemsContainer>
@@ -18,7 +18,7 @@ const CartItems = ({ shoppingCart }) => (
 );
 
 const mapStateToProps = createStructuredSelector({
-  shoppingCart: selectCartItems
+  shoppingCart: selectShoppingCart
 });
 
 export default connect(mapStateToProps)(CartItems);

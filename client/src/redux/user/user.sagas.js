@@ -8,6 +8,7 @@ import {
   logOutFail,
   startEmailSignIn
 } from "./user.actions";
+import { restoreCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../utils/firebase.config";
 import {
   createOrGetUser,

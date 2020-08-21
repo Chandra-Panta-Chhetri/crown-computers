@@ -23,7 +23,7 @@ export const clearCart = () => ({
   type: CART_ACTION_TYPES.CLEAR_CART
 });
 
-export const restoreCartFromDB = (cart) => ({
+export const restoreCart = (cart) => ({
   type: CART_ACTION_TYPES.RESTORE_CART_FROM_DB,
   payload: cart
 });
