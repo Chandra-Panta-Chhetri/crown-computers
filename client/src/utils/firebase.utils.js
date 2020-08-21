@@ -8,22 +8,23 @@ export const getUserFromSession = () =>
     }, reject);
   });
 
+export const createNewCart = async (userRef) => {
+  const cartCollectionRef = firestore.collection("carts");
+  await cartCollectionRef.add({ products: [], isWishlist: false, userRef });
+};
+
 export const saveCartToDb = async (currentUser, cart) => {};
 
 export const createOrGetUser = async (user, extraData) => {
   const userRef = firestore.doc(`users/${user.uid}`);
   const snapShot = await userRef.get();
   if (!snapShot.exists) {
-    try {
-      await userRef.set({
-        email: user.email,
-        createdAt: new Date(),
-        cart: [],
-        ...extraData
-      });
-    } catch (e) {
-      console.log("Couldnt create user");
-    }
+    await userRef.set({
+      email: user.email,
+      createdAt: new Date(),
+      ...extraData
+    });
+    await createNewCart(userRef);
   }
   return userRef;
 };
