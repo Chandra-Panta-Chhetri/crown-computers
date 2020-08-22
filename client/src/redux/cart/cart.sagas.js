@@ -18,19 +18,18 @@ import { addToCart, changeItemQuantity, removeFromCart } from "./cart.utils";
 function* handleCartChange(action) {
   const { payload } = action;
   const cart = yield select(selectShoppingCart);
+  const currentUser = yield select(selectCurrentUser);
   let updatedCart;
   switch (action.type) {
     case CART_ACTION_TYPES.START_ADD_TO_CART:
-      console.log(cart, payload, "in add");
-      updatedCart = yield call(addToCart, cart, payload);
-      console.log(updatedCart);
+      updatedCart = yield call(addToCart, cart, payload, !!currentUser);
       yield createSuccessNotification(
         "Added To Cart",
         `${payload.name} ($${payload.price} ea.)`
       );
       break;
     case CART_ACTION_TYPES.START_REMOVE_FROM_CART:
-      updatedCart = yield call(removeFromCart, cart, payload);
+      updatedCart = yield call(removeFromCart, cart, payload, !!currentUser);
       yield createSuccessNotification("Removed From Cart", payload.name);
       break;
     case CART_ACTION_TYPES.START_CHANGE_QUANTITY:
@@ -42,7 +41,9 @@ function* handleCartChange(action) {
 
 function* persistCart({ payload: cart }) {
   const currentUser = yield select(selectCurrentUser);
-  yield saveCartToDb(currentUser, cart);
+  if (currentUser) {
+    yield saveCartToDb(currentUser, cart);
+  }
 }
 
 function* handleLogOutSuccess() {
