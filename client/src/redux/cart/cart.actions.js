@@ -5,25 +5,45 @@ export const toggleCartVisibility = () => ({
 });
 
 export const addToCart = (item) => ({
-  type: CART_ACTION_TYPES.ADD_TO_CART,
+  type: CART_ACTION_TYPES.START_ADD_TO_CART,
   payload: item
 });
 
 export const removeFromCart = (item) => ({
-  type: CART_ACTION_TYPES.REMOVE_FROM_CART,
+  type: CART_ACTION_TYPES.START_REMOVE_FROM_CART,
   payload: item
 });
 
 export const changeQuantity = (item, newQuantity) => ({
-  type: CART_ACTION_TYPES.CHANGE_QUANTITY,
+  type: CART_ACTION_TYPES.START_CHANGE_QUANTITY,
   payload: { item, newQuantity }
+});
+
+// export const addToCart = (item) => ({
+//   type: CART_ACTION_TYPES.ADD_TO_CART,
+//   payload: item
+// });
+
+// export const removeFromCart = (item) => ({
+//   type: CART_ACTION_TYPES.REMOVE_FROM_CART,
+//   payload: item
+// });
+
+// export const changeQuantity = (item, newQuantity) => ({
+//   type: CART_ACTION_TYPES.CHANGE_QUANTITY,
+//   payload: { item, newQuantity }
+// });
+
+export const updateCart = (cart) => ({
+  type: CART_ACTION_TYPES.UPDATE_CART,
+  payload: cart
 });
 
 export const clearCart = () => ({
   type: CART_ACTION_TYPES.CLEAR_CART
 });
 
-export const restoreCart = (cart) => ({
-  type: CART_ACTION_TYPES.RESTORE_CART_FROM_DB,
-  payload: cart
+export const restoreCart = (cart, cartId) => ({
+  type: CART_ACTION_TYPES.RESTORE_CART,
+  payload: { cart, cartId }
 });

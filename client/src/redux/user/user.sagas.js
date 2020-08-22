@@ -16,12 +16,12 @@ import {
   getUserCart
 } from "../../utils/firebase.utils";
 
-function* setUserFromSnapShot(userSnapShot, additionalData) {
-  const userRef = yield call(createOrGetUser, userSnapShot, additionalData);
+function* setUserFromSnapShot(userAuth, additionalData) {
+  const userRef = yield call(createOrGetUser, userAuth, additionalData);
   const userSnapshot = yield userRef.get();
+  const { cart, cartId } = yield call(getUserCart, userRef);
+  yield put(restoreCart(cart, cartId));
   yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
-  const userCart = yield call(getUserCart, userRef);
-  yield put(restoreCart(userCart));
 }
 
 function* signInWithGoogle() {
@@ -51,6 +51,7 @@ function* setUserFromSession() {
       yield setUserFromSnapShot(user);
     }
   } catch (e) {
+    console.log(e);
     yield put(signInFail(e.message));
   }
 }

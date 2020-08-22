@@ -1,4 +1,7 @@
 import { firestore, auth } from "./firebase.config";
+const categoriesCollectionRef = firestore.collection("product_categories");
+const productCollectionRef = firestore.collection("products");
+const cartCollectionRef = firestore.collection("carts");
 
 export const getUserFromSession = () =>
   new Promise((resolve, reject) => {
@@ -9,19 +12,26 @@ export const getUserFromSession = () =>
   });
 
 export const createNewCart = async (userRef) => {
-  const cartCollectionRef = firestore.collection("carts");
-  await cartCollectionRef.add({ products: [], isWishlist: false, userRef });
+  return await cartCollectionRef.add({
+    products: [],
+    isWishlist: false,
+    userRef
+  });
 };
 
-export const getUserCart = async (userRef) => {
-  const cartCollectionRef = firestore.collection("carts");
+export const getUserCartSnapshot = async (userRef) => {
   const getUserCartQuery = cartCollectionRef
     .where("userRef", "==", userRef)
     .where("isWishlist", "==", false);
   const userCartSnapshot = await getUserCartQuery.get();
-  const cart = userCartSnapshot.docs[0].data().products;
+  return !userCartSnapshot.empty ? userCartSnapshot.docs[0] : null;
+};
+
+export const getUserCart = async (userRef) => {
+  const cartSnapshot = await getUserCartSnapshot(userRef);
+  const cart = cartSnapshot.data().products;
   const populatedCart = await populateCart(cart);
-  return populatedCart;
+  return { cart: populatedCart, cartId: cartSnapshot.id };
 };
 
 export const populateCart = async (cart) => {
@@ -34,6 +44,7 @@ export const populateCart = async (cart) => {
     delete product.productCategoryRef;
     populatedCart.push({
       id: productSnapshot.id,
+      cartItemId: cartItemSnapshot.id,
       ...product,
       quantity
     });
@@ -41,24 +52,45 @@ export const populateCart = async (cart) => {
   return populatedCart;
 };
 
-export const saveCartToDb = async (currentUser, cart) => {};
+export const saveCartToDb = async (currentUser, cart) => {
+  const userRef = firestore.doc(`users/${currentUser.id}`);
+  const { id: cartId } = await getUserCartSnapshot(userRef);
+  const cartRef = firestore.doc(`carts/${cartId}`);
+  const depopulatedCart = await depopulateCart(cart);
+  await cartRef.update({ products: depopulatedCart });
+};
 
-export const createOrGetUser = async (user, extraData) => {
-  const userRef = firestore.doc(`users/${user.uid}`);
-  const snapShot = await userRef.get();
-  if (!snapShot.exists) {
-    await userRef.set({
-      email: user.email,
+const depopulateCart = async (cart) => {
+  const depopulateCart = [];
+  for (let cartItem of cart) {
+    let cartItemRef = firestore.doc(`cart_items/${cartItem.cartItemId}`);
+    let productRef = firestore.doc(`products/${cartItem.id}`);
+    let quantity = cartItem.quantity;
+    await cartItemRef.update({ productRef, quantity });
+    depopulateCart.push(cartItemRef);
+  }
+  return depopulateCart;
+};
+
+export const setUpNewUser = async (userRef, newUserInfo) => {
+  await userRef.set(newUserInfo);
+  return await createNewCart(userRef);
+};
+
+export const createOrGetUser = async (userAuth, extraData) => {
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  const userSnapshot = await userRef.get();
+  if (!userSnapshot.exists) {
+    await setUpNewUser(userRef, {
+      email: userAuth.email,
       createdAt: new Date(),
       ...extraData
     });
-    await createNewCart(userRef);
   }
   return userRef;
 };
 
 export const getShopCategories = async () => {
-  const categoriesCollectionRef = firestore.collection("product_categories");
   const categoriesSnapShot = await categoriesCollectionRef.get();
   return categoriesSnapShot.docs.map((doc) => ({
     id: doc.id,
@@ -68,9 +100,7 @@ export const getShopCategories = async () => {
 
 export const getShopData = async () => {
   const shopData = {};
-  const categoriesCollectionRef = firestore.collection("product_categories");
   const categoriesSnapshot = await categoriesCollectionRef.get();
-  const productCollectionRef = firestore.collection("products");
   for (let categorySnapshot of categoriesSnapshot.docs) {
     const getItemsInCategoryQuery = productCollectionRef.where(
       "productCategoryRef",

@@ -55,7 +55,7 @@ const App = ({
     <div>
       <GlobalStyles />
       {isLoggingIn ? (
-        <Spinner loadingText="Signing In" />
+        <Spinner loadingText="Signing in and checking for saved cart" />
       ) : (
         <>
           <NavBar />

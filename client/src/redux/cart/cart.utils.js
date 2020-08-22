@@ -1,21 +1,41 @@
-export const addToCart = (shoppingCart, item) => {
+import { firestore } from "../../utils/firebase.config";
+const cartItemColRef = firestore.collection("cart_items");
+
+export const addToCart = async (shoppingCart, item) => {
+  console.log(shoppingCart, "in add utils");
   const itemIndex = shoppingCart.findIndex(
     (cartItem) => cartItem.id === item.id
   );
   if (itemIndex === -1) {
-    return [...shoppingCart, { ...item, quantity: 1 }];
+    const cartItemRef = cartItemColRef.doc();
+    const productRef = firestore.doc(`products/${item.id}`);
+    await cartItemRef.set({ productRef, quantity: 1 });
+    return [
+      ...shoppingCart,
+      { ...item, quantity: 1, cartItemId: cartItemRef.id }
+    ];
   }
   const prevQuantity = shoppingCart[itemIndex].quantity;
-  shoppingCart[itemIndex] = { ...item, quantity: prevQuantity + 1 };
+  shoppingCart[itemIndex] = {
+    ...shoppingCart[itemIndex],
+    quantity: prevQuantity + 1
+  };
   return [...shoppingCart];
 };
 
-export const removeFromCart = (shoppingCart, item) =>
-  shoppingCart.filter((cartItem) => cartItem.id !== item.id);
+export const removeFromCart = async (shoppingCart, item) => {
+  const cartItemRef = firestore.doc(`cart_items/${item.cartItemId}`);
+  await cartItemRef.delete();
+  return shoppingCart.filter((cartItem) => cartItem.id !== item.id);
+};
 
-export const changeItemQuantity = (shoppingCart, { item, newQuantity }) => {
+export const changeItemQuantity = async (
+  shoppingCart,
+  { item, newQuantity }
+) => {
   if (newQuantity <= 0) {
-    return removeFromCart(shoppingCart, item);
+    const updatedCart = await removeFromCart(shoppingCart, item);
+    return updatedCart;
   }
   const itemIndex = shoppingCart.findIndex(
     (cartItem) => cartItem.id === item.id
