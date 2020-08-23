@@ -10,7 +10,7 @@ import {
 } from "redux-saga/effects";
 import { clearCart, updateCart } from "./cart.actions";
 import { createSuccessNotification } from "../notification/notification.sagas";
-import { saveCartToDb } from "../../utils/firebase.utils";
+import { saveCartToDb } from "../../utils/firebase.cart_utils";
 import { selectShoppingCart } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
 import { addToCart, changeItemQuantity, removeFromCart } from "./cart.utils";

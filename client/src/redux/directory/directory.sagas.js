@@ -3,7 +3,7 @@ import {
   categoriesFetchFail,
   categoriesFetchSuccess
 } from "./directory.actions";
-import { getShopCategories } from "../../utils/firebase.utils";
+import { getShopCategories } from "../../utils/firebase.collection_utils";
 import DIRECTORY_ACTION_TYPES from "./directory.action.types";
 
 function* fetchCategories() {

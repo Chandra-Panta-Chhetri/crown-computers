@@ -12,9 +12,9 @@ import { restoreCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../utils/firebase.config";
 import {
   createOrGetUser,
-  getUserFromSession,
-  getUserCart
-} from "../../utils/firebase.utils";
+  getUserFromSession
+} from "../../utils/firebase.user_utils";
+import { getUserCart } from "../../utils/firebase.cart_utils";
 
 function* setUserFromSnapShot(userAuth, additionalData) {
   const userRef = yield call(createOrGetUser, userAuth, additionalData);
@@ -31,6 +31,7 @@ function* signInWithGoogle() {
       fullName: user.displayName
     });
   } catch (e) {
+    console.log(e);
     yield put(signInFail("Google sign in was unsuccessful"));
   }
 }

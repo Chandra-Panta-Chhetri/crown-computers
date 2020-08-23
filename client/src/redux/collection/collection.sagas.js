@@ -4,7 +4,7 @@ import {
   collectionFetchFail,
   collectionFetchSuccess
 } from "./collection.actions";
-import { getShopData } from "../../utils/firebase.utils";
+import { getShopData } from "../../utils/firebase.collection_utils";
 
 function* fetchCollection() {
   try {
