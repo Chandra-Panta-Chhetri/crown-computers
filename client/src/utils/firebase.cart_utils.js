@@ -3,7 +3,7 @@ import { firestore } from "./firebase.config";
 const cartCollectionRef = firestore.collection("carts");
 
 export const createNewCart = async (userRef) => {
-  return await cartCollectionRef.add({
+  await cartCollectionRef.add({
     cartItems: [],
     isWishlist: false,
     userRef

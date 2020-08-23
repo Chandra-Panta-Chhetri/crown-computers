@@ -29,16 +29,18 @@ export const removeFromCart = async (shoppingCart, item, isLoggedIn) => {
   if (isLoggedIn) {
     const cartItemRef = firestore.doc(`cart_items/${item.cartItemId}`);
     await cartItemRef.delete();
+    console.log("success");
   }
   return shoppingCart.filter((cartItem) => cartItem.id !== item.id);
 };
 
 export const changeItemQuantity = async (
   shoppingCart,
-  { item, newQuantity }
+  { item, newQuantity },
+  isLoggedIn
 ) => {
   if (newQuantity <= 0) {
-    const updatedCart = await removeFromCart(shoppingCart, item);
+    const updatedCart = await removeFromCart(shoppingCart, item, isLoggedIn);
     return updatedCart;
   }
   const itemIndex = shoppingCart.findIndex(

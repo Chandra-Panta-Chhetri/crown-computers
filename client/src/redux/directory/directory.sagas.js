@@ -3,12 +3,12 @@ import {
   categoriesFetchFail,
   categoriesFetchSuccess
 } from "./directory.actions";
-import { getShopCategories } from "../../utils/firebase.collection_utils";
+import { getProductCategories } from "../../utils/firebase.collection_utils";
 import DIRECTORY_ACTION_TYPES from "./directory.action.types";
 
 function* fetchCategories() {
   try {
-    const productCategories = yield call(getShopCategories);
+    const productCategories = yield call(getProductCategories);
     yield put(categoriesFetchSuccess(productCategories));
   } catch (e) {
     yield put(

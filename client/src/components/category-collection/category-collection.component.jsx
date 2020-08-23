@@ -12,11 +12,11 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 
-const CategoryCollection = ({ collectionInCategory }) => (
+const CategoryCollection = ({ productsInCategory }) => (
   <CategoryCollectionContainer>
-    {collectionInCategory.items.length ? (
-      collectionInCategory.items.map((item) => (
-        <CollectionItem key={item.id} item={item} />
+    {productsInCategory.products.length ? (
+      productsInCategory.products.map((product) => (
+        <CollectionItem key={product.id} item={product} />
       ))
     ) : (
       <Redirect to="/product-collection" />
@@ -25,7 +25,7 @@ const CategoryCollection = ({ collectionInCategory }) => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  collectionInCategory: selectCategoryCollection(
+  productsInCategory: selectCategoryCollection(
     ownProps.match.params.productCategory
   )(state),
   isLoading: selectIsFetchingCollection(state),

@@ -33,7 +33,12 @@ function* handleCartChange(action) {
       yield createSuccessNotification("Removed From Cart", payload.name);
       break;
     case CART_ACTION_TYPES.START_CHANGE_QUANTITY:
-      updatedCart = yield call(changeItemQuantity, cart, payload);
+      updatedCart = yield call(
+        changeItemQuantity,
+        cart,
+        payload,
+        !!currentUser
+      );
       break;
   }
   yield put(updateCart(updatedCart));

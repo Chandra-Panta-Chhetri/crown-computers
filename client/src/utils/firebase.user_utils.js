@@ -11,7 +11,7 @@ export const getUserFromSession = () =>
 
 export const createNewUser = async (userRef, newUserInfo) => {
   await userRef.set(newUserInfo);
-  return await createNewCart(userRef);
+  await createNewCart(userRef);
 };
 
 export const createOrGetUser = async (userAuth, extraData) => {
