@@ -16,7 +16,7 @@ const CategoryCollection = ({ productsInCategory }) => (
   <CategoryCollectionContainer>
     {productsInCategory.products.length ? (
       productsInCategory.products.map((product) => (
-        <CollectionItem key={product.id} item={product} />
+        <CollectionItem key={product.productId} item={product} />
       ))
     ) : (
       <Redirect to="/product-collection" />

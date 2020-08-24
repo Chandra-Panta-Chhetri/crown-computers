@@ -11,7 +11,7 @@ import {
 import { clearCart, updateCart } from "./cart.actions";
 import { createSuccessNotification } from "../notification/notification.sagas";
 import { saveCartToDb } from "../../utils/firebase.cart_utils";
-import { selectShoppingCart } from "../cart/cart.selectors";
+import { selectShoppingCart, selectCartId } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
 import { addToCart, changeItemQuantity, removeFromCart } from "./cart.utils";
 
@@ -46,8 +46,9 @@ function* handleCartChange(action) {
 
 function* persistCart({ payload: cart }) {
   const currentUser = yield select(selectCurrentUser);
+  const cartId = yield select(selectCartId);
   if (currentUser) {
-    yield saveCartToDb(currentUser, cart);
+    yield saveCartToDb(cart, cartId);
   }
 }
 

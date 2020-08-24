@@ -14,12 +14,12 @@ import {
   createOrGetUser,
   getUserFromSession
 } from "../../utils/firebase.user_utils";
-import { getUserCart } from "../../utils/firebase.cart_utils";
+import { getUserCartAndCartId } from "../../utils/firebase.cart_utils";
 
 function* setUserFromSnapShot(userAuth, additionalData) {
   const userRef = yield call(createOrGetUser, userAuth, additionalData);
   const userSnapshot = yield userRef.get();
-  const { cart, cartId } = yield call(getUserCart, userRef);
+  const { cart, cartId } = yield call(getUserCartAndCartId, userRef);
   yield put(restoreCart(cart, cartId));
   yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
 }

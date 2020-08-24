@@ -5,7 +5,7 @@ import CART_ACTION_TYPES from "./cart.action.types";
 const INITIALSTATE = {
   hidden: true,
   shoppingCart: [],
-  cartRef: null
+  cartId: null
 };
 
 const cartReducer = (prevState = INITIALSTATE, action) => {
@@ -39,13 +39,13 @@ const cartReducer = (prevState = INITIALSTATE, action) => {
       return {
         ...prevState,
         shoppingCart: [],
-        cartRef: null
+        cartId: null
       };
     case CART_ACTION_TYPES.RESTORE_CART:
       return {
         ...prevState,
         shoppingCart: action.payload.cart,
-        cartRef: action.payload.cartId
+        cartId: action.payload.cartId
       };
     default:
       return prevState;

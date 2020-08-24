@@ -6,7 +6,7 @@ import CartSummaryItem from "../../components/cart-summary-item/cart-summary-ite
 const CartSummaryItems = ({ cartItems }) => (
   <CartSummaryItemsContainer>
     {cartItems.map((cartItem) => (
-      <CartSummaryItem key={cartItem.id} item={cartItem} />
+      <CartSummaryItem key={cartItem.productId} item={cartItem} />
     ))}
   </CartSummaryItemsContainer>
 );

@@ -12,7 +12,7 @@ const CartItems = ({ shoppingCart }) => (
     {!shoppingCart.length ? (
       <EmptyCartText>Your cart is empty</EmptyCartText>
     ) : (
-      shoppingCart.map((item) => <CartItem key={item.id} item={item} />)
+      shoppingCart.map((item) => <CartItem key={item.productId} item={item} />)
     )}
   </CartItemsContainer>
 );

@@ -3,12 +3,12 @@ const cartItemColRef = firestore.collection("cart_items");
 
 export const addToCart = async (shoppingCart, item, isLoggedIn) => {
   const itemIndex = shoppingCart.findIndex(
-    (cartItem) => cartItem.id === item.id
+    (cartItem) => cartItem.productId === item.productId
   );
   if (itemIndex === -1) {
     if (isLoggedIn) {
       const cartItemRef = cartItemColRef.doc();
-      const productRef = firestore.doc(`products/${item.id}`);
+      const productRef = firestore.doc(`products/${item.productId}`);
       await cartItemRef.set({ productRef, quantity: 1 });
       return [
         ...shoppingCart,
@@ -29,9 +29,10 @@ export const removeFromCart = async (shoppingCart, item, isLoggedIn) => {
   if (isLoggedIn) {
     const cartItemRef = firestore.doc(`cart_items/${item.cartItemId}`);
     await cartItemRef.delete();
-    console.log("success");
   }
-  return shoppingCart.filter((cartItem) => cartItem.id !== item.id);
+  return shoppingCart.filter(
+    (cartItem) => cartItem.productId !== item.productId
+  );
 };
 
 export const changeItemQuantity = async (
@@ -44,7 +45,7 @@ export const changeItemQuantity = async (
     return updatedCart;
   }
   const itemIndex = shoppingCart.findIndex(
-    (cartItem) => cartItem.id === item.id
+    (cartItem) => cartItem.productId === item.productId
   );
   if (itemIndex !== -1) {
     shoppingCart[itemIndex] = {

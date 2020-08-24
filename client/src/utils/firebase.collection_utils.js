@@ -27,7 +27,7 @@ export const getProductsInCategory = async (
   const productsInCategory = productsInCategorySnapshots.map(
     (productInCategorySnapshot) => {
       let product = {
-        id: productInCategorySnapshot.id,
+        productId: productInCategorySnapshot.id,
         ...productInCategorySnapshot.data(),
         category: categoryName
       };

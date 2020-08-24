@@ -12,60 +12,69 @@ export const createNewCart = async (userRef) => {
 };
 
 const getUserCartSnapshot = async (userRef) => {
-  const getUserCartQuery = cartCollectionRef
+  const getUserCartAndCartIdQuery = cartCollectionRef
     .where("userRef", "==", userRef)
     .where("isWishlist", "==", false);
-  const userCartQuerySnapshot = await getUserCartQuery.get();
+  const userCartQuerySnapshot = await getUserCartAndCartIdQuery.get();
   const userCartSnapshot = userCartQuerySnapshot.docs[0];
   return userCartSnapshot;
 };
 
-export const getUserCart = async (userRef) => {
+export const getUserCartAndCartId = async (userRef) => {
   try {
     const cartSnapshot = await getUserCartSnapshot(userRef);
-    const cart = cartSnapshot.data().cartItems;
-    const populatedCart = await populateCart(cart);
-    return { cart: populatedCart, cartId: cartSnapshot.id };
+    const cartWithCartItemRefs = cartSnapshot.data().cartItems;
+    const cartWithoutCartItemRefs = await populateCart(cartWithCartItemRefs);
+    return { cart: cartWithoutCartItemRefs, cartId: cartSnapshot.id };
   } catch (e) {
     const newCartRef = await createNewCart(userRef);
     return { cart: [], cartId: newCartRef.id };
   }
 };
 
-export const populateCart = async (cart) => {
-  const populatedCart = [];
-  for (let cartItemRef of cart) {
-    let cartItemSnapshot = await cartItemRef.get();
-    let { productRef, quantity } = cartItemSnapshot.data();
-    let productSnapshot = await productRef.get();
-    let product = productSnapshot.data();
-    delete product.productCategoryRef;
-    populatedCart.push({
-      id: productSnapshot.id,
-      cartItemId: cartItemSnapshot.id,
-      ...product,
-      quantity
-    });
-  }
-  return populatedCart;
-};
-
-export const saveCartToDb = async (currentUser, cart) => {
-  const userRef = firestore.doc(`users/${currentUser.id}`);
-  const { id: cartId } = await getUserCartSnapshot(userRef);
+export const saveCartToDb = async (cartWithoutCartItemRefs, cartId) => {
   const cartRef = firestore.doc(`carts/${cartId}`);
-  const depopulatedCart = await depopulateCart(cart);
-  await cartRef.update({ cartItems: depopulatedCart });
+  const cartWithCartItemRefs = await replaceCartWithCartItemRefs(
+    cartWithoutCartItemRefs
+  );
+  await cartRef.update({ cartItems: cartWithCartItemRefs });
 };
 
-const depopulateCart = async (cart) => {
-  const depopulateCart = [];
-  for (let cartItem of cart) {
-    let cartItemRef = firestore.doc(`cart_items/${cartItem.cartItemId}`);
-    let productRef = firestore.doc(`products/${cartItem.id}`);
-    let quantity = cartItem.quantity;
-    await cartItemRef.update({ productRef, quantity });
-    depopulateCart.push(cartItemRef);
+const getCartItemFromCartItemRef = async (cartItemRef) => {
+  let cartItemSnapshot = await cartItemRef.get();
+  let { productRef, quantity } = cartItemSnapshot.data();
+  let productSnapshot = await productRef.get();
+  let product = productSnapshot.data();
+  delete product.productCategoryRef;
+  return {
+    productId: productSnapshot.id,
+    cartItemId: cartItemSnapshot.id,
+    ...product,
+    quantity
+  };
+};
+
+const populateCart = async (cartWithCartItemRefs) => {
+  try {
+    const populatedCart = [];
+    for (let cartItemRef of cartWithCartItemRefs) {
+      let cartItem = await getCartItemFromCartItemRef(cartItemRef);
+      populatedCart.push(cartItem);
+    }
+    return populatedCart;
+  } catch (e) {
+    return [];
   }
-  return depopulateCart;
+};
+
+const replaceCartWithCartItemRefs = async (cartWithoutCartItemRefs) => {
+  const cartWithCartItemRefs = [];
+  const batch = firestore.batch();
+  for (let cartItem of cartWithoutCartItemRefs) {
+    let cartItemRef = firestore.doc(`cart_items/${cartItem.cartItemId}`);
+    batch.update(cartItemRef, { quantity: cartItem.quantity });
+    cartWithCartItemRefs.push(cartItemRef);
+  }
+  await batch.commit();
+  return cartWithCartItemRefs;
 };

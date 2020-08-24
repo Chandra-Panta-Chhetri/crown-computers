@@ -26,24 +26,3 @@ export const createOrGetUser = async (userAuth, extraData) => {
   }
   return userRef;
 };
-
-// export const addShopDataToDb = async (shopData) => {
-//   const categoriesCollectionRef = firestore.collection("product_categories");
-//   const productCollectionRef = firestore.collection("products");
-//   const batch = firestore.batch();
-//   shopData.map(async ({ title: category, items }) => {
-//     let categoryDocRef = categoriesCollectionRef.doc();
-//     batch.set(categoryDocRef, { category });
-//     for (let item of items) {
-//       const { name, imageUrl, price } = item;
-//       let itemDocRef = productCollectionRef.doc();
-//       batch.set(itemDocRef, {
-//         name,
-//         imageUrl,
-//         price,
-//         productCategoryRef: categoryDocRef
-//       });
-//     }
-//   });
-//   await batch.commit();
-// };

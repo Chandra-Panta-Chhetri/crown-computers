@@ -86,7 +86,7 @@ const App = ({
           </ErrorBoundary>
         </>
       )}
-      <Toast autoDelete dismissTime={3000} />
+      <Toast autoDelete dismissTime={2700} />
     </div>
   );
 };
