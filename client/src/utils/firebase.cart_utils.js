@@ -3,26 +3,33 @@ import { firestore } from "./firebase.config";
 const cartCollectionRef = firestore.collection("carts");
 
 export const createNewCart = async (userRef) => {
-  await cartCollectionRef.add({
+  const cartRef = await cartCollectionRef.add({
     cartItems: [],
     isWishlist: false,
     userRef
   });
+  return cartRef;
 };
 
-export const getUserCartSnapshot = async (userRef) => {
+const getUserCartSnapshot = async (userRef) => {
   const getUserCartQuery = cartCollectionRef
     .where("userRef", "==", userRef)
     .where("isWishlist", "==", false);
-  const userCartSnapshot = await getUserCartQuery.get();
-  return !userCartSnapshot.empty ? userCartSnapshot.docs[0] : null;
+  const userCartQuerySnapshot = await getUserCartQuery.get();
+  const userCartSnapshot = userCartQuerySnapshot.docs[0];
+  return userCartSnapshot;
 };
 
 export const getUserCart = async (userRef) => {
-  const cartSnapshot = await getUserCartSnapshot(userRef);
-  const cart = cartSnapshot.data().cartItems;
-  const populatedCart = await populateCart(cart);
-  return { cart: populatedCart, cartId: cartSnapshot.id };
+  try {
+    const cartSnapshot = await getUserCartSnapshot(userRef);
+    const cart = cartSnapshot.data().cartItems;
+    const populatedCart = await populateCart(cart);
+    return { cart: populatedCart, cartId: cartSnapshot.id };
+  } catch (e) {
+    const newCartRef = await createNewCart(userRef);
+    return { cart: [], cartId: newCartRef.id };
+  }
 };
 
 export const populateCart = async (cart) => {
