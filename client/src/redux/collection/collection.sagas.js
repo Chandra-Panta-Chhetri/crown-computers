@@ -19,7 +19,7 @@ function* fetchCollection() {
   }
 }
 
-function* watchCollectionFetch() {
+function* watchCollectionFetchStart() {
   yield takeLatest(
     COLLECTION_ACTION_TYPES.COLLECTION_FETCH_START,
     fetchCollection
@@ -27,5 +27,5 @@ function* watchCollectionFetch() {
 }
 
 export default function* collectionSagas() {
-  yield all([call(watchCollectionFetch)]);
+  yield all([call(watchCollectionFetchStart)]);
 }
