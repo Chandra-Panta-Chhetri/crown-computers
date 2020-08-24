@@ -15,71 +15,86 @@ import { selectShoppingCart, selectCartId } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
 import { addToCart, changeItemQuantity, removeFromCart } from "./cart.utils";
 
-function* handleCartChange(action) {
-  const { payload } = action;
+function* handleAddingItemToCart({ payload: item }) {
   const cart = yield select(selectShoppingCart);
   const currentUser = yield select(selectCurrentUser);
-  let updatedCart;
-  switch (action.type) {
-    case CART_ACTION_TYPES.START_ADD_TO_CART:
-      updatedCart = yield call(addToCart, cart, payload, !!currentUser);
-      yield createSuccessNotification(
-        "Added To Cart",
-        `${payload.name} ($${payload.price} ea.)`
-      );
-      break;
-    case CART_ACTION_TYPES.START_REMOVE_FROM_CART:
-      updatedCart = yield call(removeFromCart, cart, payload, !!currentUser);
-      yield createSuccessNotification("Removed From Cart", payload.name);
-      break;
-    case CART_ACTION_TYPES.START_CHANGE_QUANTITY:
-      updatedCart = yield call(
-        changeItemQuantity,
-        cart,
-        payload,
-        !!currentUser
-      );
-      break;
-  }
+
+  const updatedCart = yield addToCart(cart, item, !!currentUser);
+  yield createSuccessNotification(
+    "Added To Cart",
+    `${item.name} ($${item.price} ea.)`
+  );
   yield put(updateCart(updatedCart));
 }
 
-function* persistCart({ payload: cart }) {
+function* handleRemovingItemFromCart({ payload: item }) {
+  const cart = yield select(selectShoppingCart);
   const currentUser = yield select(selectCurrentUser);
-  const cartId = yield select(selectCartId);
-  if (currentUser) {
-    yield saveCartToDb(cart, cartId);
-  }
+
+  const updatedCart = yield removeFromCart(cart, item, !!currentUser);
+  yield createSuccessNotification("Removed From Cart", item.name);
+  yield put(updateCart(updatedCart));
+}
+
+function* handleUpdatingItemQuantity({ payload: { item, newQuantity } }) {
+  const cart = yield select(selectShoppingCart);
+  const currentUser = yield select(selectCurrentUser);
+
+  const updatedCart = yield changeItemQuantity(
+    cart,
+    { item, newQuantity },
+    !!currentUser
+  );
+  yield put(updateCart(updatedCart));
+}
+
+function* saveCart({ payload: cartWithoutCartItemRefs }) {
+  try {
+    const currentUser = yield select(selectCurrentUser);
+    const cartId = yield select(selectCartId);
+    if (currentUser && cartId) {
+      yield saveCartToDb(cartWithoutCartItemRefs, cartId);
+    }
+  } catch (e) {}
 }
 
 function* handleLogOutSuccess() {
-  yield createSuccessNotification("Log Out Successful", "See you next time!");
   yield put(clearCart());
+  yield createSuccessNotification("Log Out Successful", "See you next time!");
 }
 
 function* watchSuccessfulLogOut() {
   yield takeLatest(USER_ACTION_TYPES.LOG_OUT_SUCCESS, handleLogOutSuccess);
 }
 
-function* watchCartUpdate() {
-  yield takeLatest(CART_ACTION_TYPES.UPDATE_CART, persistCart);
+function* watchAddingToCart() {
+  yield takeEvery(CART_ACTION_TYPES.START_ADD_TO_CART, handleAddingItemToCart);
 }
 
-function* watchCartModification() {
+function* watchRemovingFromCart() {
   yield takeEvery(
-    [
-      CART_ACTION_TYPES.START_ADD_TO_CART,
-      CART_ACTION_TYPES.START_REMOVE_FROM_CART,
-      CART_ACTION_TYPES.START_CHANGE_QUANTITY
-    ],
-    handleCartChange
+    CART_ACTION_TYPES.START_REMOVE_FROM_CART,
+    handleRemovingItemFromCart
   );
+}
+
+function* watchUpdatingItemQuantity() {
+  yield takeEvery(
+    CART_ACTION_TYPES.START_CHANGE_QUANTITY,
+    handleUpdatingItemQuantity
+  );
+}
+
+function* watchCartUpdate() {
+  yield takeLatest(CART_ACTION_TYPES.UPDATE_CART, saveCart);
 }
 
 export default function* cartSagas() {
   yield all([
     call(watchSuccessfulLogOut),
-    call(watchCartModification),
+    call(watchAddingToCart),
+    call(watchRemovingFromCart),
+    call(watchUpdatingItemQuantity),
     call(watchCartUpdate)
   ]);
 }

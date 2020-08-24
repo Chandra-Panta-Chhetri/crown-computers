@@ -1,6 +1,7 @@
 import { firestore } from "./firebase.config";
 
 const cartCollectionRef = firestore.collection("carts");
+const cartItemCollectionRef = firestore.collection("cart_items");
 
 export const createNewCart = async (userRef) => {
   const cartRef = await cartCollectionRef.add({
@@ -9,6 +10,18 @@ export const createNewCart = async (userRef) => {
     userRef
   });
   return cartRef;
+};
+
+export const createNewCartItem = async (productId) => {
+  const newCartItemRef = cartItemCollectionRef.doc();
+  const productRef = firestore.doc(`products/${productId}`);
+  await newCartItemRef.set({ productRef, quantity: 1 });
+  return newCartItemRef;
+};
+
+export const removeCartItem = async (cartItemId) => {
+  const cartItemRef = firestore.doc(`cart_items/${cartItemId}`);
+  await cartItemRef.delete();
 };
 
 const getUserCartSnapshot = async (userRef) => {

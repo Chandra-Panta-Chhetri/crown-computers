@@ -14,25 +14,10 @@ export const removeFromCart = (item) => ({
   payload: item
 });
 
-export const changeQuantity = (item, newQuantity) => ({
+export const changeItemQuantity = (item, newQuantity) => ({
   type: CART_ACTION_TYPES.START_CHANGE_QUANTITY,
   payload: { item, newQuantity }
 });
-
-// export const addToCart = (item) => ({
-//   type: CART_ACTION_TYPES.ADD_TO_CART,
-//   payload: item
-// });
-
-// export const removeFromCart = (item) => ({
-//   type: CART_ACTION_TYPES.REMOVE_FROM_CART,
-//   payload: item
-// });
-
-// export const changeQuantity = (item,newQuantity) => ({
-//   type: CART_ACTION_TYPES.CHANGE_QUANTITY,
-//   payload: { item, newQuantity }
-// });
 
 export const updateCart = (cart) => ({
   type: CART_ACTION_TYPES.UPDATE_CART,

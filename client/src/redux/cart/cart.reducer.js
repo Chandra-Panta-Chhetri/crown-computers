@@ -1,14 +1,12 @@
 import CART_ACTION_TYPES from "./cart.action.types";
-// import { addToCart, changeItemQuantity } from "./cart.utils";
-// import { removeFromCart } from "./cart.utils";
 
-const INITIALSTATE = {
+const INITIAL_STATE = {
   hidden: true,
   shoppingCart: [],
   cartId: null
 };
 
-const cartReducer = (prevState = INITIALSTATE, action) => {
+const cartReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
     case CART_ACTION_TYPES.TOGGLE_CART_VISIBILITY:
       return {
@@ -20,21 +18,6 @@ const cartReducer = (prevState = INITIALSTATE, action) => {
         ...prevState,
         shoppingCart: action.payload
       };
-    // case CART_ACTION_TYPES.ADD_TO_CART:
-    //   return {
-    //     ...prevState,
-    //     shoppingCart: addToCart(prevState.shoppingCart, action.payload)
-    //   };
-    // case CART_ACTION_TYPES.REMOVE_FROM_CART:
-    //   return {
-    //     ...prevState,
-    //     shoppingCart: removeFromCart(prevState.shoppingCart, action.payload)
-    //   };
-    // case CART_ACTION_TYPES.CHANGE_QUANTITY:
-    //   return {
-    //     ...prevState,
-    //     shoppingCart: changeItemQuantity(prevState.shoppingCart, action.payload)
-    //   };
     case CART_ACTION_TYPES.CLEAR_CART:
       return {
         ...prevState,
