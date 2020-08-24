@@ -7,18 +7,20 @@ export const selectProductCollection = createSelector(
   (collection) => collection.productCollection
 );
 
+export const selectIsFetchingCollection = createSelector(
+  [selectCollection],
+  (collection) => collection.isFetchingCollection
+);
+
 export const selectCollectionFromKeys = createSelector(
   [selectProductCollection],
   (productCollection) =>
     Object.keys(productCollection).map((key) => productCollection[key])
 );
 
-export const selectCategoryCollection = (route) =>
+export const selectProductsInCategory = (categoryName) =>
   createSelector([selectProductCollection], (productCollection) =>
-    !productCollection[route] ? { items: [] } : productCollection[route]
+    !productCollection[categoryName]
+      ? { products: [] }
+      : productCollection[categoryName]
   );
-
-export const selectIsFetchingCollection = createSelector(
-  [selectCollection],
-  (collection) => collection.isFetchingCollection
-);

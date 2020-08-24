@@ -8,7 +8,7 @@ import { getProductCollection } from "../../utils/firebase.collection_utils";
 
 function* fetchCollection() {
   try {
-    const productCollection = yield call(getProductCollection);
+    const productCollection = yield getProductCollection();
     yield put(collectionFetchSuccess(productCollection));
   } catch (e) {
     yield put(

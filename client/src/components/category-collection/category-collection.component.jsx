@@ -5,7 +5,7 @@ import CollectionItem from "../collection-item/collection-item.component";
 import withSpinner from "../with-spinner/with-spinner.component";
 
 import {
-  selectCategoryCollection,
+  selectProductsInCategory,
   selectIsFetchingCollection
 } from "../../redux/collection/collection.selectors";
 import { connect } from "react-redux";
@@ -25,7 +25,7 @@ const CategoryCollection = ({ productsInCategory }) => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  productsInCategory: selectCategoryCollection(
+  productsInCategory: selectProductsInCategory(
     ownProps.match.params.productCategory
   )(state),
   isLoading: selectIsFetchingCollection(state),
