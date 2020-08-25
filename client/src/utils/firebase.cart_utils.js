@@ -54,17 +54,22 @@ export const saveCartToDb = async (cartWithoutCartItemRefs, cartId) => {
 };
 
 const getCartItemFromCartItemRef = async (cartItemRef) => {
-  let cartItemSnapshot = await cartItemRef.get();
-  let { productRef, quantity } = cartItemSnapshot.data();
-  let productSnapshot = await productRef.get();
-  let product = productSnapshot.data();
-  delete product.productCategoryRef;
-  return {
-    productId: productSnapshot.id,
-    cartItemId: cartItemSnapshot.id,
-    ...product,
-    quantity
-  };
+  try {
+    let cartItemSnapshot = await cartItemRef.get();
+    let { productRef, quantity } = cartItemSnapshot.data();
+    let productSnapshot = await productRef.get();
+    let product = productSnapshot.data();
+    delete product.productCategoryRef;
+    return {
+      productId: productSnapshot.id,
+      cartItemId: cartItemSnapshot.id,
+      ...product,
+      quantity
+    };
+  } catch (e) {
+    await cartItemRef.delete();
+    return null;
+  }
 };
 
 const populateCart = async (cartWithCartItemRefs) => {
@@ -72,7 +77,9 @@ const populateCart = async (cartWithCartItemRefs) => {
     const populatedCart = [];
     for (let cartItemRef of cartWithCartItemRefs) {
       let cartItem = await getCartItemFromCartItemRef(cartItemRef);
-      populatedCart.push(cartItem);
+      if (cartItem) {
+        populatedCart.push(cartItem);
+      }
     }
     return populatedCart;
   } catch (e) {
