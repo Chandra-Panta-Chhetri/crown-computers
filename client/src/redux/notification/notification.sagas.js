@@ -23,26 +23,29 @@ function* createNotificationByActionType(action) {
 
   switch (action.type) {
     case USER_ACTION_TYPES.SIGN_IN_SUCCESS:
-      return yield createSuccessNotification(
+      return yield call(
+        createSuccessNotification,
         "Sign In Successful",
-        `Welcome back ${payload.fullName.toUpperCase()}!`
+        `Welcome back ${payload.fullName.toUpperCase()}! Your cart has been restored`
       );
     case COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL:
-      return yield createErrorNotification(
+      return yield call(
+        createErrorNotification,
         "Collection Fetching Failed",
         payload
       );
     case DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_FAIL:
-      return yield createErrorNotification(
+      return yield call(
+        createErrorNotification,
         "Categories Fetching Failed",
         payload
       );
     case USER_ACTION_TYPES.SIGN_UP_FAIL:
-      return yield createErrorNotification("Sign Up Failed", payload);
+      return yield call(createErrorNotification, "Sign Up Failed", payload);
     case USER_ACTION_TYPES.LOG_OUT_FAIL:
-      return yield createErrorNotification("Log Out Failed", payload);
+      return yield call(createErrorNotification, "Log Out Failed", payload);
     case USER_ACTION_TYPES.SIGN_IN_FAIL:
-      return yield createErrorNotification("Sign In Failed", payload);
+      return yield call(createErrorNotification, "Sign In Failed", payload);
   }
 }
 

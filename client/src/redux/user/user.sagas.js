@@ -17,29 +17,28 @@ import {
 import { getUserCartAndCartId } from "../../utils/firebase.cart_utils";
 
 function* setUserFromSnapShot(userAuth, additionalData) {
-  const userRef = yield call(createOrGetUser, userAuth, additionalData);
+  const userRef = yield createOrGetUser(userAuth, additionalData);
   const userSnapshot = yield userRef.get();
-  const { cart, cartId } = yield call(getUserCartAndCartId, userRef);
-  yield put(restoreCart(cart, cartId));
+  const { cart, cartId } = yield getUserCartAndCartId(userRef);
   yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
+  yield put(restoreCart(cart, cartId));
 }
 
 function* signInWithGoogle() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
-    yield setUserFromSnapShot(user, {
+    yield call(setUserFromSnapShot, user, {
       fullName: user.displayName
     });
   } catch (e) {
-    console.log(e);
-    yield put(signInFail("Google sign in was unsuccessful"));
+    yield put(signInFail("Google sign in failed"));
   }
 }
 
 function* signInWithEmail({ payload: { email, password } }) {
   try {
     const { user } = yield auth.signInWithEmailAndPassword(email, password);
-    yield setUserFromSnapShot(user);
+    yield call(setUserFromSnapShot, user);
   } catch (e) {
     yield put(signInFail("Email or password incorrect"));
   }
@@ -49,11 +48,10 @@ function* setUserFromSession() {
   try {
     const user = yield getUserFromSession();
     if (user) {
-      yield setUserFromSnapShot(user);
+      yield call(setUserFromSnapShot, user);
     }
   } catch (e) {
-    console.log(e);
-    yield put(signInFail(e.message));
+    yield put(signInFail("Auto sign in failed, please try again"));
   }
 }
 
@@ -62,7 +60,7 @@ function* signOutUser() {
     yield auth.signOut();
     yield put(logOutSuccess());
   } catch (e) {
-    yield put(logOutFail(e.message));
+    yield put(logOutFail("Signing out failed, please try again"));
   }
 }
 
