@@ -9,7 +9,8 @@ import Toast from "./components/toast/toast.component";
 
 import {
   selectCurrentUser,
-  selectIsLogginIn
+  selectIsChangingAuthState,
+  selectLoadingText
 } from "./redux/user/user.selectors";
 import { signInUserFromSession } from "./redux/user/user.actions";
 import { selectCartVisibility } from "./redux/cart/cart.selectors";
@@ -37,7 +38,8 @@ const App = ({
   history,
   isCartHidden,
   toggleCartVisibility,
-  isLoggingIn
+  isChangingAuthState,
+  loadingText
 }) => {
   useEffect(() => {
     signInUserFromSession();
@@ -54,8 +56,8 @@ const App = ({
   return (
     <div>
       <GlobalStyles />
-      {isLoggingIn ? (
-        <Spinner loadingText="Signing in and checking for saved cart" />
+      {isChangingAuthState ? (
+        <Spinner loadingText={loadingText} />
       ) : (
         <>
           <NavBar />
@@ -94,7 +96,8 @@ const App = ({
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   isCartHidden: selectCartVisibility,
-  isLoggingIn: selectIsLogginIn
+  isChangingAuthState: selectIsChangingAuthState,
+  loadingText: selectLoadingText
 });
 
 const mapDispatchToProps = (dispatch) => ({

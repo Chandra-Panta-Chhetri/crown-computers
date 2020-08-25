@@ -7,7 +7,12 @@ export const selectCurrentUser = createSelector(
   (user) => user.currentUser
 );
 
-export const selectIsLogginIn = createSelector(
+export const selectIsChangingAuthState = createSelector(
   [selectUser],
-  (user) => user.isLoggingIn
+  (user) => user.isChangingAuthState
+);
+
+export const selectLoadingText = createSelector(
+  [selectUser],
+  (user) => user.loadingText
 );

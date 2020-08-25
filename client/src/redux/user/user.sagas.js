@@ -93,7 +93,7 @@ function* watchSignOut() {
 
 function* watchgetUserFromSession() {
   yield takeLatest(
-    USER_ACTION_TYPES.SIGN_IN_USER_FROM_SESSION,
+    USER_ACTION_TYPES.START_SIGN_IN_USER_FROM_SESSION,
     setUserFromSession
   );
 }
