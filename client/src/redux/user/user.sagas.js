@@ -51,7 +51,7 @@ function* setUserFromSession() {
       yield call(setUserFromSnapShot, user);
     }
   } catch (e) {
-    yield put(signInFail("Auto sign in failed, please try again"));
+    yield put(signInFail("Auto sign in failed, please login again"));
   }
 }
 
