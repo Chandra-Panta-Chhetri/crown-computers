@@ -21,6 +21,7 @@ export const createOrGetUser = async (userAuth, extraData) => {
     await createNewUser(userRef, {
       email: userAuth.email,
       createdAt: new Date(),
+      isAdmin: false,
       ...extraData
     });
   }
