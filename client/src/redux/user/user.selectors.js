@@ -16,3 +16,8 @@ export const selectLoadingText = createSelector(
   [selectUser],
   (user) => user.loadingText
 );
+
+export const selectWasSignedIn = createSelector(
+  [selectUser],
+  (user) => user.wasSignedIn
+);

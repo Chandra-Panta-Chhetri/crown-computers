@@ -4,13 +4,23 @@ export const signInUserFromSession = () => ({
   type: USER_ACTION_TYPES.START_SIGN_IN_USER_FROM_SESSION
 });
 
+export const startAutoSignIn = () => ({
+  type: USER_ACTION_TYPES.START_AUTO_SIGN_IN,
+  payload: { loadingText: "Auto signing in" }
+});
+
 export const startGoogleSignIn = () => ({
-  type: USER_ACTION_TYPES.GOOGLE_SIGN_IN_START
+  type: USER_ACTION_TYPES.GOOGLE_SIGN_IN_START,
+  payload: { loadingText: "Signing in and checking for saved cart" }
 });
 
 export const startEmailSignIn = ({ email, password }) => ({
   type: USER_ACTION_TYPES.EMAIL_SIGN_IN_START,
-  payload: { email, password }
+  payload: {
+    email,
+    password,
+    loadingText: "Signing in and checking for saved cart"
+  }
 });
 
 export const signInSuccess = (user) => ({
@@ -25,7 +35,10 @@ export const signInFail = (errorMsg) => ({
 
 export const signUpStart = (newUserInfo) => ({
   type: USER_ACTION_TYPES.SIGN_UP_START,
-  payload: newUserInfo
+  payload: {
+    newUserInfo,
+    loadingText: "Creating new account and getting things ready"
+  }
 });
 
 export const signUpFail = (errorMsg) => ({
@@ -34,7 +47,8 @@ export const signUpFail = (errorMsg) => ({
 });
 
 export const logOutStart = () => ({
-  type: USER_ACTION_TYPES.LOG_OUT_START
+  type: USER_ACTION_TYPES.LOG_OUT_START,
+  payload: { loadingText: "Signing out and saving cart" }
 });
 
 export const logOutSuccess = () => ({

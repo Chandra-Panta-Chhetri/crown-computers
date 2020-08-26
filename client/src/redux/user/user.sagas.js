@@ -1,4 +1,4 @@
-import { takeLatest, put, call, all } from "redux-saga/effects";
+import { takeLatest, put, call, all, select } from "redux-saga/effects";
 import USER_ACTION_TYPES from "./user.action.types";
 import {
   signInSuccess,
@@ -6,15 +6,17 @@ import {
   signUpFail,
   logOutSuccess,
   logOutFail,
-  startEmailSignIn
+  startEmailSignIn,
+  startAutoSignIn
 } from "./user.actions";
-import { restoreCart } from "../cart/cart.actions";
+import { restoreCart, clearCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../utils/firebase.config";
 import {
   createOrGetUser,
   getUserFromSession
 } from "../../utils/firebase.user_utils";
 import { getUserCartAndCartId } from "../../utils/firebase.cart_utils";
+import { selectWasSignedIn } from "./user.selectors";
 
 function* setUserFromSnapShot(userAuth, additionalData) {
   const userRef = yield createOrGetUser(userAuth, additionalData);
@@ -47,11 +49,16 @@ function* signInWithEmail({ payload: { email, password } }) {
 function* setUserFromSession() {
   try {
     const user = yield getUserFromSession();
-    if (user) {
+    const wasSignedIn = yield select(selectWasSignedIn);
+    if (!user && wasSignedIn) {
+      throw Error();
+    } else if (user && wasSignedIn) {
+      yield put(startAutoSignIn());
       yield call(setUserFromSnapShot, user);
     }
   } catch (e) {
     yield put(signInFail("Auto sign in failed, please login again"));
+    yield put(clearCart());
   }
 }
 
@@ -65,7 +72,9 @@ function* signOutUser() {
 }
 
 function* signUpUser({
-  payload: { email, password, fullName, confirmPassword }
+  payload: {
+    newUserInfo: { email, password, fullName, confirmPassword }
+  }
 }) {
   try {
     if (password !== confirmPassword) throw Error("Passwords must match");
