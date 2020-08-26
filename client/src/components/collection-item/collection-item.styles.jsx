@@ -71,3 +71,7 @@ export const ItemCategory = styled.h5`
 export const ItemPrice = styled.h4`
   ${secondaryStyles}
 `;
+
+export const ItemStock = styled.h4`
+  ${secondaryStyles}
+`;

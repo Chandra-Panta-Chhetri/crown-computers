@@ -6,7 +6,8 @@ import {
   ItemImage,
   ItemInfoContainer,
   ItemCategory,
-  ItemPrice
+  ItemPrice,
+  ItemStock
 } from "./collection-item.styles";
 
 import { connect } from "react-redux";
@@ -14,7 +15,7 @@ import { addToCart } from "../../redux/cart/cart.actions";
 import { withRouter } from "react-router-dom";
 
 const CollectionItem = ({ item, addToCart, history }) => {
-  const { name, imageUrl, price, category } = item;
+  const { name, imageUrl, price, category, stock } = item;
   return (
     <CollectionItemContainer>
       <ItemImageContainer>
@@ -33,6 +34,7 @@ const CollectionItem = ({ item, addToCart, history }) => {
         </ItemCategory>
         <h4>{name}</h4>
         <ItemPrice>${price}</ItemPrice>
+        <ItemStock>In Stock: {stock}</ItemStock>
       </ItemInfoContainer>
     </CollectionItemContainer>
   );
