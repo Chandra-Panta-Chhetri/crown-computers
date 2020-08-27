@@ -3,7 +3,8 @@ import CART_ACTION_TYPES from "./cart.action.types";
 const INITIAL_STATE = {
   hidden: true,
   shoppingCart: [],
-  cartId: null
+  cartId: null,
+  isUpdatingCart: false
 };
 
 const cartReducer = (prevState = INITIAL_STATE, action) => {
@@ -13,10 +14,18 @@ const cartReducer = (prevState = INITIAL_STATE, action) => {
         ...prevState,
         hidden: !prevState.hidden
       };
+    case CART_ACTION_TYPES.START_ADD_TO_CART:
+    case CART_ACTION_TYPES.START_CHANGE_QUANTITY:
+    case CART_ACTION_TYPES.START_REMOVE_FROM_CART:
+      return {
+        ...prevState,
+        isUpdatingCart: true
+      };
     case CART_ACTION_TYPES.UPDATE_CART:
       return {
         ...prevState,
-        shoppingCart: action.payload
+        shoppingCart: action.payload,
+        isUpdatingCart: false
       };
     case CART_ACTION_TYPES.CLEAR_CART:
       return {

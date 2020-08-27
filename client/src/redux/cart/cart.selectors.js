@@ -9,6 +9,11 @@ export const selectShoppingCart = createSelector(
 
 export const selectCartId = createSelector([selectCart], (cart) => cart.cartId);
 
+export const selectIsUpdatingCart = createSelector(
+  [selectCart],
+  (cart) => cart.isUpdatingCart
+);
+
 export const selectCartVisibility = createSelector(
   [selectCart],
   (cart) => cart.hidden

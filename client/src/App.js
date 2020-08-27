@@ -7,13 +7,17 @@ import Spinner from "./components/spinner/spinner.component";
 import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 import Toast from "./components/toast/toast.component";
 import Routes from "./components/routes/routes.component";
+import FullPageSpinner from "./components/full-page-spinner/full-page-spinner.component";
 
 import {
   selectIsChangingAuthState,
   selectLoadingText
 } from "./redux/user/user.selectors";
 import { signInUserFromSession } from "./redux/user/user.actions";
-import { selectCartVisibility } from "./redux/cart/cart.selectors";
+import {
+  selectCartVisibility,
+  selectIsUpdatingCart
+} from "./redux/cart/cart.selectors";
 import { toggleCartVisibility } from "./redux/cart/cart.actions";
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
@@ -25,7 +29,8 @@ const App = ({
   isCartHidden,
   toggleCartVisibility,
   isChangingAuthState,
-  loadingText
+  loadingText,
+  isUpdatingCart
 }) => {
   useEffect(() => {
     signInUserFromSession();
@@ -42,6 +47,7 @@ const App = ({
   return (
     <div>
       <GlobalStyles />
+      <FullPageSpinner isLoading={isUpdatingCart} />
       {isChangingAuthState ? (
         <Spinner loadingText={loadingText} />
       ) : (
@@ -62,7 +68,8 @@ const App = ({
 const mapStateToProps = createStructuredSelector({
   isCartHidden: selectCartVisibility,
   isChangingAuthState: selectIsChangingAuthState,
-  loadingText: selectLoadingText
+  loadingText: selectLoadingText,
+  isUpdatingCart: selectIsUpdatingCart
 });
 
 const mapDispatchToProps = (dispatch) => ({
