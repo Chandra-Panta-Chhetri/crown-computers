@@ -1,7 +1,13 @@
 import React from "react";
-import { ModalContainer, ModalContent, ModalCloseButton } from "./modal.styles";
+import {
+  ModalContainer,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalTitle
+} from "./modal.styles";
 
-const Modal = ({ isOpen = false, children, closeModalHandler }) => {
+const Modal = ({ isOpen = false, children, closeModalHandler, modalTitle }) => {
   const handleClose = () => {
     closeModalHandler();
   };
@@ -9,8 +15,13 @@ const Modal = ({ isOpen = false, children, closeModalHandler }) => {
   return (
     <ModalContainer isOpen={isOpen}>
       <ModalContent>
-        <ModalCloseButton onClick={handleClose}>&times;</ModalCloseButton>
-        {children}
+        <ModalHeader>
+          <ModalTitle>{modalTitle}</ModalTitle>
+          <div onClick={handleClose}>
+            <i className="fas fa-times fa-2x" />
+          </div>
+        </ModalHeader>
+        <ModalBody>{children}</ModalBody>
       </ModalContent>
     </ModalContainer>
   );
