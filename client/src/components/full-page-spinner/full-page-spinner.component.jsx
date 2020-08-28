@@ -1,8 +1,13 @@
 import React from "react";
-import { FullPageSpinnerContainer } from "./full-page-spinner.styles";
+import {
+  FullPageSpinnerContainer,
+  FullPageSpinnerText
+} from "./full-page-spinner.styles";
 
-const FullPageSpinner = ({ isLoading }) => (
-  <FullPageSpinnerContainer isLoading={isLoading}></FullPageSpinnerContainer>
+const FullPageSpinner = ({ isLoading, loadingText = "Loading" }) => (
+  <FullPageSpinnerContainer isLoading={isLoading}>
+    <FullPageSpinnerText>{loadingText}</FullPageSpinnerText>
+  </FullPageSpinnerContainer>
 );
 
 export default FullPageSpinner;

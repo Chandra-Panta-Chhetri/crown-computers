@@ -4,7 +4,8 @@ const INITIAL_STATE = {
   hidden: true,
   shoppingCart: [],
   cartId: null,
-  isUpdatingCart: false
+  isUpdatingCart: false,
+  loadingText: "hi"
 };
 
 const cartReducer = (prevState = INITIAL_STATE, action) => {
@@ -19,7 +20,8 @@ const cartReducer = (prevState = INITIAL_STATE, action) => {
     case CART_ACTION_TYPES.START_REMOVE_FROM_CART:
       return {
         ...prevState,
-        isUpdatingCart: true
+        isUpdatingCart: true,
+        loadingText: action.payload.loadingText
       };
     case CART_ACTION_TYPES.UPDATE_CART:
       return {

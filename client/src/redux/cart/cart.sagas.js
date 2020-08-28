@@ -15,7 +15,7 @@ import { selectShoppingCart, selectCartId } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
 import { addToCart, changeItemQuantity, removeFromCart } from "./cart.utils";
 
-function* handleAddingItemToCart({ payload: item }) {
+function* handleAddingItemToCart({ payload: { item } }) {
   const cart = yield select(selectShoppingCart);
   const currentUser = yield select(selectCurrentUser);
 
@@ -27,7 +27,7 @@ function* handleAddingItemToCart({ payload: item }) {
   yield put(updateCart(updatedCart));
 }
 
-function* handleRemovingItemFromCart({ payload: item }) {
+function* handleRemovingItemFromCart({ payload: { item } }) {
   const cart = yield select(selectShoppingCart);
   const currentUser = yield select(selectCurrentUser);
 

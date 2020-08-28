@@ -6,17 +6,21 @@ export const toggleCartVisibility = () => ({
 
 export const addToCart = (item) => ({
   type: CART_ACTION_TYPES.START_ADD_TO_CART,
-  payload: item
+  payload: { item, loadingText: `Adding item to cart` }
 });
 
 export const removeFromCart = (item) => ({
   type: CART_ACTION_TYPES.START_REMOVE_FROM_CART,
-  payload: item
+  payload: { item, loadingText: `Removing item from cart` }
 });
 
 export const changeItemQuantity = (item, newQuantity) => ({
   type: CART_ACTION_TYPES.START_CHANGE_QUANTITY,
-  payload: { item, newQuantity }
+  payload: {
+    item,
+    newQuantity,
+    loadingText: `Changing item quantity`
+  }
 });
 
 export const updateCart = (cart) => ({

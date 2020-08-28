@@ -14,6 +14,11 @@ export const selectIsUpdatingCart = createSelector(
   (cart) => cart.isUpdatingCart
 );
 
+export const selectCartLoadingText = createSelector(
+  [selectCart],
+  (cart) => cart.loadingText
+);
+
 export const selectCartVisibility = createSelector(
   [selectCart],
   (cart) => cart.hidden

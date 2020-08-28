@@ -16,7 +16,8 @@ import {
 import { signInUserFromSession } from "./redux/user/user.actions";
 import {
   selectCartVisibility,
-  selectIsUpdatingCart
+  selectIsUpdatingCart,
+  selectCartLoadingText
 } from "./redux/cart/cart.selectors";
 import { toggleCartVisibility } from "./redux/cart/cart.actions";
 import { createStructuredSelector } from "reselect";
@@ -30,7 +31,8 @@ const App = ({
   toggleCartVisibility,
   isChangingAuthState,
   loadingText,
-  isUpdatingCart
+  isUpdatingCart,
+  cartLoadingText
 }) => {
   useEffect(() => {
     signInUserFromSession();
@@ -47,11 +49,14 @@ const App = ({
   return (
     <div>
       <GlobalStyles />
-      <FullPageSpinner isLoading={isUpdatingCart} />
       {isChangingAuthState ? (
         <Spinner loadingText={loadingText} />
       ) : (
         <>
+          <FullPageSpinner
+            isLoading={isUpdatingCart}
+            loadingText={cartLoadingText}
+          />
           <NavBar />
           <ErrorBoundary>
             <Suspense fallback={<Spinner />}>
@@ -60,7 +65,7 @@ const App = ({
           </ErrorBoundary>
         </>
       )}
-      <Toast autoDelete dismissTime={2700} />
+      <Toast autoDelete dismissTime={2400} />
     </div>
   );
 };
@@ -69,7 +74,8 @@ const mapStateToProps = createStructuredSelector({
   isCartHidden: selectCartVisibility,
   isChangingAuthState: selectIsChangingAuthState,
   loadingText: selectLoadingText,
-  isUpdatingCart: selectIsUpdatingCart
+  isUpdatingCart: selectIsUpdatingCart,
+  cartLoadingText: selectCartLoadingText
 });
 
 const mapDispatchToProps = (dispatch) => ({
