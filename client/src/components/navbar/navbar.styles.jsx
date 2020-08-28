@@ -29,4 +29,5 @@ export const NavItem = styled(Link)`
   padding: 10px 15px;
   cursor: pointer;
   white-space: nowrap;
+  outline: none;
 `;

@@ -6,7 +6,7 @@ import {
   Price
 } from "./order-summary.styles";
 
-import StripeCheckOutButton from "../stripe-checkout-button/stripe-checkout-button.component";
+import StripeCheckoutButton from "../stripe-checkout-button/stripe-checkout-button.component";
 
 const OrderSummary = ({ cartTotal }) => {
   const subtotal = Math.round(cartTotal * 100) / 100;
@@ -26,7 +26,7 @@ const OrderSummary = ({ cartTotal }) => {
           Total <Price>${total}</Price>
         </div>
       </PriceSummaryContainer>
-      <StripeCheckOutButton price={total} label="Pay Now" />
+      <StripeCheckoutButton price={total} label="Pay Now" />
     </OrderSummaryContainer>
   );
 };
