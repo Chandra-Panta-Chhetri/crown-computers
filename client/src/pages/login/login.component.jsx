@@ -43,16 +43,16 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
             type="email"
             name="email"
             label="Email"
-            value={email}
-            handler={storeCredentials}
+            inputValue={email}
+            inputChangeHandler={storeCredentials}
             required
           />
           <FormInput
             type="password"
             name="password"
             label="Password"
-            value={password}
-            handler={storeCredentials}
+            inputValue={password}
+            inputChangeHandler={storeCredentials}
             required
           />
           <FormButton type="submit">Log In</FormButton>

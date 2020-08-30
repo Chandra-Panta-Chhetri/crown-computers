@@ -41,32 +41,32 @@ const SignUp = ({ signUpUser }) => {
             type="text"
             name="fullName"
             label="Full Name"
-            value={fullName}
-            handler={handleChange}
+            inputValue={fullName}
+            inputChangeHandler={handleChange}
             required
           />
           <FormInput
             type="email"
             name="email"
             label="Email"
-            value={email}
-            handler={handleChange}
+            inputValue={email}
+            inputChangeHandler={handleChange}
             required
           />
           <FormInput
             type="password"
             name="password"
             label="Password"
-            value={password}
-            handler={handleChange}
+            inputValue={password}
+            inputChangeHandler={handleChange}
             required
           />
           <FormInput
             type="password"
             name="confirmPassword"
             label="Confirm Password"
-            value={confirmPassword}
-            handler={handleChange}
+            inputValue={confirmPassword}
+            inputChangeHandler={handleChange}
             required
           />
           <FormButton type="submit">Sign Up</FormButton>

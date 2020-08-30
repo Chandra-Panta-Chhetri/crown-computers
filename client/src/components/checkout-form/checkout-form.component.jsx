@@ -88,53 +88,53 @@ const CheckoutForm = ({ price }) => {
       <FormInput
         label="Name"
         name="name"
-        handler={handleCustomerDetailsChange}
-        value={customerInfo.name}
+        inputChangeHandler={handleCustomerDetailsChange}
+        inputValue={customerInfo.name}
         required
       />
       <FormInput
         label="Email"
         name="email"
         type="email"
-        handler={handleCustomerDetailsChange}
-        value={customerInfo.email}
+        inputChangeHandler={handleCustomerDetailsChange}
+        inputValue={customerInfo.email}
         required
       />
       <FormInput
         label="Phone Number"
         name="phone"
         type="tel"
-        handler={handleCustomerDetailsChange}
-        value={customerInfo.phone}
+        inputChangeHandler={handleCustomerDetailsChange}
+        inputValue={customerInfo.phone}
         required
       />
       <SubHeading>Billing & Shipping Details</SubHeading>
       <FormInput
         label="Street"
         name="street"
-        handler={handleBillingDetailsChange}
-        value={billingDetails.street}
+        inputChangeHandler={handleBillingDetailsChange}
+        inputValue={billingDetails.street}
         required
       />
       <FormInput
         label="City"
         name="city"
-        handler={handleBillingDetailsChange}
-        value={billingDetails.city}
+        inputChangeHandler={handleBillingDetailsChange}
+        inputValue={billingDetails.city}
         required
       />
       <FormInput
         label="Country"
         name="country"
-        handler={handleBillingDetailsChange}
-        value={billingDetails.country}
+        inputChangeHandler={handleBillingDetailsChange}
+        inputValue={billingDetails.country}
         required
       />
       <FormInput
         label="Postal Code"
         name="postal_code"
-        handler={handleBillingDetailsChange}
-        value={billingDetails.postal_code}
+        inputChangeHandler={handleBillingDetailsChange}
+        inputValue={billingDetails.postal_code}
         required
       />
       <SubHeading>Payment Details</SubHeading>

@@ -1,16 +1,21 @@
 import React from "react";
 import { FormInputContainer, InputLabel, FormField } from "./form-input.styles";
 
-const FormInput = ({ label, handler, ...otherFieldProps }) => (
+const FormInput = ({
+  label,
+  inputChangeHandler,
+  inputValue = "",
+  ...otherFieldProps
+}) => (
   <FormInputContainer>
-    <InputLabel
-      className={
-        otherFieldProps.value && otherFieldProps.value.length ? "shrink" : ""
-      }
-    >
+    <InputLabel className={inputValue.length ? "shrink" : ""}>
       {label}
     </InputLabel>
-    <FormField onChange={handler} {...otherFieldProps} />
+    <FormField
+      onChange={inputChangeHandler}
+      inputValue={inputValue}
+      {...otherFieldProps}
+    />
   </FormInputContainer>
 );
 
