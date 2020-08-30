@@ -38,6 +38,7 @@ export const FormField = styled.input`
   border: none;
   border-radius: 6px;
   border: 1px solid ${subColor};
+  background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
 
   &:focus {
     outline: none;

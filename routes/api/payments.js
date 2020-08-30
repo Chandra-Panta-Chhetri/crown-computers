@@ -5,16 +5,20 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 router.post("", async (req, res) => {
   try {
     const { amount } = req.body;
+    if (!isPositiveNumber(amount)) throw Error();
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: "cad"
     });
-    console.log(paymentIntent, amount);
     res.status(200).json(paymentIntent.client_secret);
   } catch (e) {
-    console.log(e.message);
-    res.status(400).json({ msg: e.message });
+    res.status(400).json({
+      msg:
+        "Something went wrong while processing your payment. Please try again."
+    });
   }
 });
+
+const isPositiveNumber = (num) => num > 0;
 
 module.exports = router;

@@ -3,7 +3,7 @@ import { FormInputContainer, InputLabel, FormField } from "./form-input.styles";
 
 const FormInput = ({
   label,
-  inputChangeHandler,
+  inputChangeHandler = undefined,
   inputValue = "",
   ...otherFieldProps
 }) => (
@@ -13,7 +13,7 @@ const FormInput = ({
     </InputLabel>
     <FormField
       onChange={inputChangeHandler}
-      inputValue={inputValue}
+      value={inputValue}
       {...otherFieldProps}
     />
   </FormInputContainer>

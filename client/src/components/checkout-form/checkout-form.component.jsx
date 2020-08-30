@@ -13,6 +13,12 @@ import FormInput from "../form-input/form-input.component";
 
 import axios from "axios";
 
+const cardElementOptions = {
+  iconStyle: "solid",
+  style: cardElementStyles,
+  hidePostalCode: true
+};
+
 const CheckoutForm = ({ price }) => {
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState("");
@@ -24,42 +30,37 @@ const CheckoutForm = ({ price }) => {
   const [billingDetails, setBillingDetails] = useState({
     city: "",
     postal_code: "",
-    street: "",
-    country: ""
+    line1: "",
+    country: "CA"
   });
   const stripe = useStripe();
   const elements = useElements();
 
   const handlePayment = async (e) => {
     e.preventDefault();
-
     setIsPaymentProcessing(true);
     const cardElement = elements.getElement("card");
+    console.log(cardElement);
     try {
       const { data: clientSecret } = await axios.post("/api/payments", {
         amount: price * 100
       });
-
       const paymentMethodReq = await stripe.createPaymentMethod({
         type: "card",
         card: cardElement,
         billing_details: { ...customerInfo, address: { ...billingDetails } }
       });
-
       if (paymentMethodReq.error) {
         throw Error(paymentMethodReq.error.message);
       }
-
       const { error } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: paymentMethodReq.paymentMethod.id
       });
-
       if (error) {
         throw Error(error.message);
       }
-      alert("payment success");
-    } catch (e) {
-      setPaymentError(e.message);
+    } catch (err) {
+      setPaymentError(err.message);
     }
     setIsPaymentProcessing(false);
   };
@@ -74,12 +75,6 @@ const CheckoutForm = ({ price }) => {
 
   const handleCardDetailsChange = (e) => {
     e.error ? setPaymentError(e.error.message) : setPaymentError();
-  };
-
-  const cardElementOptions = {
-    iconStyle: "solid",
-    style: cardElementStyles,
-    hidePostalCode: true
   };
 
   return (
@@ -111,9 +106,9 @@ const CheckoutForm = ({ price }) => {
       <SubHeading>Billing & Shipping Details</SubHeading>
       <FormInput
         label="Street"
-        name="street"
+        name="line1"
         inputChangeHandler={handleBillingDetailsChange}
-        inputValue={billingDetails.street}
+        inputValue={billingDetails.line1}
         required
       />
       <FormInput
@@ -123,13 +118,7 @@ const CheckoutForm = ({ price }) => {
         inputValue={billingDetails.city}
         required
       />
-      <FormInput
-        label="Country"
-        name="country"
-        inputChangeHandler={handleBillingDetailsChange}
-        inputValue={billingDetails.country}
-        required
-      />
+      <FormInput label="Country" name="country" inputValue="Canada" readOnly />
       <FormInput
         label="Postal Code"
         name="postal_code"
