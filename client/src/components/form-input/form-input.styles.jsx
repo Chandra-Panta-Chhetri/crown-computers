@@ -11,7 +11,7 @@ const shrinkLabelMixin = css`
 
 export const FormInputContainer = styled.div`
   position: relative;
-  margin: 45px 0;
+  margin: 30px 0;
 `;
 
 export const InputLabel = styled.label`

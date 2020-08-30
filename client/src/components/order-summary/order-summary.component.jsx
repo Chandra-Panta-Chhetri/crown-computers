@@ -26,7 +26,7 @@ const OrderSummary = ({ cartTotal }) => {
           Total <Price>${total}</Price>
         </div>
       </PriceSummaryContainer>
-      <StripeCheckoutButton price={total} label="Pay Now" />
+      <StripeCheckoutButton price={total} label="Proceed To Checkout" />
     </OrderSummaryContainer>
   );
 };
