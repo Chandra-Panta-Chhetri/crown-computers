@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { loadingDotsAnimationStyles } from "../spinner/spinner.styles";
 
 import Button from "../button/button.component";
 
@@ -11,17 +12,15 @@ export const SubHeading = styled.h4`
   letter-spacing: 1.6px;
 `;
 
+export const LoadingText = styled.p`
+  margin: 0;
+  ${loadingDotsAnimationStyles}
+`;
+
 export const PayNowButton = styled(Button)`
   margin-top: 25px;
   width: 100%;
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
-  background-color: black;
-  color: white;
-
-  &:hover {
-    background-color: gainsboro;
-    color: black;
-  }
 `;
 
 export const CardElementContainer = styled.div`

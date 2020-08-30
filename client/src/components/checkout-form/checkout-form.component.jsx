@@ -5,7 +5,8 @@ import {
   SubHeading,
   cardElementStyles,
   CardElementContainer,
-  ErrorText
+  ErrorText,
+  LoadingText
 } from "./checkout-form.styles";
 
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -135,7 +136,11 @@ const CheckoutForm = ({ price }) => {
       </CardElementContainer>
       {paymentError ? <ErrorText>{paymentError}</ErrorText> : null}
       <PayNowButton type="submit" disabled={isPaymentProcessing || !stripe}>
-        {isPaymentProcessing ? "Processing Payment..." : `Pay $${price}`}
+        {isPaymentProcessing ? (
+          <LoadingText>Processing Payment</LoadingText>
+        ) : (
+          `Pay $${price}`
+        )}
       </PayNowButton>
     </CheckoutFormContainer>
   );
