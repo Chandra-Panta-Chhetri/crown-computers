@@ -43,8 +43,4 @@ export const FormField = styled.input`
   &:focus {
     outline: none;
   }
-
-  &:focus ~ ${InputLabel} {
-    ${shrinkLabelMixin}
-  }
 `;
