@@ -23,10 +23,10 @@ const cartReducer = (prevState = INITIAL_STATE, action) => {
         isUpdatingCart: true,
         loadingText: action.payload.loadingText
       };
-    case CART_ACTION_TYPES.UPDATE_CART:
+    case CART_ACTION_TYPES.UPDATE_CART_SUCCESS:
       return {
         ...prevState,
-        shoppingCart: action.payload,
+        shoppingCart: action.payload.cart,
         isUpdatingCart: false
       };
     case CART_ACTION_TYPES.UPDATE_CART_FAIL:

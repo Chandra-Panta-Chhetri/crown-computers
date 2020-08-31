@@ -1,5 +1,5 @@
-import { takeLatest, put, call, all, select } from "redux-saga/effects";
 import USER_ACTION_TYPES from "./user.action.types";
+import { takeLatest, put, call, all, select } from "redux-saga/effects";
 import {
   signInSuccess,
   signInFail,
@@ -17,6 +17,10 @@ import {
 } from "../../utils/firebase.user_utils";
 import { getUserCartAndCartId } from "../../utils/firebase.cart_utils";
 import { selectWasSignedIn } from "./user.selectors";
+import {
+  addErrorNotification,
+  addSuccessNotification
+} from "../notification/notification.actions";
 
 function* setUserFromSnapShot(userAuth, additionalData) {
   const userRef = yield createOrGetUser(userAuth, additionalData);
@@ -86,16 +90,41 @@ function* signUpUser({
   }
 }
 
+function* handleSignInFail({ payload: errorMsg }) {
+  yield put(addErrorNotification("Sign In Failed", errorMsg));
+}
+
+function* handleSignInSuccess({ payload: loggedInUser }) {
+  yield put(
+    addSuccessNotification(
+      "Sign In Successful",
+      `Welcome back ${loggedInUser.fullName.toUpperCase()}! Your cart has been restored`
+    )
+  );
+}
+
+function* handleSignUpFail({ payload: errorMsg }) {
+  yield put(addErrorNotification("Sign Up Failed", errorMsg));
+}
+
+function* handleLogOutFail({ payload: errorMsg }) {
+  yield put(addErrorNotification("Log Out Failed", errorMsg));
+}
+
+function* watchSignUpStart() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, signUpUser);
+}
+
+function* watchSignUpFail() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_FAIL, handleSignUpFail);
+}
+
 function* watchGoogleSignIn() {
   yield takeLatest(USER_ACTION_TYPES.GOOGLE_SIGN_IN_START, signInWithGoogle);
 }
 
 function* watchEmailSignIn() {
   yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, signInWithEmail);
-}
-
-function* watchSignOut() {
-  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_START, signOutUser);
 }
 
 function* watchgetUserFromSession() {
@@ -105,16 +134,32 @@ function* watchgetUserFromSession() {
   );
 }
 
-function* watchSignUp() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, signUpUser);
+function* watchSignInSuccess() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_IN_SUCCESS, handleSignInSuccess);
+}
+
+function* watchSignInFail() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_IN_FAIL, handleSignInFail);
+}
+
+function* watchLogOutStart() {
+  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_START, signOutUser);
+}
+
+function* watchLogOutFail() {
+  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_FAIL, handleLogOutFail);
 }
 
 export default function* userSagas() {
   yield all([
+    call(watchSignUpStart),
+    call(watchSignUpFail),
     call(watchGoogleSignIn),
     call(watchEmailSignIn),
     call(watchgetUserFromSession),
-    call(watchSignOut),
-    call(watchSignUp)
+    call(watchSignInFail),
+    call(watchSignInSuccess),
+    call(watchLogOutStart),
+    call(watchLogOutFail)
   ]);
 }

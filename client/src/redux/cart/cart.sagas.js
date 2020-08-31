@@ -8,26 +8,28 @@ import {
   all,
   select
 } from "redux-saga/effects";
-import { clearCart, updateCart, updateCartFail } from "./cart.actions";
-import {
-  createSuccessNotification,
-  createErrorNotification
-} from "../notification/notification.sagas";
+import { clearCart, updateCartSuccess, updateCartFail } from "./cart.actions";
 import { saveCartToDb } from "../../utils/firebase.cart_utils";
 import { selectShoppingCart, selectCartId } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
 import { addToCart, changeItemQuantity, removeFromCart } from "./cart.utils";
+import {
+  addErrorNotification,
+  addSuccessNotification
+} from "../notification/notification.actions";
 
 function* handleAddingItemToCart({ payload: { item } }) {
   try {
     const cart = yield select(selectShoppingCart);
     const currentUser = yield select(selectCurrentUser);
     const updatedCart = yield addToCart(cart, item, !!currentUser);
-    yield createSuccessNotification(
-      "Added To Cart",
-      `${item.name} ($${item.price} ea.)`
+    yield put(
+      updateCartSuccess(
+        updatedCart,
+        "Added To Cart",
+        `${item.name} ($${item.price} ea.)`
+      )
     );
-    yield put(updateCart(updatedCart));
   } catch (err) {
     yield put(
       updateCartFail(
@@ -42,8 +44,7 @@ function* handleRemovingItemFromCart({ payload: { item } }) {
   const cart = yield select(selectShoppingCart);
   const currentUser = yield select(selectCurrentUser);
   const updatedCart = yield removeFromCart(cart, item, !!currentUser);
-  yield createSuccessNotification("Removed From Cart", item.name);
-  yield put(updateCart(updatedCart));
+  yield put(updateCartSuccess(updatedCart, "Removed From Cart", item.name));
 }
 
 function* handleUpdatingItemQuantity({ payload: { item, newQuantity } }) {
@@ -55,7 +56,9 @@ function* handleUpdatingItemQuantity({ payload: { item, newQuantity } }) {
       { item, newQuantity },
       !!currentUser
     );
-    yield put(updateCart(updatedCart));
+    yield put(
+      updateCartSuccess(updatedCart, "Updated Item Quantity", item.name)
+    );
   } catch (err) {
     yield put(
       updateCartFail(
@@ -66,8 +69,11 @@ function* handleUpdatingItemQuantity({ payload: { item, newQuantity } }) {
   }
 }
 
-function* saveCart({ payload: cartWithoutCartItemRefs }) {
+function* handleCartUpdateSuccess({
+  payload: { cart: cartWithoutCartItemRefs, successTitle, successMsg }
+}) {
   try {
+    yield put(addSuccessNotification(successTitle, successMsg));
     const currentUser = yield select(selectCurrentUser);
     const cartId = yield select(selectCartId);
     if (currentUser && cartId) {
@@ -77,12 +83,12 @@ function* saveCart({ payload: cartWithoutCartItemRefs }) {
 }
 
 function* handleCartUpdateFail({ payload: { errorMsg, errorTitle } }) {
-  yield call(createErrorNotification, errorTitle, errorMsg);
+  yield put(addErrorNotification(errorTitle, errorMsg));
 }
 
 function* handleLogOutSuccess() {
   yield put(clearCart());
-  yield createSuccessNotification("Log Out Successful", "See you next time!");
+  yield put(addSuccessNotification("Log Out Successful", "See you next time!"));
 }
 
 function* watchSuccessfulLogOut() {
@@ -107,8 +113,11 @@ function* watchUpdatingItemQuantity() {
   );
 }
 
-function* watchCartUpdate() {
-  yield takeLatest(CART_ACTION_TYPES.UPDATE_CART, saveCart);
+function* watchCartUpdateSuccess() {
+  yield takeLatest(
+    CART_ACTION_TYPES.UPDATE_CART_SUCCESS,
+    handleCartUpdateSuccess
+  );
 }
 
 function* watchCartUpdateFail() {
@@ -121,7 +130,7 @@ export default function* cartSagas() {
     call(watchAddingToCart),
     call(watchRemovingFromCart),
     call(watchUpdatingItemQuantity),
-    call(watchCartUpdate),
+    call(watchCartUpdateSuccess),
     call(watchCartUpdateFail)
   ]);
 }

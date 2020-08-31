@@ -1,9 +1,8 @@
 import NOTIFICATION_ACTION_TYPES from "./notification.action.types";
 
-export const addSuccessNotification = (id, title, message) => ({
+export const addSuccessNotification = (title, message) => ({
   type: NOTIFICATION_ACTION_TYPES.ADD_SUCCESS_NOTIFICATION,
   payload: {
-    id,
     message,
     title,
     backgroundColor: "#5cb85c",
@@ -11,10 +10,9 @@ export const addSuccessNotification = (id, title, message) => ({
   }
 });
 
-export const addErrorNotification = (id, title, message) => ({
+export const addErrorNotification = (title, message) => ({
   type: NOTIFICATION_ACTION_TYPES.ADD_ERROR_NOTIFICATION,
   payload: {
-    id,
     message,
     title,
     backgroundColor: "#d9534f",
@@ -22,10 +20,9 @@ export const addErrorNotification = (id, title, message) => ({
   }
 });
 
-export const addInfoNotification = (id, title, message) => ({
+export const addInfoNotification = (title, message) => ({
   type: NOTIFICATION_ACTION_TYPES.ADD_INFO_NOTIFICATION,
   payload: {
-    id,
     message,
     title,
     backgroundColor: "#5bc0de",
@@ -33,10 +30,9 @@ export const addInfoNotification = (id, title, message) => ({
   }
 });
 
-export const addWarningNotification = (id, title, message) => ({
+export const addWarningNotification = (title, message) => ({
   type: NOTIFICATION_ACTION_TYPES.ADD_WARNING_NOTIFICATION,
   payload: {
-    id,
     message,
     title,
     backgroundColor: "#f0ad4e",

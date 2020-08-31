@@ -5,6 +5,7 @@ import {
   collectionFetchSuccess
 } from "./collection.actions";
 import { getProductCollection } from "../../utils/firebase.collection_utils";
+import { addErrorNotification } from "../notification/notification.actions";
 
 function* fetchCollection() {
   try {
@@ -19,6 +20,10 @@ function* fetchCollection() {
   }
 }
 
+function* handleCollectionFetchFail({ payload: errorMsg }) {
+  yield put(addErrorNotification("Collection Fetching Failed", errorMsg));
+}
+
 function* watchCollectionFetchStart() {
   yield takeLatest(
     COLLECTION_ACTION_TYPES.COLLECTION_FETCH_START,
@@ -26,6 +31,13 @@ function* watchCollectionFetchStart() {
   );
 }
 
+function* watchCollectionFetchFail() {
+  yield takeLatest(
+    COLLECTION_ACTION_TYPES.COLLECTION_FETCH_FAIL,
+    handleCollectionFetchFail
+  );
+}
+
 export default function* collectionSagas() {
-  yield all([call(watchCollectionFetchStart)]);
+  yield all([call(watchCollectionFetchStart), call(watchCollectionFetchFail)]);
 }

@@ -16,7 +16,7 @@ const directoryReducer = (prevState = INITIAL_STATE, action) => {
       return {
         ...prevState,
         isFetchingCategories: false,
-        productCategories: [...action.payload]
+        productCategories: action.payload
       };
 
     case DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_FAIL:

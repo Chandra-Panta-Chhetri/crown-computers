@@ -6,12 +6,12 @@ export const toggleCartVisibility = () => ({
 
 export const addToCart = (item) => ({
   type: CART_ACTION_TYPES.START_ADD_TO_CART,
-  payload: { item, loadingText: `Adding item to cart` }
+  payload: { item, loadingText: "Adding item to cart" }
 });
 
 export const removeFromCart = (item) => ({
   type: CART_ACTION_TYPES.START_REMOVE_FROM_CART,
-  payload: { item, loadingText: `Removing item from cart` }
+  payload: { item, loadingText: "Removing item from cart" }
 });
 
 export const changeItemQuantity = (item, newQuantity) => ({
@@ -23,9 +23,9 @@ export const changeItemQuantity = (item, newQuantity) => ({
   }
 });
 
-export const updateCart = (cart) => ({
-  type: CART_ACTION_TYPES.UPDATE_CART,
-  payload: cart
+export const updateCartSuccess = (cart, successTitle, successMsg) => ({
+  type: CART_ACTION_TYPES.UPDATE_CART_SUCCESS,
+  payload: { cart, successTitle, successMsg }
 });
 
 export const updateCartFail = (errorTitle, errorMsg) => ({

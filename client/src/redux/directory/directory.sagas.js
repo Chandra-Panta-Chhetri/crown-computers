@@ -5,6 +5,7 @@ import {
   categoriesFetchSuccess
 } from "./directory.actions";
 import { getProductCategories } from "../../utils/firebase.collection_utils";
+import { addErrorNotification } from "../notification/notification.actions";
 
 function* fetchCategories() {
   try {
@@ -19,6 +20,10 @@ function* fetchCategories() {
   }
 }
 
+function* handleCategoriesFetchFail({ payload: errorMsg }) {
+  yield put(addErrorNotification("Categories Fetching Failed", errorMsg));
+}
+
 function* watchCategoriesFetchStart() {
   yield takeLatest(
     DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_START,
@@ -26,6 +31,13 @@ function* watchCategoriesFetchStart() {
   );
 }
 
+function* watchCategoriesFetchFail() {
+  yield takeLatest(
+    DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_FAIL,
+    handleCategoriesFetchFail
+  );
+}
+
 export default function* directorySagas() {
-  yield all([call(watchCategoriesFetchStart)]);
+  yield all([call(watchCategoriesFetchStart), call(watchCategoriesFetchFail)]);
 }

@@ -3,6 +3,19 @@ import {
   removeCartItem
 } from "../../utils/firebase.cart_utils";
 
+const updateItemQuantityInCart = (
+  shoppingCart,
+  itemStock,
+  newQuantity,
+  itemIndex
+) => {
+  if (!hasEnoughInStock(itemStock, newQuantity)) throw Error();
+  shoppingCart[itemIndex] = {
+    ...shoppingCart[itemIndex],
+    quantity: newQuantity
+  };
+};
+
 export const addToCart = async (shoppingCart, item, isLoggedIn) => {
   const itemIndex = shoppingCart.findIndex(
     (cartItem) => cartItem.productId === item.productId
@@ -19,11 +32,25 @@ export const addToCart = async (shoppingCart, item, isLoggedIn) => {
     ];
   }
   const newQuantity = shoppingCart[itemIndex].quantity + 1;
-  if (!hasEnoughInStock(item.stock, newQuantity)) throw Error();
-  shoppingCart[itemIndex] = {
-    ...shoppingCart[itemIndex],
-    quantity: newQuantity
-  };
+  updateItemQuantityInCart(shoppingCart, item.stock, newQuantity, itemIndex);
+  return [...shoppingCart];
+};
+
+export const changeItemQuantity = async (
+  shoppingCart,
+  { item, newQuantity },
+  isLoggedIn
+) => {
+  if (newQuantity <= 0) {
+    const updatedCart = await removeFromCart(shoppingCart, item, isLoggedIn);
+    return updatedCart;
+  }
+  const itemIndex = shoppingCart.findIndex(
+    (cartItem) => cartItem.productId === item.productId
+  );
+  if (itemIndex !== -1) {
+    updateItemQuantityInCart(shoppingCart, item.stock, newQuantity, itemIndex);
+  }
   return [...shoppingCart];
 };
 
@@ -34,28 +61,6 @@ export const removeFromCart = async (shoppingCart, item, isLoggedIn) => {
   return shoppingCart.filter(
     (cartItem) => cartItem.productId !== item.productId
   );
-};
-
-export const changeItemQuantity = async (
-  shoppingCart,
-  { item, newQuantity },
-  isLoggedIn
-) => {
-  if (!hasEnoughInStock(item.stock, newQuantity)) throw Error();
-  if (newQuantity <= 0) {
-    const updatedCart = await removeFromCart(shoppingCart, item, isLoggedIn);
-    return updatedCart;
-  }
-  const itemIndex = shoppingCart.findIndex(
-    (cartItem) => cartItem.productId === item.productId
-  );
-  if (itemIndex !== -1) {
-    shoppingCart[itemIndex] = {
-      ...shoppingCart[itemIndex],
-      quantity: newQuantity
-    };
-  }
-  return [...shoppingCart];
 };
 
 const hasEnoughInStock = (stock, quantity) => quantity <= stock;
