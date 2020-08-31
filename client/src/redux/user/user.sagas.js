@@ -32,7 +32,7 @@ function* signInWithGoogle() {
     yield call(setUserFromSnapShot, user, {
       fullName: user.displayName
     });
-  } catch (e) {
+  } catch (err) {
     yield put(signInFail("Google sign in failed"));
   }
 }
@@ -41,7 +41,7 @@ function* signInWithEmail({ payload: { email, password } }) {
   try {
     const { user } = yield auth.signInWithEmailAndPassword(email, password);
     yield call(setUserFromSnapShot, user);
-  } catch (e) {
+  } catch (err) {
     yield put(signInFail("Email or password incorrect"));
   }
 }
@@ -56,7 +56,7 @@ function* setUserFromSession() {
       yield put(startAutoSignIn());
       yield call(setUserFromSnapShot, user);
     }
-  } catch (e) {
+  } catch (err) {
     yield put(signInFail("Auto sign in failed, please login again"));
     yield put(clearCart());
   }
@@ -66,7 +66,7 @@ function* signOutUser() {
   try {
     yield auth.signOut();
     yield put(logOutSuccess());
-  } catch (e) {
+  } catch (err) {
     yield put(logOutFail("Signing out failed, please try again"));
   }
 }
@@ -81,8 +81,8 @@ function* signUpUser({
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
     yield createOrGetUser(user, { fullName });
     yield put(startEmailSignIn({ email, password }));
-  } catch (e) {
-    yield put(signUpFail(e.message));
+  } catch (err) {
+    yield put(signUpFail(err.message));
   }
 }
 

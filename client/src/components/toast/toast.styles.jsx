@@ -40,7 +40,7 @@ export const Notification = styled.div`
   padding: 30px;
   margin-bottom: 15px;
   width: 300px;
-  max-height: 100px;
+  max-height: 110px;
   border-radius: 3px 3px 3px 3px;
   box-shadow: 0 0 1.6px #999;
   color: #000;

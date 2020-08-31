@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   shoppingCart: [],
   cartId: null,
   isUpdatingCart: false,
-  loadingText: "hi"
+  loadingText: ""
 };
 
 const cartReducer = (prevState = INITIAL_STATE, action) => {
@@ -27,6 +27,11 @@ const cartReducer = (prevState = INITIAL_STATE, action) => {
       return {
         ...prevState,
         shoppingCart: action.payload,
+        isUpdatingCart: false
+      };
+    case CART_ACTION_TYPES.UPDATE_CART_FAIL:
+      return {
+        ...prevState,
         isUpdatingCart: false
       };
     case CART_ACTION_TYPES.CLEAR_CART:

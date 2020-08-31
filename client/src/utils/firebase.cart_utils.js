@@ -39,7 +39,7 @@ export const getUserCartAndCartId = async (userRef) => {
     const cartWithCartItemRefs = cartSnapshot.data().cartItems;
     const cartWithoutCartItemRefs = await populateCart(cartWithCartItemRefs);
     return { cart: cartWithoutCartItemRefs, cartId: cartSnapshot.id };
-  } catch (e) {
+  } catch (err) {
     const newCartRef = await createNewCart(userRef);
     return { cart: [], cartId: newCartRef.id };
   }
@@ -66,7 +66,7 @@ const getCartItemFromCartItemRef = async (cartItemRef) => {
       ...product,
       quantity
     };
-  } catch (e) {
+  } catch (err) {
     await cartItemRef.delete();
     return null;
   }
@@ -82,7 +82,7 @@ const populateCart = async (cartWithCartItemRefs) => {
       }
     }
     return populatedCart;
-  } catch (e) {
+  } catch (err) {
     return [];
   }
 };

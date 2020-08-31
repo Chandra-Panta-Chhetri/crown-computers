@@ -10,7 +10,7 @@ function* fetchCategories() {
   try {
     const productCategories = yield getProductCategories();
     yield put(categoriesFetchSuccess(productCategories));
-  } catch (e) {
+  } catch (err) {
     yield put(
       categoriesFetchFail(
         "There was a problem with displaying the product categories"

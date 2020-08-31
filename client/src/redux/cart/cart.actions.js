@@ -28,6 +28,11 @@ export const updateCart = (cart) => ({
   payload: cart
 });
 
+export const updateCartFail = (errorTitle, errorMsg) => ({
+  type: CART_ACTION_TYPES.UPDATE_CART_FAIL,
+  payload: { errorMsg, errorTitle }
+});
+
 export const clearCart = () => ({
   type: CART_ACTION_TYPES.CLEAR_CART
 });

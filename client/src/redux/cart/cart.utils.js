@@ -19,6 +19,7 @@ export const addToCart = async (shoppingCart, item, isLoggedIn) => {
     ];
   }
   const newQuantity = shoppingCart[itemIndex].quantity + 1;
+  if (!hasEnoughInStock(item.stock, newQuantity)) throw Error();
   shoppingCart[itemIndex] = {
     ...shoppingCart[itemIndex],
     quantity: newQuantity
@@ -40,6 +41,7 @@ export const changeItemQuantity = async (
   { item, newQuantity },
   isLoggedIn
 ) => {
+  if (!hasEnoughInStock(item.stock, newQuantity)) throw Error();
   if (newQuantity <= 0) {
     const updatedCart = await removeFromCart(shoppingCart, item, isLoggedIn);
     return updatedCart;
@@ -55,3 +57,5 @@ export const changeItemQuantity = async (
   }
   return [...shoppingCart];
 };
+
+const hasEnoughInStock = (stock, quantity) => quantity <= stock;

@@ -11,7 +11,7 @@ router.post("", async (req, res) => {
       currency: "cad"
     });
     res.status(200).json(paymentIntent.client_secret);
-  } catch (e) {
+  } catch (err) {
     res.status(400).json({
       msg:
         "Something went wrong while processing your payment. Please try again."

@@ -10,7 +10,7 @@ function* fetchCollection() {
   try {
     const productCollection = yield getProductCollection();
     yield put(collectionFetchSuccess(productCollection));
-  } catch (e) {
+  } catch (err) {
     yield put(
       collectionFetchFail(
         "There was a problem with displaying the product collection"
