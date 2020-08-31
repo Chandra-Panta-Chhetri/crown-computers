@@ -17,11 +17,9 @@ export const getProductsInCategory = async (
   productCategoryRef,
   categoryName
 ) => {
-  const getProductsInCategoryQuery = productCollectionRef.where(
-    "productCategoryRef",
-    "==",
-    productCategoryRef
-  );
+  const getProductsInCategoryQuery = productCollectionRef
+    .where("productCategoryRef", "==", productCategoryRef)
+    .where("stock", ">", 0);
   const productsSnapshot = await getProductsInCategoryQuery.get();
   const productsInCategorySnapshots = productsSnapshot.docs;
   const productsInCategory = productsInCategorySnapshots.map(
