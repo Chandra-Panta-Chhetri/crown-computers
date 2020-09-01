@@ -4,12 +4,11 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 router.post("", async (req, res) => {
   try {
-    const { amount, receipt_email } = req.body;
+    const { amount } = req.body;
     if (!isPositiveNumber(amount)) throw Error();
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
-      currency: "cad",
-      receipt_email
+      currency: "cad"
     });
     res.status(200).json(paymentIntent.client_secret);
   } catch (err) {

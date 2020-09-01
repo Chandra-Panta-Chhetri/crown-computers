@@ -41,11 +41,9 @@ const CheckoutForm = ({ price }) => {
     e.preventDefault();
     setIsPaymentProcessing(true);
     const cardElement = elements.getElement("card");
-    console.log(cardElement);
     try {
       const { data: clientSecret } = await axios.post("/api/payments", {
-        amount: price * 100,
-        receipt_email: customerInfo.email
+        amount: price * 100
       });
       const paymentMethodReq = await stripe.createPaymentMethod({
         type: "card",
