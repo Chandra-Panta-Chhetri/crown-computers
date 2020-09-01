@@ -39,6 +39,7 @@ export const FormField = styled.input`
   border-radius: 6px;
   border: 1px solid ${subColor};
   background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
+  text-transform: ${(props) => (props.uppercaseInput ? "uppercase" : "none")};
 
   &:focus {
     outline: none;

@@ -44,7 +44,8 @@ const CheckoutForm = ({ price }) => {
     console.log(cardElement);
     try {
       const { data: clientSecret } = await axios.post("/api/payments", {
-        amount: price * 100
+        amount: price * 100,
+        receipt_email: customerInfo.email
       });
       const paymentMethodReq = await stripe.createPaymentMethod({
         type: "card",
@@ -99,7 +100,8 @@ const CheckoutForm = ({ price }) => {
       <FormInput
         label="Phone Number"
         name="phone"
-        type="tel"
+        pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$"
+        title="123-456-7890 or 123 456 7890"
         inputChangeHandler={handleCustomerDetailsChange}
         inputValue={customerInfo.phone}
         required
@@ -123,9 +125,12 @@ const CheckoutForm = ({ price }) => {
       <FormInput
         label="Postal Code"
         name="postal_code"
+        pattern="^([A-Z]\d[A-Z] ?\d[A-Z]\d)$"
+        title="A1A 2A3 or A1A2A3"
         inputChangeHandler={handleBillingDetailsChange}
         inputValue={billingDetails.postal_code}
         required
+        uppercaseInput
       />
       <SubHeading>Payment Details</SubHeading>
       <CardElementContainer>
