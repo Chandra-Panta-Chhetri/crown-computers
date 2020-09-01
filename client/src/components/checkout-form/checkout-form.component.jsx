@@ -5,14 +5,16 @@ import {
   SubHeading,
   cardElementStyles,
   CardElementContainer,
-  ErrorText,
   LoadingText
 } from "./checkout-form.styles";
 
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import FormInput from "../form-input/form-input.component";
 
-import axios from "axios";
+import { startCheckout } from "../../redux/checkout/checkout.actions";
+import { connect } from "react-redux";
+import { addInfoNotification } from "../../redux/notification/notification.actions";
+import { selectIsCheckingOut } from "../../redux/checkout/checkout.selectors";
 
 const cardElementOptions = {
   iconStyle: "solid",
@@ -20,9 +22,14 @@ const cardElementOptions = {
   hidePostalCode: true
 };
 
-const CheckoutForm = ({ price }) => {
-  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
-  const [paymentError, setPaymentError] = useState("");
+const CheckoutForm = ({
+  price,
+  startCheckout,
+  onSuccessfulCheckout,
+  displayInfoNotification,
+  isCheckingOut
+}) => {
+  const [isCardDetailFilled, setIsCardDetailFilled] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
     email: "",
@@ -37,32 +44,18 @@ const CheckoutForm = ({ price }) => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const handlePayment = async (e) => {
+  const handleCheckout = async (e) => {
     e.preventDefault();
-    setIsPaymentProcessing(true);
     const cardElement = elements.getElement("card");
-    try {
-      const { data: clientSecret } = await axios.post("/api/payments", {
-        amount: price * 100
-      });
-      const paymentMethodReq = await stripe.createPaymentMethod({
-        type: "card",
-        card: cardElement,
-        billing_details: { ...customerInfo, address: { ...billingDetails } }
-      });
-      if (paymentMethodReq.error) {
-        throw Error(paymentMethodReq.error.message);
-      }
-      const { error } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: paymentMethodReq.paymentMethod.id
-      });
-      if (error) {
-        throw Error(error.message);
-      }
-    } catch (err) {
-      setPaymentError(err.message);
-    }
-    setIsPaymentProcessing(false);
+    startCheckout(
+      stripe,
+      cardElement,
+      customerInfo,
+      billingDetails,
+      {},
+      onSuccessfulCheckout,
+      price
+    );
   };
 
   const handleBillingDetailsChange = (e) => {
@@ -74,11 +67,14 @@ const CheckoutForm = ({ price }) => {
   };
 
   const handleCardDetailsChange = (e) => {
-    e.error ? setPaymentError(e.error.message) : setPaymentError();
+    setIsCardDetailFilled(e.complete);
+    if (e.error) {
+      displayInfoNotification("Issue With Card Details", e.error.message);
+    }
   };
 
   return (
-    <CheckoutFormContainer onSubmit={handlePayment}>
+    <CheckoutFormContainer onSubmit={handleCheckout}>
       <SubHeading>Customer Info</SubHeading>
       <FormInput
         label="Name"
@@ -137,9 +133,11 @@ const CheckoutForm = ({ price }) => {
           onChange={handleCardDetailsChange}
         />
       </CardElementContainer>
-      {paymentError ? <ErrorText>{paymentError}</ErrorText> : null}
-      <PayNowButton type="submit" disabled={isPaymentProcessing || !stripe}>
-        {isPaymentProcessing ? (
+      <PayNowButton
+        type="submit"
+        disabled={isCheckingOut || !stripe || !isCardDetailFilled}
+      >
+        {isCheckingOut ? (
           <LoadingText>Processing Payment</LoadingText>
         ) : (
           `Pay $${price}`
@@ -149,4 +147,33 @@ const CheckoutForm = ({ price }) => {
   );
 };
 
-export default CheckoutForm;
+const mapDispatchToProps = (dispatch) => ({
+  displayInfoNotification: (title, msg) =>
+    dispatch(addInfoNotification(title, msg)),
+  startCheckout: (
+    stripeInstance,
+    cardElement,
+    customerInfo,
+    billingDetails,
+    shippingDetails,
+    onSuccessfulCheckout,
+    price
+  ) =>
+    dispatch(
+      startCheckout(
+        stripeInstance,
+        cardElement,
+        customerInfo,
+        billingDetails,
+        shippingDetails,
+        onSuccessfulCheckout,
+        price
+      )
+    )
+});
+
+const mapStateToProps = (state) => ({
+  isCheckingOut: selectIsCheckingOut(state)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);

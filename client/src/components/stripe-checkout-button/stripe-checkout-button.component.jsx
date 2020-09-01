@@ -6,10 +6,11 @@ import CheckoutFrom from "../checkout-form/checkout-form.component";
 import { Elements } from "@stripe/react-stripe-js";
 
 import { loadStripe } from "@stripe/stripe-js";
+import { withRouter } from "react-router-dom";
 
 const stripe = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
-const StripeCheckoutButton = ({ price, label }) => {
+const StripeCheckoutButton = ({ price, label, history }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -20,11 +21,17 @@ const StripeCheckoutButton = ({ price, label }) => {
         modalTitle="Billing & Shipping Details"
       >
         <Elements stripe={stripe}>
-          <CheckoutFrom price={price} />
+          <CheckoutFrom
+            price={price}
+            onSuccessfulCheckout={() => {
+              setIsOpen(false);
+              history.push("/");
+            }}
+          />
         </Elements>
       </Modal>
     </>
   );
 };
 
-export default StripeCheckoutButton;
+export default withRouter(StripeCheckoutButton);

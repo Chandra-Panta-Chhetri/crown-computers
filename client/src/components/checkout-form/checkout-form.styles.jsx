@@ -20,7 +20,13 @@ export const LoadingText = styled.p`
 export const PayNowButton = styled(Button)`
   margin-top: 25px;
   width: 100%;
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: darkslategray;
+    opacity: 0.2;
+    color: white;
+  }
 `;
 
 export const CardElementContainer = styled.div`
@@ -49,11 +55,3 @@ export const cardElementStyles = {
     iconColor: "black"
   }
 };
-
-export const ErrorText = styled.p`
-  text-align: center;
-  font-weight: bold;
-  color: red;
-  letter-spacing: 0.8px;
-  margin-bottom: 0px;
-`;
