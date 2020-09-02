@@ -3,6 +3,13 @@ import { firestore } from "./firebase.config";
 const categoriesCollectionRef = firestore.collection("product_categories");
 const productCollectionRef = firestore.collection("products");
 
+export const setProductStock = async (productId, quantityToCheckout) => {
+  let productRef = firestore.doc(`products/${productId}`);
+  let productSnapshot = await productRef.get();
+  let { stock } = productSnapshot.data();
+  await productRef.update({ stock: stock - quantityToCheckout });
+};
+
 export const getProductCategories = async () => {
   const productCategoriesSnapshot = await categoriesCollectionRef.get();
   const categorySnapshots = productCategoriesSnapshot.docs;

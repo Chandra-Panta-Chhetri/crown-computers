@@ -1,4 +1,5 @@
 import { firestore } from "./firebase.config";
+import { setProductStock } from "./firebase.collection_utils";
 
 const cartCollectionRef = firestore.collection("carts");
 const cartItemCollectionRef = firestore.collection("cart_items");
@@ -10,6 +11,30 @@ export const createNewCart = async (userRef) => {
     userRef
   });
   return cartRef;
+};
+
+export const checkCartItemsInStock = async (shoppingCart) => {
+  for (let cartItem of shoppingCart) {
+    let productRef = firestore.doc(`products/${cartItem.productId}`);
+    let productSnapshot = await productRef.get();
+    if (!productSnapshot.exists) {
+      throw Error(
+        `${cartItem.name} no longer is sold. Please remove the item from cart completely and try again`
+      );
+    }
+    let { stock } = productSnapshot.data();
+    if (cartItem.quantity > stock) {
+      throw Error(
+        `There are only ${stock} ${cartItem.name} in stock. Please update the item's quantity and try again`
+      );
+    }
+  }
+};
+
+export const updateProductStocksInCart = async (shoppingCart) => {
+  for (let cartItem of shoppingCart) {
+    await setProductStock(cartItem.productId, cartItem.quantity);
+  }
 };
 
 export const createNewCartItemDoc = async (productId) => {

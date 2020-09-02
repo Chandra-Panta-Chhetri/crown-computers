@@ -13,8 +13,11 @@ import {
   selectCartId
 } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
-
 import axios from "axios";
+import {
+  checkCartItemsInStock,
+  updateProductStocksInCart
+} from "../../utils/firebase.cart_utils";
 
 function* checkoutCart({
   payload: {
@@ -28,6 +31,8 @@ function* checkoutCart({
   }
 }) {
   try {
+    const shoppingCart = yield select(selectShoppingCart);
+    yield checkCartItemsInStock(shoppingCart);
     const { data: clientSecret } = yield axios.post("/api/payments", {
       amount: price * 100
     });
@@ -46,6 +51,7 @@ function* checkoutCart({
     if (error) {
       throw Error(error.message);
     }
+    yield updateProductStocksInCart(shoppingCart);
     yield put(
       checkoutSuccess(
         onSuccessfulCheckout,
