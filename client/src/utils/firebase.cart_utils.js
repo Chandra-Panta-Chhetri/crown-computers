@@ -30,6 +30,11 @@ export const deleteAllCartItemDocInCart = async (shoppingCart) => {
   }
 };
 
+export const clearUserSavedCart = async (cartId) => {
+  const cartRef = firestore.doc(`carts/${cartId}`);
+  await cartRef.update({ cartItems: [] });
+};
+
 const getUserCartSnapshot = async (userRef) => {
   const getUserCartAndCartIdQuery = cartCollectionRef
     .where("userRef", "==", userRef)
@@ -51,7 +56,7 @@ export const getUserCartAndCartId = async (userRef) => {
   }
 };
 
-export const saveCartToDb = async (cartWithoutCartItemRefs, cartId) => {
+export const saveCart = async (cartWithoutCartItemRefs, cartId) => {
   const cartRef = firestore.doc(`carts/${cartId}`);
   const cartWithCartItemRefs = await replaceCartWithCartItemRefs(
     cartWithoutCartItemRefs
@@ -79,18 +84,16 @@ const getCartItemFromCartItemRef = async (cartItemRef) => {
 };
 
 const populateCart = async (cartWithCartItemRefs) => {
+  const populatedCart = [];
   try {
-    const populatedCart = [];
     for (let cartItemRef of cartWithCartItemRefs) {
       let cartItem = await getCartItemFromCartItemRef(cartItemRef);
       if (cartItem) {
         populatedCart.push(cartItem);
       }
     }
-    return populatedCart;
-  } catch (err) {
-    return [];
-  }
+  } catch (err) {}
+  return populatedCart;
 };
 
 const replaceCartWithCartItemRefs = async (cartWithoutCartItemRefs) => {

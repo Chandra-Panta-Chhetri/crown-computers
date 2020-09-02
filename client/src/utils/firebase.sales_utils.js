@@ -1,5 +1,8 @@
 import { firestore } from "./firebase.config";
-import { deleteAllCartItemDocInCart } from "./firebase.cart_utils";
+import {
+  deleteAllCartItemDocInCart,
+  clearUserSavedCart
+} from "./firebase.cart_utils";
 
 const saleCollectionRef = firestore.collection("sales");
 
@@ -7,15 +10,17 @@ export const createNewSale = async (
   shoppingCart,
   paymentMethod,
   subTotal,
-  isUserLoggedIn
+  isUserLoggedIn,
+  cartId
 ) => {
   const createdAt = new Date();
   if (isUserLoggedIn) {
     await deleteAllCartItemDocInCart(shoppingCart);
+    clearUserSavedCart(cartId);
   }
-  const items = createNewCartWithImportantProductInfo(shoppingCart);
+  const itemsSold = createNewCartWithImportantProductInfo(shoppingCart);
   const newSaleDocRef = await saleCollectionRef.add({
-    items,
+    itemsSold,
     subTotal,
     paymentMethod,
     createdAt

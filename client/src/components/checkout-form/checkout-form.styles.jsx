@@ -20,6 +20,8 @@ export const LoadingText = styled.p`
 export const PayNowButton = styled(Button)`
   margin-top: 25px;
   width: 100%;
+  background: darkslategray;
+  color: white;
 
   &:disabled {
     cursor: not-allowed;

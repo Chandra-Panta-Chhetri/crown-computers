@@ -7,7 +7,11 @@ import {
 import { checkoutFail, checkoutSuccess } from "./checkout.actions";
 import { clearCart } from "../cart/cart.actions";
 import { createNewSale } from "../../utils/firebase.sales_utils";
-import { selectShoppingCart, selectCartTotal } from "../cart/cart.selectors";
+import {
+  selectShoppingCart,
+  selectCartTotal,
+  selectCartId
+} from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
 
 import axios from "axios";
@@ -62,6 +66,7 @@ function* handleCheckoutSuccess({
     const shoppingCart = yield select(selectShoppingCart);
     const shoppingCartSubtotal = yield select(selectCartTotal);
     const currentUser = yield select(selectCurrentUser);
+    const cartId = yield select(selectCartId);
     yield put(addSuccessNotification(successTitle, successMsg));
     yield put(clearCart());
     yield onSuccessfulCheckout();
@@ -69,7 +74,8 @@ function* handleCheckoutSuccess({
       shoppingCart,
       paymentMethod,
       shoppingCartSubtotal,
-      !!currentUser
+      !!currentUser,
+      cartId
     );
   } catch (err) {}
 }
