@@ -23,10 +23,7 @@ const StripeCheckoutButton = ({ price, label, history }) => {
         <Elements stripe={stripe}>
           <CheckoutFrom
             price={price}
-            onSuccessfulCheckout={() => {
-              setIsOpen(false);
-              history.push("/");
-            }}
+            onSuccessfulCheckout={() => history.push("/")}
           />
         </Elements>
       </Modal>
