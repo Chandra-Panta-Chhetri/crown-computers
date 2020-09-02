@@ -1,6 +1,6 @@
 import {
-  createNewCartItem,
-  removeCartItem
+  createNewCartItemDoc,
+  deleteCartItemDoc
 } from "../../utils/firebase.cart_utils";
 
 const updateItemQuantityInCart = (
@@ -25,7 +25,7 @@ export const addToCart = async (shoppingCart, item, isLoggedIn) => {
     if (!isLoggedIn) {
       return [...shoppingCart, { ...item, quantity: 1 }];
     }
-    const { id: newCartItemId } = await createNewCartItem(item.productId);
+    const { id: newCartItemId } = await createNewCartItemDoc(item.productId);
     return [
       ...shoppingCart,
       { ...item, quantity: 1, cartItemId: newCartItemId }
@@ -56,7 +56,7 @@ export const changeItemQuantity = async (
 
 export const removeFromCart = async (shoppingCart, item, isLoggedIn) => {
   if (isLoggedIn) {
-    await removeCartItem(item.cartItemId);
+    await deleteCartItemDoc(item.cartItemId);
   }
   return shoppingCart.filter(
     (cartItem) => cartItem.productId !== item.productId

@@ -12,16 +12,22 @@ export const createNewCart = async (userRef) => {
   return cartRef;
 };
 
-export const createNewCartItem = async (productId) => {
+export const createNewCartItemDoc = async (productId) => {
   const newCartItemRef = cartItemCollectionRef.doc();
   const productRef = firestore.doc(`products/${productId}`);
   await newCartItemRef.set({ productRef, quantity: 1 });
   return newCartItemRef;
 };
 
-export const removeCartItem = async (cartItemId) => {
+export const deleteCartItemDoc = async (cartItemId) => {
   const cartItemRef = firestore.doc(`cart_items/${cartItemId}`);
   await cartItemRef.delete();
+};
+
+export const deleteAllCartItemDocInCart = async (shoppingCart) => {
+  for (let cartItem of shoppingCart) {
+    await deleteCartItemDoc(cartItem.cartItemId);
+  }
 };
 
 const getUserCartSnapshot = async (userRef) => {

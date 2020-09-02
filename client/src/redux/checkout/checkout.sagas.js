@@ -6,6 +6,9 @@ import {
 } from "../notification/notification.actions";
 import { checkoutFail, checkoutSuccess } from "./checkout.actions";
 import { clearCart } from "../cart/cart.actions";
+import { createNewSale } from "../../utils/firebase.sales_utils";
+import { selectShoppingCart, selectCartTotal } from "../cart/cart.selectors";
+import { selectCurrentUser } from "../user/user.selectors";
 
 import axios from "axios";
 
@@ -32,6 +35,7 @@ function* checkoutCart({
     if (paymentMethodReq.error) {
       throw Error(paymentMethodReq.error.message);
     }
+    const paymentMethod = paymentMethodReq.paymentMethod.card.brand;
     const { error } = yield stripeInstance.confirmCardPayment(clientSecret, {
       payment_method: paymentMethodReq.paymentMethod.id
     });
@@ -42,7 +46,8 @@ function* checkoutCart({
       checkoutSuccess(
         onSuccessfulCheckout,
         "Payment Successful",
-        `${customerInfo.name} your payment was successful. Have a good day`
+        `${customerInfo.name} your payment was successful. Have a good day`,
+        paymentMethod
       )
     );
   } catch (err) {
@@ -51,12 +56,21 @@ function* checkoutCart({
 }
 
 function* handleCheckoutSuccess({
-  payload: { onSuccessfulCheckout, successTitle, successMsg }
+  payload: { onSuccessfulCheckout, successTitle, successMsg, paymentMethod }
 }) {
   try {
+    const shoppingCart = yield select(selectShoppingCart);
+    const shoppingCartSubtotal = yield select(selectCartTotal);
+    const currentUser = yield select(selectCurrentUser);
     yield put(addSuccessNotification(successTitle, successMsg));
     yield put(clearCart());
     yield onSuccessfulCheckout();
+    yield createNewSale(
+      shoppingCart,
+      paymentMethod,
+      shoppingCartSubtotal,
+      !!currentUser
+    );
   } catch (err) {}
 }
 
