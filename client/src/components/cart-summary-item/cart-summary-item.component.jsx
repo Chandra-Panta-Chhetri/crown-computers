@@ -16,6 +16,7 @@ import {
   removeFromCart,
   changeItemQuantity
 } from "../../redux/cart/cart.actions";
+import Button from "../button/button.component";
 
 const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
   const { name, imageUrl, price, quantity } = item;
@@ -42,7 +43,7 @@ const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
             className="summary-item-remove"
             onClick={() => removeItem(item)}
           >
-            <i className="fas fa-trash"></i> Remove
+            <Button>Remove Item</Button>
           </ItemRemoveContainer>
         </ItemActions>
       </ItemContent>

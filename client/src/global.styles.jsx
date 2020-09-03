@@ -8,7 +8,8 @@ export const GlobalStyles = createGlobalStyle`
   
   a {
     text-decoration: none;
-    color: black;
+    color: #3498db;
+    font-weight: 700;
   }
   
   * {

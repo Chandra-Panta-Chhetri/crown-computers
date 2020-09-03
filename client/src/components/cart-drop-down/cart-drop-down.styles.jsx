@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Button from "../button/button.component";
 
 export const CartDropDownContainer = styled.article`
   border: 1px solid black;
@@ -14,14 +13,4 @@ export const CartDropDownContainer = styled.article`
   right: 55px;
   background-color: white;
   border-radius: 25px;
-`;
-
-export const ViewCartButton = styled(Button)`
-  color: white;
-  background-color: black;
-
-  &:hover {
-    color: black;
-    background-color: #efefef;
-  }
 `;

@@ -4,11 +4,11 @@ import {
   FormContainer,
   Form,
   FormTitle,
-  FormButton,
-  FormRedirectLink
+  FormButton
 } from "../signup/signup.styles";
 
 import FormInput from "../../components/form-input/form-input.component";
+import { Link } from "react-router-dom";
 
 import {
   startGoogleSignIn,
@@ -24,7 +24,7 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
 
   const { email, password } = userCredentials;
 
-  const storeCredentials = (e) => {
+  const handleUserCredentialsChange = (e) => {
     const { value, name } = e.target;
     setUserCredentials({ ...userCredentials, [name]: value });
   };
@@ -44,7 +44,7 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
             name="email"
             label="Email"
             inputValue={email}
-            inputChangeHandler={storeCredentials}
+            inputChangeHandler={handleUserCredentialsChange}
             required
           />
           <FormInput
@@ -52,18 +52,17 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
             name="password"
             label="Password"
             inputValue={password}
-            inputChangeHandler={storeCredentials}
+            inputChangeHandler={handleUserCredentialsChange}
             required
           />
           <FormButton type="submit">Log In</FormButton>
           <h5>Or login with</h5>
           <FormButton type="button" onClick={startGoogleSignIn}>
-            <i className="fab fa-google"></i> Google
+            Google
           </FormButton>
         </Form>
         <h5>
-          Don't have an account?{" "}
-          <FormRedirectLink to="/signup">Sign up now</FormRedirectLink>
+          Don't have an account? <Link to="/signup">Sign up now</Link>
         </h5>
       </FormContainer>
     </LoginContainer>

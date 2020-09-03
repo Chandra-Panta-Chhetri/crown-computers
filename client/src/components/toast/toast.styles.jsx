@@ -41,7 +41,7 @@ export const Notification = styled.div`
   margin-bottom: 15px;
   width: 300px;
   max-height: 110px;
-  border-radius: 3px 3px 3px 3px;
+  border-radius: 6px;
   box-shadow: 0 0 1.6px #999;
   color: #000;
   opacity: 0.9;

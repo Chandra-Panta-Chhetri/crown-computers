@@ -4,7 +4,7 @@ export const JumbotronContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 6px;
   background-color: #e9ecef;
   width: 100%;
   padding: 25px 50px;

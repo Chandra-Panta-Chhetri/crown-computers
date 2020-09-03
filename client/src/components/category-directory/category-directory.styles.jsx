@@ -19,7 +19,7 @@ export const DirectoryContent = styled.div`
   position: absolute;
   background-color: white;
   opacity: 0.8;
-  border-radius: 8px;
+  border-radius: 6px;
   width: 20%;
   text-align: center;
 `;
@@ -34,7 +34,8 @@ export const CategoryDirectoryContainer = styled.div`
   border: 1px solid black;
   margin: 0 7.5px 15px;
   overflow: hidden;
-  border-radius: 25px;
+  border-radius: 6px;
+
   &:hover {
     cursor: pointer;
     & ${DirectoryImage} {

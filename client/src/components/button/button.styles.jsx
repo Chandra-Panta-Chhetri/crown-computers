@@ -1,25 +1,52 @@
 import styled from "styled-components";
 
+const buttonMainColor = "#3498db";
+
 export const ButtonContainer = styled.button`
-  min-width: 165px;
-  width: auto;
-  height: 50px;
-  letter-spacing: 0.5px;
-  line-height: 50px;
-  padding: 0 35px 0 35px;
-  font-size: 15px;
-  color: black;
-  text-transform: uppercase;
-  font-family: "Open Sans Condensed";
-  font-weight: bolder;
-  border: 2px solid white;
-  border-radius: 20px;
+  box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid ${buttonMainColor};
   cursor: pointer;
-  outline: none;
-  flex-grow: 1;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 1.1em 2.8em;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 6px;
+  color: ${buttonMainColor};
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 250ms ease-in-out;
+
+  &:focus {
+    outline: 0;
+    background: transparent;
+  }
 
   &:hover {
-    background-color: black;
-    color: white;
+    color: #fff;
+    outline: 0;
+    background: transparent;
+
+    &:after {
+      width: 110%;
+    }
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 100%;
+    background: ${buttonMainColor};
+    z-index: -1;
+    transition: width 250ms ease-in-out;
   }
 `;

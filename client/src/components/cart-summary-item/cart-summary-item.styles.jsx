@@ -4,7 +4,7 @@ export const CartSummaryItemContainer = styled.article`
   display: flex;
   padding: 25px 40px;
   border: 4px solid #efefef;
-  border-radius: 8px;
+  border-radius: 6px;
   justify-content: space-between;
   margin-bottom: 10px;
 `;

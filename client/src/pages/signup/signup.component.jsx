@@ -4,11 +4,12 @@ import {
   FormContainer,
   Form,
   FormTitle,
-  FormButton,
-  FormRedirectLink
+  FormButton
 } from "./signup.styles";
 
 import FormInput from "../../components/form-input/form-input.component";
+import { Link } from "react-router-dom";
+
 import { signUpStart } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
 
@@ -72,8 +73,7 @@ const SignUp = ({ signUpUser }) => {
           <FormButton type="submit">Sign Up</FormButton>
         </Form>
         <h5>
-          Have an account?{" "}
-          <FormRedirectLink to="/login">Login now</FormRedirectLink>
+          Have an account? <Link to="/login">Login now</Link>
         </h5>
       </FormContainer>
     </SignUpContainer>

@@ -21,7 +21,7 @@ const CollectionItem = ({ item, addToCart, history }) => {
       <ItemImageContainer>
         <ItemImage src={imageUrl} alt={name} />
         <AddToCartButton onClick={() => addToCart(item)}>
-          <i className="fas fa-cart-plus"></i> Add To Cart
+          Add To Cart
         </AddToCartButton>
       </ItemImageContainer>
       <ItemInfoContainer>
