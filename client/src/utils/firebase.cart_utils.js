@@ -1,5 +1,6 @@
 import { firestore } from "./firebase.config";
 import { setProductStock, getProductById } from "./firebase.collection_utils";
+import { truncate } from "../redux/cart/cart.sagas";
 
 const cartCollectionRef = firestore.collection("carts");
 const cartItemCollectionRef = firestore.collection("cart_items");
@@ -41,11 +42,15 @@ export const checkCartItemsInStockOrOutdated = async (shoppingCart) => {
     const { productData } = await getProductById(cartItem.productId);
     if (!productData) {
       throw Error(
-        `${cartItem.name} no longer is sold. Please remove the item from cart completely and try again`
+        `${truncate(
+          cartItem.name
+        )} is no longer sold. Please remove the item from cart completely and try again`
       );
     } else if (cartItem.quantity > productData.stock) {
       throw Error(
-        `There are only ${productData.stock} ${cartItem.name} in stock. Please update the item's quantity and try again`
+        `There are only ${productData.stock} ${truncate(
+          cartItem.name
+        )} in stock. Please update the item's quantity and try again`
       );
     }
   }

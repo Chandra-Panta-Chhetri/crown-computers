@@ -18,6 +18,13 @@ import {
   addSuccessNotification
 } from "../notification/notification.actions";
 
+const NUM_ITEM_NAME_CHAR_SHOWN = 20;
+
+export const truncate = (str) =>
+  str.length > NUM_ITEM_NAME_CHAR_SHOWN
+    ? str.substr(0, NUM_ITEM_NAME_CHAR_SHOWN - 1) + "..."
+    : str;
+
 function* handleAddingItemToCart({ payload: { item } }) {
   try {
     const cart = yield select(selectShoppingCart);
@@ -27,14 +34,14 @@ function* handleAddingItemToCart({ payload: { item } }) {
       updateCartSuccess(
         updatedCart,
         "Added To Cart",
-        `${item.name} ($${item.price} ea.)`
+        `${truncate(item.name)} ($${item.price} ea.)`
       )
     );
   } catch (err) {
     yield put(
       updateCartFail(
         "Adding To Cart Failed",
-        `Not enough ${item.name} in stock`
+        `Not enough ${truncate(item.name)} in stock`
       )
     );
   }
@@ -44,7 +51,9 @@ function* handleRemovingItemFromCart({ payload: { item } }) {
   const cart = yield select(selectShoppingCart);
   const currentUser = yield select(selectCurrentUser);
   const updatedCart = yield removeFromCart(cart, item, !!currentUser);
-  yield put(updateCartSuccess(updatedCart, "Removed From Cart", item.name));
+  yield put(
+    updateCartSuccess(updatedCart, "Removed From Cart", truncate(item.name))
+  );
 }
 
 function* handleUpdatingItemQuantity({ payload: { item, newQuantity } }) {
@@ -57,13 +66,17 @@ function* handleUpdatingItemQuantity({ payload: { item, newQuantity } }) {
       !!currentUser
     );
     yield put(
-      updateCartSuccess(updatedCart, "Updated Item Quantity", item.name)
+      updateCartSuccess(
+        updatedCart,
+        "Updated Item Quantity",
+        truncate(item.name)
+      )
     );
   } catch (err) {
     yield put(
       updateCartFail(
         `Increasing Quantity Failed`,
-        `Cannot add anymore ${item.name}. Not enough in stock`
+        `Cannot add anymore ${truncate(item.name)}. Not enough in stock`
       )
     );
   }
