@@ -8,16 +8,18 @@ import {
 
 import StripeCheckoutButton from "../stripe-checkout-button/stripe-checkout-button.component";
 
+const TAX_RATE = 0.13;
+
 const OrderSummary = ({ cartTotal }) => {
-  const subtotal = Math.round(cartTotal * 100) / 100;
-  const totalTax = Math.round(cartTotal * 0.13 * 100) / 100;
-  const total = Math.round(cartTotal * 1.13 * 100) / 100;
+  const subTotal = Math.round(cartTotal * 100) / 100;
+  const totalTax = Math.round(cartTotal * TAX_RATE * 100) / 100;
+  const total = subTotal + totalTax;
   return (
     <OrderSummaryContainer>
       <Heading>Order Summary</Heading>
       <PriceSummaryContainer>
         <div>
-          Subtotal <Price>${subtotal}</Price>
+          Subtotal <Price>${subTotal}</Price>
         </div>
         <div>
           Total Tax <Price>${totalTax}</Price>
