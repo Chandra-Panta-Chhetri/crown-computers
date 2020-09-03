@@ -1,5 +1,5 @@
 import { firestore } from "./firebase.config";
-import { setProductStock } from "./firebase.collection_utils";
+import { setProductStock, getProductById } from "./firebase.collection_utils";
 
 const cartCollectionRef = firestore.collection("carts");
 const cartItemCollectionRef = firestore.collection("cart_items");
@@ -13,28 +13,9 @@ export const createNewCart = async (userRef) => {
   return cartRef;
 };
 
-export const checkCartItemsInStock = async (shoppingCart) => {
-  for (let cartItem of shoppingCart) {
-    let productRef = firestore.doc(`products/${cartItem.productId}`);
-    let productSnapshot = await productRef.get();
-    if (!productSnapshot.exists) {
-      throw Error(
-        `${cartItem.name} no longer is sold. Please remove the item from cart completely and try again`
-      );
-    }
-    let { stock } = productSnapshot.data();
-    if (cartItem.quantity > stock) {
-      throw Error(
-        `There are only ${stock} ${cartItem.name} in stock. Please update the item's quantity and try again`
-      );
-    }
-  }
-};
-
-export const updateProductStocksInCart = async (shoppingCart) => {
-  for (let cartItem of shoppingCart) {
-    await setProductStock(cartItem.productId, cartItem.quantity);
-  }
+export const clearUserCart = async (cartId) => {
+  const cartRef = firestore.doc(`carts/${cartId}`);
+  await cartRef.update({ cartItems: [] });
 };
 
 export const createNewCartItemDoc = async (productId) => {
@@ -49,15 +30,31 @@ export const deleteCartItemDoc = async (cartItemId) => {
   await cartItemRef.delete();
 };
 
-export const deleteAllCartItemDocInCart = async (shoppingCart) => {
+export const deleteAllCartItemDocsInCart = async (shoppingCart) => {
   for (let cartItem of shoppingCart) {
     await deleteCartItemDoc(cartItem.cartItemId);
   }
 };
 
-export const clearUserSavedCart = async (cartId) => {
-  const cartRef = firestore.doc(`carts/${cartId}`);
-  await cartRef.update({ cartItems: [] });
+export const checkCartItemsInStockOrOutdated = async (shoppingCart) => {
+  for (let cartItem of shoppingCart) {
+    const { productData } = await getProductById(cartItem.productId);
+    if (!productData) {
+      throw Error(
+        `${cartItem.name} no longer is sold. Please remove the item from cart completely and try again`
+      );
+    } else if (cartItem.quantity > productData.stock) {
+      throw Error(
+        `There are only ${productData.stock} ${cartItem.name} in stock. Please update the item's quantity and try again`
+      );
+    }
+  }
+};
+
+export const updateProductStocksInCart = async (shoppingCart) => {
+  for (let cartItem of shoppingCart) {
+    await setProductStock(cartItem.productId, cartItem.quantity);
+  }
 };
 
 const getUserCartSnapshot = async (userRef) => {

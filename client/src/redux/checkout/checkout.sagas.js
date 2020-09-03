@@ -6,7 +6,7 @@ import {
 } from "../notification/notification.actions";
 import { checkoutFail, checkoutSuccess } from "./checkout.actions";
 import { clearCart } from "../cart/cart.actions";
-import { createNewSale } from "../../utils/firebase.sales_utils";
+import { createNewSale } from "../../utils/firebase.checkout_utils";
 import {
   selectShoppingCart,
   selectCartTotal,
@@ -15,9 +15,37 @@ import {
 import { selectCurrentUser } from "../user/user.selectors";
 import axios from "axios";
 import {
-  checkCartItemsInStock,
+  checkCartItemsInStockOrOutdated,
   updateProductStocksInCart
 } from "../../utils/firebase.cart_utils";
+
+function* processPayment(
+  stripeInstance,
+  cardElement,
+  customerInfo,
+  billingDetails,
+  amountToBePaid
+) {
+  const { data: clientSecret } = yield axios.post("/api/payments", {
+    amount: amountToBePaid * 100
+  });
+  const paymentMethodReq = yield stripeInstance.createPaymentMethod({
+    type: "card",
+    card: cardElement,
+    billing_details: { ...customerInfo, address: { ...billingDetails } }
+  });
+  if (paymentMethodReq.error) {
+    throw Error(paymentMethodReq.error.message);
+  }
+  const paymentMethod = paymentMethodReq.paymentMethod.card.brand;
+  const { error } = yield stripeInstance.confirmCardPayment(clientSecret, {
+    payment_method: paymentMethodReq.paymentMethod.id
+  });
+  if (error) {
+    throw Error(error.message);
+  }
+  return paymentMethod;
+}
 
 function* checkoutCart({
   payload: {
@@ -32,25 +60,15 @@ function* checkoutCart({
 }) {
   try {
     const shoppingCart = yield select(selectShoppingCart);
-    yield checkCartItemsInStock(shoppingCart);
-    const { data: clientSecret } = yield axios.post("/api/payments", {
-      amount: price * 100
-    });
-    const paymentMethodReq = yield stripeInstance.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-      billing_details: { ...customerInfo, address: { ...billingDetails } }
-    });
-    if (paymentMethodReq.error) {
-      throw Error(paymentMethodReq.error.message);
-    }
-    const paymentMethod = paymentMethodReq.paymentMethod.card.brand;
-    const { error } = yield stripeInstance.confirmCardPayment(clientSecret, {
-      payment_method: paymentMethodReq.paymentMethod.id
-    });
-    if (error) {
-      throw Error(error.message);
-    }
+    yield checkCartItemsInStockOrOutdated(shoppingCart);
+    const paymentMethod = yield call(
+      processPayment,
+      stripeInstance,
+      cardElement,
+      customerInfo,
+      billingDetails,
+      price
+    );
     yield updateProductStocksInCart(shoppingCart);
     yield put(
       checkoutSuccess(
@@ -66,14 +84,19 @@ function* checkoutCart({
 }
 
 function* handleCheckoutSuccess({
-  payload: { onSuccessfulCheckout, successTitle, successMsg, paymentMethod }
+  payload: {
+    onSuccessfulCheckout,
+    notificationTitle,
+    notificationMsg,
+    paymentMethod
+  }
 }) {
   try {
     const shoppingCart = yield select(selectShoppingCart);
     const shoppingCartSubtotal = yield select(selectCartTotal);
     const currentUser = yield select(selectCurrentUser);
     const cartId = yield select(selectCartId);
-    yield put(addSuccessNotification(successTitle, successMsg));
+    yield put(addSuccessNotification(notificationTitle, notificationMsg));
     yield put(clearCart());
     yield onSuccessfulCheckout();
     yield createNewSale(

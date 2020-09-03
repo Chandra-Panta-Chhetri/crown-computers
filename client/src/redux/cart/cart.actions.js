@@ -23,9 +23,13 @@ export const changeItemQuantity = (item, newQuantity) => ({
   }
 });
 
-export const updateCartSuccess = (cart, successTitle, successMsg) => ({
+export const updateCartSuccess = (
+  cart,
+  notificationTitle,
+  notificationMsg
+) => ({
   type: CART_ACTION_TYPES.UPDATE_CART_SUCCESS,
-  payload: { cart, successTitle, successMsg }
+  payload: { cart, notificationTitle, notificationMsg }
 });
 
 export const updateCartFail = (errorTitle, errorMsg) => ({

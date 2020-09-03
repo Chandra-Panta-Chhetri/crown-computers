@@ -3,10 +3,21 @@ import { firestore } from "./firebase.config";
 const categoriesCollectionRef = firestore.collection("product_categories");
 const productCollectionRef = firestore.collection("products");
 
+export const getProductById = async (productId) => {
+  try {
+    let productRef = firestore.doc(`products/${productId}`);
+    let productSnapshot = await productRef.get();
+    return { productData: productSnapshot.data(), productRef };
+  } catch (err) {
+    return null;
+  }
+};
+
 export const setProductStock = async (productId, quantityToCheckout) => {
-  let productRef = firestore.doc(`products/${productId}`);
-  let productSnapshot = await productRef.get();
-  let { stock } = productSnapshot.data();
+  let {
+    productData: { stock },
+    productRef
+  } = await getProductById(productId);
   await productRef.update({ stock: stock - quantityToCheckout });
 };
 
@@ -20,15 +31,21 @@ export const getProductCategories = async () => {
   return productCategories;
 };
 
-export const getProductsInCategory = async (
-  productCategoryRef,
-  categoryName
-) => {
+export const getProductsInCategorySnapshots = async (productCategoryRef) => {
   const getProductsInCategoryQuery = productCollectionRef
     .where("productCategoryRef", "==", productCategoryRef)
     .where("stock", ">", 0);
   const productsSnapshot = await getProductsInCategoryQuery.get();
-  const productsInCategorySnapshots = productsSnapshot.docs;
+  return productsSnapshot.docs;
+};
+
+export const getProductsInCategory = async (
+  productCategoryRef,
+  categoryName
+) => {
+  const productsInCategorySnapshots = await getProductsInCategorySnapshots(
+    productCategoryRef
+  );
   const productsInCategory = productsInCategorySnapshots.map(
     (productInCategorySnapshot) => {
       let product = {

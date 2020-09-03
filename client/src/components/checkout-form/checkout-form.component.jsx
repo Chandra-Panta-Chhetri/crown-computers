@@ -23,7 +23,7 @@ const cardElementOptions = {
 };
 
 const CheckoutForm = ({
-  price,
+  amountToBePaid,
   startCheckout,
   onSuccessfulCheckout,
   displayInfoNotification,
@@ -44,7 +44,7 @@ const CheckoutForm = ({
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleCheckout = async (e) => {
+  const handleCheckout = (e) => {
     e.preventDefault();
     const cardElement = elements.getElement("card");
     startCheckout(
@@ -52,9 +52,9 @@ const CheckoutForm = ({
       cardElement,
       customerInfo,
       billingDetails,
-      {},
+      null,
       onSuccessfulCheckout,
-      price
+      amountToBePaid
     );
   };
 
@@ -119,7 +119,7 @@ const CheckoutForm = ({
       <FormInput
         label="Postal Code"
         name="postal_code"
-        pattern="^([A-Z]\d[A-Z] ?\d[A-Z]\d)$"
+        pattern="^([A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d)$"
         title="A1A 2A3 or A1A2A3"
         inputChangeHandler={handleBillingDetailsChange}
         inputValue={billingDetails.postal_code}
@@ -140,7 +140,7 @@ const CheckoutForm = ({
         {isCheckingOut ? (
           <LoadingText>Processing Payment</LoadingText>
         ) : (
-          `Pay $${price}`
+          `Pay $${amountToBePaid}`
         )}
       </PayNowButton>
     </CheckoutFormContainer>
@@ -157,7 +157,7 @@ const mapDispatchToProps = (dispatch) => ({
     billingDetails,
     shippingDetails,
     onSuccessfulCheckout,
-    price
+    amountToBePaid
   ) =>
     dispatch(
       startCheckout(
@@ -167,7 +167,7 @@ const mapDispatchToProps = (dispatch) => ({
         billingDetails,
         shippingDetails,
         onSuccessfulCheckout,
-        price
+        amountToBePaid
       )
     )
 });

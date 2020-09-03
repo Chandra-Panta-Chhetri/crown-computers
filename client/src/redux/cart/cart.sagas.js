@@ -70,10 +70,10 @@ function* handleUpdatingItemQuantity({ payload: { item, newQuantity } }) {
 }
 
 function* handleCartUpdateSuccess({
-  payload: { cart: cartWithoutCartItemRefs, successTitle, successMsg }
+  payload: { cart: cartWithoutCartItemRefs, notificationTitle, notificationMsg }
 }) {
   try {
-    yield put(addSuccessNotification(successTitle, successMsg));
+    yield put(addSuccessNotification(notificationTitle, notificationMsg));
     const currentUser = yield select(selectCurrentUser);
     const cartId = yield select(selectCartId);
     if (currentUser && cartId) {
