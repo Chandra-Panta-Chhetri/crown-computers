@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { secondaryColor, mainColorLight } from "../../global.styles";
 
 export const CartItemContainer = styled.li`
   margin-bottom: 18px;
@@ -27,14 +28,14 @@ export const ItemName = styled.span`
 `;
 
 export const ItemPrice = styled.span`
-  color: #3498db;
+  color: ${secondaryColor};
   margin-right: 8px;
   font-weight: 700;
 `;
 
 export const ItemQuantity = styled.span`
   float: right;
-  color: gray;
+  color: ${mainColorLight};
 `;
 
 export const ItemInfo = styled.div`

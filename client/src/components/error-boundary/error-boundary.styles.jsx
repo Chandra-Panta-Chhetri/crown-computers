@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { secondaryColor } from "../../global.styles";
 
 export const ErrorImageOverlay = styled.div`
   height: 70vh;
@@ -21,6 +22,6 @@ export const ErrorImageContainer = styled.div`
 
 export const ErrorImageText = styled.h2`
   font-size: 28px;
-  color: #3498db;
+  color: ${secondaryColor};
   letter-spacing: 1.5px;
 `;

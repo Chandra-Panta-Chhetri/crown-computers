@@ -1,9 +1,8 @@
 import styled from "styled-components";
-
-const cartDropDownMainColor = "#E8E8E8";
+import { mainColor, secondaryColor } from "../../global.styles";
 
 export const CartDropDownContainer = styled.article`
-  background: ${cartDropDownMainColor};
+  background: ${mainColor};
   width: 320px;
   position: absolute;
   border-radius: 3px;
@@ -23,20 +22,20 @@ export const CartDropDownContainer = styled.article`
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-bottom-color: ${cartDropDownMainColor};
+    border-bottom-color: ${mainColor};
     border-width: 8px;
     margin-left: -8px;
   }
 `;
 
 export const CartDropDownHeader = styled.div`
-  border-bottom: 1.8px solid #3498db;
+  border-bottom: 1.8px solid ${secondaryColor};
   padding-bottom: 5px;
 `;
 
 export const CartTotal = styled.div`
   float: right;
-  color: #3498db;
+  color: ${secondaryColor};
   font-weight: 700;
 `;
 

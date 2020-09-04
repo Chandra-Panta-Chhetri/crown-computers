@@ -1,5 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 
+export const secondaryColor = "#3498db";
+export const secondaryColorLight = "aliceblue";
+export const mainColor = "#E8E8E8";
+export const mainColorLight = "#4a4a4a";
+
 export const GlobalStyles = createGlobalStyle`
   body {
     font-family: "Open Sans", sans-serif;
@@ -8,7 +13,7 @@ export const GlobalStyles = createGlobalStyle`
   
   a {
     text-decoration: none;
-    color: #3498db;
+    color: ${secondaryColor};
     font-weight: 700;
   }
   

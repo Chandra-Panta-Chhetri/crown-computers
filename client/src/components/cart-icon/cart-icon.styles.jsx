@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { secondaryColor } from "../../global.styles";
 
 export const CartIconContainer = styled.div`
   cursor: pointer;
@@ -8,7 +9,7 @@ export const CartIconContainer = styled.div`
 
 export const Badge = styled.span`
   font-weight: bold;
-  background-color: #3498db;
+  background-color: ${secondaryColor};
   border-radius: 10px;
   color: white;
   font-size: 13px;

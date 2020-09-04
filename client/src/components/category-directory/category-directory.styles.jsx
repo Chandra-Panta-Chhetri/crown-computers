@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { secondaryColorLight, mainColorLight } from "../../global.styles";
 
 export const DirectoryImage = styled.div`
   width: 100%;
@@ -17,7 +18,7 @@ export const DirectoryContent = styled.div`
   justify-content: center;
   border: 1px solid black;
   position: absolute;
-  background-color: white;
+  background-color: ${secondaryColorLight};
   opacity: 0.8;
   border-radius: 6px;
   width: 20%;
@@ -53,7 +54,7 @@ export const DirectoryTitle = styled.h1`
   font-weight: bold;
   margin-bottom: 1px;
   font-size: 22px;
-  color: #4a4a4a;
+  color: ${mainColorLight};
 `;
 
 export const DirectorySubtitle = styled.p`

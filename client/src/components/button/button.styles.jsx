@@ -1,12 +1,11 @@
 import styled from "styled-components";
-
-const buttonMainColor = "#3498db";
+import { secondaryColor } from "../../global.styles";
 
 export const ButtonContainer = styled.button`
   box-sizing: border-box;
   appearance: none;
   background-color: transparent;
-  border: 2px solid ${buttonMainColor};
+  border: 2px solid ${secondaryColor};
   cursor: pointer;
   font-size: 1rem;
   line-height: 1;
@@ -15,7 +14,7 @@ export const ButtonContainer = styled.button`
   text-transform: uppercase;
   font-weight: 700;
   border-radius: 6px;
-  color: ${buttonMainColor};
+  color: ${secondaryColor};
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -45,7 +44,7 @@ export const ButtonContainer = styled.button`
     transform: translateX(-50%);
     width: 0;
     height: 100%;
-    background: ${buttonMainColor};
+    background: ${secondaryColor};
     z-index: -1;
     transition: width 250ms ease-in-out;
   }
