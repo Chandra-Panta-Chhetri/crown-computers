@@ -18,7 +18,7 @@ import {
   addSuccessNotification
 } from "../notification/notification.actions";
 
-const NUM_ITEM_NAME_CHAR_SHOWN = 20;
+const NUM_ITEM_NAME_CHAR_SHOWN = 22;
 
 export const truncate = (str) =>
   str.length > NUM_ITEM_NAME_CHAR_SHOWN
