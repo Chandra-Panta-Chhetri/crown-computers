@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  CartIconContainer,
-  NumCartItems,
-  ShoppingCartIcon
-} from "./cart-icon.styles";
+import { CartIconContainer, Badge, ShoppingCartIcon } from "./cart-icon.styles";
 
 import { connect } from "react-redux";
 import { toggleCartVisibility } from "../../redux/cart/cart.actions";
@@ -15,7 +11,7 @@ const CartIcon = ({ numItemsInCart, dispatch }) => (
     <ShoppingCartIcon>
       <i className="fas fa-shopping-cart"></i>
     </ShoppingCartIcon>
-    <NumCartItems>{numItemsInCart}</NumCartItems>
+    <Badge>{numItemsInCart}</Badge>
   </CartIconContainer>
 );
 
