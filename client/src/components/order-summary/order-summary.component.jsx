@@ -13,7 +13,7 @@ const TAX_RATE = 0.13;
 const OrderSummary = ({ cartTotal }) => {
   const subTotal = Math.round(cartTotal * 100) / 100;
   const totalTax = Math.round(cartTotal * TAX_RATE * 100) / 100;
-  const total = subTotal + totalTax;
+  const total = Math.round((subTotal + totalTax) * 100) / 100;
   return (
     <OrderSummaryContainer>
       <Heading>Order Summary</Heading>
