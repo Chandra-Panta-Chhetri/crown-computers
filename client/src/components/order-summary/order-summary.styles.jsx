@@ -1,21 +1,20 @@
 import styled from "styled-components";
 
 export const OrderSummaryContainer = styled.article`
-  border: 4px solid #efefef;
   font-size: 15px;
-  padding: 0 15px 15px;
-  width: 26%;
+  width: 40%;
   display: flex;
   flex-direction: column;
-  align-self: flex-start;
-
-  span {
-    display: flex;
-  }
+  align-self: flex-end;
+  letter-spacing: 1.1px;
 `;
 
 export const Heading = styled.h2`
   font-weight: bold;
+  background: #e9ecef;
+  padding: 0.8em;
+  text-transform: uppercase;
+  font-size: 16px;
 `;
 
 export const PriceSummaryContainer = styled.section`
@@ -23,8 +22,18 @@ export const PriceSummaryContainer = styled.section`
   color: gray;
   flex-grow: 1;
   margin-bottom: 25px;
+  padding: 0 0.8em;
 `;
 
 export const Price = styled.span`
   float: right;
+  color: black;
+  font-weight: 700;
+`;
+
+export const PriceSummaryItem = styled.p`
+  margin: 0px;
+  margin-bottom: 5px;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted #3498db;
 `;

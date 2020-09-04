@@ -2,53 +2,71 @@ import styled from "styled-components";
 
 export const CartSummaryItemContainer = styled.article`
   display: flex;
-  padding: 25px 40px;
-  border: 4px solid #efefef;
-  border-radius: 6px;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  padding: 20px 15px 15px;
+  border: 2px solid #efefef;
 `;
 
-export const ItemContent = styled.section`
+export const EditItemContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 22%;
 `;
 
 export const ImageContainer = styled.div`
-  width: 15%;
-  margin-right: 15px;
+  width: 70%;
 `;
 
 export const ItemImage = styled.img`
   width: 100%;
-  height: 100%;
 `;
 
-export const ItemActions = styled.div`
+export const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
-  padding-bottom: 15px;
-  font-size: 16px;
-  justify-content: center;
+  font-size: 17px;
+  justify-content: flex-start;
+  letter-spacing: 1.1px;
 `;
 
-export const ItemQuantity = styled.span`
+export const ItemQuantityActions = styled.div`
   display: flex;
   align-items: center;
-  margin: 8px 0;
+  margin: 6px 0;
+  font-size: 17px;
+  font-weight: 700;
 `;
 
-export const ItemChangeQuantityIcon = styled.i`
+export const ItemCategory = styled.span`
+  width: fit-content;
+  color: gray;
+  margin: 6px 0;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+`;
+
+export const ChangeQuantityButton = styled.i`
   cursor: pointer;
   margin: 0 5px;
 `;
 
-export const ItemRemoveContainer = styled.span`
+export const RemoveItemButton = styled.span`
   cursor: pointer;
   color: red;
-  align-self: flex-start;
+  width: fit-content;
+  font-weight: 700;
 `;
 
 export const ItemPrice = styled.span`
   font-size: 20px;
   font-weight: bold;
+  margin: 8px 0 6px;
+`;
+
+export const ItemStockLeft = styled.span`
+  color: red;
+  font-weight: 700;
+  margin: 8px 0;
 `;

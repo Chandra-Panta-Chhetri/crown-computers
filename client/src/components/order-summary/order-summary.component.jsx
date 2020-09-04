@@ -3,7 +3,8 @@ import {
   OrderSummaryContainer,
   Heading,
   PriceSummaryContainer,
-  Price
+  Price,
+  PriceSummaryItem
 } from "./order-summary.styles";
 
 import StripeCheckoutButton from "../stripe-checkout-button/stripe-checkout-button.component";
@@ -18,15 +19,15 @@ const OrderSummary = ({ cartTotal }) => {
     <OrderSummaryContainer>
       <Heading>Order Summary</Heading>
       <PriceSummaryContainer>
-        <div>
+        <PriceSummaryItem>
           Subtotal <Price>${subTotal}</Price>
-        </div>
-        <div>
-          Total Tax <Price>${totalTax}</Price>
-        </div>
-        <div>
+        </PriceSummaryItem>
+        <PriceSummaryItem>
+          Tax <Price>${totalTax}</Price>
+        </PriceSummaryItem>
+        <PriceSummaryItem>
           Total <Price>${total}</Price>
-        </div>
+        </PriceSummaryItem>
       </PriceSummaryContainer>
       <StripeCheckoutButton price={total} label="Proceed To Checkout" />
     </OrderSummaryContainer>
