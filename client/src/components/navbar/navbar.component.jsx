@@ -22,7 +22,7 @@ const NavBar = ({ currentUser, hidden, logOut }) => (
     </LogoContainer>
     <NavBarItems>
       <NavItem to="/">Home</NavItem>
-      <NavItem to="/product-collection">Collection</NavItem>
+      <NavItem to="/shop">Shop</NavItem>
       {!currentUser ? (
         <NavItem to="/login">Log In</NavItem>
       ) : (

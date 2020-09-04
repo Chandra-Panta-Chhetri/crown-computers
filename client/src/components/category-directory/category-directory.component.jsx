@@ -11,7 +11,7 @@ import { withRouter } from "react-router-dom";
 
 const CategoryDirectory = ({ category, imageUrl, history }) => (
   <CategoryDirectoryContainer
-    onClick={() => history.push(`/product-collection/${encodeURI(category)}`)}
+    onClick={() => history.push(`/shop/${encodeURI(category)}`)}
   >
     <DirectoryImage imageUrl={imageUrl}></DirectoryImage>
     <DirectoryContent>

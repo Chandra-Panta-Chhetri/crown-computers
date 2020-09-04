@@ -19,7 +19,7 @@ const CategoryCollection = ({ productsInCategory }) => (
         <CollectionItem key={product.productId} item={product} />
       ))
     ) : (
-      <Redirect to="/product-collection" />
+      <Redirect to="/shop" />
     )}
   </CategoryCollectionContainer>
 );

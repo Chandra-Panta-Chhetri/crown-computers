@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from "react";
-import { ProductCollectionContainer } from "./product-collection.styles";
+import { ProductCollectionContainer } from "./shop.styles";
 
 import { Route, Switch } from "react-router-dom";
 import Spinner from "../../components/spinner/spinner.component";

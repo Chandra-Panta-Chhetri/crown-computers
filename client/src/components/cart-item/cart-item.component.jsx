@@ -16,7 +16,7 @@ const CartItem = ({ item }) => (
     <ItemInfo>
       <ItemName>{truncate(item.name)}</ItemName>
       <ItemPrice>${item.price}</ItemPrice>
-      <ItemQuantity>Quantity: {item.quantity}</ItemQuantity>
+      <ItemQuantity>Qty: {item.quantity}</ItemQuantity>
     </ItemInfo>
   </CartItemContainer>
 );

@@ -26,9 +26,7 @@ const CollectionItem = ({ item, addToCart, history }) => {
       </ItemImageContainer>
       <ItemInfoContainer>
         <ItemCategory
-          onClick={() =>
-            history.push(`/product-collection/${encodeURI(category)}`)
-          }
+          onClick={() => history.push(`/shop/${encodeURI(category)}`)}
         >
           {category.toUpperCase()}
         </ItemCategory>
