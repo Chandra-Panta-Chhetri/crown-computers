@@ -11,4 +11,5 @@ export const CartItemsContainer = styled.ul`
 export const EmptyCartText = styled.span`
   font-size: 18px;
   margin: 45% auto;
+  text-align: center;
 `;

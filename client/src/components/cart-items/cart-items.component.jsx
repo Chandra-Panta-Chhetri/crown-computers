@@ -8,13 +8,19 @@ import { createStructuredSelector } from "reselect";
 import { selectShoppingCart } from "../../redux/cart/cart.selectors";
 
 const CartItems = ({ shoppingCart }) => (
-  <CartItemsContainer>
-    {!shoppingCart.length ? (
-      <EmptyCartText>Your cart is empty</EmptyCartText>
+  <>
+    {shoppingCart.length ? (
+      <CartItemsContainer>
+        {shoppingCart.map((item) => (
+          <CartItem key={item.productId} item={item} />
+        ))}
+      </CartItemsContainer>
     ) : (
-      shoppingCart.map((item) => <CartItem key={item.productId} item={item} />)
+      <EmptyCartText>
+        Once you add items to your cart, they will appear here!
+      </EmptyCartText>
     )}
-  </CartItemsContainer>
+  </>
 );
 
 const mapStateToProps = createStructuredSelector({
