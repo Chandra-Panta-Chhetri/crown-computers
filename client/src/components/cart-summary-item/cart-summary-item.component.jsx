@@ -1,16 +1,16 @@
 import React from "react";
 import {
-  CartSummaryItemContainer,
-  ImageContainer,
-  ItemImage,
-  ItemInfo,
-  ItemQuantityActions,
   ChangeQuantityButton,
   RemoveItemButton,
-  ItemPrice,
-  EditItemContainer,
   ItemCategory,
-  ItemStockLeft
+  ItemStockLeft,
+  ItemInfoSection,
+  ProductImage,
+  ProductInfo,
+  ProductMetaInfo,
+  ProductName,
+  ItemQuantityContainer,
+  Icon
 } from "./cart-summary-item.styles";
 
 import { connect } from "react-redux";
@@ -22,12 +22,22 @@ import {
 const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
   const { name, imageUrl, price, quantity, stock, category } = item;
   return (
-    <CartSummaryItemContainer>
-      <EditItemContainer>
-        <ImageContainer>
-          <ItemImage src={imageUrl} alt={name} />
-        </ImageContainer>
-        <ItemQuantityActions>
+    <tr>
+      <ItemInfoSection>
+        <ProductMetaInfo>
+          <ProductImage src={imageUrl} alt={name} />
+          <ProductInfo>
+            <ProductName>{name}</ProductName>
+            <ItemCategory>{category}</ItemCategory>
+            {stock < 10 ? (
+              <ItemStockLeft>Only {stock} left in stock</ItemStockLeft>
+            ) : null}
+          </ProductInfo>
+        </ProductMetaInfo>
+      </ItemInfoSection>
+      <ItemInfoSection>${price}</ItemInfoSection>
+      <ItemInfoSection>
+        <ItemQuantityContainer>
           <ChangeQuantityButton
             className="fa fa-minus"
             onClick={() => changeItemQuantity(item, quantity - 1)}
@@ -37,20 +47,15 @@ const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
             className="fa fa-plus"
             onClick={() => changeItemQuantity(item, quantity + 1)}
           ></ChangeQuantityButton>
-        </ItemQuantityActions>
-      </EditItemContainer>
-      <ItemInfo>
-        <span>{name}</span>
-        <ItemCategory>{category}</ItemCategory>
-        {stock < 10 ? (
-          <ItemStockLeft>Only {stock} left in stock</ItemStockLeft>
-        ) : null}
-        <ItemPrice>${price * quantity}</ItemPrice>
+        </ItemQuantityContainer>
+      </ItemInfoSection>
+      <ItemInfoSection>${price * quantity}</ItemInfoSection>
+      <ItemInfoSection>
         <RemoveItemButton onClick={() => removeItem(item)}>
-          <i className="fa fa-trash-alt"></i> Remove Item
+          <Icon className="fa fa-trash-alt" />
         </RemoveItemButton>
-      </ItemInfo>
-    </CartSummaryItemContainer>
+      </ItemInfoSection>
+    </tr>
   );
 };
 

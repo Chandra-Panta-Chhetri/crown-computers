@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const OrderSummaryContainer = styled.article`
+export const OrderSummaryContainer = styled.section`
   font-size: 15px;
   width: 40%;
   display: flex;

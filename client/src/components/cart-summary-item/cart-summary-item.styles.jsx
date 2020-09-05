@@ -1,55 +1,57 @@
 import styled from "styled-components";
 
-export const CartSummaryItemContainer = styled.article`
-  display: flex;
-  margin-bottom: 20px;
-  padding: 20px 15px 15px;
-  border: 2px solid #efefef;
+export const ItemInfoSection = styled.td`
+  padding: 1.1em;
 `;
 
-export const EditItemContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 22%;
-`;
-
-export const ImageContainer = styled.div`
-  width: 70%;
-`;
-
-export const ItemImage = styled.img`
-  width: 100%;
-`;
-
-export const ItemInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 17px;
-  justify-content: flex-start;
-  letter-spacing: 1.1px;
-`;
-
-export const ItemQuantityActions = styled.div`
+export const ProductMetaInfo = styled.div`
   display: flex;
   align-items: center;
-  margin: 6px 0;
-  font-size: 17px;
-  font-weight: 700;
+  text-align: left;
+`;
+
+export const ProductImage = styled.img`
+  width: 80px;
+  height: 80px;
+`;
+
+export const ProductInfo = styled.div`
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+`;
+
+export const ProductName = styled.h5`
+  margin: 0;
 `;
 
 export const ItemCategory = styled.span`
   width: fit-content;
   color: gray;
-  margin: 6px 0;
+  margin: 4px 0 0;
   font-weight: 700;
   font-size: 14px;
+  letter-spacing: 1px;
   text-transform: uppercase;
+`;
+
+export const ItemStockLeft = styled.span`
+  color: red;
+  font-weight: 700;
+  margin: auto 0 0;
+`;
+
+export const ItemQuantityContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ChangeQuantityButton = styled.i`
   cursor: pointer;
   margin: 0 5px;
+  font-size: 20px;
 `;
 
 export const RemoveItemButton = styled.span`
@@ -59,14 +61,6 @@ export const RemoveItemButton = styled.span`
   font-weight: 700;
 `;
 
-export const ItemPrice = styled.span`
-  font-size: 20px;
-  font-weight: bold;
-  margin: 8px 0 6px;
-`;
-
-export const ItemStockLeft = styled.span`
-  color: red;
-  font-weight: 700;
-  margin: 8px 0;
+export const Icon = styled.i`
+  font-size: 22px;
 `;
