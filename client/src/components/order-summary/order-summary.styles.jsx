@@ -12,7 +12,7 @@ export const OrderSummaryContainer = styled.article`
 export const Heading = styled.h2`
   font-weight: bold;
   background: #e9ecef;
-  padding: 0.8em;
+  padding: 1.1em;
   text-transform: uppercase;
   font-size: 16px;
 `;
@@ -22,7 +22,7 @@ export const PriceSummaryContainer = styled.section`
   color: gray;
   flex-grow: 1;
   margin-bottom: 25px;
-  padding: 0 0.8em;
+  padding: 0 1.1em;
 `;
 
 export const Price = styled.span`
