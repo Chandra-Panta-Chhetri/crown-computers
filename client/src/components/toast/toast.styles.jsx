@@ -101,5 +101,5 @@ export const NotificationTitle = styled.p`
 export const NotificationMessage = styled.p`
   margin: 0;
   text-align: left;
-  margin-left: -1px;
+  margin-top: 10px;
 `;

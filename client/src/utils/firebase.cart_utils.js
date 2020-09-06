@@ -1,5 +1,5 @@
 import { firestore } from "./firebase.config";
-import { setProductStock, getProductById } from "./firebase.collection_utils";
+import { setProductStock, getProductById } from "./firebase.product_utils";
 import { truncate } from "../redux/cart/cart.sagas";
 
 const cartCollectionRef = firestore.collection("carts");

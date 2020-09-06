@@ -1,40 +1,57 @@
 import React from "react";
-import { CategoryCollectionContainer } from "./category-collection.styles";
 
 import CollectionItem from "../collection-item/collection-item.component";
-import withSpinner from "../with-spinner/with-spinner.component";
+import Spinner from "../spinner/spinner.component";
 
 import {
-  selectProductsInCategory,
-  selectIsFetchingCollection
-} from "../../redux/collection/collection.selectors";
+  selectIsFetchingProducts,
+  selectProductCollection
+} from "../../redux/product/product.selectors";
+import { startProductsFetchByCategory } from "../../redux/product/product.actions";
 import { connect } from "react-redux";
-import { compose } from "redux";
 import { Redirect } from "react-router-dom";
+import { useEffect } from "react";
 
-const CategoryCollection = ({ productsInCategory }) => (
-  <CategoryCollectionContainer>
-    {productsInCategory.products.length ? (
-      productsInCategory.products.map((product) => (
-        <CollectionItem key={product.productId} item={product} />
-      ))
-    ) : (
-      <Redirect to="/shop" />
-    )}
-  </CategoryCollectionContainer>
-);
+const CategoryCollection = ({
+  productsInCategory,
+  match,
+  isFetchingProducts,
+  fetchProductsInCategory
+}) => {
+  const categoryNameInLowerCase = decodeURI(
+    match.params.productCategory
+  ).toLowerCase();
 
-const mapStateToProps = (state, ownProps) => ({
-  productsInCategory: selectProductsInCategory(
-    ownProps.match.params.productCategory
-  )(state),
-  isLoading: selectIsFetchingCollection(state),
-  loadingText: `Getting latest ${decodeURI(
-    ownProps.match.params.productCategory
-  )} collection`
+  useEffect(() => {
+    fetchProductsInCategory(categoryNameInLowerCase);
+  }, [fetchProductsInCategory, match, categoryNameInLowerCase]);
+
+  const loadingText = `Getting latest ${categoryNameInLowerCase} products`;
+
+  return (
+    <>
+      {isFetchingProducts ? (
+        <Spinner loadingText={loadingText} />
+      ) : (
+        productsInCategory.map((product) => (
+          <CollectionItem key={product.productId} item={product} />
+        ))
+      )}
+      {!productsInCategory.length && !isFetchingProducts ? (
+        <Redirect to="/shop" />
+      ) : null}
+    </>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  productsInCategory: selectProductCollection(state),
+  isFetchingProducts: selectIsFetchingProducts(state)
 });
 
-export default compose(
-  connect(mapStateToProps),
-  withSpinner
-)(CategoryCollection);
+const mapDispatchToProps = (dispatch) => ({
+  fetchProductsInCategory: (categoryName) =>
+    dispatch(startProductsFetchByCategory(categoryName))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryCollection);

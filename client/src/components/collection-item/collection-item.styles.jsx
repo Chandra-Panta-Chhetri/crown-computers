@@ -6,7 +6,7 @@ const secondaryStyles = css`
   color: gray;
 `;
 
-export const CollectionItemContainer = styled.article`
+export const CollectionItemContainer = styled.section`
   font-weight: bold;
   width: 25%;
   padding: 0.5em;

@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
-export const ProductCollectionContainer = styled.div`
+export const ProductCollectionContainer = styled.article`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: ${(props) => (props.spinnerActive ? "70vh" : "100%")};
+  flex-wrap: wrap;
 `;
