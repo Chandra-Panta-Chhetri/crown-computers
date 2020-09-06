@@ -44,7 +44,6 @@ export const Notification = styled.div`
   border-radius: 6px;
   box-shadow: 0 0 1.6px #999;
   color: #000;
-  opacity: 0.9;
   background-position: 15px;
   background-repeat: no-repeat;
   background-color: ${(props) => props.backgroundColor};
