@@ -7,7 +7,7 @@ import {
   selectIsFetchingProducts,
   selectProductCollection
 } from "../../redux/product/product.selectors";
-import { startProductsFetchByCategory } from "../../redux/product/product.actions";
+import { startInitialProductsFetchByCategory } from "../../redux/product/product.actions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { useEffect } from "react";
@@ -51,7 +51,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchProductsInCategory: (categoryName) =>
-    dispatch(startProductsFetchByCategory(categoryName))
+    dispatch(startInitialProductsFetchByCategory(categoryName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryCollection);

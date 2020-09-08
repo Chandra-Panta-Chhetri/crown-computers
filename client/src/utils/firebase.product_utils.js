@@ -84,19 +84,52 @@ export const getProductCategoryName = async (productCategoryRef) => {
   return productCategorySnapshot.data().category;
 };
 
-export const getProducts = async () => {
-  const products = [];
-  const productsInStockQuery = productCollectionRef.where("stock", ">", 0);
+export const getProducts = async (productsPerPage) => {
+  const productsInStockQuery = productCollectionRef
+    .where("stock", ">", 0)
+    .orderBy("stock")
+    .limit(productsPerPage);
   const productsSnapshot = await productsInStockQuery.get();
   const productDocSnapshots = productsSnapshot.docs;
-  for (let productDocSnapshot of productDocSnapshots) {
-    let product = {
-      productId: productDocSnapshot.id,
-      ...productDocSnapshot.data()
-    };
-    product.category = await getProductCategoryName(product.productCategoryRef);
-    delete product.productCategoryRef;
-    products.push(product);
+  const lastVisibleDoc = productDocSnapshots[productDocSnapshots.length - 1];
+  const products = await createProductsArrayFromProductSnapshots(
+    productDocSnapshots
+  );
+  return { products, lastVisibleDoc };
+};
+
+const createProductsArrayFromProductSnapshots = async (productDocSnapshots) => {
+  try {
+    const products = [];
+    for (let productDocSnapshot of productDocSnapshots) {
+      let product = {
+        productId: productDocSnapshot.id,
+        ...productDocSnapshot.data()
+      };
+      product.category = await getProductCategoryName(
+        product.productCategoryRef
+      );
+      delete product.productCategoryRef;
+      products.push(product);
+    }
+    return products;
+  } catch (err) {
+    return [];
   }
-  return products;
+};
+
+export const getMoreProducts = async (lastDoc, productsPerPage) => {
+  const nextProductsQuery = productCollectionRef
+    .where("stock", ">", 0)
+    .orderBy("stock")
+    .startAfter(lastDoc)
+    .limit(productsPerPage);
+  const nextProductsSnapshot = await nextProductsQuery.get();
+  const newProductDocSnapshots = nextProductsSnapshot.docs;
+  const lastVisibleDoc =
+    newProductDocSnapshots[newProductDocSnapshots.length - 1];
+  const newProducts = await createProductsArrayFromProductSnapshots(
+    newProductDocSnapshots
+  );
+  return { newProducts, lastVisibleDoc };
 };

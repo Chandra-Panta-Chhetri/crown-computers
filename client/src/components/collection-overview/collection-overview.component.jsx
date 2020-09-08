@@ -6,41 +6,70 @@ import Spinner from "../spinner/spinner.component";
 import { connect } from "react-redux";
 import {
   selectProductCollection,
-  selectIsFetchingProducts
+  selectIsFetchingProducts,
+  selectIsFetchingMoreProducts,
+  selectHasMoreToLoad
 } from "../../redux/product/product.selectors";
-import { startProductsFetch } from "../../redux/product/product.actions";
+import {
+  startInitialProductsFetch,
+  startLoadingMoreProducts
+} from "../../redux/product/product.actions";
+import useVisibility from "../../hooks/useVisibility.hook";
 
-const loadingText = "Getting latest products";
+const loadingTextForInitialFetch = "Getting latest products";
+const loadingTextForMoreProductsFetch = "Getting more products";
 
 const CollectionOverview = ({
   products,
-  fetchProducts,
-  isFetchingProducts
+  fetchInitialProducts,
+  isFetchingProducts,
+  isFetchingMoreProducts,
+  fetchMoreProducts,
+  hasMoreToLoad
 }) => {
+  const lastElementRefCB = useVisibility(
+    { threshold: 1.0 },
+    fetchMoreProducts,
+    isFetchingMoreProducts || isFetchingProducts,
+    hasMoreToLoad
+  );
+
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    fetchInitialProducts();
+  }, [fetchInitialProducts]);
 
   return (
     <>
       {isFetchingProducts ? (
-        <Spinner loadingText={loadingText} />
+        <Spinner loadingText={loadingTextForInitialFetch} />
       ) : (
-        products.map((product) => (
-          <CollectionItem key={product.productId} item={product} />
+        products.map((product, index) => (
+          <CollectionItem
+            key={product.productId}
+            item={product}
+            lastElementCB={
+              products.length === index + 1 ? lastElementRefCB : undefined
+            }
+          />
         ))
       )}
+      {isFetchingMoreProducts ? (
+        <Spinner loadingText={loadingTextForMoreProductsFetch} />
+      ) : null}
     </>
   );
 };
 
 const mapStateToProps = (state) => ({
   products: selectProductCollection(state),
-  isFetchingProducts: selectIsFetchingProducts(state)
+  isFetchingProducts: selectIsFetchingProducts(state),
+  isFetchingMoreProducts: selectIsFetchingMoreProducts(state),
+  hasMoreToLoad: selectHasMoreToLoad(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchProducts: () => dispatch(startProductsFetch())
+  fetchInitialProducts: () => dispatch(startInitialProductsFetch()),
+  fetchMoreProducts: () => dispatch(startLoadingMoreProducts())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionOverview);

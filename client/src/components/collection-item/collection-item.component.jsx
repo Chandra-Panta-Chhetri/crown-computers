@@ -14,10 +14,10 @@ import { connect } from "react-redux";
 import { addToCart } from "../../redux/cart/cart.actions";
 import { withRouter } from "react-router-dom";
 
-const CollectionItem = ({ item, addToCart, history }) => {
+const CollectionItem = ({ item, addToCart, history, lastElementCB }) => {
   const { name, imageUrl, price, category, stock } = item;
   return (
-    <CollectionItemContainer>
+    <CollectionItemContainer ref={lastElementCB}>
       <ItemImageContainer>
         <ItemImage src={imageUrl} alt={name} />
         <AddToCartButton onClick={() => addToCart(item)}>

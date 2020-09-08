@@ -1,20 +1,53 @@
 import PRODUCT_ACTION_TYPES from "./product.action.types";
-import { takeLatest, put, call, all } from "redux-saga/effects";
-import { productsFetchFail, productsFetchSuccess } from "./product.actions";
+import { takeLatest, put, call, all, select } from "redux-saga/effects";
+import {
+  initialProductsFetchFail,
+  initialProductsFetchSuccess,
+  loadingMoreProductsFail,
+  loadingMoreProductsSuccess,
+  noMoreToLoad
+} from "./product.actions";
 import {
   getProducts,
-  getProductsInCategory
+  getProductsInCategory,
+  getMoreProducts
 } from "../../utils/firebase.product_utils";
 import { addErrorNotification } from "../notification/notification.actions";
+import {
+  selectProductsPerPage,
+  selectLastVisibleDoc
+} from "./product.selectors";
 
 function* fetchProducts() {
   try {
-    const products = yield getProducts();
-    yield put(productsFetchSuccess(products));
+    const productsPerPage = yield select(selectProductsPerPage);
+    const { products, lastVisibleDoc } = yield getProducts(productsPerPage);
+    yield put(initialProductsFetchSuccess(products, lastVisibleDoc));
   } catch (err) {
     yield put(
-      productsFetchFail(
+      initialProductsFetchFail(
         "There was a problem with displaying the product collection"
+      )
+    );
+  }
+}
+
+function* fetchMoreProducts() {
+  try {
+    const productsPerPage = yield select(selectProductsPerPage);
+    const lastDoc = yield select(selectLastVisibleDoc);
+    const { newProducts, lastVisibleDoc } = yield getMoreProducts(
+      lastDoc,
+      productsPerPage
+    );
+    if (!newProducts.length) {
+      return yield put(noMoreToLoad());
+    }
+    yield put(loadingMoreProductsSuccess(newProducts, lastVisibleDoc));
+  } catch (err) {
+    yield put(
+      loadingMoreProductsFail(
+        "There was a problem loading more products. Please try again later"
       )
     );
   }
@@ -24,9 +57,18 @@ function* fetchProductsByCategory({ payload: categoryName }) {
   try {
     const products = yield getProductsInCategory(categoryName);
     if (!products.length) throw Error();
-    yield put(productsFetchSuccess(products));
+    yield put(initialProductsFetchSuccess(products));
   } catch (err) {
-    yield put(productsFetchFail(`No ${categoryName} products found`));
+    yield put(initialProductsFetchFail(`No ${categoryName} products found`));
+  }
+}
+
+function* fetchMoreProductsByCategory({ payload: categoryName }) {
+  try {
+    const productsPerPage = yield select(selectProductsPerPage);
+    const lastDoc = yield select(selectLastVisibleDoc);
+  } catch (err) {
+    console.log(err.message);
   }
 }
 
@@ -35,27 +77,49 @@ function* handleProductsFetchFail({ payload: errorMsg }) {
 }
 
 function* watchProductsFetchStart() {
-  yield takeLatest(PRODUCT_ACTION_TYPES.PRODUCTS_FETCH_START, fetchProducts);
+  yield takeLatest(
+    PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_START,
+    fetchProducts
+  );
+}
+
+function* watchProductsFetchFail() {
+  yield takeLatest(
+    [
+      PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_FAIL,
+      PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_FAIL
+    ],
+    handleProductsFetchFail
+  );
 }
 
 function* watchProductsFetchByCategory() {
   yield takeLatest(
-    PRODUCT_ACTION_TYPES.FETCH_PRODUCTS_BY_CATEGORY,
+    PRODUCT_ACTION_TYPES.INITIAL_FETCH_PRODUCTS_BY_CATEGORY_START,
     fetchProductsByCategory
   );
 }
 
-function* watchproductsFetchFail() {
+function* watchLoadMoreProducts() {
   yield takeLatest(
-    PRODUCT_ACTION_TYPES.PRODUCTS_FETCH_FAIL,
-    handleProductsFetchFail
+    PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_START,
+    fetchMoreProducts
+  );
+}
+
+function* watchLoadMoreProductsByCategory() {
+  yield takeLatest(
+    PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_BY_CATEGORY_START,
+    fetchMoreProductsByCategory
   );
 }
 
 export default function* collectionSagas() {
   yield all([
     call(watchProductsFetchStart),
-    call(watchproductsFetchFail),
-    call(watchProductsFetchByCategory)
+    call(watchProductsFetchFail),
+    call(watchProductsFetchByCategory),
+    call(watchLoadMoreProducts),
+    call(watchLoadMoreProductsByCategory)
   ]);
 }
