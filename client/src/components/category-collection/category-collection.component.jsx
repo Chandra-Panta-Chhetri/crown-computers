@@ -1,30 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import CollectionItem from "../collection-item/collection-item.component";
 import Spinner from "../spinner/spinner.component";
 
 import {
   selectIsFetchingProducts,
-  selectProductCollection
+  selectProductCollection,
+  selectIsFetchingMoreProducts,
+  selectHasMoreToLoad
 } from "../../redux/product/product.selectors";
-import { startInitialProductsFetchByCategory } from "../../redux/product/product.actions";
+import {
+  startInitialProductsFetchByCategory,
+  startLoadingMoreProductsByCategory
+} from "../../redux/product/product.actions";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { useEffect } from "react";
+import useVisibility from "../../hooks/useVisibility.hook";
 
 const CategoryCollection = ({
   productsInCategory,
   match,
   isFetchingProducts,
-  fetchProductsInCategory
+  fetchProductsInCategory,
+  isFetchingMoreProducts,
+  hasMoreToLoad,
+  fetchMoreProductsInCategory
 }) => {
   const categoryNameInLowerCase = decodeURI(
     match.params.productCategory
   ).toLowerCase();
 
+  const lastElementRefCB = useVisibility(
+    { threshold: 1.0 },
+    fetchMoreProductsInCategory,
+    [categoryNameInLowerCase],
+    isFetchingMoreProducts || isFetchingProducts,
+    hasMoreToLoad
+  );
+
   useEffect(() => {
     fetchProductsInCategory(categoryNameInLowerCase);
-  }, [fetchProductsInCategory, match, categoryNameInLowerCase]);
+  }, [fetchProductsInCategory, categoryNameInLowerCase]);
 
   const loadingText = `Getting latest ${categoryNameInLowerCase} products`;
 
@@ -33,12 +48,22 @@ const CategoryCollection = ({
       {isFetchingProducts ? (
         <Spinner loadingText={loadingText} />
       ) : (
-        productsInCategory.map((product) => (
-          <CollectionItem key={product.productId} item={product} />
+        productsInCategory.map((product, index) => (
+          <CollectionItem
+            key={product.productId}
+            item={product}
+            lastElementCB={
+              productsInCategory.length === index + 1
+                ? lastElementRefCB
+                : undefined
+            }
+          />
         ))
       )}
-      {!productsInCategory.length && !isFetchingProducts ? (
-        <Redirect to="/shop" />
+      {isFetchingMoreProducts ? (
+        <Spinner
+          loadingText={`Getting more ${categoryNameInLowerCase} products`}
+        />
       ) : null}
     </>
   );
@@ -46,12 +71,16 @@ const CategoryCollection = ({
 
 const mapStateToProps = (state) => ({
   productsInCategory: selectProductCollection(state),
-  isFetchingProducts: selectIsFetchingProducts(state)
+  isFetchingProducts: selectIsFetchingProducts(state),
+  isFetchingMoreProducts: selectIsFetchingMoreProducts(state),
+  hasMoreToLoad: selectHasMoreToLoad(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchProductsInCategory: (categoryName) =>
-    dispatch(startInitialProductsFetchByCategory(categoryName))
+    dispatch(startInitialProductsFetchByCategory(categoryName)),
+  fetchMoreProductsInCategory: (categoryName) =>
+    dispatch(startLoadingMoreProductsByCategory(categoryName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryCollection);

@@ -1,6 +1,12 @@
 import { useRef, useCallback } from "react";
 
-const useVisibility = (options, onVisibility, isLoading, hasMoreToLoad) => {
+const useVisibility = (
+  options,
+  onVisibility,
+  args,
+  isLoading,
+  hasMoreToLoad
+) => {
   const observer = useRef();
 
   const lastElementRef = useCallback(
@@ -11,16 +17,15 @@ const useVisibility = (options, onVisibility, isLoading, hasMoreToLoad) => {
       }
       if (!hasMoreToLoad) return;
       observer.current = new IntersectionObserver(([entry]) => {
-        console.log(entry);
         if (entry.isIntersecting) {
-          onVisibility();
+          onVisibility(...args);
         }
       }, options);
       if (node) {
         observer.current.observe(node);
       }
     },
-    [isLoading, onVisibility, options]
+    [isLoading, onVisibility, options, hasMoreToLoad, args]
   );
 
   return lastElementRef;

@@ -30,6 +30,7 @@ const CollectionOverview = ({
   const lastElementRefCB = useVisibility(
     { threshold: 1.0 },
     fetchMoreProducts,
+    [],
     isFetchingMoreProducts || isFetchingProducts,
     hasMoreToLoad
   );

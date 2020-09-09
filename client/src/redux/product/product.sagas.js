@@ -10,7 +10,8 @@ import {
 import {
   getProducts,
   getProductsInCategory,
-  getMoreProducts
+  getMoreProducts,
+  getMoreProductsInCategory
 } from "../../utils/firebase.product_utils";
 import { addErrorNotification } from "../notification/notification.actions";
 import {
@@ -55,9 +56,13 @@ function* fetchMoreProducts() {
 
 function* fetchProductsByCategory({ payload: categoryName }) {
   try {
-    const products = yield getProductsInCategory(categoryName);
-    if (!products.length) throw Error();
-    yield put(initialProductsFetchSuccess(products));
+    const productsPerPage = yield select(selectProductsPerPage);
+    const { productsInCategory, lastVisibleDoc } = yield getProductsInCategory(
+      categoryName,
+      productsPerPage
+    );
+    if (!productsInCategory.length) throw Error();
+    yield put(initialProductsFetchSuccess(productsInCategory, lastVisibleDoc));
   } catch (err) {
     yield put(initialProductsFetchFail(`No ${categoryName} products found`));
   }
@@ -67,8 +72,22 @@ function* fetchMoreProductsByCategory({ payload: categoryName }) {
   try {
     const productsPerPage = yield select(selectProductsPerPage);
     const lastDoc = yield select(selectLastVisibleDoc);
+    const {
+      newProductsInCategory,
+      lastVisibleDoc
+    } = yield getMoreProductsInCategory(lastDoc, categoryName, productsPerPage);
+    if (!newProductsInCategory.length) {
+      return yield put(noMoreToLoad());
+    }
+    yield put(
+      loadingMoreProductsSuccess(newProductsInCategory, lastVisibleDoc)
+    );
   } catch (err) {
-    console.log(err.message);
+    yield put(
+      loadingMoreProductsFail(
+        `There was a problem loading more ${categoryName} products. Please try again later`
+      )
+    );
   }
 }
 
