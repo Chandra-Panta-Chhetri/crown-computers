@@ -37,6 +37,8 @@ export const ItemImage = styled.img`
 
 export const ItemImageContainer = styled.div`
   position: relative;
+  width: 100%;
+  height: ${(props) => (props.isLoading ? "200px" : "unset")};
 
   &:hover {
     ${ItemImage} {
@@ -59,8 +61,9 @@ export const ItemInfoContainer = styled.div`
 `;
 
 export const ItemCategory = styled.h5`
-  cursor: pointer;
-  width: fit-content;
+  cursor: ${(props) => (props.isLoading ? "default" : "pointer")};
+  width: ${(props) => (props.isLoading ? "100%" : "fit-content")};
+  height: ${(props) => (props.isLoading ? "20px" : "unset")};
 
   &:hover {
     color: blue;
@@ -68,10 +71,19 @@ export const ItemCategory = styled.h5`
   ${secondaryStyles}
 `;
 
+export const ItemName = styled.h5`
+  width: 100%;
+  height: ${(props) => (props.isLoading ? "40px" : "unset")};
+`;
+
 export const ItemPrice = styled.h4`
+  width: 100%;
+  height: ${(props) => (props.isLoading ? "15px" : "unset")};
   ${secondaryStyles}
 `;
 
 export const ItemStock = styled.h4`
+  width: 100%;
+  height: ${(props) => (props.isLoading ? "15px" : "unset")};
   ${secondaryStyles}
 `;

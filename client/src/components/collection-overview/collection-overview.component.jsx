@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 
 import CollectionItem from "../collection-item/collection-item.component";
-import Spinner from "../spinner/spinner.component";
 
 import { connect } from "react-redux";
 import {
   selectProductCollection,
   selectIsFetchingProducts,
   selectIsFetchingMoreProducts,
-  selectHasMoreToLoad
+  selectHasMoreToLoad,
+  selectProductsPerPage
 } from "../../redux/product/product.selectors";
 import {
   startInitialProductsFetch,
@@ -16,19 +16,18 @@ import {
 } from "../../redux/product/product.actions";
 import useVisibility from "../../hooks/useVisibility.hook";
 
-const loadingTextForInitialFetch = "Getting latest products";
-const loadingTextForMoreProductsFetch = "Getting more products";
-
 const CollectionOverview = ({
   products,
   fetchInitialProducts,
   isFetchingProducts,
   isFetchingMoreProducts,
   fetchMoreProducts,
-  hasMoreToLoad
+  hasMoreToLoad,
+  productsPerPage
 }) => {
+  const skeletonCollectionItems = [];
   const lastElementRefCB = useVisibility(
-    { threshold: 1.0 },
+    { threshold: 0.9 },
     fetchMoreProducts,
     [],
     isFetchingMoreProducts || isFetchingProducts,
@@ -39,24 +38,24 @@ const CollectionOverview = ({
     fetchInitialProducts();
   }, [fetchInitialProducts]);
 
+  if (isFetchingProducts || isFetchingMoreProducts) {
+    for (let i = 0; i < productsPerPage; i++) {
+      skeletonCollectionItems.push(<CollectionItem key={i} isLoading={true} />);
+    }
+  }
+
   return (
     <>
-      {isFetchingProducts ? (
-        <Spinner loadingText={loadingTextForInitialFetch} />
-      ) : (
-        products.map((product, index) => (
-          <CollectionItem
-            key={product.productId}
-            item={product}
-            lastElementCB={
-              products.length === index + 1 ? lastElementRefCB : undefined
-            }
-          />
-        ))
-      )}
-      {isFetchingMoreProducts ? (
-        <Spinner loadingText={loadingTextForMoreProductsFetch} />
-      ) : null}
+      {products.map((product, index) => (
+        <CollectionItem
+          key={product.productId}
+          item={product}
+          lastElementCB={
+            products.length === index + 1 ? lastElementRefCB : undefined
+          }
+        />
+      ))}
+      {skeletonCollectionItems}
     </>
   );
 };
@@ -65,7 +64,8 @@ const mapStateToProps = (state) => ({
   products: selectProductCollection(state),
   isFetchingProducts: selectIsFetchingProducts(state),
   isFetchingMoreProducts: selectIsFetchingMoreProducts(state),
-  hasMoreToLoad: selectHasMoreToLoad(state)
+  hasMoreToLoad: selectHasMoreToLoad(state),
+  productsPerPage: selectProductsPerPage(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

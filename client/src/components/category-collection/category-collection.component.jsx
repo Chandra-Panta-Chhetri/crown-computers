@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 
 import CollectionItem from "../collection-item/collection-item.component";
-import Spinner from "../spinner/spinner.component";
 
 import {
   selectIsFetchingProducts,
   selectProductCollection,
   selectIsFetchingMoreProducts,
-  selectHasMoreToLoad
+  selectHasMoreToLoad,
+  selectProductsPerPage
 } from "../../redux/product/product.selectors";
 import {
   startInitialProductsFetchByCategory,
@@ -23,14 +23,16 @@ const CategoryCollection = ({
   fetchProductsInCategory,
   isFetchingMoreProducts,
   hasMoreToLoad,
-  fetchMoreProductsInCategory
+  fetchMoreProductsInCategory,
+  productsPerPage
 }) => {
+  const skeletonCollectionItems = [];
   const categoryNameInLowerCase = decodeURI(
     match.params.productCategory
   ).toLowerCase();
 
   const lastElementRefCB = useVisibility(
-    { threshold: 1.0 },
+    { threshold: 0.9 },
     fetchMoreProductsInCategory,
     [categoryNameInLowerCase],
     isFetchingMoreProducts || isFetchingProducts,
@@ -41,30 +43,26 @@ const CategoryCollection = ({
     fetchProductsInCategory(categoryNameInLowerCase);
   }, [fetchProductsInCategory, categoryNameInLowerCase]);
 
-  const loadingText = `Getting latest ${categoryNameInLowerCase} products`;
+  if (isFetchingProducts || isFetchingMoreProducts) {
+    for (let i = 0; i < productsPerPage; i++) {
+      skeletonCollectionItems.push(<CollectionItem key={i} isLoading={true} />);
+    }
+  }
 
   return (
     <>
-      {isFetchingProducts ? (
-        <Spinner loadingText={loadingText} />
-      ) : (
-        productsInCategory.map((product, index) => (
-          <CollectionItem
-            key={product.productId}
-            item={product}
-            lastElementCB={
-              productsInCategory.length === index + 1
-                ? lastElementRefCB
-                : undefined
-            }
-          />
-        ))
-      )}
-      {isFetchingMoreProducts ? (
-        <Spinner
-          loadingText={`Getting more ${categoryNameInLowerCase} products`}
+      {productsInCategory.map((product, index) => (
+        <CollectionItem
+          key={product.productId}
+          item={product}
+          lastElementCB={
+            productsInCategory.length === index + 1
+              ? lastElementRefCB
+              : undefined
+          }
         />
-      ) : null}
+      ))}
+      {skeletonCollectionItems}
     </>
   );
 };
@@ -73,7 +71,8 @@ const mapStateToProps = (state) => ({
   productsInCategory: selectProductCollection(state),
   isFetchingProducts: selectIsFetchingProducts(state),
   isFetchingMoreProducts: selectIsFetchingMoreProducts(state),
-  hasMoreToLoad: selectHasMoreToLoad(state)
+  hasMoreToLoad: selectHasMoreToLoad(state),
+  productsPerPage: selectProductsPerPage(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

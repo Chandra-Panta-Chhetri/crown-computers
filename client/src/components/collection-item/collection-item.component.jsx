@@ -7,14 +7,46 @@ import {
   ItemInfoContainer,
   ItemCategory,
   ItemPrice,
-  ItemStock
+  ItemStock,
+  ItemName
 } from "./collection-item.styles";
+
+import SkeletonLoader from "../skeleton-loader/skeleton-loader.component";
 
 import { connect } from "react-redux";
 import { addToCart } from "../../redux/cart/cart.actions";
 import { withRouter } from "react-router-dom";
 
-const CollectionItem = ({ item, addToCart, history, lastElementCB }) => {
+const CollectionItem = ({
+  item,
+  addToCart,
+  history,
+  lastElementCB,
+  isLoading
+}) => {
+  if (isLoading) {
+    return (
+      <CollectionItemContainer>
+        <ItemImageContainer isLoading={isLoading}>
+          <SkeletonLoader />
+        </ItemImageContainer>
+        <ItemInfoContainer>
+          <ItemCategory isLoading={isLoading}>
+            <SkeletonLoader />
+          </ItemCategory>
+          <ItemName isLoading={isLoading}>
+            <SkeletonLoader />
+          </ItemName>
+          <ItemPrice isLoading={isLoading}>
+            <SkeletonLoader />
+          </ItemPrice>
+          <ItemStock isLoading={isLoading}>
+            <SkeletonLoader />
+          </ItemStock>
+        </ItemInfoContainer>
+      </CollectionItemContainer>
+    );
+  }
   const { name, imageUrl, price, category, stock } = item;
   return (
     <CollectionItemContainer ref={lastElementCB}>
