@@ -74,7 +74,7 @@ function* checkoutCart({
       checkoutSuccess(
         onSuccessfulCheckout,
         "Payment Successful",
-        `${customerInfo.name} your payment was successful. Have a good day`,
+        `${customerInfo.name.toUpperCase()} your payment was successful. Have a good day`,
         paymentMethod
       )
     );

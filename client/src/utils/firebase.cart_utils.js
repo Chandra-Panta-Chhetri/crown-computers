@@ -20,9 +20,8 @@ export const clearUserCart = async (cartId) => {
 };
 
 export const createNewCartItemDoc = async (productId) => {
-  const newCartItemRef = cartItemCollectionRef.doc();
   const productRef = firestore.doc(`products/${productId}`);
-  await newCartItemRef.set({ productRef, quantity: 1 });
+  const newCartItemRef = cartItemCollectionRef.add({ productRef, quantity: 1 });
   return newCartItemRef;
 };
 
@@ -44,13 +43,13 @@ export const checkCartItemsInStockOrOutdated = async (shoppingCart) => {
       throw Error(
         `${truncate(
           cartItem.name
-        )} is no longer sold. Please remove the item from cart completely and try again`
+        )} is no longer sold. Please remove the item from cart before trying again`
       );
     } else if (cartItem.quantity > productData.stock) {
       throw Error(
         `There are only ${productData.stock} ${truncate(
           cartItem.name
-        )} in stock. Please update the item's quantity and try again`
+        )} in stock. Please reduce the item's quantity and try again`
       );
     }
   }
@@ -91,7 +90,7 @@ export const saveCart = async (cartWithoutCartItemRefs, cartId) => {
   await cartRef.update({ cartItems: cartWithCartItemRefs });
 };
 
-const getCartItemFromCartItemRef = async (cartItemRef) => {
+const populateCartItemFromRef = async (cartItemRef) => {
   try {
     let cartItemSnapshot = await cartItemRef.get();
     let { productRef, quantity } = cartItemSnapshot.data();
@@ -114,7 +113,7 @@ const populateCart = async (cartWithCartItemRefs) => {
   const populatedCart = [];
   try {
     for (let cartItemRef of cartWithCartItemRefs) {
-      let cartItem = await getCartItemFromCartItemRef(cartItemRef);
+      let cartItem = await populateCartItemFromRef(cartItemRef);
       if (cartItem) {
         populatedCart.push(cartItem);
       }

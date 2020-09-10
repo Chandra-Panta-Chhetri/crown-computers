@@ -18,13 +18,13 @@ export const createNewSale = async (
     await clearUserCart(cartId);
   }
   const itemsSold = createNewCartWithImportantItemInfo(shoppingCart);
-  const newSaleDocRef = await saleCollectionRef.add({
+  const newSaleRef = await saleCollectionRef.add({
     itemsSold,
     subTotal,
     paymentMethod,
     createdAt: new Date()
   });
-  return newSaleDocRef;
+  return newSaleRef;
 };
 
 const createNewCartWithImportantItemInfo = (shoppingCart) =>
