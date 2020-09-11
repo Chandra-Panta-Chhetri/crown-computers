@@ -6,7 +6,7 @@ import {
 } from "../notification/notification.actions";
 import { checkoutFail, checkoutSuccess } from "./checkout.actions";
 import { clearCart } from "../cart/cart.actions";
-import { createNewSale } from "../../utils/firebase.checkout_utils";
+import { createNewSale } from "../../firebase-utils/firebase.checkout_utils";
 import {
   selectShoppingCart,
   selectCartTotal,
@@ -17,7 +17,7 @@ import axios from "axios";
 import {
   checkCartItemsInStockOrOutdated,
   updateProductStocksInCart
-} from "../../utils/firebase.cart_utils";
+} from "../../firebase-utils/firebase.cart_utils";
 
 function* processPayment(
   stripeInstance,

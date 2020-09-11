@@ -9,10 +9,10 @@ import {
 } from "./product.actions";
 import {
   getProducts,
-  getProductsInCategory,
+  getProductsByCategoryName,
   getMoreProducts,
-  getMoreProductsInCategory
-} from "../../utils/firebase.product_utils";
+  getMoreProductsByCategoryName
+} from "../../firebase-utils/firebase.product_utils";
 import { addErrorNotification } from "../notification/notification.actions";
 import {
   selectProductsPerPage,
@@ -37,7 +37,7 @@ function* fetchMoreProducts() {
   try {
     const productsPerPage = yield select(selectProductsPerPage);
     const lastDoc = yield select(selectLastVisibleDoc);
-    const { newProducts, lastVisibleDoc } = yield getMoreProducts(
+    const { products: newProducts, lastVisibleDoc } = yield getMoreProducts(
       lastDoc,
       productsPerPage
     );
@@ -57,10 +57,10 @@ function* fetchMoreProducts() {
 function* fetchProductsByCategory({ payload: categoryName }) {
   try {
     const productsPerPage = yield select(selectProductsPerPage);
-    const { productsInCategory, lastVisibleDoc } = yield getProductsInCategory(
-      categoryName,
-      productsPerPage
-    );
+    const {
+      products: productsInCategory,
+      lastVisibleDoc
+    } = yield getProductsByCategoryName(categoryName, productsPerPage);
     if (!productsInCategory.length) throw Error();
     yield put(initialProductsFetchSuccess(productsInCategory, lastVisibleDoc));
   } catch (err) {
@@ -73,9 +73,13 @@ function* fetchMoreProductsByCategory({ payload: categoryName }) {
     const productsPerPage = yield select(selectProductsPerPage);
     const lastDoc = yield select(selectLastVisibleDoc);
     const {
-      newProductsInCategory,
+      products: newProductsInCategory,
       lastVisibleDoc
-    } = yield getMoreProductsInCategory(lastDoc, categoryName, productsPerPage);
+    } = yield getMoreProductsByCategoryName(
+      lastDoc,
+      categoryName,
+      productsPerPage
+    );
     if (!newProductsInCategory.length) {
       return yield put(noMoreToLoad());
     }

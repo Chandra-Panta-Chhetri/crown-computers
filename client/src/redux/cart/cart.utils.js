@@ -1,7 +1,7 @@
 import {
   createNewCartItemDoc,
   deleteCartItemDoc
-} from "../../utils/firebase.cart_utils";
+} from "../../firebase-utils/firebase.cart_utils";
 
 const updateItemQuantityInCart = (
   shoppingCart,

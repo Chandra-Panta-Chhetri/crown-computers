@@ -9,7 +9,7 @@ import {
   select
 } from "redux-saga/effects";
 import { clearCart, updateCartSuccess, updateCartFail } from "./cart.actions";
-import { saveCart } from "../../utils/firebase.cart_utils";
+import { saveCart } from "../../firebase-utils/firebase.cart_utils";
 import { selectShoppingCart, selectCartId } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
 import { addToCart, changeItemQuantity, removeFromCart } from "./cart.utils";

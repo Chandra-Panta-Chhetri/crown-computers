@@ -10,12 +10,12 @@ import {
   startAutoSignIn
 } from "./user.actions";
 import { restoreCart, clearCart } from "../cart/cart.actions";
-import { auth, googleProvider } from "../../utils/firebase.config";
+import { auth, googleProvider } from "../../firebase-utils/firebase.config";
 import {
   createOrGetUser,
   getUserFromSession
-} from "../../utils/firebase.user_utils";
-import { getUserCartAndCartId } from "../../utils/firebase.cart_utils";
+} from "../../firebase-utils/firebase.user_utils";
+import { getUserCartAndCartId } from "../../firebase-utils/firebase.cart_utils";
 import { selectWasSignedIn } from "./user.selectors";
 import {
   addErrorNotification,

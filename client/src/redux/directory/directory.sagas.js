@@ -4,7 +4,7 @@ import {
   categoriesFetchFail,
   categoriesFetchSuccess
 } from "./directory.actions";
-import { getProductCategories } from "../../utils/firebase.product_utils";
+import { getProductCategories } from "../../firebase-utils/firebase.product_utils";
 import { addErrorNotification } from "../notification/notification.actions";
 
 function* fetchCategories() {

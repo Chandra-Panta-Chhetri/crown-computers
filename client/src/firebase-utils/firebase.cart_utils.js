@@ -1,5 +1,8 @@
 import { firestore } from "./firebase.config";
-import { setProductStock, getProductById } from "./firebase.product_utils";
+import {
+  updateProductStock,
+  getProductDataAndRefById
+} from "./firebase.product_utils";
 import { truncate } from "../redux/cart/cart.sagas";
 
 const cartCollectionRef = firestore.collection("carts");
@@ -38,7 +41,7 @@ export const deleteAllCartItemDocsInCart = async (shoppingCart) => {
 
 export const checkCartItemsInStockOrOutdated = async (shoppingCart) => {
   for (let cartItem of shoppingCart) {
-    const { productData } = await getProductById(cartItem.productId);
+    const { productData } = await getProductDataAndRefById(cartItem.productId);
     if (!productData) {
       throw Error(
         `${truncate(
@@ -57,7 +60,7 @@ export const checkCartItemsInStockOrOutdated = async (shoppingCart) => {
 
 export const updateProductStocksInCart = async (shoppingCart) => {
   for (let cartItem of shoppingCart) {
-    await setProductStock(cartItem.productId, cartItem.quantity);
+    await updateProductStock(cartItem.productId, cartItem.quantity);
   }
 };
 
