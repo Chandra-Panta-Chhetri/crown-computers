@@ -108,10 +108,7 @@ export const getMoreProducts = async (lastVisibleDoc, productsPerPage) => {
   return productsAndLastVisibleDoc;
 };
 
-export const getProductsByCategoryName = async (
-  categoryName,
-  productsPerPage
-) => {
+export const getProductsByCategory = async (categoryName, productsPerPage) => {
   const productCategoryRef = await getProductCategoryRefByCategoryName(
     categoryName
   );
@@ -126,7 +123,7 @@ export const getProductsByCategoryName = async (
   return productsAndLastVisibleDoc;
 };
 
-export const getMoreProductsByCategoryName = async (
+export const getMoreProductsByCategory = async (
   lastVisibleDoc,
   categoryName,
   productsPerPage

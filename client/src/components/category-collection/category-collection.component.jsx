@@ -5,7 +5,6 @@ import CollectionItem from "../collection-item/collection-item.component";
 import {
   selectIsFetchingProducts,
   selectProductCollection,
-  selectIsFetchingMoreProducts,
   selectHasMoreToLoad,
   selectProductsPerPage
 } from "../../redux/product/product.selectors";
@@ -21,7 +20,6 @@ const CategoryCollection = ({
   match,
   isFetchingProducts,
   fetchProductsInCategory,
-  isFetchingMoreProducts,
   hasMoreToLoad,
   fetchMoreProductsInCategory,
   productsPerPage
@@ -35,7 +33,7 @@ const CategoryCollection = ({
     { threshold: 0.9 },
     fetchMoreProductsInCategory,
     [categoryNameInLowerCase],
-    isFetchingMoreProducts || isFetchingProducts,
+    isFetchingProducts,
     hasMoreToLoad
   );
 
@@ -43,7 +41,7 @@ const CategoryCollection = ({
     fetchProductsInCategory(categoryNameInLowerCase);
   }, [fetchProductsInCategory, categoryNameInLowerCase]);
 
-  if (isFetchingProducts || isFetchingMoreProducts) {
+  if (isFetchingProducts) {
     for (let i = 0; i < productsPerPage; i++) {
       skeletonCollectionItems.push(<CollectionItem key={i} isLoading={true} />);
     }
@@ -70,7 +68,6 @@ const CategoryCollection = ({
 const mapStateToProps = (state) => ({
   productsInCategory: selectProductCollection(state),
   isFetchingProducts: selectIsFetchingProducts(state),
-  isFetchingMoreProducts: selectIsFetchingMoreProducts(state),
   hasMoreToLoad: selectHasMoreToLoad(state),
   productsPerPage: selectProductsPerPage(state)
 });

@@ -22,11 +22,6 @@ export const selectLastVisibleDoc = createSelector(
   (product) => product.lastVisibleDoc
 );
 
-export const selectIsFetchingMoreProducts = createSelector(
-  [selectProduct],
-  (product) => product.isFetchingMoreProducts
-);
-
 export const selectHasMoreToLoad = createSelector(
   [selectProduct],
   (product) => product.hasMoreToLoad

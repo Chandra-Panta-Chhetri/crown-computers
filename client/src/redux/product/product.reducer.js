@@ -5,11 +5,10 @@ const INITIAL_STATE = {
   isFetchingProducts: false,
   productsPerPage: 6,
   lastVisibleDoc: null,
-  isFetchingMoreProducts: false,
   hasMoreToLoad: true
 };
 
-const collectionReducer = (prevState = INITIAL_STATE, action) => {
+const productReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
     case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_START:
     case PRODUCT_ACTION_TYPES.INITIAL_FETCH_PRODUCTS_BY_CATEGORY_START:
@@ -27,6 +26,7 @@ const collectionReducer = (prevState = INITIAL_STATE, action) => {
         isFetchingProducts: false
       };
     case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_FAIL:
+    case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_FAIL:
       return {
         ...prevState,
         isFetchingProducts: false
@@ -35,24 +35,19 @@ const collectionReducer = (prevState = INITIAL_STATE, action) => {
     case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_BY_CATEGORY_START:
       return {
         ...prevState,
-        isFetchingMoreProducts: true
+        isFetchingProducts: true
       };
     case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_SUCCESS:
       return {
         ...prevState,
-        isFetchingMoreProducts: false,
+        isFetchingProducts: false,
         products: [...prevState.products, ...action.payload.newProducts],
         lastVisibleDoc: action.payload.lastVisibleDoc
-      };
-    case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_FAIL:
-      return {
-        ...prevState,
-        isFetchingMoreProducts: false
       };
     case PRODUCT_ACTION_TYPES.NO_MORE_TO_LOAD:
       return {
         ...prevState,
-        isFetchingMoreProducts: false,
+        isFetchingProducts: false,
         hasMoreToLoad: false
       };
     default:
@@ -60,4 +55,4 @@ const collectionReducer = (prevState = INITIAL_STATE, action) => {
   }
 };
 
-export default collectionReducer;
+export default productReducer;

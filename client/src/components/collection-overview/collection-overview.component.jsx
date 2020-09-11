@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import {
   selectProductCollection,
   selectIsFetchingProducts,
-  selectIsFetchingMoreProducts,
   selectHasMoreToLoad,
   selectProductsPerPage
 } from "../../redux/product/product.selectors";
@@ -20,7 +19,6 @@ const CollectionOverview = ({
   products,
   fetchInitialProducts,
   isFetchingProducts,
-  isFetchingMoreProducts,
   fetchMoreProducts,
   hasMoreToLoad,
   productsPerPage
@@ -30,7 +28,7 @@ const CollectionOverview = ({
     { threshold: 0.9 },
     fetchMoreProducts,
     [],
-    isFetchingMoreProducts || isFetchingProducts,
+    isFetchingProducts,
     hasMoreToLoad
   );
 
@@ -38,7 +36,7 @@ const CollectionOverview = ({
     fetchInitialProducts();
   }, [fetchInitialProducts]);
 
-  if (isFetchingProducts || isFetchingMoreProducts) {
+  if (isFetchingProducts) {
     for (let i = 0; i < productsPerPage; i++) {
       skeletonCollectionItems.push(<CollectionItem key={i} isLoading={true} />);
     }
@@ -63,7 +61,6 @@ const CollectionOverview = ({
 const mapStateToProps = (state) => ({
   products: selectProductCollection(state),
   isFetchingProducts: selectIsFetchingProducts(state),
-  isFetchingMoreProducts: selectIsFetchingMoreProducts(state),
   hasMoreToLoad: selectHasMoreToLoad(state),
   productsPerPage: selectProductsPerPage(state)
 });

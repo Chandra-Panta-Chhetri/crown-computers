@@ -23,6 +23,11 @@ export const startLoadingMoreProducts = () => ({
   type: PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_START
 });
 
+export const startLoadingMoreProductsByCategory = (categoryName) => ({
+  type: PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_BY_CATEGORY_START,
+  payload: categoryName
+});
+
 export const loadingMoreProductsSuccess = (newProducts, lastVisibleDoc) => ({
   type: PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_SUCCESS,
   payload: { newProducts, lastVisibleDoc }
@@ -31,11 +36,6 @@ export const loadingMoreProductsSuccess = (newProducts, lastVisibleDoc) => ({
 export const loadingMoreProductsFail = (errorMsg) => ({
   type: PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_FAIL,
   payload: errorMsg
-});
-
-export const startLoadingMoreProductsByCategory = (categoryName) => ({
-  type: PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_BY_CATEGORY_START,
-  payload: categoryName
 });
 
 export const noMoreToLoad = () => ({

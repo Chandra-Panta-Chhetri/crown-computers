@@ -9,9 +9,9 @@ import {
 } from "./product.actions";
 import {
   getProducts,
-  getProductsByCategoryName,
   getMoreProducts,
-  getMoreProductsByCategoryName
+  getProductsByCategory,
+  getMoreProductsByCategory
 } from "../../firebase-utils/firebase.product_utils";
 import { addErrorNotification } from "../notification/notification.actions";
 import {
@@ -23,6 +23,7 @@ function* fetchProducts() {
   try {
     const productsPerPage = yield select(selectProductsPerPage);
     const { products, lastVisibleDoc } = yield getProducts(productsPerPage);
+    if (!products.length) throw Error();
     yield put(initialProductsFetchSuccess(products, lastVisibleDoc));
   } catch (err) {
     yield put(
@@ -60,7 +61,7 @@ function* fetchProductsByCategory({ payload: categoryName }) {
     const {
       products: productsInCategory,
       lastVisibleDoc
-    } = yield getProductsByCategoryName(categoryName, productsPerPage);
+    } = yield getProductsByCategory(categoryName, productsPerPage);
     if (!productsInCategory.length) throw Error();
     yield put(initialProductsFetchSuccess(productsInCategory, lastVisibleDoc));
   } catch (err) {
@@ -75,11 +76,7 @@ function* fetchMoreProductsByCategory({ payload: categoryName }) {
     const {
       products: newProductsInCategory,
       lastVisibleDoc
-    } = yield getMoreProductsByCategoryName(
-      lastDoc,
-      categoryName,
-      productsPerPage
-    );
+    } = yield getMoreProductsByCategory(lastDoc, categoryName, productsPerPage);
     if (!newProductsInCategory.length) {
       return yield put(noMoreToLoad());
     }
@@ -106,6 +103,13 @@ function* watchProductsFetchStart() {
   );
 }
 
+function* watchProductsFetchByCategory() {
+  yield takeLatest(
+    PRODUCT_ACTION_TYPES.INITIAL_FETCH_PRODUCTS_BY_CATEGORY_START,
+    fetchProductsByCategory
+  );
+}
+
 function* watchProductsFetchFail() {
   yield takeLatest(
     [
@@ -113,13 +117,6 @@ function* watchProductsFetchFail() {
       PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_FAIL
     ],
     handleProductsFetchFail
-  );
-}
-
-function* watchProductsFetchByCategory() {
-  yield takeLatest(
-    PRODUCT_ACTION_TYPES.INITIAL_FETCH_PRODUCTS_BY_CATEGORY_START,
-    fetchProductsByCategory
   );
 }
 
