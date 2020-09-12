@@ -21,7 +21,7 @@ const PageNotFound = lazy(() =>
   import("../../components/page-not-found/page-not-found.component")
 );
 
-const ProductCollection = ({ match, isUpdatingCart, cartLoadingText }) => {
+const ShopPage = ({ match, isUpdatingCart, cartLoadingText }) => {
   return (
     <article>
       <Suspense fallback={<Spinner />}>
@@ -48,4 +48,4 @@ const mapStateToProps = createStructuredSelector({
   cartLoadingText: selectCartLoadingText
 });
 
-export default connect(mapStateToProps)(ProductCollection);
+export default connect(mapStateToProps)(ShopPage);

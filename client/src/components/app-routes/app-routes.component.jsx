@@ -11,7 +11,7 @@ const Home = lazy(() => import("../../pages/home/home.component"));
 const CartSummary = lazy(() =>
   import("../../pages/cart-summary/cart-summary.component")
 );
-const ProductCollection = lazy(() => import("../../pages/shop/shop.component"));
+const ShopPage = lazy(() => import("../../pages/shop/shop.component"));
 const PageNotFound = lazy(() =>
   import("../page-not-found/page-not-found.component")
 );
@@ -19,7 +19,7 @@ const PageNotFound = lazy(() =>
 const AppRoutes = ({ currentUser }) => (
   <Switch>
     <Route exact path="/" component={Home} />
-    <Route path="/shop" component={ProductCollection} />
+    <Route path="/shop" component={ShopPage} />
     <Route
       exact
       path="/login"
