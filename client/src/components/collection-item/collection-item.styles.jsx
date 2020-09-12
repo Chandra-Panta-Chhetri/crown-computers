@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Button from "../button/button.component";
 
-export const CollectionItemContainer = styled.section`
+export const CollectionItemContainer = styled.div`
   font-weight: bold;
   width: 25%;
   padding: 0.5em;

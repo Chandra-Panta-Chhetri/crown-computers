@@ -1,5 +1,4 @@
 import React, { lazy, Suspense } from "react";
-import { ProductCollectionContainer } from "./shop.styles";
 
 import { Route, Switch } from "react-router-dom";
 import Spinner from "../../components/spinner/spinner.component";
@@ -16,7 +15,7 @@ const PageNotFound = lazy(() =>
 
 const ProductCollection = ({ match }) => {
   return (
-    <ProductCollectionContainer>
+    <article>
       <Suspense fallback={<Spinner />}>
         <Switch>
           <Route exact path={`${match.path}`} component={CollectionOverview} />
@@ -28,7 +27,7 @@ const ProductCollection = ({ match }) => {
           <Route component={PageNotFound} />
         </Switch>
       </Suspense>
-    </ProductCollectionContainer>
+    </article>
   );
 };
 

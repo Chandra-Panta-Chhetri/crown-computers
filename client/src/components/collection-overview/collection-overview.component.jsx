@@ -1,29 +1,24 @@
 import React, { useEffect } from "react";
 
-import CollectionItem from "../collection-item/collection-item.component";
-import CollectionItemSkeleton from "../collection-item-skeleton/collection-item-skeleton.component";
+import ProductCollection from "../product-collection/product-collection.component";
 
 import {
   selectIsFetchingProducts,
-  selectProductCollection,
-  selectHasMoreToFetch,
-  selectProductsPerPage
+  selectHasMoreToFetch
 } from "../../redux/product/product.selectors";
 import {
   startInitialProductsFetch,
   startLoadingMoreProducts
 } from "../../redux/product/product.actions";
-import { connect } from "react-redux";
 import usePaginationOnIntersection from "../../hooks/usePaginationOnIntersection.hook";
+import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 const CollectionOverview = ({
-  products,
   fetchInitialProducts,
   fetchMoreProducts,
   isFetchingProducts,
-  hasMoreToFetch,
-  productsPerPage
+  hasMoreToFetch
 }) => {
   const fetchMoreOnIntersection = usePaginationOnIntersection(
     fetchMoreProducts,
@@ -37,29 +32,16 @@ const CollectionOverview = ({
   }, [fetchInitialProducts]);
 
   return (
-    <>
-      {products.map((product, index) => (
-        <CollectionItem
-          key={product.productId}
-          item={product}
-          intersectionCb={
-            products.length === index + 1 ? fetchMoreOnIntersection : undefined
-          }
-        />
-      ))}
-      {isFetchingProducts &&
-        Array(productsPerPage)
-          .fill()
-          .map((item, index) => <CollectionItemSkeleton key={index} />)}
-    </>
+    <ProductCollection
+      intersectionCb={fetchMoreOnIntersection}
+      isFetchingProducts={isFetchingProducts}
+    />
   );
 };
 
 const mapStateToProps = createStructuredSelector({
-  products: selectProductCollection,
   isFetchingProducts: selectIsFetchingProducts,
-  hasMoreToFetch: selectHasMoreToFetch,
-  productsPerPage: selectProductsPerPage
+  hasMoreToFetch: selectHasMoreToFetch
 });
 
 const mapDispatchToProps = (dispatch) => ({
