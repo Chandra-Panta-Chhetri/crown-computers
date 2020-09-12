@@ -3,7 +3,8 @@ import {
   NavBarContainer,
   LogoContainer,
   NavBarItems,
-  NavItem
+  NavItem,
+  LogOutBtn
 } from "./navbar.styles";
 
 import CartDropDown from "../cart-drop-down/cart-drop-down.component";
@@ -32,9 +33,9 @@ const NavBar = ({ currentUser, hidden, logOut }) => (
           Log In
         </NavItem>
       ) : (
-        <NavItem onClick={logOut} to="/">
+        <LogOutBtn onClick={logOut} to="/">
           Log Out
-        </NavItem>
+        </LogOutBtn>
       )}
       {!currentUser ? (
         <NavItem to="/signup" activeClassName="active">

@@ -1,6 +1,18 @@
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import styled, { css } from "styled-components";
+import { NavLink, Link } from "react-router-dom";
 import { mainColorLight, secondaryColor } from "../../global.styles";
+
+const navItemStyles = css`
+  padding: 10px 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  outline: none;
+  color: ${mainColorLight};
+
+  &:hover {
+    color: ${secondaryColor};
+  }
+`;
 
 export const NavBarContainer = styled.div`
   height: 70px;
@@ -33,13 +45,9 @@ export const NavBarItems = styled.div`
 `;
 
 export const NavItem = styled(NavLink)`
-  padding: 10px 15px;
-  cursor: pointer;
-  white-space: nowrap;
-  outline: none;
-  color: ${mainColorLight};
+  ${navItemStyles}
+`;
 
-  &:hover {
-    color: ${secondaryColor};
-  }
+export const LogOutBtn = styled(Link)`
+  ${navItemStyles}
 `;

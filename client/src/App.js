@@ -6,19 +6,14 @@ import { withRouter } from "react-router-dom";
 import Spinner from "./components/spinner/spinner.component";
 import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 import Toast from "./components/toast/toast.component";
-import Routes from "./components/routes/routes.component";
-import FullPageSpinner from "./components/full-page-spinner/full-page-spinner.component";
+import AppRoutes from "./components/app-routes/app-routes.component";
 
 import {
   selectIsChangingAuthState,
-  selectLoadingText
+  selectUserLoadingText
 } from "./redux/user/user.selectors";
 import { signInUserFromSession } from "./redux/user/user.actions";
-import {
-  selectCartVisibility,
-  selectIsUpdatingCart,
-  selectCartLoadingText
-} from "./redux/cart/cart.selectors";
+import { selectCartVisibility } from "./redux/cart/cart.selectors";
 import { toggleCartVisibility } from "./redux/cart/cart.actions";
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
@@ -30,9 +25,7 @@ const App = ({
   isCartHidden,
   toggleCartVisibility,
   isChangingAuthState,
-  loadingText,
-  isUpdatingCart,
-  cartLoadingText
+  userLoadingText
 }) => {
   useEffect(() => {
     signInUserFromSession();
@@ -50,17 +43,13 @@ const App = ({
     <div>
       <GlobalStyles />
       {isChangingAuthState ? (
-        <Spinner loadingText={loadingText} />
+        <Spinner loadingText={userLoadingText} />
       ) : (
         <>
-          <FullPageSpinner
-            isLoading={isUpdatingCart}
-            loadingText={cartLoadingText}
-          />
           <NavBar />
           <ErrorBoundary>
             <Suspense fallback={<Spinner />}>
-              <Routes />
+              <AppRoutes />
             </Suspense>
           </ErrorBoundary>
         </>
@@ -73,9 +62,7 @@ const App = ({
 const mapStateToProps = createStructuredSelector({
   isCartHidden: selectCartVisibility,
   isChangingAuthState: selectIsChangingAuthState,
-  loadingText: selectLoadingText,
-  isUpdatingCart: selectIsUpdatingCart,
-  cartLoadingText: selectCartLoadingText
+  userLoadingText: selectUserLoadingText
 });
 
 const mapDispatchToProps = (dispatch) => ({

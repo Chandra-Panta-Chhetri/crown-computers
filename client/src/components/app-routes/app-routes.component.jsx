@@ -13,10 +13,10 @@ const CartSummary = lazy(() =>
 );
 const ProductCollection = lazy(() => import("../../pages/shop/shop.component"));
 const PageNotFound = lazy(() =>
-  import("../../components/page-not-found/page-not-found.component")
+  import("../page-not-found/page-not-found.component")
 );
 
-const Routes = ({ currentUser }) => (
+const AppRoutes = ({ currentUser }) => (
   <Switch>
     <Route exact path="/" component={Home} />
     <Route path="/shop" component={ProductCollection} />
@@ -39,4 +39,4 @@ const mapStateToProps = (state) => ({
   currentUser: selectCurrentUser(state)
 });
 
-export default connect(mapStateToProps)(Routes);
+export default connect(mapStateToProps)(AppRoutes);

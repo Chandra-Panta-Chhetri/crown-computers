@@ -12,7 +12,7 @@ export const selectIsChangingAuthState = createSelector(
   (user) => user.isChangingAuthState
 );
 
-export const selectLoadingText = createSelector(
+export const selectUserLoadingText = createSelector(
   [selectUser],
   (user) => user.loadingText
 );
