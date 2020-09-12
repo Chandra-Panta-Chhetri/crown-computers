@@ -9,7 +9,6 @@ export const CheckoutFormContainer = styled.form`
 
 export const SubHeading = styled.h4`
   font-weight: bold;
-  letter-spacing: 1.6px;
 `;
 
 export const LoadingText = styled.p`

@@ -21,16 +21,26 @@ const NavBar = ({ currentUser, hidden, logOut }) => (
       <i className="fas fa-plug fa-3x"></i>
     </LogoContainer>
     <NavBarItems>
-      <NavItem to="/">Home</NavItem>
-      <NavItem to="/shop">Shop</NavItem>
+      <NavItem exact to="/" activeClassName="active">
+        Home
+      </NavItem>
+      <NavItem to="/shop" activeClassName="active">
+        Shop
+      </NavItem>
       {!currentUser ? (
-        <NavItem to="/login">Log In</NavItem>
+        <NavItem to="/login" activeClassName="active">
+          Log In
+        </NavItem>
       ) : (
         <NavItem onClick={logOut} to="/">
           Log Out
         </NavItem>
       )}
-      {!currentUser ? <NavItem to="/signup">Sign Up</NavItem> : null}
+      {!currentUser ? (
+        <NavItem to="/signup" activeClassName="active">
+          Sign Up
+        </NavItem>
+      ) : null}
       <CartIcon />
     </NavBarItems>
     {hidden ? null : <CartDropDown />}

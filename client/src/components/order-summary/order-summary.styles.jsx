@@ -6,7 +6,6 @@ export const OrderSummaryContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-self: flex-end;
-  letter-spacing: 1.1px;
 `;
 
 export const Heading = styled.h2`

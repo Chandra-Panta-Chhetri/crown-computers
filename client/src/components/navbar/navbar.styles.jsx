@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { mainColorLight, secondaryColor } from "../../global.styles";
 
 export const NavBarContainer = styled.div`
   height: 70px;
@@ -23,11 +24,22 @@ export const NavBarItems = styled.div`
   align-items: center;
   justify-content: flex-end;
   text-transform: uppercase;
+
+  .active {
+    color: ${secondaryColor};
+    border-bottom: 3px solid;
+    transition: border-bottom 350ms ease-out;
+  }
 `;
 
-export const NavItem = styled(Link)`
+export const NavItem = styled(NavLink)`
   padding: 10px 15px;
   cursor: pointer;
   white-space: nowrap;
   outline: none;
+  color: ${mainColorLight};
+
+  &:hover {
+    color: ${secondaryColor};
+  }
 `;

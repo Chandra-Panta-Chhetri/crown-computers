@@ -9,5 +9,4 @@ export const NoCartItemsText = styled.span`
   font-size: 18px;
   text-align: center;
   font-weight: bold;
-  letter-spacing: 1.1px;
 `;

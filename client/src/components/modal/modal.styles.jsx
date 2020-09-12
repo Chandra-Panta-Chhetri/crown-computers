@@ -33,7 +33,7 @@ export const ModalBody = styled.div`
 `;
 
 export const ModalTitle = styled.h3`
-  letter-spacing: 1.3px;
+  letter-spacing: 1.4px;
 `;
 
 export const ModalHeader = styled.span`

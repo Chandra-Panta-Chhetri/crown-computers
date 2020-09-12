@@ -64,7 +64,6 @@ export const ItemInfoContainer = styled.div`
   h4,
   h5 {
     margin: 8px 0;
-    letter-spacing: 2px;
   }
 `;
 
@@ -83,6 +82,7 @@ export const ItemCategory = styled.h5`
 export const ItemName = styled.h5`
   width: 100%;
   height: ${(props) => (props.isLoading ? "40px" : "unset")};
+  font-size: 14.5px;
 `;
 
 export const ItemPrice = styled.h4`

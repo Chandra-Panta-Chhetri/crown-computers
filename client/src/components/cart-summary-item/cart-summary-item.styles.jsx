@@ -32,7 +32,6 @@ export const ItemCategory = styled.span`
   margin: 4px 0 0;
   font-weight: 700;
   font-size: 14px;
-  letter-spacing: 1px;
   text-transform: uppercase;
 `;
 
