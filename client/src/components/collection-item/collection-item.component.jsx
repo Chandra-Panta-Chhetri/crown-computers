@@ -14,16 +14,9 @@ import {
 import { connect } from "react-redux";
 import { addToCart } from "../../redux/cart/cart.actions";
 import { withRouter } from "react-router-dom";
-import CollectionItemSkeleton from "../collection-item-skeleton/collection-item-skeleton.component";
+import { compose } from "redux";
 
-const CollectionItem = ({
-  item,
-  addToCart,
-  history,
-  intersectionCb,
-  isLoading = false
-}) => {
-  if (isLoading) return <CollectionItemSkeleton />;
+const CollectionItem = ({ item, addToCart, history, intersectionCb }) => {
   const { name, imageUrl, price, category, stock } = item;
   return (
     <CollectionItemContainer ref={intersectionCb}>
@@ -51,4 +44,7 @@ const mapDispatchToProps = (dispatch) => ({
   addToCart: (item) => dispatch(addToCart(item))
 });
 
-export default connect(null, mapDispatchToProps)(withRouter(CollectionItem));
+export default compose(
+  connect(null, mapDispatchToProps),
+  withRouter
+)(CollectionItem);

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import CollectionItem from "../collection-item/collection-item.component";
+import CollectionItemSkeleton from "../collection-item-skeleton/collection-item-skeleton.component";
 
 import {
   selectIsFetchingProducts,
@@ -56,9 +57,7 @@ const CategoryCollection = ({
       {isFetchingProducts &&
         Array(productsPerPage)
           .fill()
-          .map((item, index) => (
-            <CollectionItem key={index} isLoading={true} />
-          ))}
+          .map((item, index) => <CollectionItemSkeleton key={index} />)}
     </>
   );
 };
