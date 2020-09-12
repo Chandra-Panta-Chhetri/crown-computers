@@ -2,45 +2,38 @@ import React, { useEffect } from "react";
 
 import CollectionItem from "../collection-item/collection-item.component";
 
-import { connect } from "react-redux";
 import {
-  selectProductCollection,
   selectIsFetchingProducts,
-  selectHasMoreToLoad,
+  selectProductCollection,
+  selectHasMoreToFetch,
   selectProductsPerPage
 } from "../../redux/product/product.selectors";
 import {
   startInitialProductsFetch,
   startLoadingMoreProducts
 } from "../../redux/product/product.actions";
-import useVisibility from "../../hooks/useVisibility.hook";
+import { connect } from "react-redux";
+import usePaginationOnIntersection from "../../hooks/usePaginationOnIntersection.hook";
+import { createStructuredSelector } from "reselect";
 
 const CollectionOverview = ({
   products,
   fetchInitialProducts,
-  isFetchingProducts,
   fetchMoreProducts,
-  hasMoreToLoad,
+  isFetchingProducts,
+  hasMoreToFetch,
   productsPerPage
 }) => {
-  const skeletonCollectionItems = [];
-  const lastElementRefCB = useVisibility(
-    { threshold: 0.9 },
+  const fetchMoreOnIntersection = usePaginationOnIntersection(
     fetchMoreProducts,
     [],
     isFetchingProducts,
-    hasMoreToLoad
+    hasMoreToFetch
   );
 
   useEffect(() => {
     fetchInitialProducts();
   }, [fetchInitialProducts]);
-
-  if (isFetchingProducts) {
-    for (let i = 0; i < productsPerPage; i++) {
-      skeletonCollectionItems.push(<CollectionItem key={i} isLoading={true} />);
-    }
-  }
 
   return (
     <>
@@ -48,21 +41,26 @@ const CollectionOverview = ({
         <CollectionItem
           key={product.productId}
           item={product}
-          lastElementCB={
-            products.length === index + 1 ? lastElementRefCB : undefined
+          intersectionCb={
+            products.length === index + 1 ? fetchMoreOnIntersection : undefined
           }
         />
       ))}
-      {skeletonCollectionItems}
+      {isFetchingProducts &&
+        Array(productsPerPage)
+          .fill()
+          .map((item, index) => (
+            <CollectionItem key={index} isLoading={true} />
+          ))}
     </>
   );
 };
 
-const mapStateToProps = (state) => ({
-  products: selectProductCollection(state),
-  isFetchingProducts: selectIsFetchingProducts(state),
-  hasMoreToLoad: selectHasMoreToLoad(state),
-  productsPerPage: selectProductsPerPage(state)
+const mapStateToProps = createStructuredSelector({
+  products: selectProductCollection,
+  isFetchingProducts: selectIsFetchingProducts,
+  hasMoreToFetch: selectHasMoreToFetch,
+  productsPerPage: selectProductsPerPage
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -5,7 +5,7 @@ import CollectionItem from "../collection-item/collection-item.component";
 import {
   selectIsFetchingProducts,
   selectProductCollection,
-  selectHasMoreToLoad,
+  selectHasMoreToFetch,
   selectProductsPerPage
 } from "../../redux/product/product.selectors";
 import {
@@ -13,39 +13,32 @@ import {
   startLoadingMoreProductsByCategory
 } from "../../redux/product/product.actions";
 import { connect } from "react-redux";
-import useVisibility from "../../hooks/useVisibility.hook";
+import usePaginationOnIntersection from "../../hooks/usePaginationOnIntersection.hook";
+import { createStructuredSelector } from "reselect";
 
 const CategoryCollection = ({
   productsInCategory,
-  match,
-  isFetchingProducts,
   fetchProductsInCategory,
-  hasMoreToLoad,
   fetchMoreProductsInCategory,
-  productsPerPage
+  isFetchingProducts,
+  hasMoreToFetch,
+  productsPerPage,
+  match
 }) => {
-  const skeletonCollectionItems = [];
+  const fetchMoreOnIntersection = usePaginationOnIntersection(
+    fetchMoreProductsInCategory,
+    [],
+    isFetchingProducts,
+    hasMoreToFetch
+  );
+
   const categoryNameInLowerCase = decodeURI(
     match.params.productCategory
   ).toLowerCase();
 
-  const lastElementRefCB = useVisibility(
-    { threshold: 0.9 },
-    fetchMoreProductsInCategory,
-    [categoryNameInLowerCase],
-    isFetchingProducts,
-    hasMoreToLoad
-  );
-
   useEffect(() => {
     fetchProductsInCategory(categoryNameInLowerCase);
   }, [fetchProductsInCategory, categoryNameInLowerCase]);
-
-  if (isFetchingProducts) {
-    for (let i = 0; i < productsPerPage; i++) {
-      skeletonCollectionItems.push(<CollectionItem key={i} isLoading={true} />);
-    }
-  }
 
   return (
     <>
@@ -53,23 +46,28 @@ const CategoryCollection = ({
         <CollectionItem
           key={product.productId}
           item={product}
-          lastElementCB={
+          intersectionCb={
             productsInCategory.length === index + 1
-              ? lastElementRefCB
+              ? fetchMoreOnIntersection
               : undefined
           }
         />
       ))}
-      {skeletonCollectionItems}
+      {isFetchingProducts &&
+        Array(productsPerPage)
+          .fill()
+          .map((item, index) => (
+            <CollectionItem key={index} isLoading={true} />
+          ))}
     </>
   );
 };
 
-const mapStateToProps = (state) => ({
-  productsInCategory: selectProductCollection(state),
-  isFetchingProducts: selectIsFetchingProducts(state),
-  hasMoreToLoad: selectHasMoreToLoad(state),
-  productsPerPage: selectProductsPerPage(state)
+const mapStateToProps = createStructuredSelector({
+  productsInCategory: selectProductCollection,
+  isFetchingProducts: selectIsFetchingProducts,
+  hasMoreToFetch: selectHasMoreToFetch,
+  productsPerPage: selectProductsPerPage
 });
 
 const mapDispatchToProps = (dispatch) => ({

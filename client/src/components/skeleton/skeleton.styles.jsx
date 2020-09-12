@@ -1,4 +1,6 @@
 import styled, { css } from "styled-components";
+const pulseMainColor = "gainsboro";
+const pulseSecondaryColor = "#f8f8f8";
 
 export const pulseAnimation = css`
   @keyframes pulse {
@@ -11,15 +13,15 @@ export const pulseAnimation = css`
   }
 `;
 
-export const SkeletonLoaderContainer = styled.div`
+export const SkeletonContainer = styled.div`
   display: inline-block;
   width: 100%;
   height: 100%;
   background: linear-gradient(
     -90deg,
-    gainsboro 0%,
-    #f8f8f8 50%,
-    gainsboro 100%
+    ${pulseMainColor} 0%,
+    ${pulseSecondaryColor} 50%,
+    ${pulseMainColor} 100%
   );
   background-size: 400% 400%;
   animation: pulse 1.2s ease-in infinite;

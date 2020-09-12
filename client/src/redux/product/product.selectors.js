@@ -22,7 +22,7 @@ export const selectLastVisibleDoc = createSelector(
   (product) => product.lastVisibleDoc
 );
 
-export const selectHasMoreToLoad = createSelector(
+export const selectHasMoreToFetch = createSelector(
   [selectProduct],
-  (product) => product.hasMoreToLoad
+  (product) => product.hasMoreToFetch
 );

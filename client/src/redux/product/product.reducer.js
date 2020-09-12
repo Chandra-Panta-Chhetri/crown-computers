@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   isFetchingProducts: false,
   productsPerPage: 6,
   lastVisibleDoc: null,
-  hasMoreToLoad: true
+  hasMoreToFetch: true
 };
 
 const productReducer = (prevState = INITIAL_STATE, action) => {
@@ -16,7 +16,7 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         ...prevState,
         isFetchingProducts: true,
         products: [],
-        hasMoreToLoad: true
+        hasMoreToFetch: true
       };
     case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_SUCCESS:
       return {
@@ -48,7 +48,7 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
       return {
         ...prevState,
         isFetchingProducts: false,
-        hasMoreToLoad: false
+        hasMoreToFetch: false
       };
     default:
       return prevState;

@@ -11,47 +11,25 @@ import {
   ItemName
 } from "./collection-item.styles";
 
-import SkeletonLoader from "../skeleton-loader/skeleton-loader.component";
-
 import { connect } from "react-redux";
 import { addToCart } from "../../redux/cart/cart.actions";
 import { withRouter } from "react-router-dom";
+import CollectionItemSkeleton from "../collection-item-skeleton/collection-item-skeleton.component";
 
 const CollectionItem = ({
   item,
   addToCart,
   history,
-  lastElementCB,
-  isLoading
+  intersectionCb,
+  isLoading = false
 }) => {
-  if (isLoading) {
-    return (
-      <CollectionItemContainer>
-        <ItemImageContainer isLoading={isLoading}>
-          <SkeletonLoader />
-        </ItemImageContainer>
-        <ItemInfoContainer>
-          <ItemCategory isLoading={isLoading}>
-            <SkeletonLoader />
-          </ItemCategory>
-          <ItemName isLoading={isLoading}>
-            <SkeletonLoader />
-          </ItemName>
-          <ItemPrice isLoading={isLoading}>
-            <SkeletonLoader />
-          </ItemPrice>
-          <ItemStock isLoading={isLoading}>
-            <SkeletonLoader />
-          </ItemStock>
-        </ItemInfoContainer>
-      </CollectionItemContainer>
-    );
-  }
+  if (isLoading) return <CollectionItemSkeleton />;
   const { name, imageUrl, price, category, stock } = item;
   return (
-    <CollectionItemContainer ref={lastElementCB}>
+    <CollectionItemContainer ref={intersectionCb}>
       <ItemImageContainer>
         <ItemImage src={imageUrl} alt={name} />
+        <ItemStock>In Stock: {stock}</ItemStock>
         <AddToCartButton onClick={() => addToCart(item)}>
           Add To Cart
         </AddToCartButton>
@@ -60,11 +38,10 @@ const CollectionItem = ({
         <ItemCategory
           onClick={() => history.push(`/shop/${encodeURI(category)}`)}
         >
-          {category.toUpperCase()}
+          {category}
         </ItemCategory>
-        <h4>{name}</h4>
+        <ItemName>{name}</ItemName>
         <ItemPrice>${price}</ItemPrice>
-        <ItemStock>In Stock: {stock}</ItemStock>
       </ItemInfoContainer>
     </CollectionItemContainer>
   );
