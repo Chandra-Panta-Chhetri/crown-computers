@@ -2,7 +2,7 @@ import PRODUCT_ACTION_TYPES from "./product.action.types";
 
 const INITIAL_STATE = {
   products: [],
-  isFetchingProducts: false,
+  isFetchingProducts: true,
   productsPerPage: 6,
   lastVisibleDoc: null,
   hasMoreToFetch: true
@@ -14,7 +14,6 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
     case PRODUCT_ACTION_TYPES.INITIAL_FETCH_PRODUCTS_BY_CATEGORY_START:
       return {
         ...prevState,
-        isFetchingProducts: true,
         products: [],
         hasMoreToFetch: true
       };

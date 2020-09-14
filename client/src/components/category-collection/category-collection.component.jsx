@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 
 import ProductCollection from "../product-collection/product-collection.component";
+import { Redirect } from "react-router-dom";
 
 import {
   selectIsFetchingProducts,
-  selectHasMoreToFetch
+  selectHasMoreToFetch,
+  selectProductCollection
 } from "../../redux/product/product.selectors";
 import {
   startInitialProductsFetchByCategory,
@@ -19,7 +21,8 @@ const CategoryCollection = ({
   fetchMoreProductsInCategory,
   isFetchingProducts,
   hasMoreToFetch,
-  match
+  match,
+  products
 }) => {
   const categoryNameInLowerCase = decodeURI(
     match.params.productCategory
@@ -37,16 +40,20 @@ const CategoryCollection = ({
   }, [fetchProductsInCategory, categoryNameInLowerCase]);
 
   return (
-    <ProductCollection
-      intersectionCb={fetchMoreOnIntersection}
-      isFetchingProducts={isFetchingProducts}
-    />
+    <>
+      {!isFetchingProducts && !products.length ? <Redirect to="/" /> : null}
+      <ProductCollection
+        intersectionCb={fetchMoreOnIntersection}
+        isFetchingProducts={isFetchingProducts}
+      />
+    </>
   );
 };
 
 const mapStateToProps = createStructuredSelector({
   isFetchingProducts: selectIsFetchingProducts,
-  hasMoreToFetch: selectHasMoreToFetch
+  hasMoreToFetch: selectHasMoreToFetch,
+  products: selectProductCollection
 });
 
 const mapDispatchToProps = (dispatch) => ({
