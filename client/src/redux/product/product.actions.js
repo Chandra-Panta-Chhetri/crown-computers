@@ -41,3 +41,18 @@ export const loadingMoreProductsFail = (errorMsg) => ({
 export const noMoreToLoad = () => ({
   type: PRODUCT_ACTION_TYPES.NO_MORE_TO_LOAD
 });
+
+export const startFetchProductById = (id) => ({
+  type: PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_START,
+  payload: id
+});
+
+export const fetchProductByIdSuccess = (product) => ({
+  type: PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_SUCCESS,
+  payload: product
+});
+
+export const fetchProductByIdFail = (errorMsg) => ({
+  type: PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_FAIL,
+  payload: errorMsg
+});

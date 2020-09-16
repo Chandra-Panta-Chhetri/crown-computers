@@ -14,6 +14,9 @@ import {
 const CollectionOverview = lazy(() =>
   import("../../components/collection-overview/collection-overview.component")
 );
+const ProductDetail = lazy(() =>
+  import("../../components/product-detail/product-detail.component")
+);
 const CategoryCollection = lazy(() =>
   import("../../components/category-collection/category-collection.component")
 );
@@ -29,7 +32,12 @@ const ShopPage = ({ match, isUpdatingCart, cartLoadingText }) => {
           <Route exact path={`${match.path}`} component={CollectionOverview} />
           <Route
             exact
-            path={`${match.path}/:productCategory`}
+            path={`${match.path}/:productId`}
+            component={ProductDetail}
+          />
+          <Route
+            exact
+            path={`${match.path}/category/:productCategory`}
             component={CategoryCollection}
           />
           <Route component={PageNotFound} />

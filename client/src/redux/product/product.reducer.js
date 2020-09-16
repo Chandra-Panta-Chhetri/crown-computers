@@ -5,7 +5,8 @@ const INITIAL_STATE = {
   isFetchingProducts: true,
   productsPerPage: 6,
   lastVisibleDoc: null,
-  hasMoreToFetch: true
+  hasMoreToFetch: true,
+  productData: {}
 };
 
 const productReducer = (prevState = INITIAL_STATE, action) => {
@@ -26,12 +27,14 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
       };
     case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_FAIL:
     case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_FAIL:
+    case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_FAIL:
       return {
         ...prevState,
         isFetchingProducts: false
       };
     case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_START:
     case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_BY_CATEGORY_START:
+    case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_START:
       return {
         ...prevState,
         isFetchingProducts: true
@@ -48,6 +51,12 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         ...prevState,
         isFetchingProducts: false,
         hasMoreToFetch: false
+      };
+    case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_SUCCESS:
+      return {
+        ...prevState,
+        productData: action.payload,
+        isFetchingProducts: false
       };
     default:
       return prevState;

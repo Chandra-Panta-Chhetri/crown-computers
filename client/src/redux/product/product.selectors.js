@@ -26,3 +26,8 @@ export const selectHasMoreToFetch = createSelector(
   [selectProduct],
   (product) => product.hasMoreToFetch
 );
+
+export const selectProductData = createSelector(
+  [selectProduct],
+  (product) => product.productData
+);

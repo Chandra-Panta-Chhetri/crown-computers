@@ -1,6 +1,8 @@
 import PRODUCT_ACTION_TYPES from "./product.action.types";
 import { takeLatest, put, call, all, select } from "redux-saga/effects";
 import {
+  fetchProductByIdFail,
+  fetchProductByIdSuccess,
   initialProductsFetchFail,
   initialProductsFetchSuccess,
   loadingMoreProductsFail,
@@ -11,7 +13,8 @@ import {
   getProducts,
   getMoreProducts,
   getProductsByCategory,
-  getMoreProductsByCategory
+  getMoreProductsByCategory,
+  getProductDataAndRefById
 } from "../../firebase-utils/firebase.product_utils";
 import { addErrorNotification } from "../notification/notification.actions";
 import {
@@ -96,6 +99,20 @@ function* handleProductsFetchFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Collection Fetching Failed", errorMsg));
 }
 
+function* fetchProductById({ payload: id }) {
+  try {
+    const { productData } = yield getProductDataAndRefById(id);
+    if (!productData) throw Error();
+    yield put(fetchProductByIdSuccess(productData));
+  } catch (err) {
+    yield put(fetchProductByIdFail(`Product with ID ${id} not found`));
+  }
+}
+
+function* handleFetchProductByIdFail({ payload: errorMsg }) {
+  yield put(addErrorNotification("Product Not Found", errorMsg));
+}
+
 function* watchProductsFetchStart() {
   yield takeLatest(
     PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_START,
@@ -134,12 +151,28 @@ function* watchLoadMoreProductsByCategory() {
   );
 }
 
+function* watchFetchProductByIdStart() {
+  yield takeLatest(
+    PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_START,
+    fetchProductById
+  );
+}
+
+function* watchFetchProductByIdFail() {
+  yield takeLatest(
+    PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_FAIL,
+    handleFetchProductByIdFail
+  );
+}
+
 export default function* collectionSagas() {
   yield all([
     call(watchProductsFetchStart),
     call(watchProductsFetchFail),
     call(watchProductsFetchByCategory),
     call(watchLoadMoreProducts),
-    call(watchLoadMoreProductsByCategory)
+    call(watchLoadMoreProductsByCategory),
+    call(watchFetchProductByIdStart),
+    call(watchFetchProductByIdFail)
   ]);
 }

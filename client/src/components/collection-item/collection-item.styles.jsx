@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { secondaryColor } from "../../global.styles";
 import Button from "../button/button.component";
 
 export const CollectionItemContainer = styled.div`
@@ -75,7 +75,7 @@ export const ItemCategory = styled.h5`
   color: gray;
 
   &:hover {
-    color: blue;
+    color: ${secondaryColor};
   }
 `;
 
@@ -83,6 +83,11 @@ export const ItemName = styled.h5`
   width: 100%;
   height: ${(props) => (props.isLoading ? "40px" : "unset")};
   font-size: 14.5px;
+  cursor: ${(props) => (props.isLoading ? "default" : "pointer")};
+
+  &:hover {
+    color: ${secondaryColor};
+  }
 `;
 
 export const ItemPrice = styled.h4`

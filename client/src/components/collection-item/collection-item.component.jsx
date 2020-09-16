@@ -17,7 +17,7 @@ import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 
 const CollectionItem = ({ item, addToCart, history, intersectionCb }) => {
-  const { name, imageUrl, price, category, stock } = item;
+  const { name, imageUrl, price, category, stock, productId } = item;
   return (
     <CollectionItemContainer ref={intersectionCb}>
       <ItemImageContainer>
@@ -29,11 +29,13 @@ const CollectionItem = ({ item, addToCart, history, intersectionCb }) => {
       </ItemImageContainer>
       <ItemInfoContainer>
         <ItemCategory
-          onClick={() => history.push(`/shop/${encodeURI(category)}`)}
+          onClick={() => history.push(`/shop/category/${encodeURI(category)}`)}
         >
           {category}
         </ItemCategory>
-        <ItemName>{name}</ItemName>
+        <ItemName onClick={() => history.push(`/shop/${productId}`)}>
+          {name}
+        </ItemName>
         <ItemPrice>${price}</ItemPrice>
       </ItemInfoContainer>
     </CollectionItemContainer>
