@@ -3,8 +3,6 @@ import {
   ProductDetailContainer,
   ProductImage,
   ProductInfoContainer,
-  TabContainer,
-  Tab,
   ProductSummaryContainer,
   SummaryItemLabel,
   SummaryItemValue,
@@ -14,6 +12,9 @@ import {
   ProductCategory,
   ProductName
 } from "./product-detail.styles";
+
+import Tabs from "../tabs/tabs.component";
+import Tab from "../tab/tab.component";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
@@ -49,16 +50,25 @@ const ProductDetail = ({
           {category}
         </ProductCategory>
         <ProductName>{name}</ProductName>
-        <TabContainer>
-          <Tab className="active">Description</Tab>
-          <Tab>Specifications</Tab>
-        </TabContainer>
-        <p>
-          Fam locavore kickstarter distillery. Mixtape chillwave tumeric
-          sriracha taximy chia microdosing tilde DIY. XOXO fam inxigo juiceramps
-          cornhole raw denim forage brooklyn. Everyday carry +1 seitan poutine
-          tumeric. Gastropub blue bottle austin listicle pour-over, neutra jean.
-        </p>
+        <Tabs>
+          <Tab tabLabel="Description">
+            <p>
+              Fam locavore kickstarter distillery. Mixtape chillwave tumeric
+              sriracha taximy chia microdosing tilde DIY. XOXO fam inxigo
+              juiceramps cornhole raw denim forage brooklyn. Everyday carry +1
+              seitan poutine tumeric. Gastropub blue bottle austin listicle
+              pour-over, neutra jean.
+            </p>
+          </Tab>
+          <Tab tabLabel="Specifications">
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae,
+              non delectus veritatis dolor, voluptatum numquam quam, ullam ex
+              quis tenetur atque porro eaque amet sequi. Omnis dolorum minus
+              odit veritatis!
+            </p>
+          </Tab>
+        </Tabs>
         <ProductSummaryContainer>
           <SummaryItemLabel>In Stock</SummaryItemLabel>
           <SummaryItemValue>{stock}</SummaryItemValue>

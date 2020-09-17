@@ -20,15 +20,6 @@ export const ProductImage = styled.img`
   border-radius: 0.25em;
 `;
 
-export const TabContainer = styled.div`
-  display: flex;
-  margin-bottom: 5px;
-
-  .active {
-    border-color: blue;
-  }
-`;
-
 export const ProductCategory = styled.h5`
   margin: 0;
   cursor: ${(props) => (props.isLoading ? "default" : "pointer")};
@@ -45,13 +36,6 @@ export const ProductCategory = styled.h5`
 export const ProductName = styled.h1`
   margin: 0 0 10px;
   font-size: 1.875rem;
-`;
-
-export const Tab = styled.span`
-  cursor: pointer;
-  flex-grow: 1;
-  border-bottom: 2px solid ${borderColor};
-  padding: 8px 0;
 `;
 
 export const ProductSummaryContainer = styled.div`
