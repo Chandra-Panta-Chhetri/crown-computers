@@ -41,7 +41,7 @@ const CategoryCollection = ({
 
   return (
     <>
-      {!isFetchingProducts && !products.length ? <Redirect to="/" /> : null}
+      {!products.length && !isFetchingProducts ? <Redirect to="/" /> : null}
       <ProductCollection
         intersectionCb={fetchMoreOnIntersection}
         isFetchingProducts={isFetchingProducts}

@@ -15,6 +15,7 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
     case PRODUCT_ACTION_TYPES.INITIAL_FETCH_PRODUCTS_BY_CATEGORY_START:
       return {
         ...prevState,
+        isFetchingProducts: true,
         products: [],
         hasMoreToFetch: true
       };
