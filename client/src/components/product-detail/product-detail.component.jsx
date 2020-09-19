@@ -10,11 +10,13 @@ import {
   ProductActionContainer,
   AddProductToCartBtn,
   ProductCategory,
-  ProductName
+  ProductName,
+  CarouselHeading
 } from "./product-detail.styles";
 
 import Tabs from "../tabs/tabs.component";
 import Tab from "../tab/tab.component";
+import ProductInCategoryCarousel from "../product-in-category-carousel/product-in-category-carousel.component";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
@@ -41,48 +43,61 @@ const ProductDetail = ({
   }, [fetchProductById, productId]);
 
   return (
-    <ProductDetailContainer>
-      <ProductImage src={imageUrl} alt={`name`}></ProductImage>
-      <ProductInfoContainer>
-        <ProductCategory
-          onClick={() => history.push(`/shop/category/${encodeURI(category)}`)}
-        >
-          {category}
-        </ProductCategory>
-        <ProductName>{name}</ProductName>
-        <Tabs>
-          <Tab tabLabel="Description">
-            <p>
-              Fam locavore kickstarter distillery. Mixtape chillwave tumeric
-              sriracha taximy chia microdosing tilde DIY. XOXO fam inxigo
-              juiceramps cornhole raw denim forage brooklyn. Everyday carry +1
-              seitan poutine tumeric. Gastropub blue bottle austin listicle
-              pour-over, neutra jean.
-            </p>
-          </Tab>
-          <Tab tabLabel="Specifications">
-            <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae,
-              non delectus veritatis dolor, voluptatum numquam quam, ullam ex
-              quis tenetur atque porro eaque amet sequi. Omnis dolorum minus
-              odit veritatis!
-            </p>
-          </Tab>
-        </Tabs>
-        <ProductSummaryContainer>
-          <SummaryItemLabel>In Stock</SummaryItemLabel>
-          <SummaryItemValue>{stock}</SummaryItemValue>
-        </ProductSummaryContainer>
-        <ProductActionContainer>
-          <ProductPrice>${price}</ProductPrice>
-          <AddProductToCartBtn
-            onClick={() => addItemToCart({ ...product, productId })}
+    <>
+      <ProductDetailContainer>
+        <ProductImage src={imageUrl} alt={`name`}></ProductImage>
+        <ProductInfoContainer>
+          <ProductCategory
+            onClick={() =>
+              history.push(`/shop/category/${encodeURI(category)}`)
+            }
           >
-            Add To Cart
-          </AddProductToCartBtn>
-        </ProductActionContainer>
-      </ProductInfoContainer>
-    </ProductDetailContainer>
+            {category}
+          </ProductCategory>
+          <ProductName>{name}</ProductName>
+          <Tabs>
+            <Tab tabLabel="Description">
+              <p>
+                Fam locavore kickstarter distillery. Mixtape chillwave tumeric
+                sriracha taximy chia microdosing tilde DIY. XOXO fam inxigo
+                juiceramps cornhole raw denim forage brooklyn. Everyday carry +1
+                seitan poutine tumeric. Gastropub blue bottle austin listicle
+                pour-over, neutra jean.
+              </p>
+            </Tab>
+            <Tab tabLabel="Specifications">
+              <p>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Beatae, non delectus veritatis dolor, voluptatum numquam quam,
+                ullam ex quis tenetur atque porro eaque amet sequi. Omnis
+                dolorum minus odit veritatis!
+              </p>
+            </Tab>
+          </Tabs>
+          <ProductSummaryContainer>
+            <SummaryItemLabel>In Stock</SummaryItemLabel>
+            <SummaryItemValue>{stock}</SummaryItemValue>
+          </ProductSummaryContainer>
+          <ProductActionContainer>
+            <ProductPrice>${price}</ProductPrice>
+            <AddProductToCartBtn
+              onClick={() => addItemToCart({ ...product, productId })}
+            >
+              Add To Cart
+            </AddProductToCartBtn>
+          </ProductActionContainer>
+        </ProductInfoContainer>
+      </ProductDetailContainer>
+      {category ? (
+        <>
+          <CarouselHeading>
+            More {category.charAt(0).toUpperCase() + category.slice(1)} To
+            Explore
+          </CarouselHeading>
+          <ProductInCategoryCarousel category={category} />
+        </>
+      ) : null}
+    </>
   );
 };
 

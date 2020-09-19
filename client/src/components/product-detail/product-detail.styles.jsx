@@ -6,7 +6,7 @@ const borderColor = "rgba(226, 232, 240, 1)";
 
 export const ProductDetailContainer = styled.section`
   display: flex;
-  padding: 0 4rem;
+  padding: 0;
 `;
 
 export const ProductInfoContainer = styled.div`
@@ -67,4 +67,9 @@ export const ProductPrice = styled.span`
 
 export const AddProductToCartBtn = styled(Button)`
   margin-left: auto;
+`;
+
+export const CarouselHeading = styled.h4`
+  font-size: 1.275rem;
+  margin-bottom: 10px;
 `;
