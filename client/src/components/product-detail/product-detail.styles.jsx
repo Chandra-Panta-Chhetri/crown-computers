@@ -10,14 +10,9 @@ export const ProductDetailContainer = styled.section`
 `;
 
 export const ProductInfoContainer = styled.div`
-  padding-top: 1.5rem;
   padding-bottom: 1rem;
-  padding-left: 1.9rem;
+  padding-left: 1.3rem;
   flex-grow: 1;
-`;
-
-export const ProductImage = styled.img`
-  border-radius: 0.25em;
 `;
 
 export const ProductCategory = styled.h5`

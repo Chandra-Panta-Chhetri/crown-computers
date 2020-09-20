@@ -12,7 +12,6 @@ const ProductInCategoryCarousel = ({
   products
 }) => {
   useEffect(() => {
-    console.log("here");
     fetchProductsInCategory(category);
   }, [fetchProductsInCategory, category]);
 

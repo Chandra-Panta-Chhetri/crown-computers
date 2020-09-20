@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import {
   ProductDetailContainer,
-  ProductImage,
   ProductInfoContainer,
   ProductSummaryContainer,
   SummaryItemLabel,
@@ -27,6 +26,7 @@ import {
   selectProductData
 } from "../../redux/product/product.selectors";
 import { addToCart } from "../../redux/cart/cart.actions";
+import ProductImageCarousel from "../product-image-carousel/product-image-carousel.component";
 
 const ProductDetail = ({
   product,
@@ -45,7 +45,7 @@ const ProductDetail = ({
   return (
     <>
       <ProductDetailContainer>
-        <ProductImage src={imageUrl} alt={`name`}></ProductImage>
+        <ProductImageCarousel imageUrls={[imageUrl, imageUrl]} />
         <ProductInfoContainer>
           <ProductCategory
             onClick={() =>

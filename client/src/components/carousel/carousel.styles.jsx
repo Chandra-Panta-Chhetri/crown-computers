@@ -20,10 +20,6 @@ export const CarouselContainer = styled(Slider)`
     margin: 0 0 20px;
   }
 
-  .slick-list {
-    margin: 0 11px;
-  }
-
   .slick-prev {
     left: -5px;
   }

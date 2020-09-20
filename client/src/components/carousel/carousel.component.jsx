@@ -9,8 +9,19 @@ const defaultSettings = {
   slidesToScroll: 4
 };
 
-const Carousel = ({ settings = defaultSettings, children }) => (
-  <CarouselContainer {...settings}>{children}</CarouselContainer>
+const Carousel = ({
+  settings = defaultSettings,
+  children,
+  refHandler,
+  ...otherProps
+}) => (
+  <CarouselContainer
+    {...settings}
+    {...otherProps}
+    ref={refHandler ? refHandler : undefined}
+  >
+    {children}
+  </CarouselContainer>
 );
 
 export default Carousel;
