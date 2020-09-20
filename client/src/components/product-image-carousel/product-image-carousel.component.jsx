@@ -19,7 +19,7 @@ const ProductImageCarousel = ({ imageUrls = [] }) => {
 
   const indexUpdate = (index) => setPreviewNum(index + 1);
 
-  if (!imageUrls.length) return undefined;
+  if (!imageUrls.length) return null;
 
   return (
     <ProductImageCarouselContainer>
@@ -50,7 +50,6 @@ const ProductImageCarousel = ({ imageUrls = [] }) => {
             <ProductImagePreview
               src={imageUrl}
               alt={`product preview ${index}`}
-              style={{ width: "60px", height: "60px" }}
             />
           </ProductImageContainer>
         ))}

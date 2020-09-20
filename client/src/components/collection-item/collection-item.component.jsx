@@ -17,11 +17,11 @@ import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 
 const CollectionItem = ({ item, addToCart, history, intersectionCb }) => {
-  const { name, imageUrl, price, category, stock, productId } = item;
+  const { name, imageUrls, price, category, stock, productId } = item;
   return (
     <CollectionItemContainer ref={intersectionCb}>
       <ItemImageContainer>
-        <ItemImage src={imageUrl} alt={name} />
+        <ItemImage src={imageUrls[0]} alt={name} />
         <ItemStock>In Stock: {stock}</ItemStock>
         <AddToCartButton onClick={() => addToCart(item)}>
           Add To Cart

@@ -10,12 +10,12 @@ import {
 import { withRouter } from "react-router-dom";
 
 const ProductCarouselItem = ({
-  product: { imageUrl, name, price, productId },
+  product: { imageUrls, name, price, productId },
   history
 }) => (
   <ProductCarouselItemContainer>
     <ItemImageContainer>
-      <ItemImage src={imageUrl} alt={name} />
+      <ItemImage src={imageUrls[0]} alt={name} />
     </ItemImageContainer>
     <ItemName onClick={() => history.push(`/shop/${productId}`)}>
       {name}

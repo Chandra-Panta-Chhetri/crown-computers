@@ -2,27 +2,27 @@ import React, { useState } from "react";
 import { TabsContainer, TabHeadings, TabHeading } from "./tabs.styles";
 
 const Tabs = ({ children: tabs }) => {
-  const [activeTab, setActiveTab] = useState(tabs[0].props.tabLabel);
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
 
-  const onTabClick = (tabLabel) => {
-    setActiveTab(tabLabel);
+  const changeActiveTab = (tabIndex) => {
+    setActiveTabIndex(tabIndex);
   };
 
   return (
     <TabsContainer>
       <TabHeadings>
-        {tabs.map(({ props: { tabLabel } }) => (
+        {tabs.map((tabs, index) => (
           <TabHeading
-            key={tabLabel}
-            className={`${activeTab === tabLabel ? "active" : ""}`}
-            onClick={() => onTabClick(tabLabel)}
+            key={index}
+            className={`${index === activeTabIndex ? "active" : ""}`}
+            onClick={() => changeActiveTab(index)}
           >
-            {tabLabel}
+            {tabs.props.tabLabel}
           </TabHeading>
         ))}
       </TabHeadings>
-      {tabs.map((tab) => {
-        if (tab.props.tabLabel !== activeTab) return undefined;
+      {tabs.map((tab, index) => {
+        if (index !== activeTabIndex) return undefined;
         return tab;
       })}
     </TabsContainer>

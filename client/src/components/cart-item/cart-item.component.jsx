@@ -12,7 +12,7 @@ import { truncate } from "../../redux/cart/cart.sagas";
 
 const CartItem = ({ item }) => (
   <CartItemContainer>
-    <ItemImage src={item.imageUrl} alt={item.name} />
+    <ItemImage src={item.imageUrls[0]} alt={item.name} />
     <ItemInfo>
       <ItemName>{truncate(item.name)}</ItemName>
       <ItemPrice>${item.price}</ItemPrice>

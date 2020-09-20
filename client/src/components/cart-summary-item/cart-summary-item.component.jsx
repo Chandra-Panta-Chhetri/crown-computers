@@ -20,12 +20,12 @@ import {
 } from "../../redux/cart/cart.actions";
 
 const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
-  const { name, imageUrl, price, quantity, stock, category } = item;
+  const { name, imageUrls, price, quantity, stock, category } = item;
   return (
     <tr>
       <ItemInfoSection>
         <ProductMetaInfo>
-          <ProductImage src={imageUrl} alt={name} />
+          <ProductImage src={imageUrls[0]} alt={name} />
           <ProductInfo>
             <ProductName>{name}</ProductName>
             <ItemCategory>{category}</ItemCategory>

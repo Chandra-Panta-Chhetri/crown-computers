@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ProductImageCarouselContainer = styled.div`
-  width: 40%;
+  width: 35%;
 `;
 
 export const ProductImageContainer = styled.div`
