@@ -36,10 +36,13 @@ const ProductDetail = ({
   fetchProductById,
   addItemToCart
 }) => {
-  const { imageUrl, name, price, stock, category } = product;
+  const { imageUrl, name, price, stock, category, description } = product;
   const productId = match.params.productId;
   useEffect(() => {
     fetchProductById(productId);
+    //scrolls user back to top of page as page is not refreshed
+    //when clicking product in product carousel
+    window.scrollTo(0, 0);
   }, [fetchProductById, productId]);
 
   return (
@@ -57,13 +60,7 @@ const ProductDetail = ({
           <ProductName>{name}</ProductName>
           <Tabs>
             <Tab tabLabel="Description">
-              <p>
-                Fam locavore kickstarter distillery. Mixtape chillwave tumeric
-                sriracha taximy chia microdosing tilde DIY. XOXO fam inxigo
-                juiceramps cornhole raw denim forage brooklyn. Everyday carry +1
-                seitan poutine tumeric. Gastropub blue bottle austin listicle
-                pour-over, neutra jean.
-              </p>
+              <p>{description || "No product description available"}</p>
             </Tab>
             <Tab tabLabel="Specifications">
               <p>
