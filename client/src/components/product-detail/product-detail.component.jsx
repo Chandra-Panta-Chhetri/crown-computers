@@ -4,7 +4,6 @@ import {
   ProductInfoContainer,
   ProductPrice,
   ProductActionContainer,
-  AddProductToCartBtn,
   ProductCategory,
   ProductName,
   CarouselHeading,
@@ -17,6 +16,7 @@ import Tab from "../tab/tab.component";
 import ProductInCategoryCarousel from "../product-in-category-carousel/product-in-category-carousel.component";
 import ProductImageCarousel from "../product-image-carousel/product-image-carousel.component";
 import ProductSpecificationLabel from "../product-specification-label/product-specification-label.component";
+import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
@@ -26,15 +26,13 @@ import {
   selectIsFetchingProducts,
   selectProductData
 } from "../../redux/product/product.selectors";
-import { addToCart } from "../../redux/cart/cart.actions";
 
 const ProductDetail = ({
   product,
   match,
   history,
   isFetchingProduct,
-  fetchProductById,
-  addItemToCart
+  fetchProductById
 }) => {
   const {
     imageUrls,
@@ -85,11 +83,7 @@ const ProductDetail = ({
           </Tabs>
           <ProductActionContainer>
             <ProductPrice>${price}</ProductPrice>
-            <AddProductToCartBtn
-              onClick={() => addItemToCart({ ...product, productId })}
-            >
-              Add To Cart
-            </AddProductToCartBtn>
+            <AddToCartButton itemToAddOnClick={{ ...product, productId }} />
           </ProductActionContainer>
           {stock < 10 ? (
             <ProductStock>{stock} left in stock</ProductStock>
@@ -114,8 +108,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchProductById: (id) => dispatch(startFetchProductById(id)),
-  addItemToCart: (item) => dispatch(addToCart(item))
+  fetchProductById: (id) => dispatch(startFetchProductById(id))
 });
 
 export default compose(

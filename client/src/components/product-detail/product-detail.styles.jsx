@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Button from "../button/button.component";
 import { secondaryColor } from "../../global.styles";
+import { AddToCartBtnContainer } from "../add-to-cart-btn/add-to-cart-btn.styles";
 
 export const ProductDetailContainer = styled.section`
   display: flex;
@@ -48,15 +48,15 @@ export const ProductActionContainer = styled.div`
   display: flex;
   margin-top: 20px;
   align-items: center;
+
+  ${AddToCartBtnContainer} {
+    margin-left: auto;
+  }
 `;
 
 export const ProductPrice = styled.span`
   font-weight: bold;
   font-size: 1.7rem;
-`;
-
-export const AddProductToCartBtn = styled(Button)`
-  margin-left: auto;
 `;
 
 export const CarouselHeading = styled.h4`

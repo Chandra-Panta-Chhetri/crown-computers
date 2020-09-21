@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { secondaryColor } from "../../global.styles";
-import Button from "../button/button.component";
+import { AddToCartBtnContainer } from "../add-to-cart-btn/add-to-cart-btn.styles";
 
 export const CollectionItemContainer = styled.div`
   font-weight: bold;
@@ -29,20 +29,6 @@ export const ItemStock = styled.h4`
   transition: opacity 0.5s, visibility 0.5s;
 `;
 
-export const AddToCartButton = styled(Button)`
-  bottom: 10px;
-  left: 15px;
-  width: 90%;
-  position: absolute;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.5s, visibility 0.5s;
-
-  i {
-    margin-right: 5px;
-  }
-`;
-
 export const ItemImageContainer = styled.div`
   position: relative;
   width: 100%;
@@ -53,10 +39,21 @@ export const ItemImageContainer = styled.div`
       opacity: 0.5;
     }
 
-    ${AddToCartButton}, ${ItemStock} {
+    ${AddToCartBtnContainer},
+    ${ItemStock} {
       visibility: visible;
       opacity: 1;
     }
+  }
+
+  ${AddToCartBtnContainer} {
+    bottom: 10px;
+    left: 15px;
+    width: 90%;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0.5s;
   }
 `;
 

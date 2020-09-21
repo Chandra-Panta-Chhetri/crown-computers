@@ -43,3 +43,9 @@ export const selectCartTotal = createSelector(
       0
     )
 );
+
+export const selectCartItemQuantityById = (id) =>
+  createSelector([selectShoppingCart], (shoppingCart) => {
+    const cartItem = shoppingCart.find((cartItem) => cartItem.productId === id);
+    return cartItem ? cartItem.quantity : 0;
+  });

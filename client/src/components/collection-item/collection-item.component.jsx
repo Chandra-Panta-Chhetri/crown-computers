@@ -1,7 +1,6 @@
 import React from "react";
 import {
   CollectionItemContainer,
-  AddToCartButton,
   ItemImageContainer,
   ItemImage,
   ItemInfoContainer,
@@ -11,21 +10,18 @@ import {
   ItemName
 } from "./collection-item.styles";
 
-import { connect } from "react-redux";
-import { addToCart } from "../../redux/cart/cart.actions";
-import { withRouter } from "react-router-dom";
-import { compose } from "redux";
+import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
 
-const CollectionItem = ({ item, addToCart, history, intersectionCb }) => {
+import { withRouter } from "react-router-dom";
+
+const CollectionItem = ({ item, history, intersectionCb }) => {
   const { name, imageUrls, price, category, stock, productId } = item;
   return (
     <CollectionItemContainer ref={intersectionCb}>
       <ItemImageContainer>
         <ItemImage src={imageUrls[0]} alt={name} />
         <ItemStock>In Stock: {stock}</ItemStock>
-        <AddToCartButton onClick={() => addToCart(item)}>
-          Add To Cart
-        </AddToCartButton>
+        <AddToCartButton itemToAddOnClick={item} />
       </ItemImageContainer>
       <ItemInfoContainer>
         <ItemCategory
@@ -42,11 +38,4 @@ const CollectionItem = ({ item, addToCart, history, intersectionCb }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addToCart: (item) => dispatch(addToCart(item))
-});
-
-export default compose(
-  connect(null, mapDispatchToProps),
-  withRouter
-)(CollectionItem);
+export default withRouter(CollectionItem);
