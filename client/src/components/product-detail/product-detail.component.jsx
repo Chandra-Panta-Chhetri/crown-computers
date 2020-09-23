@@ -26,6 +26,7 @@ import {
   selectIsFetchingProducts,
   selectProductData
 } from "../../redux/product/product.selectors";
+import ProductDetailSkeleton from "../product-detail-skeleton/product-detail-skeleton.component";
 
 const ProductDetail = ({
   product,
@@ -50,6 +51,10 @@ const ProductDetail = ({
     //when clicking product in product carousel
     window.scrollTo(0, 0);
   }, [fetchProductById, productId]);
+
+  if (isFetchingProduct) {
+    return <ProductDetailSkeleton />;
+  }
 
   return (
     <>

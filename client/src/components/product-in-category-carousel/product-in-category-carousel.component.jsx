@@ -12,8 +12,8 @@ const ProductInCategoryCarousel = ({
   products
 }) => {
   useEffect(() => {
-    fetchProductsInCategory(category);
-  }, [fetchProductsInCategory, category]);
+    if (!products.length) fetchProductsInCategory(category);
+  }, [fetchProductsInCategory, category, products]);
 
   return (
     <ProductCarousel>
