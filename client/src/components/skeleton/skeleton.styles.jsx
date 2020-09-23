@@ -15,8 +15,9 @@ export const pulseAnimation = css`
 
 export const SkeletonContainer = styled.div`
   display: inline-block;
-  width: 100%;
-  height: 100%;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  margin: ${(props) => props.margin};
   background: linear-gradient(
     -90deg,
     ${pulseMainColor} 0%,

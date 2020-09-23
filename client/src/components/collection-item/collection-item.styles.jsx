@@ -19,7 +19,6 @@ export const ItemImage = styled.img`
 
 export const ItemStock = styled.h4`
   width: 100%;
-  height: ${(props) => (props.isLoading ? "15px" : "unset")};
   top: 15px;
   margin: 0;
   text-align: center;
@@ -32,7 +31,6 @@ export const ItemStock = styled.h4`
 export const ItemImageContainer = styled.div`
   position: relative;
   width: 100%;
-  height: ${(props) => (props.isLoading ? "200px" : "unset")};
 
   &:hover {
     ${ItemImage} {
@@ -66,8 +64,7 @@ export const ItemInfoContainer = styled.div`
 
 export const ItemCategory = styled.h5`
   cursor: ${(props) => (props.isLoading ? "default" : "pointer")};
-  width: ${(props) => (props.isLoading ? "100%" : "fit-content")};
-  height: ${(props) => (props.isLoading ? "20px" : "unset")};
+  width: fit-content;
   text-transform: uppercase;
   color: gray;
 
@@ -77,8 +74,7 @@ export const ItemCategory = styled.h5`
 `;
 
 export const ItemName = styled.h5`
-  width: 100%;
-  height: ${(props) => (props.isLoading ? "40px" : "unset")};
+  width: ${(props) => (props.isLoading ? "100%" : "fit-content")};
   font-size: 14.5px;
   cursor: ${(props) => (props.isLoading ? "default" : "pointer")};
 
@@ -89,6 +85,5 @@ export const ItemName = styled.h5`
 
 export const ItemPrice = styled.h4`
   width: 100%;
-  height: ${(props) => (props.isLoading ? "15px" : "unset")};
   color: gray;
 `;

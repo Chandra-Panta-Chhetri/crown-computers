@@ -1,17 +1,5 @@
 import React from "react";
-import {
-  ProductImageSkelton,
-  ProductCategorySkelton,
-  ProductNameSkelton,
-  TabSkelton,
-  ProductDescriptionSkeleton,
-  ProductActionContainerSkeleton,
-  AddToCartBtnSkeleton,
-  ProductPriceSkeleton,
-  CarouselSkeleton,
-  CarouselHeadingSkeleton
-} from "./product-detail-skeleton.styles";
-
+import { ProductActionContainerSkeleton } from "./product-detail-skeleton.styles";
 import {
   ProductDetailContainer,
   ProductInfoContainer
@@ -22,38 +10,20 @@ import Skeleton from "../skeleton/skeleton.component";
 const ProductDetailSkeleton = () => (
   <>
     <ProductDetailContainer>
-      <ProductImageSkelton>
-        <Skeleton />
-      </ProductImageSkelton>
+      <Skeleton width="400px" height="400px" />
       <ProductInfoContainer>
-        <ProductCategorySkelton>
-          <Skeleton />
-        </ProductCategorySkelton>
-        <ProductNameSkelton>
-          <Skeleton />
-        </ProductNameSkelton>
-        <TabSkelton>
-          <Skeleton />
-        </TabSkelton>
-        <ProductDescriptionSkeleton>
-          <Skeleton />
-        </ProductDescriptionSkeleton>
+        <Skeleton width="30%" height="20px" />
+        <Skeleton height="25px" margin="10px 0" />
+        <Skeleton height="15px" />
+        <Skeleton height="150px" margin="25px 0" />
         <ProductActionContainerSkeleton>
-          <ProductPriceSkeleton>
-            <Skeleton />
-          </ProductPriceSkeleton>
-          <AddToCartBtnSkeleton>
-            <Skeleton />
-          </AddToCartBtnSkeleton>
+          <Skeleton width="25%" height="40px" />
+          <Skeleton width="30%" height="40px" margin="0 0 0 auto" />
         </ProductActionContainerSkeleton>
       </ProductInfoContainer>
     </ProductDetailContainer>
-    <CarouselHeadingSkeleton>
-      <Skeleton />
-    </CarouselHeadingSkeleton>
-    <CarouselSkeleton>
-      <Skeleton />
-    </CarouselSkeleton>
+    <Skeleton width="30%" height="25px" margin="50px 0 20px" />
+    <Skeleton height="250px" />
   </>
 );
 

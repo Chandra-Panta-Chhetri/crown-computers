@@ -12,18 +12,18 @@ import Skeleton from "../skeleton/skeleton.component";
 
 const CollectionItemSkeleton = () => (
   <CollectionItemContainer>
-    <ItemImageContainer isLoading>
-      <Skeleton />
+    <ItemImageContainer>
+      <Skeleton height="200px" />
     </ItemImageContainer>
     <ItemInfoContainer>
       <ItemCategory isLoading>
-        <Skeleton />
+        <Skeleton height="20px" width="100px" />
       </ItemCategory>
       <ItemName isLoading>
-        <Skeleton />
+        <Skeleton height="40px" />
       </ItemName>
-      <ItemPrice isLoading>
-        <Skeleton />
+      <ItemPrice>
+        <Skeleton height="15px" width="100px" />
       </ItemPrice>
     </ItemInfoContainer>
   </CollectionItemContainer>
