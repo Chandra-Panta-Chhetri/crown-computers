@@ -4,19 +4,22 @@ export const startInitialProductsFetch = () => ({
   type: PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_START
 });
 
-export const startInitialProductsFetchByCategory = (categoryName) => ({
+export const startInitialProductsFetchByCategory = (
+  categoryName,
+  onNoProductsFound
+) => ({
   type: PRODUCT_ACTION_TYPES.INITIAL_FETCH_PRODUCTS_BY_CATEGORY_START,
-  payload: categoryName
-});
-
-export const initialProductsFetchSuccess = (products, lastVisibleDoc) => ({
-  type: PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_SUCCESS,
-  payload: { products, lastVisibleDoc }
+  payload: { categoryName, onNoProductsFound }
 });
 
 export const initialProductsFetchFail = (errorMsg) => ({
   type: PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_FAIL,
   payload: errorMsg
+});
+
+export const initialProductsFetchSuccess = (products, lastVisibleDoc) => ({
+  type: PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_SUCCESS,
+  payload: { products, lastVisibleDoc }
 });
 
 export const startLoadingMoreProducts = () => ({
@@ -28,14 +31,14 @@ export const startLoadingMoreProductsByCategory = (categoryName) => ({
   payload: categoryName
 });
 
-export const loadingMoreProductsSuccess = (newProducts, lastVisibleDoc) => ({
-  type: PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_SUCCESS,
-  payload: { newProducts, lastVisibleDoc }
-});
-
 export const loadingMoreProductsFail = (errorMsg) => ({
   type: PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_FAIL,
   payload: errorMsg
+});
+
+export const loadingMoreProductsSuccess = (newProducts, lastVisibleDoc) => ({
+  type: PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_SUCCESS,
+  payload: { newProducts, lastVisibleDoc }
 });
 
 export const noMoreToLoad = () => ({
@@ -47,12 +50,12 @@ export const startFetchProductById = (id) => ({
   payload: id
 });
 
-export const fetchProductByIdSuccess = (product) => ({
-  type: PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_SUCCESS,
-  payload: product
-});
-
 export const fetchProductByIdFail = (errorMsg) => ({
   type: PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_FAIL,
   payload: errorMsg
+});
+
+export const fetchProductByIdSuccess = (product) => ({
+  type: PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_SUCCESS,
+  payload: product
 });

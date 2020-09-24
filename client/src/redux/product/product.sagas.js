@@ -26,12 +26,14 @@ function* fetchProducts() {
   try {
     const productsPerPage = yield select(selectProductsPerPage);
     const { products, lastVisibleDoc } = yield getProducts(productsPerPage);
-    if (!products.length) throw Error();
+    if (!products.length) {
+      throw Error();
+    }
     yield put(initialProductsFetchSuccess(products, lastVisibleDoc));
   } catch (err) {
     yield put(
       initialProductsFetchFail(
-        "There was a problem with displaying the product collection"
+        "There was a problem with displaying the product collection. Please try again later"
       )
     );
   }
@@ -58,17 +60,22 @@ function* fetchMoreProducts() {
   }
 }
 
-function* fetchProductsByCategory({ payload: categoryName }) {
+function* fetchProductsByCategory({
+  payload: { categoryName, onNoProductsFound }
+}) {
   try {
     const productsPerPage = yield select(selectProductsPerPage);
     const {
       products: productsInCategory,
       lastVisibleDoc
     } = yield getProductsByCategory(categoryName, productsPerPage);
-    if (!productsInCategory.length) throw Error();
+    if (!productsInCategory.length) {
+      throw Error();
+    }
     yield put(initialProductsFetchSuccess(productsInCategory, lastVisibleDoc));
   } catch (err) {
     yield put(initialProductsFetchFail(`No ${categoryName} products found`));
+    yield onNoProductsFound();
   }
 }
 
@@ -102,7 +109,9 @@ function* handleProductsFetchFail({ payload: errorMsg }) {
 function* fetchProductById({ payload: id }) {
   try {
     const { productData } = yield getProductDataAndRefById(id);
-    if (!productData) throw Error();
+    if (!productData) {
+      throw Error();
+    }
     yield put(fetchProductByIdSuccess(productData));
   } catch (err) {
     yield put(fetchProductByIdFail(`Product with ID ${id} not found`));

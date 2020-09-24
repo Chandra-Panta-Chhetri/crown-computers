@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import ProductCollection from "../product-collection/product-collection.component";
 import { Redirect } from "react-router-dom";
@@ -24,6 +24,7 @@ const CategoryCollection = ({
   match,
   products
 }) => {
+  const [redirectUser, setRedirectUser] = useState(false);
   const categoryNameInLowerCase = decodeURI(
     match.params.productCategory
   ).toLowerCase();
@@ -36,12 +37,14 @@ const CategoryCollection = ({
   );
 
   useEffect(() => {
-    fetchProductsInCategory(categoryNameInLowerCase);
+    fetchProductsInCategory(categoryNameInLowerCase, () => {
+      setRedirectUser(true);
+    });
   }, [fetchProductsInCategory, categoryNameInLowerCase]);
 
   return (
     <>
-      {!products.length && !isFetchingProducts ? <Redirect to="/" /> : null}
+      {redirectUser && <Redirect to="/" />}
       <ProductCollection
         intersectionCb={fetchMoreOnIntersection}
         isFetchingProducts={isFetchingProducts}
@@ -57,8 +60,10 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchProductsInCategory: (categoryName) =>
-    dispatch(startInitialProductsFetchByCategory(categoryName)),
+  fetchProductsInCategory: (categoryName, onNoProductsFound) =>
+    dispatch(
+      startInitialProductsFetchByCategory(categoryName, onNoProductsFound)
+    ),
   fetchMoreProductsInCategory: (categoryName) =>
     dispatch(startLoadingMoreProductsByCategory(categoryName))
 });

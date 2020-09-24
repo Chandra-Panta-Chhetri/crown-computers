@@ -2,7 +2,7 @@ import PRODUCT_ACTION_TYPES from "./product.action.types";
 
 const INITIAL_STATE = {
   products: [],
-  isFetchingProducts: true,
+  isFetchingProducts: false,
   productsPerPage: 6,
   lastVisibleDoc: null,
   hasMoreToFetch: true,
@@ -19,18 +19,17 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         products: [],
         hasMoreToFetch: true
       };
-    case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_SUCCESS:
-      return {
-        ...prevState,
-        products: action.payload.products,
-        lastVisibleDoc: action.payload.lastVisibleDoc,
-        isFetchingProducts: false
-      };
     case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_FAIL:
     case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_FAIL:
     case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_FAIL:
       return {
         ...prevState,
+        isFetchingProducts: false
+      };
+    case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_SUCCESS:
+      return {
+        ...prevState,
+        ...action.payload,
         isFetchingProducts: false
       };
     case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_START:
