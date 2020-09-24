@@ -4,22 +4,12 @@ import { CarouselContainer } from "./carousel.styles";
 const defaultSettings = {
   dots: true,
   infinite: true,
-  speed: 600,
   slidesToShow: 4,
-  slidesToScroll: 4
+  slidesToSwipe: 4
 };
 
-const Carousel = ({
-  settings = defaultSettings,
-  children,
-  refHandler,
-  ...otherProps
-}) => (
-  <CarouselContainer
-    {...settings}
-    {...otherProps}
-    ref={refHandler ? refHandler : undefined}
-  >
+const Carousel = ({ settings = defaultSettings, children, refHandler }) => (
+  <CarouselContainer {...settings} ref={refHandler}>
     {children}
   </CarouselContainer>
 );

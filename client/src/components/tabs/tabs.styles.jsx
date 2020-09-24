@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
+import { mainBorderColor } from "../../global.styles";
 
-const borderColor = "rgba(226, 232, 240, 1)";
 const activeTabStyles = css`
   border-color: blue;
   transition: border-color 450ms ease-in-out;
@@ -19,7 +19,7 @@ export const TabHeadings = styled.div`
 export const TabHeading = styled.span`
   cursor: pointer;
   flex-grow: 1;
-  border-bottom: 2px solid ${borderColor};
+  border-bottom: 2px solid ${mainBorderColor};
   padding: 8px 0;
   ${(props) => (props.activeTab ? activeTabStyles : null)}
 `;

@@ -15,7 +15,7 @@ import Tabs from "../tabs/tabs.component";
 import Tab from "../tab/tab.component";
 import ProductInCategoryCarousel from "../product-in-category-carousel/product-in-category-carousel.component";
 import ProductImageCarousel from "../product-image-carousel/product-image-carousel.component";
-import ProductSpecificationLabel from "../product-specification-label/product-specification-label.component";
+import Banner from "../banner/banner.component";
 import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
 
 import { compose } from "redux";
@@ -81,11 +81,7 @@ const ProductDetail = ({
                 <Tab tabLabel="Specifications">
                   {specifications &&
                     specifications.map(({ label, value }, index) => (
-                      <ProductSpecificationLabel
-                        label={label}
-                        value={value}
-                        key={index}
-                      />
+                      <Banner label={label} value={value} key={index} />
                     ))}
                 </Tab>
               </Tabs>
