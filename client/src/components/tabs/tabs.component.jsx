@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { TabsContainer, TabHeadings, TabHeading } from "./tabs.styles";
 
 const Tabs = ({ children: tabs }) => {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
 
   const changeActiveTab = (tabIndex) => {
-    setActiveTabIndex(tabIndex);
+    setActiveTab(tabIndex);
   };
 
   return (
@@ -14,17 +14,14 @@ const Tabs = ({ children: tabs }) => {
         {tabs.map((tabs, index) => (
           <TabHeading
             key={index}
-            className={`${index === activeTabIndex ? "active" : ""}`}
+            activeTab={index === activeTab}
             onClick={() => changeActiveTab(index)}
           >
             {tabs.props.tabLabel}
           </TabHeading>
         ))}
       </TabHeadings>
-      {tabs.map((tab, index) => {
-        if (index !== activeTabIndex) return undefined;
-        return tab;
-      })}
+      {tabs[activeTab]}
     </TabsContainer>
   );
 };
