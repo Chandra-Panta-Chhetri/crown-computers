@@ -2,7 +2,6 @@ import { useRef, useCallback } from "react";
 
 const usePaginationOnIntersection = (
   fetchMore,
-  fetchMoreFuncArgs,
   isFetchingMore,
   hasMoreToFetch
 ) => {
@@ -17,7 +16,7 @@ const usePaginationOnIntersection = (
       observer.current = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            fetchMore(...fetchMoreFuncArgs);
+            fetchMore();
           }
         },
         { threshold: 0.9 }
@@ -26,7 +25,7 @@ const usePaginationOnIntersection = (
         observer.current.observe(elementNode);
       }
     },
-    [isFetchingMore, fetchMore, hasMoreToFetch, fetchMoreFuncArgs]
+    [isFetchingMore, fetchMore, hasMoreToFetch]
   );
 
   return triggerPaginationOnIntersection;

@@ -22,7 +22,6 @@ const CollectionOverview = ({
 }) => {
   const fetchMoreOnIntersection = usePaginationOnIntersection(
     fetchMoreProducts,
-    [],
     isFetchingProducts,
     hasMoreToFetch
   );
