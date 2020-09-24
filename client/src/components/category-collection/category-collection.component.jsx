@@ -5,8 +5,7 @@ import { Redirect } from "react-router-dom";
 
 import {
   selectIsFetchingProducts,
-  selectHasMoreToFetch,
-  selectProductCollection
+  selectHasMoreToFetch
 } from "../../redux/product/product.selectors";
 import {
   startInitialProductsFetchByCategory,
@@ -21,8 +20,7 @@ const CategoryCollection = ({
   fetchMoreProductsInCategory,
   isFetchingProducts,
   hasMoreToFetch,
-  match,
-  products
+  match
 }) => {
   const [redirectUser, setRedirectUser] = useState(false);
   const categoryNameInLowerCase = decodeURI(
@@ -55,8 +53,7 @@ const CategoryCollection = ({
 
 const mapStateToProps = createStructuredSelector({
   isFetchingProducts: selectIsFetchingProducts,
-  hasMoreToFetch: selectHasMoreToFetch,
-  products: selectProductCollection
+  hasMoreToFetch: selectHasMoreToFetch
 });
 
 const mapDispatchToProps = (dispatch) => ({

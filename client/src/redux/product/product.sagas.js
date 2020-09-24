@@ -106,7 +106,7 @@ function* handleProductsFetchFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Collection Fetching Failed", errorMsg));
 }
 
-function* fetchProductById({ payload: id }) {
+function* fetchProductById({ payload: { id, onNoProductFound } }) {
   try {
     const { productData } = yield getProductDataAndRefById(id);
     if (!productData) {
@@ -115,6 +115,7 @@ function* fetchProductById({ payload: id }) {
     yield put(fetchProductByIdSuccess(productData));
   } catch (err) {
     yield put(fetchProductByIdFail(`Product with ID ${id} not found`));
+    yield onNoProductFound();
   }
 }
 

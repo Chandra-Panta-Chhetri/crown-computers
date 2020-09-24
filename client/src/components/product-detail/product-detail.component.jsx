@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ProductDetailContainer,
   ProductInfoContainer,
@@ -20,7 +20,7 @@ import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import { startFetchProductById } from "../../redux/product/product.actions";
 import {
   selectIsFetchingProducts,
@@ -44,65 +44,70 @@ const ProductDetail = ({
     description,
     specifications
   } = product;
+  const [redirectUser, setRedirectUser] = useState(false);
   const productId = match.params.productId;
   useEffect(() => {
-    fetchProductById(productId);
+    fetchProductById(productId, () => {
+      setRedirectUser(true);
+    });
     //scrolls user back to top of page as page is not refreshed
     //when clicking product in product carousel
     window.scrollTo(0, 0);
   }, [fetchProductById, productId]);
 
-  if (isFetchingProduct) {
-    return <ProductDetailSkeleton />;
-  }
-
   return (
     <>
-      <ProductDetailContainer>
-        <ProductImageCarousel imageUrls={imageUrls} />
-        <ProductInfoContainer>
-          <ProductCategory
-            onClick={() =>
-              history.push(`/shop/category/${encodeURI(category)}`)
-            }
-          >
-            {category}
-          </ProductCategory>
-          <ProductName>{name}</ProductName>
-          <Tabs>
-            <Tab tabLabel="Description">
-              <ProductDescription>
-                {description || "No product description available"}
-              </ProductDescription>
-            </Tab>
-            <Tab tabLabel="Specifications">
-              {specifications &&
-                specifications.map(({ label, value }, index) => (
-                  <ProductSpecificationLabel
-                    label={label}
-                    value={value}
-                    key={index}
-                  />
-                ))}
-            </Tab>
-          </Tabs>
-          <ProductActionContainer>
-            <ProductPrice>${price}</ProductPrice>
-            <AddToCartButton itemToAddOnClick={{ ...product, productId }} />
-          </ProductActionContainer>
-          {stock < 10 ? (
-            <ProductStock>{stock} left in stock</ProductStock>
-          ) : null}
-        </ProductInfoContainer>
-      </ProductDetailContainer>
-      {category ? (
+      {redirectUser && <Redirect to="/" />}
+      {isFetchingProduct && <ProductDetailSkeleton />}
+      {!isFetchingProduct && (
         <>
-          <CarouselHeading>
-            More <span>{category}</span> To Explore
-          </CarouselHeading>
-          <ProductInCategoryCarousel category={category} />
+          <ProductDetailContainer>
+            <ProductImageCarousel imageUrls={imageUrls} />
+            <ProductInfoContainer>
+              <ProductCategory
+                onClick={() =>
+                  history.push(`/shop/category/${encodeURI(category)}`)
+                }
+              >
+                {category}
+              </ProductCategory>
+              <ProductName>{name}</ProductName>
+              <Tabs>
+                <Tab tabLabel="Description">
+                  <ProductDescription>
+                    {description || "No product description available"}
+                  </ProductDescription>
+                </Tab>
+                <Tab tabLabel="Specifications">
+                  {specifications &&
+                    specifications.map(({ label, value }, index) => (
+                      <ProductSpecificationLabel
+                        label={label}
+                        value={value}
+                        key={index}
+                      />
+                    ))}
+                </Tab>
+              </Tabs>
+              <ProductActionContainer>
+                <ProductPrice>${price}</ProductPrice>
+                <AddToCartButton itemToAddOnClick={{ ...product, productId }} />
+              </ProductActionContainer>
+              {stock < 10 ? (
+                <ProductStock>{stock} left in stock</ProductStock>
+              ) : null}
+            </ProductInfoContainer>
+          </ProductDetailContainer>
+          {category ? (
+            <>
+              <CarouselHeading>
+                More <span>{category}</span> To Explore
+              </CarouselHeading>
+              <ProductInCategoryCarousel category={category} />
+            </>
+          ) : null}
         </>
-      ) : null}
+      )}
     </>
   );
 };
@@ -113,7 +118,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchProductById: (id) => dispatch(startFetchProductById(id))
+  fetchProductById: (id, onNoProductFound) =>
+    dispatch(startFetchProductById(id, onNoProductFound))
 });
 
 export default compose(
