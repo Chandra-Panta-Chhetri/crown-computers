@@ -6,14 +6,13 @@ import {
   ProductActionContainer,
   ProductCategory,
   ProductName,
-  CarouselHeading,
   ProductDescription,
   ProductStock
 } from "./product-detail.styles";
 
 import Tabs from "../tabs/tabs.component";
 import Tab from "../tab/tab.component";
-import ProductInCategoryCarousel from "../product-in-category-carousel/product-in-category-carousel.component";
+import ProductsCarousel from "../products-carousel/products-carousel.component";
 import ProductImageCarousel from "../product-image-carousel/product-image-carousel.component";
 import Banner from "../banner/banner.component";
 import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
@@ -66,7 +65,7 @@ const ProductDetail = ({
             <ProductInfoContainer>
               <ProductCategory
                 onClick={() =>
-                  history.push(`/shop/category/${encodeURI(category)}`)
+                  history.push(`/shop/categoryName/${encodeURI(category)}`)
                 }
               >
                 {category}
@@ -94,14 +93,9 @@ const ProductDetail = ({
               ) : null}
             </ProductInfoContainer>
           </ProductDetailContainer>
-          {category ? (
-            <>
-              <CarouselHeading>
-                More <span>{category}</span> To Explore
-              </CarouselHeading>
-              <ProductInCategoryCarousel category={category} />
-            </>
-          ) : null}
+          {!isFetchingProduct && category && (
+            <ProductsCarousel categoryName={category} />
+          )}
         </>
       )}
     </>

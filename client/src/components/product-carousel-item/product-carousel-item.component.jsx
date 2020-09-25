@@ -1,10 +1,10 @@
 import React from "react";
-import { ProductCarouselItemContainer } from "./product-carousel-item.styles";
 import {
   ItemImage,
   ItemImageContainer,
   ItemName,
-  ItemPrice
+  ItemPrice,
+  ProductCarouselItemContainer
 } from "./product-carousel-item.styles";
 
 import { withRouter } from "react-router-dom";

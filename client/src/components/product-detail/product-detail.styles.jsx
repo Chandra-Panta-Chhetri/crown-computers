@@ -58,9 +58,3 @@ export const ProductPrice = styled.span`
   font-weight: bold;
   font-size: 1.7rem;
 `;
-
-export const CarouselHeading = styled.h4`
-  font-size: 1.275rem;
-  margin-bottom: 10px;
-  text-transform: capitalize;
-`;
