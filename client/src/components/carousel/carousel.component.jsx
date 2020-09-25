@@ -8,8 +8,13 @@ const defaultSettings = {
   slidesToSwipe: 4
 };
 
-const Carousel = ({ settings = defaultSettings, children, refHandler }) => (
-  <CarouselContainer {...settings} ref={refHandler}>
+const Carousel = ({
+  settings = defaultSettings,
+  children,
+  refHandler,
+  ...otherProps
+}) => (
+  <CarouselContainer {...settings} ref={refHandler} {...otherProps}>
     {children}
   </CarouselContainer>
 );

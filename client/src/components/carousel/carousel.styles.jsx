@@ -21,10 +21,15 @@ export const CarouselContainer = styled(Slider)`
   }
 
   .slick-prev {
-    left: -5px;
+    left: -18px;
   }
 
   .slick-next {
-    right: -5px;
+    right: -18px;
+  }
+
+  .slick-track {
+    display: flex;
+    justify-content: center;
   }
 `;

@@ -14,11 +14,12 @@ export const ProductImage = styled.img`
   width: 100%;
 `;
 
+export const NumOfPreviews = styled.p`
+  text-align: center;
+`;
+
 export const ProductImagePreview = styled.img`
   width: 60px;
   height: 60px;
-`;
-
-export const NumOfPreviews = styled.p`
-  text-align: center;
+  margin: 0 10px;
 `;
