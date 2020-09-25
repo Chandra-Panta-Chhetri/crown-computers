@@ -51,9 +51,6 @@ const ProductDetail = ({
   } = useRedirect(fetchProductById, [productId]);
 
   useEffect(() => {
-    //scrolls user back to top of page as page is not refreshed
-    //when clicking product in product carousel
-    window.scrollTo(0, 0);
     //useRedirect hook only calls dispatchAction once using a flag
     //need to reset flag to allow component to update after productId changes
     resetIsActionDispatched();

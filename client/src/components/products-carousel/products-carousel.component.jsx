@@ -21,7 +21,7 @@ const ProductsCarousel = ({
     fetchProductsInCategory(categoryName, () => {
       setIsCarouselShown(false);
     });
-  }, [fetchProductsInCategory, categoryName, products.length]);
+  }, [fetchProductsInCategory, categoryName, products]);
 
   if (!isCarouselShown) {
     return null;
@@ -29,9 +29,7 @@ const ProductsCarousel = ({
 
   return (
     <>
-      <CarouselHeading>
-        More <span>{categoryName}</span> To Explore
-      </CarouselHeading>
+      <CarouselHeading>More Products To Explore</CarouselHeading>
       <ProductsCarouselContainer>
         {products.map((product) => (
           <ProductCarouselItem product={product} key={product.productId} />

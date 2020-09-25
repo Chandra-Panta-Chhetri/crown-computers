@@ -33,6 +33,9 @@ const App = ({
 
   useEffect(() => {
     return history.listen(() => {
+      //scrolls user back to top of page as in some cases where only the content changes
+      //and component is the same, user not scrolled to top
+      window.scrollTo(0, 0);
       if (!isCartHidden) {
         toggleCartVisibility();
       }
