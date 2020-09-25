@@ -27,10 +27,15 @@ const ProductsCarousel = ({
     return null;
   }
 
+  const carouselConfig = {
+    slidesToShow: products.length < 4 ? products.length : 4,
+    slidesToSwipe: products.length < 4 ? products.length : 4
+  };
+
   return (
     <>
       <CarouselHeading>More Products To Explore</CarouselHeading>
-      <ProductsCarouselContainer>
+      <ProductsCarouselContainer {...carouselConfig}>
         {products.map((product) => (
           <ProductCarouselItem product={product} key={product.productId} />
         ))}

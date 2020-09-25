@@ -5,7 +5,7 @@ const defaultSettings = {
   dots: true,
   infinite: true,
   slidesToShow: 4,
-  slidesToSwipe: 4
+  slidesToScroll: 4
 };
 
 const Carousel = ({
