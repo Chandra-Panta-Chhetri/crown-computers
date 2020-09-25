@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import ProductCollection from "../product-collection/product-collection.component";
-import { Redirect } from "react-router-dom";
 
 import {
   selectIsFetchingProducts,
@@ -12,6 +11,7 @@ import {
   startLoadingMoreProductsByCategory
 } from "../../redux/product/product.actions";
 import usePaginationOnIntersection from "../../hooks/usePaginationOnIntersection.hook";
+import useRedirect from "../../hooks/useRedirect.hook";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
@@ -22,10 +22,13 @@ const CategoryCollection = ({
   hasMoreToFetch,
   match
 }) => {
-  const [redirectUser, setRedirectUser] = useState(false);
   const categoryNameInLowerCase = decodeURI(
     match.params.productCategory
   ).toLowerCase();
+
+  const { redirectComponent } = useRedirect(fetchProductsInCategory, [
+    categoryNameInLowerCase
+  ]);
 
   const fetchMoreOnIntersection = usePaginationOnIntersection(
     () => {
@@ -35,15 +38,9 @@ const CategoryCollection = ({
     hasMoreToFetch
   );
 
-  useEffect(() => {
-    fetchProductsInCategory(categoryNameInLowerCase, () => {
-      setRedirectUser(true);
-    });
-  }, [fetchProductsInCategory, categoryNameInLowerCase]);
-
   return (
     <>
-      {redirectUser && <Redirect to="/" />}
+      {redirectComponent}
       <ProductCollection
         intersectionCb={fetchMoreOnIntersection}
         isFetchingProducts={isFetchingProducts}

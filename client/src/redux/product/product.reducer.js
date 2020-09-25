@@ -37,7 +37,8 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
     case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_START:
       return {
         ...prevState,
-        isFetchingProducts: true
+        isFetchingProducts: true,
+        productData: {}
       };
     case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_SUCCESS:
       return {

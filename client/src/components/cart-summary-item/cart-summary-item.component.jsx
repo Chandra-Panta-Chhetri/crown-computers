@@ -29,9 +29,9 @@ const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
           <ProductInfo>
             <ProductName>{name}</ProductName>
             <ItemCategory>{category}</ItemCategory>
-            {stock < 10 ? (
+            {stock < 10 && (
               <ItemStockLeft>Only {stock} left in stock</ItemStockLeft>
-            ) : null}
+            )}
           </ProductInfo>
         </ProductMetaInfo>
       </ItemInfoSection>

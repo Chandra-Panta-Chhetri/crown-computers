@@ -7,18 +7,6 @@ export const ProductDetailContainer = styled.section`
   padding: 0;
 `;
 
-export const ProductStock = styled.p`
-  margin: 10px 0 0;
-  text-transform: capitalize;
-  color: red;
-  font-weight: bold;
-  text-align: right;
-`;
-
-export const ProductDescription = styled.p`
-  margin: 0;
-`;
-
 export const ProductInfoContainer = styled.div`
   padding-bottom: 1rem;
   padding-left: 1.3rem;
@@ -39,9 +27,21 @@ export const ProductCategory = styled.h5`
   }
 `;
 
+export const ProductStock = styled.p`
+  margin: 10px 0 0;
+  text-transform: capitalize;
+  color: red;
+  font-weight: bold;
+  text-align: right;
+`;
+
 export const ProductName = styled.h1`
   margin: 0 0 10px;
   font-size: 1.875rem;
+`;
+
+export const ProductDescription = styled.p`
+  margin: 0;
 `;
 
 export const ProductActionContainer = styled.div`

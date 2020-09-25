@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   ProductDetailContainer,
   ProductInfoContainer,
@@ -16,16 +16,17 @@ import ProductsCarousel from "../products-carousel/products-carousel.component";
 import ProductImageCarousel from "../product-image-carousel/product-image-carousel.component";
 import Banner from "../banner/banner.component";
 import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
+import ProductDetailSkeleton from "../product-detail-skeleton/product-detail-skeleton.component";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { startFetchProductById } from "../../redux/product/product.actions";
 import {
   selectIsFetchingProducts,
   selectProductData
 } from "../../redux/product/product.selectors";
-import ProductDetailSkeleton from "../product-detail-skeleton/product-detail-skeleton.component";
+import useRedirect from "../../hooks/useRedirect.hook";
 
 const ProductDetail = ({
   product,
@@ -43,20 +44,24 @@ const ProductDetail = ({
     description,
     specifications
   } = product;
-  const [redirectUser, setRedirectUser] = useState(false);
   const productId = match.params.productId;
+  const {
+    redirectComponent,
+    resetIsActionDispatched
+  } = useRedirect(fetchProductById, [productId]);
+
   useEffect(() => {
-    fetchProductById(productId, () => {
-      setRedirectUser(true);
-    });
     //scrolls user back to top of page as page is not refreshed
     //when clicking product in product carousel
     window.scrollTo(0, 0);
-  }, [fetchProductById, productId]);
+    //useRedirect hook only calls dispatchAction once using a flag
+    //need to reset flag to allow component to update after productId changes
+    resetIsActionDispatched();
+  }, [productId, resetIsActionDispatched]);
 
   return (
     <>
-      {redirectUser && <Redirect to="/" />}
+      {redirectComponent}
       {isFetchingProduct && <ProductDetailSkeleton />}
       {!isFetchingProduct && (
         <>
@@ -65,7 +70,7 @@ const ProductDetail = ({
             <ProductInfoContainer>
               <ProductCategory
                 onClick={() =>
-                  history.push(`/shop/categoryName/${encodeURI(category)}`)
+                  history.push(`/shop/category/${encodeURI(category)}`)
                 }
               >
                 {category}
@@ -88,14 +93,10 @@ const ProductDetail = ({
                 <ProductPrice>${price}</ProductPrice>
                 <AddToCartButton itemToAddOnClick={{ ...product, productId }} />
               </ProductActionContainer>
-              {stock < 10 ? (
-                <ProductStock>{stock} left in stock</ProductStock>
-              ) : null}
+              {stock < 10 && <ProductStock>{stock} left in stock</ProductStock>}
             </ProductInfoContainer>
           </ProductDetailContainer>
-          {!isFetchingProduct && category && (
-            <ProductsCarousel categoryName={category} />
-          )}
+          {category && <ProductsCarousel categoryName={category} />}
         </>
       )}
     </>

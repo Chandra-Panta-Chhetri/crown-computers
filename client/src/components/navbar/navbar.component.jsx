@@ -37,11 +37,11 @@ const NavBar = ({ currentUser, hidden, logOut }) => (
           Log Out
         </LogOutBtn>
       )}
-      {!currentUser ? (
+      {!currentUser && (
         <NavItem to="/signup" activeClassName="active">
           Sign Up
         </NavItem>
-      ) : null}
+      )}
       <CartIcon />
     </NavBarItems>
     {hidden ? null : <CartDropDown />}

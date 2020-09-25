@@ -6,7 +6,7 @@ export const startInitialProductsFetch = () => ({
 
 export const startInitialProductsFetchByCategory = (
   categoryName,
-  onNoProductsFound
+  onNoProductsFound = () => {}
 ) => ({
   type: PRODUCT_ACTION_TYPES.INITIAL_FETCH_PRODUCTS_BY_CATEGORY_START,
   payload: { categoryName, onNoProductsFound }
@@ -45,7 +45,7 @@ export const noMoreToLoad = () => ({
   type: PRODUCT_ACTION_TYPES.NO_MORE_TO_LOAD
 });
 
-export const startFetchProductById = (id, onNoProductFound) => ({
+export const startFetchProductById = (id, onNoProductFound = () => {}) => ({
   type: PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_START,
   payload: { id, onNoProductFound }
 });
