@@ -32,15 +32,27 @@ const CheckoutForm = ({
       postal_code: "",
       line1: "",
       country: "CA"
-    }
+    },
+    shippingSameAsBilling: false
   });
   const stripe = useStripe();
   const elements = useElements();
 
   const handleChange = (formLabel) => (event) => {
-    const { value, name } = event.target;
+    const { value, name, checked } = event.target;
+    if (checked && name === "sameAsBilling") {
+      return setCheckoutFormData((prevFormData) => {
+        prevFormData.shippingDetails = { ...prevFormData.billingDetails };
+        prevFormData.shippingSameAsBilling = checked;
+        return { ...prevFormData };
+      });
+    }
     setCheckoutFormData((prevFormData) => {
       prevFormData[formLabel][name] = value;
+      if (formLabel === "shippingDetails") {
+        console.log("here");
+        prevFormData.shippingSameAsBilling = false;
+      }
       return { ...prevFormData };
     });
   };
@@ -57,13 +69,13 @@ const CheckoutForm = ({
     e.preventDefault();
     const cardElement = elements.getElement("card");
     console.log(checkoutFormData);
-    startCheckout(
-      stripe,
-      cardElement,
-      checkoutFormData,
-      onSuccessfulCheckout,
-      amountToBePaid
-    );
+    // startCheckout(
+    //   stripe,
+    //   cardElement,
+    //   checkoutFormData,
+    //   onSuccessfulCheckout,
+    //   amountToBePaid
+    // );
   };
 
   switch (activeStep) {
@@ -82,18 +94,23 @@ const CheckoutForm = ({
           nextStep={nextStep}
           handleChange={handleChange}
           formValues={checkoutFormData.billingDetails}
+          formLabel="Billing Info"
+          formType="billingDetails"
         />
       );
-    // case 3:
-    //   return (
-    //     <ShippingDetails
-    //       prevStep={prevStep}
-    //       nextStep={nextStep}
-    //       handleChange={handleChange}
-    //       formValues={checkoutFormData.shippingDetails}
-    //     />
-    //   );
     case 3:
+      return (
+        <BillingDetails
+          prevStep={prevStep}
+          nextStep={nextStep}
+          handleChange={handleChange}
+          formValues={checkoutFormData.shippingDetails}
+          formLabel="Shipping Info"
+          formType="shippingDetails"
+          sameAsBilling={checkoutFormData.shippingSameAsBilling}
+        />
+      );
+    case 4:
       return (
         <CardDetails
           prevStep={prevStep}

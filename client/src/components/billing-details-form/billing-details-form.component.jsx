@@ -12,7 +12,10 @@ const BillingDetailsForm = ({
   prevStep,
   nextStep,
   handleChange,
-  formValues
+  formValues,
+  formType,
+  formLabel,
+  sameAsBilling = false
 }) => {
   const continueToNextStep = (e) => {
     e.preventDefault();
@@ -21,18 +24,30 @@ const BillingDetailsForm = ({
 
   return (
     <FormContainer onSubmit={continueToNextStep}>
-      <SubHeading>Billing Info</SubHeading>
+      <SubHeading>{formLabel}</SubHeading>
+      {formType === "shippingDetails" && (
+        <div>
+          <input
+            type="checkbox"
+            value="sameAsBilling"
+            name="sameAsBilling"
+            onChange={handleChange(formType)}
+            checked={sameAsBilling}
+          />
+          <label htmlFor="sameAsBilling">Same As Billing Info</label>
+        </div>
+      )}
       <FormInput
         label="Street"
         name="line1"
-        inputChangeHandler={handleChange("billingDetails")}
+        inputChangeHandler={handleChange(formType)}
         inputValue={formValues.line1}
         required
       />
       <FormInput
         label="City"
         name="city"
-        inputChangeHandler={handleChange("billingDetails")}
+        inputChangeHandler={handleChange(formType)}
         inputValue={formValues.city}
         required
       />
@@ -42,7 +57,7 @@ const BillingDetailsForm = ({
         name="postal_code"
         pattern="^([A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d)$"
         title="A1A 2A3 or A1A2A3"
-        inputChangeHandler={handleChange("billingDetails")}
+        inputChangeHandler={handleChange(formType)}
         inputValue={formValues.postal_code}
         required
         uppercaseInput
