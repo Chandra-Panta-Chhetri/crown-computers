@@ -10,8 +10,7 @@ export const LoadingText = styled.p`
 `;
 
 export const PayNowButton = styled(Button)`
-  margin-top: 25px;
-  width: 100%;
+  float: right;
 
   &:disabled {
     opacity: 0.3;
@@ -21,6 +20,8 @@ export const PayNowButton = styled(Button)`
 `;
 
 export const CardElementContainer = styled.div`
+  margin-bottom: 25px;
+
   & .StripeElement {
     width: 100%;
     padding: 15px;

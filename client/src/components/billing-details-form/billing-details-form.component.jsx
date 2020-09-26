@@ -1,7 +1,8 @@
 import React from "react";
 import {
   SubHeading,
-  FormContainer
+  FormContainer,
+  ContinueButton
 } from "../checkout-form/checkout-form.styles";
 
 import Button from "../button/button.component";
@@ -49,7 +50,7 @@ const BillingDetailsForm = ({
       <Button onClick={prevStep} type="button">
         Back
       </Button>
-      <Button type="submit">Continue</Button>
+      <ContinueButton type="submit">Continue</ContinueButton>
     </FormContainer>
   );
 };

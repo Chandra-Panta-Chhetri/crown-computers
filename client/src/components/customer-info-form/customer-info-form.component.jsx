@@ -1,10 +1,10 @@
 import React from "react";
 import {
   SubHeading,
-  FormContainer
+  FormContainer,
+  ContinueButton
 } from "../checkout-form/checkout-form.styles";
 
-import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 
 const CustomerInfoForm = ({ nextStep, handleChange, formValues }) => {
@@ -40,7 +40,7 @@ const CustomerInfoForm = ({ nextStep, handleChange, formValues }) => {
         inputValue={formValues.phone}
         required
       />
-      <Button type="submit">Continue</Button>
+      <ContinueButton type="submit">Continue</ContinueButton>
     </FormContainer>
   );
 };
