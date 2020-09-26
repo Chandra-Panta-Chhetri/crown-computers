@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  SubHeading,
+  FormTitle,
   FormContainer,
   ContinueButton
 } from "../checkout-form/checkout-form.styles";
@@ -15,11 +15,11 @@ const CustomerInfoForm = ({ nextStep, handleChange, formValues }) => {
 
   return (
     <FormContainer onSubmit={continueToNextStep}>
-      <SubHeading>Customer Info</SubHeading>
+      <FormTitle>Customer Info</FormTitle>
       <FormInput
         label="Name"
         name="name"
-        inputChangeHandler={handleChange("customerInfo")}
+        inputChangeHandler={handleChange}
         inputValue={formValues.name}
         required
       />
@@ -27,7 +27,7 @@ const CustomerInfoForm = ({ nextStep, handleChange, formValues }) => {
         label="Email"
         name="email"
         type="email"
-        inputChangeHandler={handleChange("customerInfo")}
+        inputChangeHandler={handleChange}
         inputValue={formValues.email}
         required
       />
@@ -36,7 +36,7 @@ const CustomerInfoForm = ({ nextStep, handleChange, formValues }) => {
         name="phone"
         pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$"
         title="123-456-7890 or 123 456 7890"
-        inputChangeHandler={handleChange("customerInfo")}
+        inputChangeHandler={handleChange}
         inputValue={formValues.phone}
         required
       />

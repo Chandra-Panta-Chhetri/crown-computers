@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 
-import { useStripe, useElements } from "@stripe/react-stripe-js";
-
 import CustomerInfo from "../customer-info-form/customer-info-form.component";
 import BillingDetails from "../billing-details-form/billing-details-form.component";
 import CardDetails from "../card-details-form/card-details-form.component";
 
 import { startCheckout } from "../../redux/checkout/checkout.actions";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { connect } from "react-redux";
 
 const CheckoutForm = ({
@@ -50,49 +49,42 @@ const CheckoutForm = ({
     setCheckoutFormData((prevFormData) => {
       prevFormData[formLabel][name] = value;
       if (formLabel === "shippingDetails") {
-        console.log("here");
         prevFormData.shippingSameAsBilling = false;
       }
       return { ...prevFormData };
     });
   };
 
-  const nextStep = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const prevStep = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  const changeStep = (incrementValue) => () =>
+    setActiveStep((prevActiveStep) => prevActiveStep + incrementValue);
 
   const submitPayment = (e) => {
     e.preventDefault();
     const cardElement = elements.getElement("card");
-    console.log(checkoutFormData);
-    // startCheckout(
-    //   stripe,
-    //   cardElement,
-    //   checkoutFormData,
-    //   onSuccessfulCheckout,
-    //   amountToBePaid
-    // );
+    startCheckout(
+      stripe,
+      cardElement,
+      checkoutFormData,
+      onSuccessfulCheckout,
+      amountToBePaid
+    );
   };
 
   switch (activeStep) {
     case 1:
       return (
         <CustomerInfo
-          nextStep={nextStep}
-          handleChange={handleChange}
+          nextStep={changeStep(1)}
+          handleChange={handleChange("customerInfo")}
           formValues={checkoutFormData.customerInfo}
         />
       );
     case 2:
       return (
         <BillingDetails
-          prevStep={prevStep}
-          nextStep={nextStep}
-          handleChange={handleChange}
+          prevStep={changeStep(-1)}
+          nextStep={changeStep(1)}
+          handleChange={handleChange("billingDetails")}
           formValues={checkoutFormData.billingDetails}
           formLabel="Billing Info"
           formType="billingDetails"
@@ -101,9 +93,9 @@ const CheckoutForm = ({
     case 3:
       return (
         <BillingDetails
-          prevStep={prevStep}
-          nextStep={nextStep}
-          handleChange={handleChange}
+          prevStep={changeStep(-1)}
+          nextStep={changeStep(1)}
+          handleChange={handleChange("shippingDetails")}
           formValues={checkoutFormData.shippingDetails}
           formLabel="Shipping Info"
           formType="shippingDetails"
@@ -113,7 +105,7 @@ const CheckoutForm = ({
     case 4:
       return (
         <CardDetails
-          prevStep={prevStep}
+          prevStep={changeStep(-1)}
           handleSubmit={submitPayment}
           stripeLoaded={!!stripe}
           amountToBePaid={amountToBePaid}

@@ -1,12 +1,13 @@
 import React from "react";
 import {
-  SubHeading,
+  FormTitle,
   FormContainer,
   ContinueButton
 } from "../checkout-form/checkout-form.styles";
 
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
+import Checkbox from "../checkbox/checkbox.component";
 
 const BillingDetailsForm = ({
   prevStep,
@@ -24,30 +25,26 @@ const BillingDetailsForm = ({
 
   return (
     <FormContainer onSubmit={continueToNextStep}>
-      <SubHeading>{formLabel}</SubHeading>
+      <FormTitle>{formLabel}</FormTitle>
       {formType === "shippingDetails" && (
-        <div>
-          <input
-            type="checkbox"
-            value="sameAsBilling"
-            name="sameAsBilling"
-            onChange={handleChange(formType)}
-            checked={sameAsBilling}
-          />
-          <label htmlFor="sameAsBilling">Same As Billing Info</label>
-        </div>
+        <Checkbox
+          label="Same As Billing Info"
+          name="sameAsBilling"
+          inputChangeHandler={handleChange}
+          checkedStatus={sameAsBilling}
+        />
       )}
       <FormInput
         label="Street"
         name="line1"
-        inputChangeHandler={handleChange(formType)}
+        inputChangeHandler={handleChange}
         inputValue={formValues.line1}
         required
       />
       <FormInput
         label="City"
         name="city"
-        inputChangeHandler={handleChange(formType)}
+        inputChangeHandler={handleChange}
         inputValue={formValues.city}
         required
       />
@@ -57,7 +54,7 @@ const BillingDetailsForm = ({
         name="postal_code"
         pattern="^([A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d)$"
         title="A1A 2A3 or A1A2A3"
-        inputChangeHandler={handleChange(formType)}
+        inputChangeHandler={handleChange}
         inputValue={formValues.postal_code}
         required
         uppercaseInput

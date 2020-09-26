@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  SubHeading,
+  FormTitle,
   FormContainer
 } from "../checkout-form/checkout-form.styles";
 import {
@@ -41,7 +41,7 @@ const CardDetailsForm = ({
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <SubHeading>Card Details</SubHeading>
+      <FormTitle>Card Details</FormTitle>
       <CardElementContainer>
         <CardElement
           options={cardElementOptions}
@@ -56,7 +56,7 @@ const CardDetailsForm = ({
         disabled={isCheckingOut || !stripeLoaded || !isCardDetailFilled}
       >
         {isCheckingOut ? (
-          <LoadingText>Processing Payment. Please wait</LoadingText>
+          <LoadingText>Processing Payment</LoadingText>
         ) : (
           `Confirm & Pay $${amountToBePaid}`
         )}
