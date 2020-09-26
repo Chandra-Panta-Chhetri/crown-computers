@@ -3,9 +3,7 @@ import CHECKOUT_ACTION_TYPES from "./checkout.action.types";
 export const startCheckout = (
   stripeInstance,
   cardElement,
-  customerInfo,
-  billingDetails,
-  shippingDetails,
+  checkoutInfo,
   onSuccessfulCheckout,
   price
 ) => ({
@@ -13,9 +11,7 @@ export const startCheckout = (
   payload: {
     stripeInstance,
     cardElement,
-    customerInfo,
-    billingDetails,
-    shippingDetails,
+    checkoutInfo,
     onSuccessfulCheckout,
     price
   }

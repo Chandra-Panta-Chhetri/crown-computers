@@ -22,8 +22,7 @@ import {
 function* processPayment(
   stripeInstance,
   cardElement,
-  customerInfo,
-  billingDetails,
+  { customerInfo, billingDetails },
   amountToBePaid
 ) {
   const { data: clientSecret } = yield axios.post("/api/payments", {
@@ -51,9 +50,7 @@ function* checkoutCart({
   payload: {
     stripeInstance,
     cardElement,
-    customerInfo,
-    billingDetails,
-    shippingDetails,
+    checkoutInfo,
     onSuccessfulCheckout,
     price
   }
@@ -65,8 +62,7 @@ function* checkoutCart({
       processPayment,
       stripeInstance,
       cardElement,
-      customerInfo,
-      billingDetails,
+      checkoutInfo,
       price
     );
     yield updateProductStocksInCart(shoppingCart);
@@ -74,7 +70,7 @@ function* checkoutCart({
       checkoutSuccess(
         onSuccessfulCheckout,
         "Payment Successful",
-        `${customerInfo.name.toUpperCase()} your payment was successful. Have a good day`,
+        `${checkoutInfo.customerInfo.name.toUpperCase()} your payment was successful. Have a good day`,
         paymentMethod
       )
     );

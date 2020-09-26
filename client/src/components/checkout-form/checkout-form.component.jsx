@@ -1,161 +1,117 @@
 import React, { useState } from "react";
-import {
-  CheckoutFormContainer,
-  PayNowButton,
-  SubHeading,
-  cardElementStyles,
-  CardElementContainer,
-  LoadingText
-} from "./checkout-form.styles";
 
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import FormInput from "../form-input/form-input.component";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
+
+import CustomerInfo from "../customer-info-form/customer-info-form.component";
+import BillingDetails from "../billing-details-form/billing-details-form.component";
+import CardDetails from "../card-details-form/card-details-form.component";
 
 import { startCheckout } from "../../redux/checkout/checkout.actions";
 import { connect } from "react-redux";
-import { addInfoNotification } from "../../redux/notification/notification.actions";
-import { selectIsCheckingOut } from "../../redux/checkout/checkout.selectors";
-
-const cardElementOptions = {
-  iconStyle: "solid",
-  style: cardElementStyles,
-  hidePostalCode: true
-};
 
 const CheckoutForm = ({
   amountToBePaid,
   startCheckout,
-  onSuccessfulCheckout,
-  displayInfoNotification,
-  isCheckingOut
+  onSuccessfulCheckout
 }) => {
-  const [isCardDetailFilled, setIsCardDetailFilled] = useState(false);
-  const [customerInfo, setCustomerInfo] = useState({
-    name: "",
-    email: "",
-    phone: ""
-  });
-  const [billingDetails, setBillingDetails] = useState({
-    city: "",
-    postal_code: "",
-    line1: "",
-    country: "CA"
+  const [activeStep, setActiveStep] = useState(1);
+  const [checkoutFormData, setCheckoutFormData] = useState({
+    customerInfo: {
+      name: "",
+      email: "",
+      phone: ""
+    },
+    billingDetails: {
+      city: "",
+      postal_code: "",
+      line1: "",
+      country: "CA"
+    },
+    shippingDetails: {
+      city: "",
+      postal_code: "",
+      line1: "",
+      country: "CA"
+    }
   });
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleCheckout = (e) => {
+  const handleChange = (formLabel) => (event) => {
+    const { value, name } = event.target;
+    setCheckoutFormData((prevFormData) => {
+      prevFormData[formLabel][name] = value;
+      return { ...prevFormData };
+    });
+  };
+
+  const nextStep = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const prevStep = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const submitPayment = (e) => {
     e.preventDefault();
     const cardElement = elements.getElement("card");
+    console.log(checkoutFormData);
     startCheckout(
       stripe,
       cardElement,
-      customerInfo,
-      billingDetails,
-      null,
+      checkoutFormData,
       onSuccessfulCheckout,
       amountToBePaid
     );
   };
 
-  const handleBillingDetailsChange = (e) => {
-    setBillingDetails({ ...billingDetails, [e.target.name]: e.target.value });
-  };
-
-  const handleCustomerDetailsChange = (e) => {
-    setCustomerInfo({ ...customerInfo, [e.target.name]: e.target.value });
-  };
-
-  const handleCardDetailsChange = (e) => {
-    setIsCardDetailFilled(e.complete);
-    if (e.error) {
-      displayInfoNotification("Issue With Card Details", e.error.message);
-    }
-  };
-
-  return (
-    <CheckoutFormContainer onSubmit={handleCheckout}>
-      <SubHeading>Customer Info</SubHeading>
-      <FormInput
-        label="Name"
-        name="name"
-        inputChangeHandler={handleCustomerDetailsChange}
-        inputValue={customerInfo.name}
-        required
-      />
-      <FormInput
-        label="Email"
-        name="email"
-        type="email"
-        inputChangeHandler={handleCustomerDetailsChange}
-        inputValue={customerInfo.email}
-        required
-      />
-      <FormInput
-        label="Phone Number"
-        name="phone"
-        pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$"
-        title="123-456-7890 or 123 456 7890"
-        inputChangeHandler={handleCustomerDetailsChange}
-        inputValue={customerInfo.phone}
-        required
-      />
-      <SubHeading>Billing & Shipping Details</SubHeading>
-      <FormInput
-        label="Street"
-        name="line1"
-        inputChangeHandler={handleBillingDetailsChange}
-        inputValue={billingDetails.line1}
-        required
-      />
-      <FormInput
-        label="City"
-        name="city"
-        inputChangeHandler={handleBillingDetailsChange}
-        inputValue={billingDetails.city}
-        required
-      />
-      <FormInput label="Country" name="country" inputValue="Canada" readOnly />
-      <FormInput
-        label="Postal Code"
-        name="postal_code"
-        pattern="^([A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d)$"
-        title="A1A 2A3 or A1A2A3"
-        inputChangeHandler={handleBillingDetailsChange}
-        inputValue={billingDetails.postal_code}
-        required
-        uppercaseInput
-      />
-      <SubHeading>Payment Details</SubHeading>
-      <CardElementContainer>
-        <CardElement
-          options={cardElementOptions}
-          onChange={handleCardDetailsChange}
+  switch (activeStep) {
+    case 1:
+      return (
+        <CustomerInfo
+          nextStep={nextStep}
+          handleChange={handleChange}
+          formValues={checkoutFormData.customerInfo}
         />
-      </CardElementContainer>
-      <PayNowButton
-        type="submit"
-        disabled={isCheckingOut || !stripe || !isCardDetailFilled}
-      >
-        {isCheckingOut ? (
-          <LoadingText>Processing Payment</LoadingText>
-        ) : (
-          `Pay $${amountToBePaid}`
-        )}
-      </PayNowButton>
-    </CheckoutFormContainer>
-  );
+      );
+    case 2:
+      return (
+        <BillingDetails
+          prevStep={prevStep}
+          nextStep={nextStep}
+          handleChange={handleChange}
+          formValues={checkoutFormData.billingDetails}
+        />
+      );
+    // case 3:
+    //   return (
+    //     <ShippingDetails
+    //       prevStep={prevStep}
+    //       nextStep={nextStep}
+    //       handleChange={handleChange}
+    //       formValues={checkoutFormData.shippingDetails}
+    //     />
+    //   );
+    case 3:
+      return (
+        <CardDetails
+          prevStep={prevStep}
+          handleSubmit={submitPayment}
+          stripeLoaded={!!stripe}
+          amountToBePaid={amountToBePaid}
+        />
+      );
+    default:
+      return null;
+  }
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  displayInfoNotification: (title, msg) =>
-    dispatch(addInfoNotification(title, msg)),
   startCheckout: (
     stripeInstance,
     cardElement,
-    customerInfo,
-    billingDetails,
-    shippingDetails,
+    checkoutFormData,
     onSuccessfulCheckout,
     amountToBePaid
   ) =>
@@ -163,17 +119,11 @@ const mapDispatchToProps = (dispatch) => ({
       startCheckout(
         stripeInstance,
         cardElement,
-        customerInfo,
-        billingDetails,
-        shippingDetails,
+        checkoutFormData,
         onSuccessfulCheckout,
         amountToBePaid
       )
     )
 });
 
-const mapStateToProps = (state) => ({
-  isCheckingOut: selectIsCheckingOut(state)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);
+export default connect(null, mapDispatchToProps)(CheckoutForm);
