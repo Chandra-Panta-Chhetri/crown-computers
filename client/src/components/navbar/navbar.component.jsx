@@ -28,6 +28,11 @@ const NavBar = ({ currentUser, hidden, logOut }) => (
       <NavItem to="/shop" activeClassName="active">
         Shop
       </NavItem>
+      {currentUser && (
+        <NavItem to="/wishlists" activeClassName="active">
+          Wish Lists
+        </NavItem>
+      )}
       {!currentUser ? (
         <NavItem to="/login" activeClassName="active">
           Log In
