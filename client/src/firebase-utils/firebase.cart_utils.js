@@ -5,14 +5,15 @@ import {
 } from "./firebase.product_utils";
 import { truncate } from "../redux/cart/cart.sagas";
 
-const cartCollectionRef = firestore.collection("carts");
-const cartItemCollectionRef = firestore.collection("cart_items");
+export const cartCollectionRef = firestore.collection("carts");
+export const cartItemCollectionRef = firestore.collection("cart_items");
 
-export const createNewCart = async (userRef) => {
+export const createNewCart = async (userRef, isWishlist = false, extraInfo) => {
   const cartRef = await cartCollectionRef.add({
     cartItems: [],
-    isWishlist: false,
-    userRef
+    isWishlist,
+    userRef,
+    ...extraInfo
   });
   return cartRef;
 };
@@ -93,7 +94,7 @@ export const saveCart = async (cartWithoutCartItemRefs, cartId) => {
   await cartRef.update({ cartItems: cartWithCartItemRefs });
 };
 
-const populateCartItemFromRef = async (cartItemRef) => {
+export const populateCartItemFromRef = async (cartItemRef) => {
   try {
     let cartItemSnapshot = await cartItemRef.get();
     let { productRef, quantity } = cartItemSnapshot.data();
@@ -125,7 +126,7 @@ const populateCart = async (cartWithCartItemRefs) => {
   return populatedCart;
 };
 
-const replaceCartWithCartItemRefs = async (cartWithoutCartItemRefs) => {
+export const replaceCartWithCartItemRefs = async (cartWithoutCartItemRefs) => {
   const cartWithCartItemRefs = [];
   const batch = firestore.batch();
   for (let cartItem of cartWithoutCartItemRefs) {

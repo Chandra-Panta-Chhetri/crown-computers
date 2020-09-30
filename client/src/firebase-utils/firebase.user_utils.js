@@ -27,3 +27,8 @@ export const createOrGetUser = async (userAuth, extraData) => {
   }
   return userRef;
 };
+
+export const getUserRefById = (userId) => {
+  const userRef = firestore.doc(`users/${userId}`);
+  return userRef;
+};
