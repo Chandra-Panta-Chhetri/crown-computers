@@ -20,10 +20,16 @@ export const getUserWishlists = async (userId) => {
   const wishlists = {};
   const wishlistSnapshots = await getWishlistSnapshots(userId);
   for (let wishlistSnapshot of wishlistSnapshots) {
-    let wishlistWithRefs = wishlistSnapshot.data().cartItems;
+    let {
+      cartItems: wishlistWithRefs,
+      wishlistName,
+      createdAt
+    } = wishlistSnapshot.data();
     let wishlistWithoutRefs = await populateCart(wishlistWithRefs);
     wishlists[wishlistSnapshot.id] = {
-      items: wishlistWithoutRefs
+      items: wishlistWithoutRefs,
+      wishlistName,
+      createdAt
     };
   }
   return wishlists;
@@ -38,9 +44,13 @@ export const getWishlistById = async (wishlistId) => {
   try {
     const wishlistRef = getWishlistRefById(wishlistId);
     const wishlistSnapshot = await wishlistRef.get();
-    const { cartItems } = wishlistSnapshot.data();
-    let wishlistWithoutRefs = await populateCart(cartItems);
-    return { items: wishlistWithoutRefs };
+    const {
+      cartItems: wishlistWithRefs,
+      wishlistName,
+      createdAt
+    } = wishlistSnapshot.data();
+    let wishlistWithoutRefs = await populateCart(wishlistWithRefs);
+    return { items: wishlistWithoutRefs, wishlistName, createdAt };
   } catch (err) {
     return null;
   }
@@ -59,10 +69,17 @@ export const saveWishlists = async (wishlists) => {
   }
 };
 
-export const createNewWishlist = async (userId, wishlistName) => {
+export const createNewWishlist = async (userId, newWishlistInfo) => {
   const userRef = getUserRefById(userId);
+  const createdAt = new Date();
   const newWishlistRef = await createNewCart(userRef, true, {
-    name: wishlistName
+    ...newWishlistInfo,
+    createdAt
   });
-  return { wishlistId: newWishlistRef.id, items: [] };
+  return {
+    wishlistId: newWishlistRef.id,
+    items: [],
+    createdAt,
+    ...newWishlistInfo
+  };
 };

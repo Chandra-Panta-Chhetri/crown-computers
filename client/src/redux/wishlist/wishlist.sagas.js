@@ -92,8 +92,12 @@ function* createWishlist({ payload: { newWishlistInfo } }) {
   try {
     const wishlists = yield select(selectWishlists);
     const { id } = yield select(selectCurrentUser);
-    const newWishlist = yield createNewWishlist(id, name);
-    yield put(createWishlistSuccess(name, [...wishlists, ...newWishlist]));
+    const newWishlist = yield createNewWishlist(id, { wishlistName: name });
+    wishlists[newWishlist.wishlistId] = {
+      ...newWishlist
+    };
+    delete wishlists[newWishlist.wishlistId].wishlistId;
+    yield put(createWishlistSuccess(name, { ...wishlists }));
   } catch (err) {
     yield put(
       createWishlistFail(
