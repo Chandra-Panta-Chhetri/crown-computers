@@ -17,15 +17,14 @@ const getWishlistSnapshots = async (userId) => {
 };
 
 export const getUserWishlists = async (userId) => {
-  const wishlists = [];
+  const wishlists = {};
   const wishlistSnapshots = await getWishlistSnapshots(userId);
   for (let wishlistSnapshot of wishlistSnapshots) {
     let wishlistWithRefs = wishlistSnapshot.data().cartItems;
     let wishlistWithoutRefs = await populateCart(wishlistWithRefs);
-    wishlists.push({
-      items: wishlistWithoutRefs,
-      wishlistId: wishlistSnapshot.id
-    });
+    wishlists[wishlistSnapshot.id] = {
+      items: wishlistWithoutRefs
+    };
   }
   return wishlists;
 };

@@ -151,7 +151,7 @@ function* handleRemovingItemFromWishlist({
     const updatedWishlists = yield removeItemFromWishlist(
       wishlists,
       wishlistId,
-      item.id
+      item
     );
     yield put(
       updateWishlistSuccess(

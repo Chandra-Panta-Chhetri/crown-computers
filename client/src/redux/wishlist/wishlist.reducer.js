@@ -1,7 +1,7 @@
 import WISHLIST_ACTION_TYPES from "./wishlist.action.types";
 
 const INITIAL_STATE = {
-  wishlists: [],
+  wishlists: {},
   wishlistData: {},
   isFetchingWishlists: false,
   isUpdatingWishlist: false,
