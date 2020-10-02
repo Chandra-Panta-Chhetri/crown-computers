@@ -15,9 +15,9 @@ export const wishlistsFetchSuccess = (wishlists) => ({
   payload: wishlists
 });
 
-export const startWishlistFetchById = (wishlistId, userId) => ({
+export const startWishlistFetchById = (wishlistId) => ({
   type: WISHLIST_ACTION_TYPES.FETCH_WISHLIST_BY_ID_START,
-  payload: { wishlistId, userId }
+  payload: wishlistId
 });
 
 export const fetchWishlistByIdFail = (errorMsg) => ({
@@ -30,14 +30,61 @@ export const fetchWishlistByIdSuccess = (wishlist) => ({
   payload: wishlist
 });
 
-export const addToWishlist = (item, wishlistId) => ({
-  type: WISHLIST_ACTION_TYPES.START_ADD_TO_WISHLIST,
-  payload: { item, wishlistId, loadingText: "Adding item to wishlist" }
+export const deleteWishlistById = (wishlistId, wishlistName) => ({
+  type: WISHLIST_ACTION_TYPES.START_WISHLIST_DELETE_BY_ID,
+  payload: {
+    wishlistId,
+    wishlistName,
+    loadingText: `Deleting ${wishlistName} wishlist`
+  }
 });
 
-export const removeFromWishlist = (item, wishlistId) => ({
+export const deleteWishlistByIdFail = (errorMsg) => ({
+  type: WISHLIST_ACTION_TYPES.WISHLIST_DELETE_BY_ID_FAIL,
+  payload: errorMsg
+});
+
+export const deleteWishlistByIdSuccess = (notificationMsg) => ({
+  type: WISHLIST_ACTION_TYPES.WISHLIST_DELETE_BY_ID_SUCCESS,
+  payload: notificationMsg
+});
+
+export const createNewWishlist = (newWishlistInfo) => ({
+  type: WISHLIST_ACTION_TYPES.CREATE_NEW_WISHLIST,
+  payload: {
+    newWishlistInfo,
+    loadingText: `Creating ${newWishlistInfo.name} wishlist`
+  }
+});
+
+export const createWishlistFail = (errorMsg) => ({
+  type: WISHLIST_ACTION_TYPES.CREATE_WISHLIST_FAIL,
+  payload: errorMsg
+});
+
+export const createWishlistSuccess = (wishlistName, wishlists) => ({
+  type: WISHLIST_ACTION_TYPES.CREATE_WISHLIST_SUCCESS,
+  payload: { wishlistName, wishlists }
+});
+
+export const addToWishlist = (item, wishlistId, wishlistName) => ({
+  type: WISHLIST_ACTION_TYPES.START_ADD_TO_WISHLIST,
+  payload: {
+    item,
+    wishlistId,
+    wishlistName,
+    loadingText: `Adding item to ${wishlistName}`
+  }
+});
+
+export const removeFromWishlist = (item, wishlistId, wishlistName) => ({
   type: WISHLIST_ACTION_TYPES.START_REMOVE_FROM_WISHLIST,
-  payload: { item, wishlistId, loadingText: "Removing item from wishlist" }
+  payload: {
+    item,
+    wishlistId,
+    wishlistName,
+    loadingText: `Removing item from ${wishlistName}`
+  }
 });
 
 export const updateWishlistFail = (errorTitle, errorMsg) => ({
@@ -48,26 +95,8 @@ export const updateWishlistFail = (errorTitle, errorMsg) => ({
 export const updateWishlistSuccess = (
   wishlists,
   notificationTitle,
-  notificationMessage
+  notificationMsg
 ) => ({
   type: WISHLIST_ACTION_TYPES.UPDATE_WISHLIST_SUCCESS,
-  payload: { wishlists, notificationTitle, notificationMessage }
-});
-
-export const deleteWishlistById = (wishlistId) => ({
-  type: WISHLIST_ACTION_TYPES.START_WISHLIST_DELETE_BY_ID,
-  payload: { wishlistId, loadingText: "Deleting wishlist" }
-});
-
-export const deleteWishlistByIdFail = (errorTitle, errorMsg) => ({
-  type: WISHLIST_ACTION_TYPES.WISHLIST_DELETE_BY_ID_FAIL,
-  payload: { errorTitle, errorMsg }
-});
-
-export const deleteWishlistByIdSuccess = (
-  notificationTitle,
-  notificationMessage
-) => ({
-  type: WISHLIST_ACTION_TYPES.WISHLIST_DELETE_BY_ID_SUCCESS,
-  payload: { notificationTitle, notificationMessage }
+  payload: { wishlists, notificationTitle, notificationMsg }
 });

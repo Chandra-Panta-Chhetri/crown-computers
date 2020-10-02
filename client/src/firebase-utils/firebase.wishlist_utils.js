@@ -18,17 +18,15 @@ const getWishlistSnapshots = async (userId) => {
 
 export const getUserWishlists = async (userId) => {
   const wishlists = [];
-  try {
-    const wishlistSnapshots = await getWishlistSnapshots(userId);
-    for (let wishlistSnapshot of wishlistSnapshots) {
-      let wishlistWithRefs = wishlistSnapshot.data().cartItems;
-      let wishlistWithoutRefs = await populateCart(wishlistWithRefs);
-      wishlists.push({
-        items: wishlistWithoutRefs,
-        wishlistId: wishlistSnapshot.id
-      });
-    }
-  } catch (err) {}
+  const wishlistSnapshots = await getWishlistSnapshots(userId);
+  for (let wishlistSnapshot of wishlistSnapshots) {
+    let wishlistWithRefs = wishlistSnapshot.data().cartItems;
+    let wishlistWithoutRefs = await populateCart(wishlistWithRefs);
+    wishlists.push({
+      items: wishlistWithoutRefs,
+      wishlistId: wishlistSnapshot.id
+    });
+  }
   return wishlists;
 };
 
@@ -50,23 +48,22 @@ export const getWishlistById = async (wishlistId) => {
 };
 
 export const deleteWishlistById = async (wishlistId) => {
-  try {
-    const wishlistRef = getWishlistRefById(wishlistId);
-    await wishlistRef.delete();
-  } catch (err) {}
+  const wishlistRef = getWishlistRefById(wishlistId);
+  await wishlistRef.delete();
 };
 
 export const saveWishlists = async (wishlists) => {
-  try {
-    for (let wishlist of wishlists) {
-      let wishlistItems = wishlist.items;
-      let wishlistId = wishlist.id;
-      await saveCart(wishlistItems, wishlistId);
-    }
-  } catch (err) {}
+  for (let wishlist of wishlists) {
+    let wishlistItems = wishlist.items;
+    let wishlistId = wishlist.id;
+    await saveCart(wishlistItems, wishlistId);
+  }
 };
 
 export const createNewWishlist = async (userId, wishlistName) => {
   const userRef = getUserRefById(userId);
-  await createNewCart(userRef, true, { name: wishlistName });
+  const newWishlistRef = await createNewCart(userRef, true, {
+    name: wishlistName
+  });
+  return { wishlistId: newWishlistRef.id, items: [] };
 };

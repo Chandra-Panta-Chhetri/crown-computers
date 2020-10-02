@@ -36,6 +36,7 @@ const wishlistReducer = (prevState = INITIAL_STATE, action) => {
     case WISHLIST_ACTION_TYPES.START_ADD_TO_WISHLIST:
     case WISHLIST_ACTION_TYPES.START_REMOVE_FROM_WISHLIST:
     case WISHLIST_ACTION_TYPES.START_WISHLIST_DELETE_BY_ID:
+    case WISHLIST_ACTION_TYPES.CREATE_NEW_WISHLIST:
       return {
         ...prevState,
         isUpdatingWishlist: true,
@@ -43,11 +44,13 @@ const wishlistReducer = (prevState = INITIAL_STATE, action) => {
       };
     case WISHLIST_ACTION_TYPES.UPDATE_WISHLIST_FAIL:
     case WISHLIST_ACTION_TYPES.WISHLIST_DELETE_BY_ID_FAIL:
+    case WISHLIST_ACTION_TYPES.CREATE_WISHLIST_FAIL:
       return {
         ...prevState,
         isUpdatingWishlist: false
       };
     case WISHLIST_ACTION_TYPES.UPDATE_WISHLIST_SUCCESS:
+    case WISHLIST_ACTION_TYPES.CREATE_WISHLIST_SUCCESS:
       return {
         ...prevState,
         isUpdatingWishlist: false,
