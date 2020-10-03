@@ -113,7 +113,7 @@ export const populateCartItemFromRef = async (cartItemRef) => {
   }
 };
 
-const populateCart = async (cartWithCartItemRefs) => {
+export const populateCart = async (cartWithCartItemRefs) => {
   const populatedCart = [];
   try {
     for (let cartItemRef of cartWithCartItemRefs) {

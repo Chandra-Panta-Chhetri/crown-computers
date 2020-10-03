@@ -1,5 +1,5 @@
 import WISHLIST_ACTION_TYPES from "./wishlist.action.types";
-import { all, put, select, takeLatest } from "redux-saga/effects";
+import { all, put, select, takeLatest, call } from "redux-saga/effects";
 import {
   createNewWishlist,
   getUserWishlists,
@@ -161,7 +161,7 @@ function* handleRemovingItemFromWishlist({
       updateWishlistSuccess(
         updatedWishlists,
         `Removed From ${wishlistName}`,
-        `${truncate(item.name)} was removed from ${wishlist}`
+        `${truncate(item.name)} was removed from ${wishlistName}`
       )
     );
   } catch (err) {
