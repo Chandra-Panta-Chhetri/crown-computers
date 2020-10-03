@@ -29,7 +29,6 @@ export const ModalContent = styled.div`
 export const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
 export const ModalTitle = styled.h3`
@@ -47,6 +46,7 @@ export const ModalHeader = styled.span`
 
     &:hover {
       color: black;
+      transform: scale(1.3);
     }
   }
 `;

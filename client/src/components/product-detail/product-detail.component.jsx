@@ -7,7 +7,8 @@ import {
   ProductCategory,
   ProductName,
   ProductDescription,
-  ProductStock
+  ProductStock,
+  AddProductToCart
 } from "./product-detail.styles";
 
 import Tabs from "../tabs/tabs.component";
@@ -15,7 +16,6 @@ import Tab from "../tab/tab.component";
 import ProductsCarousel from "../products-carousel/products-carousel.component";
 import ProductImageCarousel from "../product-image-carousel/product-image-carousel.component";
 import Banner from "../banner/banner.component";
-import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
 import ProductDetailSkeleton from "../product-detail-skeleton/product-detail-skeleton.component";
 
 import { compose } from "redux";
@@ -88,7 +88,9 @@ const ProductDetail = ({
               </Tabs>
               <ProductActionContainer>
                 <ProductPrice>${price}</ProductPrice>
-                <AddToCartButton itemToAddOnClick={{ ...product, productId }} />
+                <AddProductToCart
+                  itemToAddOnClick={{ ...product, productId }}
+                />
               </ProductActionContainer>
               {stock < 10 && <ProductStock>{stock} left in stock</ProductStock>}
             </ProductInfoContainer>

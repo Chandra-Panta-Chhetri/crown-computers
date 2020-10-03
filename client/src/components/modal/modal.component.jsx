@@ -7,13 +7,19 @@ import {
   ModalTitle
 } from "./modal.styles";
 
-const Modal = ({ isOpen = false, children, closeModalHandler, modalTitle }) => {
+const Modal = ({
+  isOpen = false,
+  children,
+  closeModalHandler,
+  modalTitle,
+  className
+}) => {
   const handleClose = () => {
     closeModalHandler();
   };
 
   return (
-    <ModalContainer isOpen={isOpen}>
+    <ModalContainer isOpen={isOpen} className={className}>
       <ModalContent>
         <ModalHeader>
           <ModalTitle>{modalTitle}</ModalTitle>

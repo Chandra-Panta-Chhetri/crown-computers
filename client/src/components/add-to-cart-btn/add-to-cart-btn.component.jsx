@@ -1,5 +1,6 @@
 import React from "react";
-import { AddToCartBtnContainer } from "./add-to-cart-btn.styles";
+
+import Button from "../button/button.component";
 
 import { connect } from "react-redux";
 import { addToCart } from "../../redux/cart/cart.actions";
@@ -8,15 +9,16 @@ import { selectCartItemQuantityById } from "../../redux/cart/cart.selectors";
 const AddToCartButton = ({
   addToCart,
   itemToAddOnClick,
-  itemQuantityInCart
+  itemQuantityInCart,
+  className
 }) => (
-  <AddToCartBtnContainer
+  <Button
+    className={className}
     onClick={() => addToCart(itemToAddOnClick)}
     disabled={itemQuantityInCart === itemToAddOnClick.stock}
-    isDisabled={itemQuantityInCart === itemToAddOnClick.stock}
   >
     Add To Cart
-  </AddToCartBtnContainer>
+  </Button>
 );
 
 const mapStateToProps = (state, ownProps) => ({

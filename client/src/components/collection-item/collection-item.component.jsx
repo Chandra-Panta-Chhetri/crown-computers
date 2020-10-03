@@ -7,10 +7,9 @@ import {
   ItemCategory,
   ItemPrice,
   ItemStock,
-  ItemName
+  ItemName,
+  AddItemToCartBtn
 } from "./collection-item.styles";
-
-import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
 
 import { withRouter } from "react-router-dom";
 
@@ -21,7 +20,7 @@ const CollectionItem = ({ item, history, intersectionCb }) => {
       <ItemImageContainer>
         <ItemImage src={imageUrls[0]} alt={name} />
         <ItemStock>In Stock: {stock}</ItemStock>
-        <AddToCartButton itemToAddOnClick={item} />
+        <AddItemToCartBtn itemToAddOnClick={item} />
       </ItemImageContainer>
       <ItemInfoContainer>
         <ItemCategory

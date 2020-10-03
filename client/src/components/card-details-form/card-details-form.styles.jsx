@@ -11,12 +11,6 @@ export const LoadingText = styled.p`
 
 export const PayNowButton = styled(Button)`
   float: right;
-
-  &:disabled {
-    opacity: 0.3;
-    filter: grayscale(100%);
-    pointer-events: none;
-  }
 `;
 
 export const CardElementContainer = styled.div`

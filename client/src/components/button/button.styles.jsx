@@ -1,11 +1,10 @@
 import styled, { css } from "styled-components";
-import { secondaryColor } from "../../global.styles";
 
 const buttonStyles = css`
   box-sizing: border-box;
   appearance: none;
   background-color: transparent;
-  border: 2px solid ${secondaryColor};
+  border: 2px solid ${(props) => props.color};
   cursor: pointer;
   font-size: 1rem;
   line-height: 1;
@@ -14,11 +13,17 @@ const buttonStyles = css`
   text-transform: uppercase;
   font-weight: 700;
   border-radius: 6px;
-  color: ${secondaryColor};
+  color: ${(props) => props.color};
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: color 250ms ease-in-out;
+
+  &:disabled {
+    opacity: 0.3;
+    filter: grayscale(100%);
+    pointer-events: none;
+  }
 
   &:focus {
     outline: 0;
@@ -44,7 +49,7 @@ const buttonStyles = css`
     transform: translateX(-50%);
     width: 0;
     height: 100%;
-    background: ${secondaryColor};
+    background: ${(props) => props.color};
     z-index: -1;
     transition: width 250ms ease-in-out;
   }

@@ -7,6 +7,8 @@ import {
 } from "./wishlist-overview.styles";
 
 import WishlistPreview from "../wishlist-preview/wishlist-preview.component";
+import Modal from "../modal/modal.component";
+import { useState } from "react";
 
 const testWishlists = [
   {
@@ -34,19 +36,17 @@ const testWishlists = [
         imageUrl: "https://dummyimage.com/400"
       }
     ]
-  },
-  { wishlistName: "Test 2", createdAt: new Date(), items: [] },
-  { wishlistName: "Test 3", createdAt: new Date(), items: [] },
-  { wishlistName: "Test 4", createdAt: new Date(), items: [] },
-  { wishlistName: "Test 5", createdAt: new Date(), items: [] }
+  }
 ];
 
 const WishListOverview = ({ wishlists = testWishlists }) => {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
   const numOfWishlists = wishlists.length;
   return (
     <WishlistOverviewContainer>
       <CreateWishlistBtn isIconButton iconClass="fas fa-plus">
-        Create New Wishlist
+        New Wishlist
       </CreateWishlistBtn>
       <WishlistsContainer numberOfWishlists={numOfWishlists}>
         {wishlists.map(({ wishlistName, createdAt, items }, index) => (

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Button from "../button/button.component";
 import Card from "../card/card.component";
+import Modal from "../modal/modal.component";
+import { ModalContent } from "../modal/modal.styles";
 
 export const WishlistPreviewContainer = styled.section`
   width: 33%;
@@ -75,4 +77,19 @@ export const Ellipsis = styled.span`
 
 export const ViewWishlistBtn = styled(Button)`
   margin-top: auto;
+`;
+
+export const WishlistDeleteModal = styled(Modal)`
+  ${ModalContent} {
+    height: 50%;
+  }
+`;
+
+export const DeleteModalButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  button:first-child {
+    margin-right: 30px;
+  }
 `;
