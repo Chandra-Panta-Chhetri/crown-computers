@@ -11,7 +11,7 @@ export const CreateWishlistBtn = styled(Button)`
   padding-right: 1.2rem;
 
   i {
-    width: 14%;
+    width: 15%;
   }
 `;
 

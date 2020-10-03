@@ -45,7 +45,7 @@ const WishListOverview = ({ wishlists = testWishlists }) => {
   const numOfWishlists = wishlists.length;
   return (
     <WishlistOverviewContainer>
-      <CreateWishlistBtn type="icon" iconClass="fas fa-plus">
+      <CreateWishlistBtn isIconButton iconClass="fas fa-plus">
         Create New Wishlist
       </CreateWishlistBtn>
       <WishlistsContainer numberOfWishlists={numOfWishlists}>

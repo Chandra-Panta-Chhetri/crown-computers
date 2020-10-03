@@ -3,18 +3,17 @@ import { ButtonContainer, ButtonWithIconContainer } from "./button.styles";
 
 const Button = ({
   children,
-  type = "default",
+  isIconButton = false,
   iconClass,
   ...otherButtonAttr
 }) => (
   <>
-    {type === "default" && (
-      <ButtonContainer {...otherButtonAttr}>{children}</ButtonContainer>
-    )}
-    {type === "icon" && (
+    {isIconButton ? (
       <ButtonWithIconContainer {...otherButtonAttr}>
         <i className={iconClass}></i> <span>{children}</span>
       </ButtonWithIconContainer>
+    ) : (
+      <ButtonContainer {...otherButtonAttr}>{children}</ButtonContainer>
     )}
   </>
 );
