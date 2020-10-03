@@ -5,6 +5,7 @@ import Card from "../card/card.component";
 export const WishlistPreviewContainer = styled.section`
   width: 33%;
   padding: 0.8em;
+  min-height: 430px;
 `;
 
 export const PreviewCard = styled(Card)`
@@ -73,4 +74,22 @@ export const Ellipsis = styled.span`
 
 export const ViewWishlistBtn = styled(Button)`
   margin-top: auto;
+  display: flex;
+  align-items: center;
+  padding-right: 2.2rem;
+  justify-content: flex-end;
+
+  i {
+    margin-right: 5px;
+    border-right: 2px solid;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 `;

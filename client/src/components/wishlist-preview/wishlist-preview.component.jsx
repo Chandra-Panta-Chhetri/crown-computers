@@ -26,7 +26,8 @@ const WishlistPreview = ({
   createdAt,
   items,
   history,
-  wishlistId
+  wishlistId,
+  match
 }) => (
   <WishlistPreviewContainer>
     <PreviewCard>
@@ -42,17 +43,22 @@ const WishlistPreview = ({
         {createdAt.toDateString()}
       </WishlistCreationDate>
       <WishlistItemPreviewContainer>
-        {items.slice(0, NUM_ITEMS_TO_SHOW).map(({ name, price, imageUrl }) => (
-          <WishlistItemPreview>
-            <WishlistItemImage src={imageUrl} alt={name} />
-            <WishlistItemName>{truncate(name, 20)}</WishlistItemName>
-            <WishlistItemPrice>${price} ea.</WishlistItemPrice>
-          </WishlistItemPreview>
-        ))}
+        {items
+          .slice(0, NUM_ITEMS_TO_SHOW)
+          .map(({ name, price, imageUrl }, index) => (
+            <WishlistItemPreview key={index}>
+              <WishlistItemImage src={imageUrl} alt={name} />
+              <WishlistItemName>{truncate(name, 20)}</WishlistItemName>
+              <WishlistItemPrice>${price} ea.</WishlistItemPrice>
+            </WishlistItemPreview>
+          ))}
       </WishlistItemPreviewContainer>
       {items.length > NUM_ITEMS_TO_SHOW && <Ellipsis>...</Ellipsis>}
-      <ViewWishlistBtn onClick={() => history.push(`wishlists/${wishlistId}`)}>
-        Wishlist Details
+      <ViewWishlistBtn
+        onClick={() => history.push(`${match.path}/${wishlistId}`)}
+      >
+        <i className="fas fa-info-circle"></i>
+        <span>Wishlist Details</span>
       </ViewWishlistBtn>
     </PreviewCard>
   </WishlistPreviewContainer>
