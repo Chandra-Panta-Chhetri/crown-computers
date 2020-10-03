@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { secondaryColor } from "../../global.styles";
 
-export const ButtonContainer = styled.button`
+const buttonStyles = css`
   box-sizing: border-box;
   appearance: none;
   background-color: transparent;
@@ -47,5 +47,31 @@ export const ButtonContainer = styled.button`
     background: ${secondaryColor};
     z-index: -1;
     transition: width 250ms ease-in-out;
+  }
+`;
+
+export const ButtonContainer = styled.button`
+  ${buttonStyles}
+`;
+
+export const ButtonWithIconContainer = styled.button`
+  ${buttonStyles}
+  display: flex;
+  align-items: center;
+  padding-right: 2.2rem;
+  justify-content: flex-end;
+
+  i {
+    margin-right: 5px;
+    border-right: 2px solid;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 `;

@@ -45,8 +45,8 @@ const WishListOverview = ({ wishlists = testWishlists }) => {
   const numOfWishlists = wishlists.length;
   return (
     <WishlistOverviewContainer>
-      <CreateWishlistBtn>
-        <i className="fas fa-list"></i> Create New Wishlist
+      <CreateWishlistBtn type="icon" iconClass="fas fa-plus">
+        Create New Wishlist
       </CreateWishlistBtn>
       <WishlistsContainer numberOfWishlists={numOfWishlists}>
         {wishlists.map(({ wishlistName, createdAt, items }, index) => (

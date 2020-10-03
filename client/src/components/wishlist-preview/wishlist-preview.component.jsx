@@ -56,9 +56,10 @@ const WishlistPreview = ({
       {items.length > NUM_ITEMS_TO_SHOW && <Ellipsis>...</Ellipsis>}
       <ViewWishlistBtn
         onClick={() => history.push(`${match.path}/${wishlistId}`)}
+        type="icon"
+        iconClass="fas fa-info-circle"
       >
-        <i className="fas fa-info-circle"></i>
-        <span>Wishlist Details</span>
+        Wishlist Details
       </ViewWishlistBtn>
     </PreviewCard>
   </WishlistPreviewContainer>

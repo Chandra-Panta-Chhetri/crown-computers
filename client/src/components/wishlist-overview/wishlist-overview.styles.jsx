@@ -8,6 +8,11 @@ export const WishlistOverviewContainer = styled.section`
 
 export const CreateWishlistBtn = styled(Button)`
   margin: 0 23px 20px auto;
+  padding-right: 1.2rem;
+
+  i {
+    width: 14%;
+  }
 `;
 
 export const NoWishlistsText = styled.p`

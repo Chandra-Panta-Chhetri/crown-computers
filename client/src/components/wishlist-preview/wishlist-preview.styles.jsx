@@ -41,6 +41,7 @@ export const WishlistCreationDate = styled.p`
 export const WishlistItemPreviewContainer = styled.section`
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
 
   div:last-child {
     margin-bottom: 0;
@@ -74,22 +75,4 @@ export const Ellipsis = styled.span`
 
 export const ViewWishlistBtn = styled(Button)`
   margin-top: auto;
-  display: flex;
-  align-items: center;
-  padding-right: 2.2rem;
-  justify-content: flex-end;
-
-  i {
-    margin-right: 5px;
-    border-right: 2px solid;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
 `;
