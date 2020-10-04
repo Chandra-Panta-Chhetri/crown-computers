@@ -23,6 +23,14 @@ export const CreateWishlistBtn = styled(Button)`
   float: right;
 `;
 
+export const TotalWishlistsText = styled.p`
+  text-align: left;
+  margin-top: 0;
+  margin-left: 12px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+`;
+
 export const NoWishlistsText = styled.p`
   font-size: 18px;
   text-align: center;

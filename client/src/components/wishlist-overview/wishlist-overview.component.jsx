@@ -5,7 +5,8 @@ import {
   NewWishlistBtn,
   NoWishlistsText,
   CreateWishlistModal,
-  CreateWishlistBtn
+  CreateWishlistBtn,
+  TotalWishlistsText
 } from "./wishlist-overview.styles";
 import { LoadingText } from "../card-details-form/card-details-form.styles";
 
@@ -61,6 +62,11 @@ const WishListOverview = ({
       >
         New Wishlist
       </NewWishlistBtn>
+      {numOfWishlists > 0 && (
+        <TotalWishlistsText>
+          Total Wishlists: {numOfWishlists}
+        </TotalWishlistsText>
+      )}
       <CreateWishlistModal
         isOpen={isAddModalOpen}
         closeModalHandler={closeModal}
