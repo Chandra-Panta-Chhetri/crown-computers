@@ -92,7 +92,7 @@ const WishlistPreview = ({
             {isDeleting ? (
               <LoadingText>Deleting Wishlist</LoadingText>
             ) : (
-              "Yes, Delete"
+              "Delete Wishlist"
             )}
           </Button>
         </DeleteModalButtonContainer>

@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   WishlistsContainer,
   WishlistOverviewContainer,
-  CreateWishlistBtn,
-  NoWishlistsText
+  NewWishlistBtn,
+  NoWishlistsText,
+  CreateWishlistModal,
+  CreateWishlistBtn
 } from "./wishlist-overview.styles";
+import { LoadingText } from "../card-details-form/card-details-form.styles";
 
 import WishlistPreview from "../wishlist-preview/wishlist-preview.component";
-import Modal from "../modal/modal.component";
-import { useState } from "react";
+import FormInput from "../form-input/form-input.component";
+import { connect } from "react-redux";
+import { createNewWishlist } from "../../redux/wishlist/wishlist.actions";
+import { selectIsUpdatingWishlist } from "../../redux/wishlist/wishlist.selectors";
 
 const testWishlists = [
   {
@@ -39,15 +44,53 @@ const testWishlists = [
   }
 ];
 
-const WishListOverview = ({ wishlists = testWishlists }) => {
+const WishListOverview = ({
+  wishlists = testWishlists,
+  startCreatingWishlist,
+  isCreatingWishlist
+}) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
   const numOfWishlists = wishlists.length;
+  const [newWishlistName, setNewWishlistName] = useState("");
+
+  const createWishlist = (e) => {
+    e.preventDefault();
+    //startCreatingWishlist({wishlistName: newWishlistName})
+    console.log(newWishlistName);
+  };
+
+  const handleChange = (e) => setNewWishlistName(e.target.value);
+
   return (
     <WishlistOverviewContainer>
-      <CreateWishlistBtn isIconButton iconClass="fas fa-plus">
+      <NewWishlistBtn
+        isIconButton
+        iconClass="fas fa-plus"
+        onClick={() => setIsAddModalOpen(true)}
+      >
         New Wishlist
-      </CreateWishlistBtn>
+      </NewWishlistBtn>
+      <CreateWishlistModal
+        isOpen={isAddModalOpen}
+        closeModalHandler={() => setIsAddModalOpen(false)}
+        modalTitle="Create New Wishlist"
+      >
+        <form onSubmit={createWishlist}>
+          <FormInput
+            label="Wishlist Name"
+            inputValue={newWishlistName}
+            inputChangeHandler={handleChange}
+            required
+          />
+          <CreateWishlistBtn type="submit" disabled={isCreatingWishlist}>
+            {isCreatingWishlist ? (
+              <LoadingText>Creating Wishlist</LoadingText>
+            ) : (
+              "Create Wishlist"
+            )}
+          </CreateWishlistBtn>
+        </form>
+      </CreateWishlistModal>
       <WishlistsContainer numberOfWishlists={numOfWishlists}>
         {wishlists.map(({ wishlistName, createdAt, items }, index) => (
           <WishlistPreview
@@ -67,4 +110,13 @@ const WishListOverview = ({ wishlists = testWishlists }) => {
   );
 };
 
-export default WishListOverview;
+const mapStateToProps = (state) => ({
+  isCreatingWishlist: selectIsUpdatingWishlist(state)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  createWishlist: (newWishlistInfo) =>
+    dispatch(createNewWishlist(newWishlistInfo))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WishListOverview);
