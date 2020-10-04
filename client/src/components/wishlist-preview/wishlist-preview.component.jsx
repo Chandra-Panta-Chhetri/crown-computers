@@ -40,6 +40,8 @@ const WishlistPreview = ({
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  const closeModal = () => setIsDeleteModalOpen(false);
+
   return (
     <WishlistPreviewContainer>
       <PreviewCard>
@@ -75,7 +77,7 @@ const WishlistPreview = ({
       </PreviewCard>
       <WishlistDeleteModal
         isOpen={isDeleteModalOpen}
-        closeModalHandler={() => setIsDeleteModalOpen(false)}
+        closeModalHandler={closeModal}
         modalTitle="Wishlist Delete Confirmation"
       >
         <p>
@@ -83,10 +85,10 @@ const WishlistPreview = ({
           you sure you want to delete {wishlistName}?
         </p>
         <DeleteModalButtonContainer>
-          <Button onClick={() => setIsDeleteModalOpen(false)}>Cancel</Button>
+          <Button onClick={closeModal}>Cancel</Button>
           <Button
             color="red"
-            onClick={() => deleteWishlist(wishlistId)}
+            onClick={() => deleteWishlist(wishlistId, closeModal)}
             disabled={isDeleting}
           >
             {isDeleting ? (
@@ -106,7 +108,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteWishlist: (wishlistId) => dispatch(deleteWishlistById(wishlistId))
+  deleteWishlist: (wishlistId, onSuccess) =>
+    dispatch(deleteWishlistById(wishlistId, onSuccess))
 });
 
 export default compose(

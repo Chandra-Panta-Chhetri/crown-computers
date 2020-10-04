@@ -64,12 +64,15 @@ function* handleWishlistFetchByIdFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Getting Wishlist Failed", errorMsg));
 }
 
-function* removeWishlistById({ payload: { wishlistId, wishlistName } }) {
+function* removeWishlistById({
+  payload: { wishlistId, wishlistName, onSuccess }
+}) {
   try {
     yield deleteWishlistById(wishlistId);
     yield put(
       deleteWishlistByIdSuccess(`${wishlistName} has been successfully deleted`)
     );
+    yield onSuccess();
   } catch (err) {
     yield put(
       deleteWishlistByIdFail(
@@ -87,21 +90,22 @@ function* handleRemoveWishlistSuccess({ payload: successMsg }) {
   yield put(addSuccessNotification("Wishlist Deleted", successMsg));
 }
 
-function* createWishlist({ payload: { newWishlistInfo } }) {
-  const { name } = newWishlistInfo;
+function* createWishlist({ payload: { newWishlistInfo, onSuccess } }) {
+  const { wishlistName } = newWishlistInfo;
   try {
     const wishlists = yield select(selectWishlists);
     const { id } = yield select(selectCurrentUser);
-    const newWishlist = yield createNewWishlist(id, { wishlistName: name });
+    const newWishlist = yield createNewWishlist(id, newWishlistInfo);
     wishlists[newWishlist.wishlistId] = {
       ...newWishlist
     };
     delete wishlists[newWishlist.wishlistId].wishlistId;
-    yield put(createWishlistSuccess(name, { ...wishlists }));
+    yield put(createWishlistSuccess(wishlistName, { ...wishlists }));
+    yield onSuccess();
   } catch (err) {
     yield put(
       createWishlistFail(
-        `A problem occurred while creating ${name} wishlist. Please try again`
+        `A problem occurred while creating ${wishlistName} wishlist. Please ensure you are logged in`
       )
     );
   }

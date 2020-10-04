@@ -30,11 +30,12 @@ export const fetchWishlistByIdSuccess = (wishlist) => ({
   payload: wishlist
 });
 
-export const deleteWishlistById = (wishlistId, wishlistName) => ({
+export const deleteWishlistById = (wishlistId, wishlistName, onSuccess) => ({
   type: WISHLIST_ACTION_TYPES.START_WISHLIST_DELETE_BY_ID,
   payload: {
     wishlistId,
     wishlistName,
+    onSuccess,
     loadingText: `Deleting ${wishlistName} wishlist`
   }
 });
@@ -49,10 +50,11 @@ export const deleteWishlistByIdSuccess = (notificationMsg) => ({
   payload: notificationMsg
 });
 
-export const createNewWishlist = (newWishlistInfo) => ({
+export const createNewWishlist = (newWishlistInfo, onSuccess) => ({
   type: WISHLIST_ACTION_TYPES.CREATE_NEW_WISHLIST,
   payload: {
     newWishlistInfo,
+    onSuccess,
     loadingText: `Creating ${newWishlistInfo.name} wishlist`
   }
 });

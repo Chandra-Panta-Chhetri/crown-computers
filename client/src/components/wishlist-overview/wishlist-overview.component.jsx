@@ -53,10 +53,19 @@ const WishListOverview = ({
   const numOfWishlists = wishlists.length;
   const [newWishlistName, setNewWishlistName] = useState("");
 
+  const closeModal = () => setIsAddModalOpen(false);
+
+  const onSuccessfulCreation = () => {
+    closeModal();
+    setNewWishlistName("");
+  };
+
   const createWishlist = (e) => {
     e.preventDefault();
-    //startCreatingWishlist({wishlistName: newWishlistName})
-    console.log(newWishlistName);
+    startCreatingWishlist(
+      { wishlistName: newWishlistName },
+      onSuccessfulCreation
+    );
   };
 
   const handleChange = (e) => setNewWishlistName(e.target.value);
@@ -72,7 +81,7 @@ const WishListOverview = ({
       </NewWishlistBtn>
       <CreateWishlistModal
         isOpen={isAddModalOpen}
-        closeModalHandler={() => setIsAddModalOpen(false)}
+        closeModalHandler={closeModal}
         modalTitle="Create New Wishlist"
       >
         <form onSubmit={createWishlist}>
@@ -115,8 +124,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  createWishlist: (newWishlistInfo) =>
-    dispatch(createNewWishlist(newWishlistInfo))
+  startCreatingWishlist: (newWishlistInfo, onSuccess) =>
+    dispatch(createNewWishlist(newWishlistInfo, onSuccess))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishListOverview);
