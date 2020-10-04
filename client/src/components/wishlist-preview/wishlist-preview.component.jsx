@@ -58,9 +58,9 @@ const WishlistPreview = ({
         <WishlistItemPreviewContainer>
           {items
             .slice(0, NUM_ITEMS_TO_SHOW)
-            .map(({ name, price, imageUrl }, index) => (
+            .map(({ name, price, imageUrls }, index) => (
               <WishlistItemPreview key={index}>
-                <WishlistItemImage src={imageUrl} alt={name} />
+                <WishlistItemImage src={imageUrls[0]} alt={name} />
                 <WishlistItemName>{truncate(name, 20)}</WishlistItemName>
                 <WishlistItemPrice>${price} ea.</WishlistItemPrice>
               </WishlistItemPreview>

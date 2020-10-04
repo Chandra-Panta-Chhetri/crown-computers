@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   WishlistsContainer,
   WishlistOverviewContainer,
@@ -11,9 +11,15 @@ import { LoadingText } from "../card-details-form/card-details-form.styles";
 
 import WishlistPreview from "../wishlist-preview/wishlist-preview.component";
 import FormInput from "../form-input/form-input.component";
+import Spinner from "../spinner/spinner.component";
+
 import { connect } from "react-redux";
-import { createNewWishlist } from "../../redux/wishlist/wishlist.actions";
 import {
+  createNewWishlist,
+  startWishlistsFetch
+} from "../../redux/wishlist/wishlist.actions";
+import {
+  selectIsFetchingWishlists,
   selectIsUpdatingWishlist,
   selectWishlists
 } from "../../redux/wishlist/wishlist.selectors";
@@ -21,12 +27,18 @@ import {
 const WishListOverview = ({
   wishlists,
   startCreatingWishlist,
-  isCreatingWishlist
+  isCreatingWishlist,
+  isFetchingWishlists,
+  fetchWishlists
 }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newWishlistName, setNewWishlistName] = useState("");
-  const numOfWishlists = Object.keys(wishlists).length;
-  const wishlistIds = Object.keys(wishlists);
+  const numOfWishlists = Object.keys(wishlists).length || 0;
+  const wishlistIds = Object.keys(wishlists) || [];
+
+  useEffect(() => {
+    fetchWishlists();
+  }, [fetchWishlists]);
 
   const closeModal = () => {
     setIsAddModalOpen(false);
@@ -71,14 +83,18 @@ const WishListOverview = ({
         </form>
       </CreateWishlistModal>
       <WishlistsContainer numberOfWishlists={numOfWishlists}>
-        {wishlistIds.map((wishlistId) => (
-          <WishlistPreview
-            key={wishlistId}
-            wishlistId={wishlistId}
-            {...wishlists[wishlistId]}
-          />
-        ))}
-        {!numOfWishlists && (
+        {!isFetchingWishlists ? (
+          wishlistIds.map((wishlistId) => (
+            <WishlistPreview
+              key={wishlistId}
+              wishlistId={wishlistId}
+              {...wishlists[wishlistId]}
+            />
+          ))
+        ) : (
+          <Spinner loadingText="Getting latest wishlists" />
+        )}
+        {!numOfWishlists && !isFetchingWishlists && (
           <NoWishlistsText>
             It seems you have no wishlists. Create one using the button above!
           </NoWishlistsText>
@@ -90,12 +106,14 @@ const WishListOverview = ({
 
 const mapStateToProps = (state) => ({
   isCreatingWishlist: selectIsUpdatingWishlist(state),
-  wishlists: selectWishlists(state)
+  wishlists: selectWishlists(state),
+  isFetchingWishlists: selectIsFetchingWishlists(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   startCreatingWishlist: (newWishlistInfo, onSuccess) =>
-    dispatch(createNewWishlist(newWishlistInfo, onSuccess))
+    dispatch(createNewWishlist(newWishlistInfo, onSuccess)),
+  fetchWishlists: () => dispatch(startWishlistsFetch())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishListOverview);

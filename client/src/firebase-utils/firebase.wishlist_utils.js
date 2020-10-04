@@ -29,7 +29,7 @@ export const getUserWishlists = async (userId) => {
     wishlists[wishlistSnapshot.id] = {
       items: wishlistWithoutRefs,
       wishlistName,
-      createdAt
+      createdAt: createdAt.toDate()
     };
   }
   return wishlists;
