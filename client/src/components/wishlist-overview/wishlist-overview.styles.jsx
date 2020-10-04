@@ -1,26 +1,13 @@
 import styled from "styled-components";
-import Button from "../button/button.component";
-import Modal from "../modal/modal.component";
-import { ModalContent } from "../modal/modal.styles";
+import CreateWishlistBtn from "../create-wishlist-btn/create-wishlist-btn.component";
 
 export const WishlistOverviewContainer = styled.section`
   display: flex;
   flex-direction: column;
 `;
 
-export const NewWishlistBtn = styled(Button)`
+export const StyledCreateWishlistBtn = styled(CreateWishlistBtn)`
   margin: 0 23px 20px auto;
-  padding-right: 1rem;
-`;
-
-export const CreateWishlistModal = styled(Modal)`
-  ${ModalContent} {
-    height: 52%;
-  }
-`;
-
-export const CreateWishlistBtn = styled(Button)`
-  float: right;
 `;
 
 export const TotalWishlistsText = styled.p`
