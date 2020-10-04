@@ -7,7 +7,11 @@ import {
   saveWishlists,
   deleteWishlistById
 } from "../../firebase-utils/firebase.wishlist_utils";
-import { addItemToWishlist, removeItemFromWishlist } from "./wishlist.utils";
+import {
+  addItemToWishlist,
+  removeItemFromWishlist,
+  removeWishlist
+} from "./wishlist.utils";
 import { truncate } from "../cart/cart.sagas";
 import {
   wishlistsFetchFail,
@@ -68,15 +72,20 @@ function* removeWishlistById({
   payload: { wishlistId, wishlistName, onSuccess }
 }) {
   try {
+    const wishlists = yield select(selectWishlists);
     yield deleteWishlistById(wishlistId);
+    const updatedWishlists = yield removeWishlist(wishlists, wishlistId);
     yield put(
-      deleteWishlistByIdSuccess(`${wishlistName} has been successfully deleted`)
+      deleteWishlistByIdSuccess(
+        `${wishlistName} has been successfully deleted`,
+        updatedWishlists
+      )
     );
     yield onSuccess();
   } catch (err) {
     yield put(
       deleteWishlistByIdFail(
-        `There was a problem while trying to delete ${wishlistName}`
+        `There was a problem deleting ${wishlistName}. It has either been already deleted or you do not have permission`
       )
     );
   }
@@ -86,8 +95,8 @@ function* handleRemoveWishlistFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Deleting Wishlist Failed", errorMsg));
 }
 
-function* handleRemoveWishlistSuccess({ payload: successMsg }) {
-  yield put(addSuccessNotification("Wishlist Deleted", successMsg));
+function* handleRemoveWishlistSuccess({ payload: { notificationMsg } }) {
+  yield put(addSuccessNotification("Wishlist Deleted", notificationMsg));
 }
 
 function* createWishlist({ payload: { newWishlistInfo, onSuccess } }) {

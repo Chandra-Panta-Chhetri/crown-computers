@@ -33,6 +33,7 @@ export const RemoveWishlistBtn = styled.span`
 export const WishlistName = styled.p`
   margin: 0 0 5px;
   font-weight: bold;
+  text-transform: capitalize;
 `;
 
 export const WishlistCreationDate = styled.p`

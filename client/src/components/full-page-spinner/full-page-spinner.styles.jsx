@@ -13,7 +13,7 @@ export const FullPageSpinnerContainer = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.9);
   z-index: 9999;
   visibility: ${(props) => (props.isLoading ? "visible" : "hidden")};
 
@@ -39,5 +39,6 @@ export const FullPageSpinnerText = styled.p`
   width: 170px;
   height: 24px;
   text-align: center;
+  text-transform: capitalize;
   ${loadingDotsAnimationStyles}
 `;

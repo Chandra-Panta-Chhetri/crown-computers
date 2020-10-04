@@ -1,34 +1,5 @@
 import WISHLIST_ACTION_TYPES from "./wishlist.action.types";
 
-const testWishlists = [
-  {
-    wishlistName: "Test",
-    createdAt: new Date(),
-    items: [
-      {
-        name: "Sample product Testing Some super long name",
-        price: 35.0,
-        imageUrl: "https://dummyimage.com/400"
-      },
-      {
-        name: "Sample product Testing Some super long name",
-        price: 1235.0,
-        imageUrl: "https://dummyimage.com/400"
-      },
-      {
-        name: "Sample product Testing Some super long name",
-        price: 1000.0,
-        imageUrl: "https://dummyimage.com/400"
-      },
-      {
-        name: "Sample product Testing Some super long name",
-        price: 1235.0,
-        imageUrl: "https://dummyimage.com/400"
-      }
-    ]
-  }
-];
-
 const INITIAL_STATE = {
   wishlists: {},
   wishlistData: {},
@@ -80,6 +51,7 @@ const wishlistReducer = (prevState = INITIAL_STATE, action) => {
       };
     case WISHLIST_ACTION_TYPES.UPDATE_WISHLIST_SUCCESS:
     case WISHLIST_ACTION_TYPES.CREATE_WISHLIST_SUCCESS:
+    case WISHLIST_ACTION_TYPES.WISHLIST_DELETE_BY_ID_SUCCESS:
       return {
         ...prevState,
         isUpdatingWishlist: false,

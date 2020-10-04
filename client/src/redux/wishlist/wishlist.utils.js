@@ -34,3 +34,11 @@ export const removeItemFromWishlist = async (wishlists, wishlistId, item) => {
   }
   return wishlists;
 };
+
+export const removeWishlist = (wishlists, wishlistId) => {
+  if (wishlists[wishlistId]) {
+    delete wishlists[wishlistId];
+    return { ...wishlists };
+  }
+  return wishlists;
+};

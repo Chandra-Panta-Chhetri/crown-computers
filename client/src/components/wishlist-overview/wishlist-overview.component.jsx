@@ -24,8 +24,9 @@ const WishListOverview = ({
   isCreatingWishlist
 }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const numOfWishlists = Object.keys(wishlists).length;
   const [newWishlistName, setNewWishlistName] = useState("");
+  const numOfWishlists = Object.keys(wishlists).length;
+  const wishlistIds = Object.keys(wishlists);
 
   const closeModal = () => {
     setIsAddModalOpen(false);
@@ -70,7 +71,7 @@ const WishListOverview = ({
         </form>
       </CreateWishlistModal>
       <WishlistsContainer numberOfWishlists={numOfWishlists}>
-        {Object.keys(wishlists).map((wishlistId) => (
+        {wishlistIds.map((wishlistId) => (
           <WishlistPreview
             key={wishlistId}
             wishlistId={wishlistId}

@@ -3,6 +3,11 @@ import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import Spinner from "../../components/spinner/spinner.component";
 import FullPageSpinner from "../../components/full-page-spinner/full-page-spinner.component";
+import { connect } from "react-redux";
+import {
+  selectIsUpdatingWishlist,
+  selectWishlistLoadingText
+} from "../../redux/wishlist/wishlist.selectors";
 
 const WishListOverview = lazy(() =>
   import("../../components/wishlist-overview/wishlist-overview.component")
@@ -14,7 +19,7 @@ const PageNotFound = lazy(() =>
   import("../../components/page-not-found/page-not-found.component")
 );
 
-const WishList = ({ match }) => {
+const WishList = ({ match, loadingText, isUpdatingWishlist }) => {
   return (
     <article>
       <Suspense fallback={<Spinner />}>
@@ -28,9 +33,17 @@ const WishList = ({ match }) => {
           <Route component={PageNotFound} />
         </Switch>
       </Suspense>
-      <FullPageSpinner isLoading={false} loadingText="Wishlist loading text" />
+      <FullPageSpinner
+        isLoading={isUpdatingWishlist}
+        loadingText={loadingText}
+      />
     </article>
   );
 };
 
-export default WishList;
+const mapStateToProps = (state) => ({
+  loadingText: selectWishlistLoadingText(state),
+  isUpdatingWishlist: selectIsUpdatingWishlist(state)
+});
+
+export default connect(mapStateToProps)(WishList);

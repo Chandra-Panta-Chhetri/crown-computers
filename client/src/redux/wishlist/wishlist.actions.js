@@ -45,9 +45,9 @@ export const deleteWishlistByIdFail = (errorMsg) => ({
   payload: errorMsg
 });
 
-export const deleteWishlistByIdSuccess = (notificationMsg) => ({
+export const deleteWishlistByIdSuccess = (notificationMsg, wishlists) => ({
   type: WISHLIST_ACTION_TYPES.WISHLIST_DELETE_BY_ID_SUCCESS,
-  payload: notificationMsg
+  payload: { notificationMsg, wishlists }
 });
 
 export const createNewWishlist = (newWishlistInfo, onSuccess) => ({
@@ -55,7 +55,7 @@ export const createNewWishlist = (newWishlistInfo, onSuccess) => ({
   payload: {
     newWishlistInfo,
     onSuccess,
-    loadingText: `Creating ${newWishlistInfo.name} wishlist`
+    loadingText: `Creating ${newWishlistInfo.wishlistName} wishlist`
   }
 });
 

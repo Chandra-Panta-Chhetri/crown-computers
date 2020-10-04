@@ -22,7 +22,7 @@ export const selectIsUpdatingWishlist = createSelector(
   (wishlist) => wishlist.isUpdatingWishlist
 );
 
-export const selectLoadingText = createSelector(
+export const selectWishlistLoadingText = createSelector(
   [selectWishlist],
   (wishlist) => wishlist.loadingText
 );
