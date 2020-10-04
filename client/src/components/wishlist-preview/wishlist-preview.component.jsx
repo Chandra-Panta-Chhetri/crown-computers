@@ -88,7 +88,7 @@ const WishlistPreview = ({
           <Button onClick={closeModal}>Cancel</Button>
           <Button
             color="red"
-            onClick={() => deleteWishlist(wishlistId, closeModal)}
+            onClick={() => deleteWishlist(wishlistId, wishlistName, closeModal)}
             disabled={isDeleting}
           >
             {isDeleting ? (
@@ -108,8 +108,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteWishlist: (wishlistId, onSuccess) =>
-    dispatch(deleteWishlistById(wishlistId, onSuccess))
+  deleteWishlist: (wishlistId, wishlistName, onSuccess) =>
+    dispatch(deleteWishlistById(wishlistId, wishlistName, onSuccess))
 });
 
 export default compose(

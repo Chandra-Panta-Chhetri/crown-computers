@@ -103,6 +103,7 @@ function* createWishlist({ payload: { newWishlistInfo, onSuccess } }) {
     yield put(createWishlistSuccess(wishlistName, { ...wishlists }));
     yield onSuccess();
   } catch (err) {
+    console.log(err.message);
     yield put(
       createWishlistFail(
         `A problem occurred while creating ${wishlistName} wishlist. Please ensure you are logged in`

@@ -13,59 +13,28 @@ import WishlistPreview from "../wishlist-preview/wishlist-preview.component";
 import FormInput from "../form-input/form-input.component";
 import { connect } from "react-redux";
 import { createNewWishlist } from "../../redux/wishlist/wishlist.actions";
-import { selectIsUpdatingWishlist } from "../../redux/wishlist/wishlist.selectors";
-
-const testWishlists = [
-  {
-    wishlistName: "Test",
-    createdAt: new Date(),
-    items: [
-      {
-        name: "Sample product Testing Some super long name",
-        price: 35.0,
-        imageUrl: "https://dummyimage.com/400"
-      },
-      {
-        name: "Sample product Testing Some super long name",
-        price: 1235.0,
-        imageUrl: "https://dummyimage.com/400"
-      },
-      {
-        name: "Sample product Testing Some super long name",
-        price: 1000.0,
-        imageUrl: "https://dummyimage.com/400"
-      },
-      {
-        name: "Sample product Testing Some super long name",
-        price: 1235.0,
-        imageUrl: "https://dummyimage.com/400"
-      }
-    ]
-  }
-];
+import {
+  selectIsUpdatingWishlist,
+  selectWishlists
+} from "../../redux/wishlist/wishlist.selectors";
 
 const WishListOverview = ({
-  wishlists = testWishlists,
+  wishlists,
   startCreatingWishlist,
   isCreatingWishlist
 }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const numOfWishlists = wishlists.length;
+  const numOfWishlists = Object.keys(wishlists).length;
   const [newWishlistName, setNewWishlistName] = useState("");
 
-  const closeModal = () => setIsAddModalOpen(false);
-
-  const onSuccessfulCreation = () => {
-    closeModal();
+  const closeModal = () => {
+    setIsAddModalOpen(false);
     setNewWishlistName("");
   };
 
   const createWishlist = (e) => {
     e.preventDefault();
-    startCreatingWishlist(
-      { wishlistName: newWishlistName },
-      onSuccessfulCreation
-    );
+    startCreatingWishlist({ wishlistName: newWishlistName }, closeModal);
   };
 
   const handleChange = (e) => setNewWishlistName(e.target.value);
@@ -101,12 +70,11 @@ const WishListOverview = ({
         </form>
       </CreateWishlistModal>
       <WishlistsContainer numberOfWishlists={numOfWishlists}>
-        {wishlists.map(({ wishlistName, createdAt, items }, index) => (
+        {Object.keys(wishlists).map((wishlistId) => (
           <WishlistPreview
-            key={index}
-            wishlistName={wishlistName}
-            createdAt={createdAt}
-            items={items}
+            key={wishlistId}
+            wishlistId={wishlistId}
+            {...wishlists[wishlistId]}
           />
         ))}
         {!numOfWishlists && (
@@ -120,7 +88,8 @@ const WishListOverview = ({
 };
 
 const mapStateToProps = (state) => ({
-  isCreatingWishlist: selectIsUpdatingWishlist(state)
+  isCreatingWishlist: selectIsUpdatingWishlist(state),
+  wishlists: selectWishlists(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

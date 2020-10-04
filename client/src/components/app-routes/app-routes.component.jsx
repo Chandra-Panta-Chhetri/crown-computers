@@ -35,7 +35,7 @@ const AppRoutes = ({ currentUser }) => (
     <Route
       path="/wishlists"
       render={(props) =>
-        currentUser ? <Redirect to="/" /> : <WishList {...props} />
+        !currentUser ? <Redirect to="/" /> : <WishList {...props} />
       }
     />
     <Route component={PageNotFound} />
