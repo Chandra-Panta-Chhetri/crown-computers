@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import Button from "../button/button.component";
 import Card from "../card/card.component";
-import Modal from "../modal/modal.component";
-import { ModalContent } from "../modal/modal.styles";
+import Button from "../button/button.component";
+import RemoveWishlistBtn from "../remove-wishlist-btn/remove-wishlist-btn.component";
 
 export const WishlistPreviewContainer = styled.section`
   width: 33%;
@@ -14,9 +13,7 @@ export const PreviewCard = styled(Card)`
   position: relative;
 `;
 
-export const RemoveWishlistBtn = styled.span`
-  cursor: pointer;
-  color: red;
+export const StyledRemoveWishlistBtn = styled(RemoveWishlistBtn)`
   position: absolute;
   top: 15px;
   right: 12px;
@@ -51,25 +48,6 @@ export const WishlistItemPreviewContainer = styled.section`
   }
 `;
 
-export const WishlistItemPreview = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-`;
-
-export const WishlistItemImage = styled.img`
-  width: 40px;
-  margin-right: 10px;
-`;
-
-export const WishlistItemName = styled.span`
-  flex-grow: 1;
-  text-transform: capitalize;
-`;
-
-export const WishlistItemPrice = styled.span`
-  white-space: nowrap;
-`;
-
 export const Ellipsis = styled.span`
   text-align: center;
   font-size: 1.8rem;
@@ -78,19 +56,4 @@ export const Ellipsis = styled.span`
 
 export const ViewWishlistBtn = styled(Button)`
   margin-top: auto;
-`;
-
-export const WishlistDeleteModal = styled(Modal)`
-  ${ModalContent} {
-    height: 50%;
-  }
-`;
-
-export const DeleteModalButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-
-  button:first-child {
-    margin-right: 30px;
-  }
 `;
