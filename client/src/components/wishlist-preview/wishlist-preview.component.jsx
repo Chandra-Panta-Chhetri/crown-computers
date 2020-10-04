@@ -108,8 +108,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteWishlist: (wishlistId, wishlistName, onSuccess) =>
-    dispatch(deleteWishlistById(wishlistId, wishlistName, onSuccess))
+  deleteWishlist: (wishlistId, wishlistName) =>
+    dispatch(deleteWishlistById(wishlistId, wishlistName))
 });
 
 export default compose(

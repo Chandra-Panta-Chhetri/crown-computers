@@ -68,9 +68,7 @@ function* handleWishlistFetchByIdFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Getting Wishlist Failed", errorMsg));
 }
 
-function* removeWishlistById({
-  payload: { wishlistId, wishlistName, onSuccess }
-}) {
+function* removeWishlistById({ payload: { wishlistId, wishlistName } }) {
   try {
     const wishlists = yield select(selectWishlists);
     yield deleteWishlistById(wishlistId);
@@ -81,7 +79,6 @@ function* removeWishlistById({
         updatedWishlists
       )
     );
-    yield onSuccess();
   } catch (err) {
     yield put(
       deleteWishlistByIdFail(

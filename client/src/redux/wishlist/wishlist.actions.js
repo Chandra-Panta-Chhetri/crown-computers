@@ -30,12 +30,11 @@ export const fetchWishlistByIdSuccess = (wishlist) => ({
   payload: wishlist
 });
 
-export const deleteWishlistById = (wishlistId, wishlistName, onSuccess) => ({
+export const deleteWishlistById = (wishlistId, wishlistName) => ({
   type: WISHLIST_ACTION_TYPES.START_WISHLIST_DELETE_BY_ID,
   payload: {
     wishlistId,
     wishlistName,
-    onSuccess,
     loadingText: `Deleting ${wishlistName} wishlist`
   }
 });
