@@ -12,7 +12,7 @@ const CartSummaryItems = ({ cartItems }) => (
     <TableHeading>
       <tr>
         <TableHeadingItem>Product</TableHeadingItem>
-        <TableHeadingItem>Price</TableHeadingItem>
+        <TableHeadingItem>Unit Price</TableHeadingItem>
         <TableHeadingItem>Quantity</TableHeadingItem>
         <TableHeadingItem>Total</TableHeadingItem>
         <TableHeadingItem>Remove</TableHeadingItem>

@@ -27,7 +27,7 @@ const WishList = ({ match, loadingText, isUpdatingWishlist }) => {
           <Route exact path={`${match.path}`} component={WishListOverview} />
           <Route
             exact
-            path={`${match.path}/:wishListId`}
+            path={`${match.path}/:wishlistId`}
             component={WishListDetail}
           />
           <Route component={PageNotFound} />

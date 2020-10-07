@@ -1,8 +1,35 @@
 import WISHLIST_ACTION_TYPES from "./wishlist.action.types";
 
+const dummyWishlist = {
+  wishlistName: "birthday",
+  items: [
+    {
+      category: "drives",
+      description: "Lorem Ipsum",
+      imageUrls: ["https://dummyimage.com/400x400"],
+      name: "Seagate BarraCuda",
+      price: 74.99,
+      productId: "4jQdkjKEKqQtL9JtZsI2",
+      stock: 1,
+      specifications: []
+    },
+    {
+      category: "drives",
+      description: "Lorem Ipsum",
+      imageUrls: ["https://dummyimage.com/400x400"],
+      name: "Seagate BarraCuda",
+      price: 74.99,
+      productId: "4jQdkjKEKqQtL9JtZsI2",
+      stock: 1,
+      specifications: []
+    }
+  ],
+  createdAt: new Date()
+};
+
 const INITIAL_STATE = {
   wishlists: {},
-  wishlistData: {},
+  wishlistData: dummyWishlist,
   isFetchingWishlists: false,
   isUpdatingWishlist: false,
   loadingText: ""
