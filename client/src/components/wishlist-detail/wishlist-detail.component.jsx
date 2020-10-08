@@ -1,14 +1,26 @@
 import React, { useEffect } from "react";
 import {
-  WishlistDetailContainer,
   BackToWishlistsBtn,
-  WishlistTable,
-  AddAllToCart
+  WishlistItemsTable,
+  AddAllToCart,
+  WishlistName,
+  WishlistCreatedDate,
+  ItemTableData,
+  Header,
+  WishlistItemCategory,
+  WishlistItemName
 } from "./wishlist-detail.styles";
 import {
-  TableHeading,
-  TableHeadingItem
+  TableHeadings,
+  TableHeading
 } from "../cart-summary-items/cart-summary-items.styles";
+import {
+  ProductMetaInfo,
+  ProductImage,
+  ProductInfo,
+  RemoveItemButton,
+  Icon
+} from "../cart-summary-item/cart-summary-item.styles";
 
 import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
 
@@ -34,57 +46,33 @@ const WishListDetail = ({
   }, [wishlistId]);
 
   return (
-    <WishlistDetailContainer>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start"
-        }}
-      >
+    <article>
+      <Header>
         <BackToWishlistsBtn
           onClick={() => history.push("/wishlists")}
-          isIconButton
+          variant="no-border"
           iconClass="fas fa-angle-double-left"
         >
           Back to all wishlists
         </BackToWishlistsBtn>
         <div>
-          <p
-            style={{
-              textTransform: "capitalize",
-              fontWeight: "bold",
-              margin: "0",
-              textAlign: "right",
-              fontSize: "16px",
-              letterSpacing: "1.9px"
-            }}
-          >
-            {wishlistName}
-          </p>
-          <p
-            style={{
-              margin: "5px 0 0",
-              fontSize: "16px",
-              letterSpacing: "1.9px",
-              fontWeight: "bold"
-            }}
-          >
+          <WishlistName>{wishlistName}</WishlistName>
+          <WishlistCreatedDate>
             <i className="far fa-calendar-alt"></i> Created On:{" "}
             {createdAt.toDateString()}
-          </p>
+          </WishlistCreatedDate>
         </div>
-      </div>
-      <WishlistTable>
-        <TableHeading>
+      </Header>
+      <WishlistItemsTable>
+        <TableHeadings>
           <tr>
-            <TableHeadingItem>Product</TableHeadingItem>
-            <TableHeadingItem>Unit Price</TableHeadingItem>
-            <TableHeadingItem>Left In Stock</TableHeadingItem>
-            <TableHeadingItem></TableHeadingItem>
-            <TableHeadingItem>Remove</TableHeadingItem>
+            <TableHeading>Product</TableHeading>
+            <TableHeading>Unit Price</TableHeading>
+            <TableHeading>Left In Stock</TableHeading>
+            <TableHeading></TableHeading>
+            <TableHeading>Remove</TableHeading>
           </tr>
-        </TableHeading>
+        </TableHeadings>
         <tbody>
           {items.map((wishlistItem, i) => {
             const {
@@ -97,69 +85,42 @@ const WishListDetail = ({
             } = wishlistItem;
             return (
               <tr key={i}>
-                <td style={{ padding: "0.9em" }}>
-                  <div style={{ display: "flex" }}>
-                    <img
-                      src={imageUrls[0]}
-                      alt={name}
-                      style={{ width: "80px", height: "80px" }}
-                    />
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        marginLeft: "15px",
-                        textAlign: "left"
-                      }}
-                    >
-                      <p
-                        style={{
-                          margin: "0",
-                          textTransform: "uppercase",
-                          fontWeight: "bold",
-                          cursor: "pointer"
-                        }}
+                <ItemTableData>
+                  <ProductMetaInfo>
+                    <ProductImage src={imageUrls[0]} alt={name} />
+                    <ProductInfo>
+                      <WishlistItemCategory
                         onClick={() =>
                           history.push(`/shop/category/${category}`)
                         }
                       >
                         {category}
-                      </p>
-                      <p
-                        style={{ margin: "0", cursor: "pointer" }}
+                      </WishlistItemCategory>
+                      <WishlistItemName
                         onClick={() => history.push(`/shop/${productId}`)}
                       >
                         {name}
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td>${price}</td>
-                <td>{stock}</td>
-                <td>
+                      </WishlistItemName>
+                    </ProductInfo>
+                  </ProductMetaInfo>
+                </ItemTableData>
+                <ItemTableData>${price}</ItemTableData>
+                <ItemTableData>{stock}</ItemTableData>
+                <ItemTableData>
                   <AddToCartButton itemToAddOnClick={wishlistItem} />
-                </td>
-                <td>
-                  <span
-                    style={{
-                      color: "red",
-                      cursor: "pointer",
-                      width: "fit-content"
-                    }}
-                  >
-                    <i
-                      className="fas fa-trash-alt"
-                      style={{ fontSize: "22px" }}
-                    ></i>
-                  </span>
-                </td>
+                </ItemTableData>
+                <ItemTableData>
+                  <RemoveItemButton>
+                    <Icon className="fas fa-trash-alt"></Icon>
+                  </RemoveItemButton>
+                </ItemTableData>
               </tr>
             );
           })}
         </tbody>
-      </WishlistTable>
+      </WishlistItemsTable>
       <AddAllToCart>Add All To Cart</AddAllToCart>
-    </WishlistDetailContainer>
+    </article>
   );
 };
 

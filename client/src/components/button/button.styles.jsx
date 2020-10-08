@@ -19,27 +19,6 @@ const buttonStyles = css`
   z-index: 1;
   transition: color 250ms ease-in-out;
 
-  &:disabled {
-    opacity: 0.3;
-    filter: grayscale(100%);
-    pointer-events: none;
-  }
-
-  &:focus {
-    outline: 0;
-    background: transparent;
-  }
-
-  &:hover {
-    color: #fff;
-    outline: 0;
-    background: transparent;
-
-    &:after {
-      width: 110%;
-    }
-  }
-
   &:after {
     content: "";
     position: absolute;
@@ -55,12 +34,45 @@ const buttonStyles = css`
   }
 `;
 
-export const ButtonContainer = styled.button`
-  ${buttonStyles}
+const buttonHoverStyles = css`
+  &:hover {
+    color: #fff;
+    outline: 0;
+    background: transparent;
+
+    &:after {
+      width: 110%;
+    }
+  }
 `;
 
-export const ButtonWithIconContainer = styled.button`
+const buttonFocusStyles = css`
+  &:focus {
+    outline: 0;
+    background: transparent;
+  }
+`;
+
+const buttonDisabledStyles = css`
+  &:disabled {
+    opacity: 0.3;
+    filter: grayscale(100%);
+    pointer-events: none;
+  }
+`;
+
+export const DefaultButton = styled.button`
   ${buttonStyles}
+  ${buttonHoverStyles}
+  ${buttonFocusStyles}
+  ${buttonDisabledStyles}
+`;
+
+export const ButtonWithIcon = styled.button`
+  ${buttonStyles}
+  ${buttonHoverStyles}
+  ${buttonFocusStyles}
+  ${buttonDisabledStyles}
   display: flex;
   align-items: center;
   padding-right: 2.2rem;
@@ -78,5 +90,22 @@ export const ButtonWithIconContainer = styled.button`
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+`;
+
+export const ButtonWithNoBorder = styled.button`
+  ${buttonStyles}
+  border: none;
+  padding: 0 0 0 5px;
+  ${buttonDisabledStyles}
+
+  &:hover {
+    i {
+      transform: scale(1.4);
+    }
+  }
+
+  i {
+    width: auto !important;
   }
 `;

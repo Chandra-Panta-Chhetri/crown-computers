@@ -2,8 +2,8 @@ import React from "react";
 import {
   ChangeQuantityButton,
   RemoveItemButton,
-  ItemCategory,
-  ItemStockLeft,
+  ProductCategory,
+  ProductStockLeft,
   ItemInfoSection,
   ProductImage,
   ProductInfo,
@@ -28,9 +28,9 @@ const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
           <ProductImage src={imageUrls[0]} alt={name} />
           <ProductInfo>
             <ProductName>{name}</ProductName>
-            <ItemCategory>{category}</ItemCategory>
+            <ProductCategory>{category}</ProductCategory>
             {stock < 10 && (
-              <ItemStockLeft>Only {stock} left in stock</ItemStockLeft>
+              <ProductStockLeft>Only {stock} left in stock</ProductStockLeft>
             )}
           </ProductInfo>
         </ProductMetaInfo>

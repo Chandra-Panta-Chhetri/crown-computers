@@ -5,10 +5,10 @@ export const CartSummaryItemsContainer = styled.table`
   border-collapse: collapse;
 `;
 
-export const TableHeading = styled.thead`
+export const TableHeadings = styled.thead`
   background: #efefef;
 `;
 
-export const TableHeadingItem = styled.th`
+export const TableHeading = styled.th`
   padding: 1.1em;
 `;

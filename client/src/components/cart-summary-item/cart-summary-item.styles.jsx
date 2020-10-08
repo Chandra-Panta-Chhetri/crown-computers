@@ -24,9 +24,10 @@ export const ProductInfo = styled.div`
 
 export const ProductName = styled.h5`
   margin: 0;
+  text-transform: capitalize;
 `;
 
-export const ItemCategory = styled.span`
+export const ProductCategory = styled.span`
   width: fit-content;
   color: gray;
   margin: 4px 0 0;
@@ -35,7 +36,7 @@ export const ItemCategory = styled.span`
   text-transform: uppercase;
 `;
 
-export const ItemStockLeft = styled.span`
+export const ProductStockLeft = styled.span`
   color: red;
   font-weight: 700;
   margin: auto 0 0;
@@ -62,4 +63,8 @@ export const RemoveItemButton = styled.span`
 
 export const Icon = styled.i`
   font-size: 22px;
+
+  &:hover {
+    transform: scale(1.3);
+  }
 `;

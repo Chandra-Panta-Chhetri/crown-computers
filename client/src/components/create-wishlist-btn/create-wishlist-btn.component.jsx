@@ -36,7 +36,7 @@ const CreateWishlistBtn = ({
     <>
       <NewWishlistBtn
         className={className}
-        isIconButton
+        variant="icon"
         iconClass="fas fa-plus"
         onClick={() => setIsAddModalOpen(true)}
       >

@@ -1,23 +1,23 @@
 import React from "react";
 import {
   CartSummaryItemsContainer,
-  TableHeading,
-  TableHeadingItem
+  TableHeadings,
+  TableHeading
 } from "./cart-summary-items.styles";
 
 import CartSummaryItem from "../../components/cart-summary-item/cart-summary-item.component";
 
 const CartSummaryItems = ({ cartItems }) => (
   <CartSummaryItemsContainer>
-    <TableHeading>
+    <TableHeadings>
       <tr>
-        <TableHeadingItem>Product</TableHeadingItem>
-        <TableHeadingItem>Unit Price</TableHeadingItem>
-        <TableHeadingItem>Quantity</TableHeadingItem>
-        <TableHeadingItem>Total</TableHeadingItem>
-        <TableHeadingItem>Remove</TableHeadingItem>
+        <TableHeading>Product</TableHeading>
+        <TableHeading>Unit Price</TableHeading>
+        <TableHeading>Quantity</TableHeading>
+        <TableHeading>Total</TableHeading>
+        <TableHeading>Remove</TableHeading>
       </tr>
-    </TableHeading>
+    </TableHeadings>
     <tbody>
       {cartItems.map((cartItem) => (
         <CartSummaryItem key={cartItem.productId} item={cartItem} />
