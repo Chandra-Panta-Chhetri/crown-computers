@@ -159,14 +159,17 @@ function* handleAddingItemToWishlist({
   }
 }
 
-function* handleRemovingItemFromWishlist({ payload: { item, wishlist } }) {
+function* handleRemovingItemFromWishlist({
+  payload: { item, wishlist, wishlistId }
+}) {
   try {
     const updatedWishlist = yield removeItemFromWishlist(wishlist, item);
     yield put(
       updateWishlistSuccess(
         `Removed From ${wishlist.wishlistName}`,
         `${truncate(item.name)} was removed from ${wishlist.wishlistName}`,
-        updatedWishlist
+        updatedWishlist,
+        wishlistId
       )
     );
   } catch (err) {
