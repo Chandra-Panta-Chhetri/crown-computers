@@ -50,7 +50,11 @@ export const getWishlistById = async (wishlistId) => {
       createdAt
     } = wishlistSnapshot.data();
     let wishlistWithoutRefs = await populateCart(wishlistWithRefs);
-    return { items: wishlistWithoutRefs, wishlistName, createdAt };
+    return {
+      items: wishlistWithoutRefs,
+      wishlistName,
+      createdAt: createdAt.toDate()
+    };
   } catch (err) {
     return null;
   }

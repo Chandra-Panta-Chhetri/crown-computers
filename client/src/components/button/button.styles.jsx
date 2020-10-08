@@ -98,6 +98,7 @@ export const ButtonWithNoBorder = styled.button`
   border: none;
   padding: 0 0 0 5px;
   ${buttonDisabledStyles}
+  ${buttonFocusStyles}
 
   &:hover {
     i {

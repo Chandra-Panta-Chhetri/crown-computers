@@ -50,7 +50,7 @@ function* handleWishlistsFetchFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Getting Wishlists Failed", errorMsg));
 }
 
-function* fetchWishlistById({ payload: wishlistId }) {
+function* fetchWishlistById({ payload: { wishlistId, onFail } }) {
   try {
     const wishlist = yield getWishlistById(wishlistId);
     if (!wishlist) {
@@ -61,6 +61,7 @@ function* fetchWishlistById({ payload: wishlistId }) {
     yield put(
       fetchWishlistByIdFail(`There is no wishlist with id ${wishlistId}`)
     );
+    yield onFail();
   }
 }
 

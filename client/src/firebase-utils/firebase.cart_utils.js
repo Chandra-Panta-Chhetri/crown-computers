@@ -98,13 +98,11 @@ export const populateCartItemFromRef = async (cartItemRef) => {
   try {
     let cartItemSnapshot = await cartItemRef.get();
     let { productRef, quantity } = cartItemSnapshot.data();
-    let productSnapshot = await productRef.get();
-    let product = productSnapshot.data();
-    delete product.productCategoryRef;
+    let { productData } = await getProductDataAndRefById(productRef.id);
     return {
-      productId: productSnapshot.id,
+      productId: productRef.id,
       cartItemId: cartItemSnapshot.id,
-      ...product,
+      ...productData,
       quantity
     };
   } catch (err) {

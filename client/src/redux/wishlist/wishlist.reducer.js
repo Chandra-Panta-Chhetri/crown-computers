@@ -1,35 +1,8 @@
 import WISHLIST_ACTION_TYPES from "./wishlist.action.types";
 
-const dummyWishlist = {
-  wishlistName: "birthday",
-  items: [
-    {
-      category: "drives",
-      description: "Lorem Ipsum",
-      imageUrls: ["https://dummyimage.com/400x400"],
-      name: "Seagate BarraCuda",
-      price: 74.99,
-      productId: "4jQdkjKEKqQtL9JtZsI2",
-      stock: 1,
-      specifications: []
-    },
-    {
-      category: "drives",
-      description: "Lorem Ipsum",
-      imageUrls: ["https://dummyimage.com/400x400"],
-      name: "Seagate BarraCuda",
-      price: 74.99,
-      productId: "4jQdkjKEKqQtL9JtZsI2",
-      stock: 1,
-      specifications: []
-    }
-  ],
-  createdAt: new Date()
-};
-
 const INITIAL_STATE = {
   wishlists: {},
-  wishlistData: dummyWishlist,
+  wishlistData: {},
   isFetchingWishlists: false,
   isUpdatingWishlist: false,
   loadingText: ""
@@ -58,6 +31,7 @@ const wishlistReducer = (prevState = INITIAL_STATE, action) => {
     case WISHLIST_ACTION_TYPES.FETCH_WISHLIST_BY_ID_SUCCESS:
       return {
         ...prevState,
+        isFetchingWishlists: false,
         wishlistData: action.payload
       };
     case WISHLIST_ACTION_TYPES.START_ADD_TO_WISHLIST:

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   BackToWishlistsBtn,
   WishlistItemsTable,
@@ -30,6 +30,7 @@ import {
   selectWishlistData
 } from "../../redux/wishlist/wishlist.selectors";
 import { startWishlistFetchById } from "../../redux/wishlist/wishlist.actions";
+import useRedirect from "../../hooks/useRedirect.hook";
 
 const WishListDetail = ({
   match,
@@ -39,87 +40,98 @@ const WishListDetail = ({
   history
 }) => {
   const wishlistId = match.params.wishlistId;
-  const { wishlistName, items, createdAt } = wishlist;
+  const { redirectComponent } = useRedirect(
+    fetchWishlistById,
+    [wishlistId],
+    "/wishlists"
+  );
 
-  useEffect(() => {
-    //fetchWishlistById(wishlistId)
-  }, [wishlistId]);
+  const { wishlistName, items, createdAt } = wishlist;
+  console.log(wishlist);
 
   return (
     <article>
-      <Header>
-        <BackToWishlistsBtn
-          onClick={() => history.push("/wishlists")}
-          variant="no-border"
-          iconClass="fas fa-angle-double-left"
-        >
-          Back to all wishlists
-        </BackToWishlistsBtn>
-        <div>
-          <WishlistName>{wishlistName}</WishlistName>
-          <WishlistCreatedDate>
-            <i className="far fa-calendar-alt"></i> Created On:{" "}
-            {createdAt.toDateString()}
-          </WishlistCreatedDate>
-        </div>
-      </Header>
-      <WishlistItemsTable>
-        <TableHeadings>
-          <tr>
-            <TableHeading>Product</TableHeading>
-            <TableHeading>Unit Price</TableHeading>
-            <TableHeading>Left In Stock</TableHeading>
-            <TableHeading></TableHeading>
-            <TableHeading>Remove</TableHeading>
-          </tr>
-        </TableHeadings>
-        <tbody>
-          {items.map((wishlistItem, i) => {
-            const {
-              imageUrls,
-              price,
-              stock,
-              name,
-              category,
-              productId
-            } = wishlistItem;
-            return (
-              <tr key={i}>
-                <ItemTableData>
-                  <ProductMetaInfo>
-                    <ProductImage src={imageUrls[0]} alt={name} />
-                    <ProductInfo>
-                      <WishlistItemCategory
-                        onClick={() =>
-                          history.push(`/shop/category/${category}`)
-                        }
-                      >
-                        {category}
-                      </WishlistItemCategory>
-                      <WishlistItemName
-                        onClick={() => history.push(`/shop/${productId}`)}
-                      >
-                        {name}
-                      </WishlistItemName>
-                    </ProductInfo>
-                  </ProductMetaInfo>
-                </ItemTableData>
-                <ItemTableData>${price}</ItemTableData>
-                <ItemTableData>{stock}</ItemTableData>
-                <ItemTableData>
-                  <AddToCartButton itemToAddOnClick={wishlistItem} />
-                </ItemTableData>
-                <ItemTableData>
-                  <RemoveItemButton>
-                    <Icon className="fas fa-trash-alt"></Icon>
-                  </RemoveItemButton>
-                </ItemTableData>
+      {redirectComponent}
+      {!isFetchingWishlist && (
+        <>
+          <Header>
+            <BackToWishlistsBtn
+              onClick={() => history.push("/wishlists")}
+              variant="no-border"
+              iconClass="fas fa-angle-double-left"
+            >
+              Back to all wishlists
+            </BackToWishlistsBtn>
+            <div>
+              <WishlistName>{wishlistName}</WishlistName>
+              <WishlistCreatedDate>
+                <i className="far fa-calendar-alt"></i> Created On:{" "}
+                {createdAt && createdAt.toDateString()}
+              </WishlistCreatedDate>
+            </div>
+          </Header>
+          <WishlistItemsTable>
+            <TableHeadings>
+              <tr>
+                <TableHeading>Product</TableHeading>
+                <TableHeading>Unit Price</TableHeading>
+                <TableHeading>Left In Stock</TableHeading>
+                <TableHeading></TableHeading>
+                <TableHeading>Remove</TableHeading>
               </tr>
-            );
-          })}
-        </tbody>
-      </WishlistItemsTable>
-      <AddAllToCart>Add All To Cart</AddAllToCart>
+            </TableHeadings>
+            <tbody>
+              {items &&
+                items.map((wishlistItem, i) => {
+                  const {
+                    imageUrls,
+                    price,
+                    stock,
+                    name,
+                    category,
+                    productId
+                  } = wishlistItem;
+                  return (
+                    <tr key={i}>
+                      <ItemTableData>
+                        <ProductMetaInfo>
+                          <ProductImage src={imageUrls[0]} alt={name} />
+                          <ProductInfo>
+                            <WishlistItemCategory
+                              onClick={() =>
+                                history.push(`/shop/category/${category}`)
+                              }
+                            >
+                              {category}
+                            </WishlistItemCategory>
+                            <WishlistItemName
+                              onClick={() => history.push(`/shop/${productId}`)}
+                            >
+                              {name}
+                            </WishlistItemName>
+                          </ProductInfo>
+                        </ProductMetaInfo>
+                      </ItemTableData>
+                      <ItemTableData>${price}</ItemTableData>
+                      <ItemTableData>{stock}</ItemTableData>
+                      <ItemTableData>
+                        <AddToCartButton itemToAddOnClick={wishlistItem} />
+                      </ItemTableData>
+                      <ItemTableData>
+                        <RemoveItemButton>
+                          <Icon className="fas fa-trash-alt"></Icon>
+                        </RemoveItemButton>
+                      </ItemTableData>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </WishlistItemsTable>
+          {items && items.length > 0 && (
+            <AddAllToCart>Add All To Cart</AddAllToCart>
+          )}
+        </>
+      )}
     </article>
   );
 };
@@ -130,8 +142,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchWishlistById: (wishlistId) =>
-    dispatch(startWishlistFetchById(wishlistId))
+  fetchWishlistById: (wishlistId, onFail) =>
+    dispatch(startWishlistFetchById(wishlistId, onFail))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishListDetail);

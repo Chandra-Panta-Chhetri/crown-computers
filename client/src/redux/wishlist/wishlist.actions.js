@@ -15,9 +15,9 @@ export const wishlistsFetchSuccess = (wishlists) => ({
   payload: wishlists
 });
 
-export const startWishlistFetchById = (wishlistId) => ({
+export const startWishlistFetchById = (wishlistId, onFail = () => {}) => ({
   type: WISHLIST_ACTION_TYPES.FETCH_WISHLIST_BY_ID_START,
-  payload: wishlistId
+  payload: { wishlistId, onFail }
 });
 
 export const fetchWishlistByIdFail = (errorMsg) => ({
