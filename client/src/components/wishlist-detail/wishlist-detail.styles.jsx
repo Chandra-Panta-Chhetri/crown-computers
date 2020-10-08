@@ -22,6 +22,16 @@ export const WishlistName = styled.p`
   letter-spacing: 1.9px;
 `;
 
+export const WishlistEditIcon = styled.i`
+  color: ${secondaryColor};
+  cursor: pointer;
+  font-size: 20px;
+
+  &:hover {
+    transform: scale(1.4);
+  }
+`;
+
 export const WishlistCreatedDate = styled.p`
   margin: 5px 0 0;
   font-size: 16px;

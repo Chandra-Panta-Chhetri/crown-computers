@@ -8,7 +8,8 @@ import {
   ItemTableData,
   Header,
   WishlistItemCategory,
-  WishlistItemName
+  WishlistItemName,
+  WishlistEditIcon
 } from "./wishlist-detail.styles";
 import {
   TableHeadings,
@@ -71,9 +72,12 @@ const WishListDetail = ({
               Back to all wishlists
             </BackToWishlistsBtn>
             <div>
-              <WishlistName>{wishlistName}</WishlistName>
+              <WishlistName>
+                {wishlistName}{" "}
+                <WishlistEditIcon className="fas fa-pencil-alt" />
+              </WishlistName>
               <WishlistCreatedDate>
-                <i className="far fa-calendar-alt"></i> Created On:{" "}
+                <i className="far fa-calendar-alt" /> Created On:{" "}
                 {createdAt && createdAt.toDateString()}
               </WishlistCreatedDate>
             </div>
