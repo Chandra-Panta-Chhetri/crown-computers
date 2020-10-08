@@ -23,13 +23,19 @@ import {
 } from "../cart-summary-item/cart-summary-item.styles";
 
 import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
+import FullPageSpinner from "../full-page-spinner/full-page-spinner.component";
 
 import { connect } from "react-redux";
 import {
   selectIsFetchingWishlists,
-  selectWishlistData
+  selectIsUpdatingWishlist,
+  selectWishlistData,
+  selectWishlistLoadingText
 } from "../../redux/wishlist/wishlist.selectors";
-import { startWishlistFetchById } from "../../redux/wishlist/wishlist.actions";
+import {
+  removeFromWishlist,
+  startWishlistFetchById
+} from "../../redux/wishlist/wishlist.actions";
 import useRedirect from "../../hooks/useRedirect.hook";
 
 const WishListDetail = ({
@@ -37,7 +43,10 @@ const WishListDetail = ({
   isFetchingWishlist,
   wishlist,
   fetchWishlistById,
-  history
+  history,
+  removeFromWishlist,
+  isUpdatingWishlist,
+  loadingText
 }) => {
   const wishlistId = match.params.wishlistId;
   const { redirectComponent } = useRedirect(
@@ -47,7 +56,6 @@ const WishListDetail = ({
   );
 
   const { wishlistName, items, createdAt } = wishlist;
-  console.log(wishlist);
 
   return (
     <article>
@@ -118,7 +126,15 @@ const WishListDetail = ({
                         <AddToCartButton itemToAddOnClick={wishlistItem} />
                       </ItemTableData>
                       <ItemTableData>
-                        <RemoveItemButton>
+                        <RemoveItemButton
+                          onClick={() =>
+                            removeFromWishlist(
+                              wishlistItem,
+                              wishlist,
+                              wishlistId
+                            )
+                          }
+                        >
                           <Icon className="fas fa-trash-alt"></Icon>
                         </RemoveItemButton>
                       </ItemTableData>
@@ -132,18 +148,26 @@ const WishListDetail = ({
           )}
         </>
       )}
+      <FullPageSpinner
+        isLoading={isUpdatingWishlist}
+        loadingText={loadingText}
+      />
     </article>
   );
 };
 
 const mapStateToProps = (state) => ({
   isFetchingWishlist: selectIsFetchingWishlists(state),
-  wishlist: selectWishlistData(state)
+  wishlist: selectWishlistData(state),
+  isUpdatingWishlist: selectIsUpdatingWishlist(state),
+  loadingText: selectWishlistLoadingText(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchWishlistById: (wishlistId, onFail) =>
-    dispatch(startWishlistFetchById(wishlistId, onFail))
+    dispatch(startWishlistFetchById(wishlistId, onFail)),
+  removeFromWishlist: (item, wishlist, wishlistId) =>
+    dispatch(removeFromWishlist(item, wishlist, wishlistId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishListDetail);

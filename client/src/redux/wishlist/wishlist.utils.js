@@ -2,6 +2,7 @@ import {
   createNewCartItemDoc,
   deleteCartItemDoc
 } from "../../firebase-utils/firebase.cart_utils";
+import { truncate } from "../cart/cart.sagas";
 
 export const addItemToWishlist = async (wishlists, wishlistId, item) => {
   const wishlistToUpdate = wishlists[wishlistId];
@@ -19,20 +20,21 @@ export const addItemToWishlist = async (wishlists, wishlistId, item) => {
   return wishlists;
 };
 
-export const removeItemFromWishlist = async (wishlists, wishlistId, item) => {
-  const wishlistToUpdate = wishlists[wishlistId];
-  const isItemInWishlist = wishlistToUpdate.items.some(
+export const removeItemFromWishlist = async (wishlist, item) => {
+  const isItemInWishlist = wishlist.items.some(
     (wishlistItem) => wishlistItem.productId === item.productId
   );
-  if (isItemInWishlist) {
-    await deleteCartItemDoc(item.cartItemId);
-    wishlistToUpdate.items = wishlistToUpdate.items.filter(
-      (wishlistItem) => wishlistItem.productId !== item.productId
+  if (!isItemInWishlist) {
+    throw Error(
+      `${truncate(item.name)} does not exist in ${wishlist.wishlistName}`
     );
-
-    return { ...wishlists };
   }
-  return wishlists;
+  await deleteCartItemDoc(item.cartItemId);
+  wishlist.items = wishlist.items.filter(
+    (wishlistItem) => wishlistItem.productId !== item.productId
+  );
+
+  return { ...wishlist };
 };
 
 export const removeWishlist = (wishlists, wishlistId) => {

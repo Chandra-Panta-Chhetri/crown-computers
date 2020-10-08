@@ -2,7 +2,6 @@ import { firestore } from "./firebase.config";
 import {
   cartCollectionRef,
   populateCart,
-  saveCart,
   createNewCart
 } from "./firebase.cart_utils";
 import { getUserRefById } from "./firebase.user_utils";
@@ -63,14 +62,6 @@ export const getWishlistById = async (wishlistId) => {
 export const deleteWishlistById = async (wishlistId) => {
   const wishlistRef = getWishlistRefById(wishlistId);
   await wishlistRef.delete();
-};
-
-export const saveWishlists = async (wishlists) => {
-  for (let wishlist of wishlists) {
-    let wishlistItems = wishlist.items;
-    let wishlistId = wishlist.id;
-    await saveCart(wishlistItems, wishlistId);
-  }
 };
 
 export const createNewWishlist = async (userId, newWishlistInfo) => {

@@ -9,7 +9,7 @@ import {
   select
 } from "redux-saga/effects";
 import { clearCart, updateCartSuccess, updateCartFail } from "./cart.actions";
-import { saveCart } from "../../firebase-utils/firebase.cart_utils";
+import { saveCartItems } from "../../firebase-utils/firebase.cart_utils";
 import { selectShoppingCart, selectCartId } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
 import { addToCart, changeItemQuantity, removeFromCart } from "./cart.utils";
@@ -90,7 +90,7 @@ function* handleCartUpdateSuccess({
     const currentUser = yield select(selectCurrentUser);
     const cartId = yield select(selectCartId);
     if (currentUser && cartId) {
-      yield saveCart(cartWithoutCartItemRefs, cartId);
+      yield saveCartItems(cartWithoutCartItemRefs, cartId);
     }
   } catch (err) {}
 }

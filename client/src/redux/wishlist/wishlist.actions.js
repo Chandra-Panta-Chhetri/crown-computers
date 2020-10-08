@@ -68,23 +68,23 @@ export const createWishlistSuccess = (wishlistName, wishlists) => ({
   payload: { wishlistName, wishlists }
 });
 
-export const addToWishlist = (item, wishlistId, wishlistName) => ({
+export const addToWishlist = (item, wishlist, wishlistId) => ({
   type: WISHLIST_ACTION_TYPES.START_ADD_TO_WISHLIST,
   payload: {
     item,
+    wishlist,
     wishlistId,
-    wishlistName,
-    loadingText: `Adding item to ${wishlistName}`
+    loadingText: `Adding item to ${wishlist.wishlistName}`
   }
 });
 
-export const removeFromWishlist = (item, wishlistId, wishlistName) => ({
+export const removeFromWishlist = (item, wishlist, wishlistId) => ({
   type: WISHLIST_ACTION_TYPES.START_REMOVE_FROM_WISHLIST,
   payload: {
     item,
+    wishlist,
     wishlistId,
-    wishlistName,
-    loadingText: `Removing item from ${wishlistName}`
+    loadingText: `Removing item from ${wishlist.wishlistName}`
   }
 });
 
@@ -94,10 +94,11 @@ export const updateWishlistFail = (errorTitle, errorMsg) => ({
 });
 
 export const updateWishlistSuccess = (
-  wishlists,
   notificationTitle,
-  notificationMsg
+  notificationMsg,
+  updatedWishlist,
+  wishlistId
 ) => ({
   type: WISHLIST_ACTION_TYPES.UPDATE_WISHLIST_SUCCESS,
-  payload: { wishlists, notificationTitle, notificationMsg }
+  payload: { notificationTitle, notificationMsg, updatedWishlist, wishlistId }
 });

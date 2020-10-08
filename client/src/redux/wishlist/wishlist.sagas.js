@@ -4,9 +4,9 @@ import {
   createNewWishlist,
   getUserWishlists,
   getWishlistById,
-  saveWishlists,
   deleteWishlistById
 } from "../../firebase-utils/firebase.wishlist_utils";
+import { saveCartItems } from "../../firebase-utils/firebase.cart_utils";
 import {
   addItemToWishlist,
   removeItemFromWishlist,
@@ -159,30 +159,23 @@ function* handleAddingItemToWishlist({
   }
 }
 
-function* handleRemovingItemFromWishlist({
-  payload: { item, wishlistId, wishlistName }
-}) {
+function* handleRemovingItemFromWishlist({ payload: { item, wishlist } }) {
   try {
-    const wishlists = yield select(selectWishlists);
-    const updatedWishlists = yield removeItemFromWishlist(
-      wishlists,
-      wishlistId,
-      item
-    );
+    const updatedWishlist = yield removeItemFromWishlist(wishlist, item);
     yield put(
       updateWishlistSuccess(
-        updatedWishlists,
-        `Removed From ${wishlistName}`,
-        `${truncate(item.name)} was removed from ${wishlistName}`
+        `Removed From ${wishlist.wishlistName}`,
+        `${truncate(item.name)} was removed from ${wishlist.wishlistName}`,
+        updatedWishlist
       )
     );
   } catch (err) {
     yield put(
       updateWishlistFail(
-        `Removing From ${wishlistName} Failed`,
-        `There was a problem removing ${truncate(
-          item.name
-        )} from ${wishlistName}`
+        `Removing From ${wishlist.wishlistName} Failed`,
+        `There was a problem removing ${truncate(item.name)} from ${
+          wishlist.wishlistName
+        }`
       )
     );
   }
@@ -193,13 +186,14 @@ function* handleWishlistUpdateFail({ payload: { errorTitle, errorMsg } }) {
 }
 
 function* handleWishlistUpdateSuccess({
-  payload: { wishlists, notificationTitle, notificationMsg }
+  payload: { notificationTitle, notificationMsg, updatedWishlist, wishlistId }
 }) {
   try {
     yield put(addSuccessNotification(notificationTitle, notificationMsg));
     const currentUser = yield select(selectCurrentUser);
     if (currentUser) {
-      yield saveWishlists(wishlists);
+      const { items } = updatedWishlist;
+      yield saveCartItems(items, wishlistId);
     }
   } catch (err) {}
 }

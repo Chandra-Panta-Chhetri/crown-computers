@@ -86,12 +86,16 @@ export const getUserCartAndCartId = async (userRef) => {
   }
 };
 
-export const saveCart = async (cartWithoutCartItemRefs, cartId) => {
+export const updateCart = async (cartId, updatedCartInfo) => {
   const cartRef = firestore.doc(`carts/${cartId}`);
+  await cartRef.update(updatedCartInfo);
+};
+
+export const saveCartItems = async (cartWithoutCartItemRefs, cartId) => {
   const cartWithCartItemRefs = await replaceCartWithCartItemRefs(
     cartWithoutCartItemRefs
   );
-  await cartRef.update({ cartItems: cartWithCartItemRefs });
+  await updateCart(cartId, { cartItems: cartWithCartItemRefs });
 };
 
 export const populateCartItemFromRef = async (cartItemRef) => {
