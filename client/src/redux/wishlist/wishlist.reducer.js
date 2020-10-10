@@ -38,6 +38,7 @@ const wishlistReducer = (prevState = INITIAL_STATE, action) => {
     case WISHLIST_ACTION_TYPES.START_REMOVE_FROM_WISHLIST:
     case WISHLIST_ACTION_TYPES.START_WISHLIST_DELETE_BY_ID:
     case WISHLIST_ACTION_TYPES.CREATE_NEW_WISHLIST:
+    case WISHLIST_ACTION_TYPES.START_WISHLIST_UPDATE:
       return {
         ...prevState,
         isUpdatingWishlist: true,
@@ -61,7 +62,10 @@ const wishlistReducer = (prevState = INITIAL_STATE, action) => {
       return {
         ...prevState,
         isUpdatingWishlist: false,
-        wishlistData: action.payload.updatedWishlist
+        wishlistData: {
+          ...prevState.wishlistData,
+          ...action.payload.updatedWishlistInfo
+        }
       };
     default:
       return prevState;

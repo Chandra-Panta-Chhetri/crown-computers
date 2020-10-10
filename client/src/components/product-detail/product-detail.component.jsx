@@ -89,7 +89,7 @@ const ProductDetail = ({
               <ProductActionContainer>
                 <ProductPrice>${price}</ProductPrice>
                 <AddProductToCart
-                  itemToAddOnClick={{ ...product, productId }}
+                  itemsToAddOnClick={[{ ...product, productId }]}
                 />
               </ProductActionContainer>
               {stock < 10 && <ProductStock>{stock} left in stock</ProductStock>}

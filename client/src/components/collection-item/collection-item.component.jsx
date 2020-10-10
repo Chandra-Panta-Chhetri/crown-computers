@@ -20,7 +20,7 @@ const CollectionItem = ({ item, history, intersectionCb }) => {
       <ItemImageContainer>
         <ItemImage src={imageUrls[0]} alt={name} />
         <ItemStock>In Stock: {stock}</ItemStock>
-        <AddItemToCartBtn itemToAddOnClick={item} />
+        <AddItemToCartBtn itemsToAddOnClick={[item]} />
       </ItemImageContainer>
       <ItemInfoContainer>
         <ItemCategory

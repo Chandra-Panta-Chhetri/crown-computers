@@ -1,12 +1,24 @@
 import WISHLIST_ACTION_TYPES from "./wishlist.action.types";
-import { all, put, select, takeLatest, call } from "redux-saga/effects";
+import {
+  all,
+  put,
+  select,
+  takeLatest,
+  call,
+  actionChannel,
+  take,
+  takeEvery
+} from "redux-saga/effects";
 import {
   createNewWishlist,
   getUserWishlists,
   getWishlistById,
   deleteWishlistById
 } from "../../firebase-utils/firebase.wishlist_utils";
-import { saveCartItems } from "../../firebase-utils/firebase.cart_utils";
+import {
+  saveCartItems,
+  updateCart
+} from "../../firebase-utils/firebase.cart_utils";
 import {
   addItemToWishlist,
   removeItemFromWishlist,
@@ -110,7 +122,6 @@ function* createWishlist({ payload: { newWishlistInfo, onSuccess } }) {
     yield put(createWishlistSuccess(wishlistName, { ...wishlists }));
     yield onSuccess();
   } catch (err) {
-    console.log(err.message);
     yield put(
       createWishlistFail(
         `A problem occurred while creating ${wishlistName} wishlist. Please ensure you are logged in`
@@ -133,27 +144,25 @@ function* handleCreateWishlistSuccess({ payload: { wishlistName } }) {
 }
 
 function* handleAddingItemToWishlist({
-  payload: { item, wishlistId, wishlistName }
+  payload: { item, wishlist, wishlistId }
 }) {
   try {
-    const wishlists = yield select(selectWishlists);
-    const updatedWishlists = yield addItemToWishlist(
-      wishlists,
-      wishlistId,
-      item
-    );
+    const updatedWishlist = yield addItemToWishlist(wishlist, item);
+    yield call(saveWishlistItems, updatedWishlist.items, wishlistId);
     yield put(
       updateWishlistSuccess(
-        updatedWishlists,
-        `Added To ${wishlistName}`,
-        `${truncate(item.name)} was added to ${wishlistName}`
+        `Added To ${wishlist.wishlistName}`,
+        `${truncate(item.name)} was added to ${wishlist.wishlistName}`,
+        updatedWishlist
       )
     );
   } catch (err) {
     yield put(
       updateWishlistFail(
-        `Adding To ${wishlistName} Failed`,
-        `There was a problem adding ${truncate(item.name)} to ${wishlistName}`
+        `Adding To ${wishlist.wishlistName} Failed`,
+        `There was a problem adding ${truncate(item.name)} to ${
+          wishlist.wishlistName
+        }`
       )
     );
   }
@@ -164,12 +173,12 @@ function* handleRemovingItemFromWishlist({
 }) {
   try {
     const updatedWishlist = yield removeItemFromWishlist(wishlist, item);
+    yield call(saveWishlistItems, updatedWishlist.items, wishlistId);
     yield put(
       updateWishlistSuccess(
         `Removed From ${wishlist.wishlistName}`,
         `${truncate(item.name)} was removed from ${wishlist.wishlistName}`,
-        updatedWishlist,
-        wishlistId
+        updatedWishlist
       )
     );
   } catch (err) {
@@ -184,21 +193,45 @@ function* handleRemovingItemFromWishlist({
   }
 }
 
+function* saveWishlistItems(wishlistItems, wishlistId) {
+  const currentUser = yield select(selectCurrentUser);
+  if (currentUser) {
+    yield saveCartItems(wishlistItems, wishlistId);
+  }
+}
+
+function* updateWishlist({
+  payload: { updatedWishlistInfo, wishlistId, onSuccess }
+}) {
+  try {
+    yield updateCart(wishlistId, updatedWishlistInfo);
+    yield put(
+      updateWishlistSuccess(
+        "Wishlist Update Success",
+        "Wishlist details have been updated!",
+        updatedWishlistInfo,
+        onSuccess
+      )
+    );
+  } catch (err) {
+    yield put(
+      updateWishlistFail(
+        "Wishlist Update Failed",
+        "Wishlist details failed to update. Please try again"
+      )
+    );
+  }
+}
+
 function* handleWishlistUpdateFail({ payload: { errorTitle, errorMsg } }) {
   yield put(addErrorNotification(errorTitle, errorMsg));
 }
 
 function* handleWishlistUpdateSuccess({
-  payload: { notificationTitle, notificationMsg, updatedWishlist, wishlistId }
+  payload: { notificationTitle, notificationMsg, onSuccess }
 }) {
-  try {
-    yield put(addSuccessNotification(notificationTitle, notificationMsg));
-    const currentUser = yield select(selectCurrentUser);
-    if (currentUser) {
-      const { items } = updatedWishlist;
-      yield saveCartItems(items, wishlistId);
-    }
-  } catch (err) {}
+  yield put(addSuccessNotification(notificationTitle, notificationMsg));
+  yield onSuccess();
 }
 
 function* watchWishlistsFetchStart() {
@@ -266,6 +299,14 @@ function* watchCreateWishlistSuccess() {
 }
 
 function* watchAddItemToWishlist() {
+  // const channel = yield actionChannel([
+  //   WISHLIST_ACTION_TYPES.START_ADD_TO_WISHLIST
+  // ]);
+  // while (true) {
+  //   const action = yield take(channel);
+  //   console.log(action);
+  //   yield call(handleAddingItemToWishlist, action);
+  // }
   yield takeLatest(
     WISHLIST_ACTION_TYPES.START_ADD_TO_WISHLIST,
     handleAddingItemToWishlist
@@ -273,10 +314,14 @@ function* watchAddItemToWishlist() {
 }
 
 function* watchRemoveItemFromWishlist() {
-  yield takeLatest(
+  yield takeEvery(
     WISHLIST_ACTION_TYPES.START_REMOVE_FROM_WISHLIST,
     handleRemovingItemFromWishlist
   );
+}
+
+function* watchWishlistUpdateStart() {
+  yield takeLatest(WISHLIST_ACTION_TYPES.START_WISHLIST_UPDATE, updateWishlist);
 }
 
 function* watchWishlistUpdateFail() {
@@ -307,6 +352,7 @@ export default function* wishlistSagas() {
     call(watchCreateWishlistSuccess),
     call(watchAddItemToWishlist),
     call(watchRemoveItemFromWishlist),
+    call(watchWishlistUpdateStart),
     call(watchWishlistUpdateFail),
     call(watchWishlistUpdateSuccess)
   ]);

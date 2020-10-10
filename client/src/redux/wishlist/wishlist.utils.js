@@ -4,20 +4,21 @@ import {
 } from "../../firebase-utils/firebase.cart_utils";
 import { truncate } from "../cart/cart.sagas";
 
-export const addItemToWishlist = async (wishlists, wishlistId, item) => {
-  const wishlistToUpdate = wishlists[wishlistId];
-  const isItemInWishlist = wishlistToUpdate.items.some(
+export const addItemToWishlist = async (wishlist, item) => {
+  const isItemInWishlist = wishlist.items.some(
     (wishlistItem) => wishlistItem.productId === item.productId
   );
-  if (!isItemInWishlist) {
-    const { id: newCartItemId } = await createNewCartItemDoc(item.productId);
-    wishlistToUpdate.items.push({
-      ...item,
-      cartItemId: newCartItemId
-    });
-    return { ...wishlists };
+  if (isItemInWishlist) {
+    throw Error(
+      `${truncate(item.name)} is already in ${wishlist.wishlistName}`
+    );
   }
-  return wishlists;
+  const { id: newCartItemId } = await createNewCartItemDoc(item.productId);
+  wishlist.items.push({
+    ...item,
+    cartItemId: newCartItemId
+  });
+  return { ...wishlist };
 };
 
 export const removeItemFromWishlist = async (wishlist, item) => {

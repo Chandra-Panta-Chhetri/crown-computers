@@ -6,7 +6,9 @@ import {
   put,
   call,
   all,
-  select
+  select,
+  actionChannel,
+  take
 } from "redux-saga/effects";
 import { clearCart, updateCartSuccess, updateCartFail } from "./cart.actions";
 import { saveCartItems } from "../../firebase-utils/firebase.cart_utils";
@@ -25,7 +27,7 @@ export const truncate = (str, numCharacterToShow = NUM_ITEM_NAME_CHAR_SHOWN) =>
     ? str.substr(0, numCharacterToShow - 1) + "..."
     : str;
 
-function* handleAddingItemToCart({ payload: { item } }) {
+function* handleAddingItemToCart({ item }) {
   try {
     const cart = yield select(selectShoppingCart);
     const currentUser = yield select(selectCurrentUser);
@@ -109,7 +111,13 @@ function* watchSuccessfulLogOut() {
 }
 
 function* watchAddingToCart() {
-  yield takeEvery(CART_ACTION_TYPES.START_ADD_TO_CART, handleAddingItemToCart);
+  const channel = yield actionChannel(CART_ACTION_TYPES.START_ADD_TO_CART);
+  while (true) {
+    const { payload } = yield take(channel);
+    console.log(payload);
+    yield call(handleAddingItemToCart, payload);
+  }
+  // yield takeEvery(CART_ACTION_TYPES.START_ADD_TO_CART, handleAddingItemToCart);
 }
 
 function* watchRemovingFromCart() {

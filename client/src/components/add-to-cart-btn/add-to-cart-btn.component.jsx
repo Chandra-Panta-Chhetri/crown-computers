@@ -8,22 +8,34 @@ import { selectCartItemQuantityById } from "../../redux/cart/cart.selectors";
 
 const AddToCartButton = ({
   addToCart,
-  itemToAddOnClick,
+  itemsToAddOnClick = [],
   itemQuantityInCart,
-  className
-}) => (
-  <Button
-    className={className}
-    onClick={() => addToCart(itemToAddOnClick)}
-    disabled={itemQuantityInCart === itemToAddOnClick.stock}
-  >
-    Add To Cart
-  </Button>
-);
+  className,
+  label = "Add To Cart"
+}) => {
+  const addItemsToCart = () => {
+    for (const item of itemsToAddOnClick) {
+      addToCart(item);
+    }
+  };
+
+  return (
+    <Button
+      className={className}
+      onClick={addItemsToCart}
+      disabled={
+        itemsToAddOnClick.length === 1 &&
+        itemQuantityInCart === itemsToAddOnClick[0].stock
+      }
+    >
+      {label}
+    </Button>
+  );
+};
 
 const mapStateToProps = (state, ownProps) => ({
   itemQuantityInCart: selectCartItemQuantityById(
-    ownProps.itemToAddOnClick.productId
+    ownProps.itemsToAddOnClick[0].productId
   )(state)
 });
 

@@ -88,6 +88,20 @@ export const removeFromWishlist = (item, wishlist, wishlistId) => ({
   }
 });
 
+export const startWishlistUpdate = (
+  updatedWishlistInfo,
+  wishlistId,
+  onSuccess
+) => ({
+  type: WISHLIST_ACTION_TYPES.START_WISHLIST_UPDATE,
+  payload: {
+    updatedWishlistInfo,
+    wishlistId,
+    onSuccess,
+    loadingText: "Updating Wishlist"
+  }
+});
+
 export const updateWishlistFail = (errorTitle, errorMsg) => ({
   type: WISHLIST_ACTION_TYPES.UPDATE_WISHLIST_FAIL,
   payload: { errorTitle, errorMsg }
@@ -96,9 +110,14 @@ export const updateWishlistFail = (errorTitle, errorMsg) => ({
 export const updateWishlistSuccess = (
   notificationTitle,
   notificationMsg,
-  updatedWishlist,
-  wishlistId
+  updatedWishlistInfo,
+  onSuccess = () => {}
 ) => ({
   type: WISHLIST_ACTION_TYPES.UPDATE_WISHLIST_SUCCESS,
-  payload: { notificationTitle, notificationMsg, updatedWishlist, wishlistId }
+  payload: {
+    notificationTitle,
+    notificationMsg,
+    updatedWishlistInfo,
+    onSuccess
+  }
 });

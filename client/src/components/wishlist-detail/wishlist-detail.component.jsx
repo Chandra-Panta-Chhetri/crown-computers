@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BackToWishlistsBtn,
   WishlistItemsTable,
@@ -25,6 +25,7 @@ import {
 
 import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
 import FullPageSpinner from "../full-page-spinner/full-page-spinner.component";
+import CreateWishlistModal from "../create-wishlist-modal/create-wishlist-modal.component";
 
 import { connect } from "react-redux";
 import {
@@ -55,7 +56,7 @@ const WishListDetail = ({
     [wishlistId],
     "/wishlists"
   );
-
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { wishlistName, items, createdAt } = wishlist;
 
   return (
@@ -74,7 +75,10 @@ const WishListDetail = ({
             <div>
               <WishlistName>
                 {wishlistName}{" "}
-                <WishlistEditIcon className="fas fa-pencil-alt" />
+                <WishlistEditIcon
+                  className="fas fa-pencil-alt"
+                  onClick={() => setIsEditModalOpen(true)}
+                />
               </WishlistName>
               <WishlistCreatedDate>
                 <i className="far fa-calendar-alt" /> Created On:{" "}
@@ -127,7 +131,7 @@ const WishListDetail = ({
                       <ItemTableData>${price}</ItemTableData>
                       <ItemTableData>{stock}</ItemTableData>
                       <ItemTableData>
-                        <AddToCartButton itemToAddOnClick={wishlistItem} />
+                        <AddToCartButton itemsToAddOnClick={[wishlistItem]} />
                       </ItemTableData>
                       <ItemTableData>
                         <RemoveItemButton
@@ -148,9 +152,19 @@ const WishListDetail = ({
             </tbody>
           </WishlistItemsTable>
           {items && items.length > 0 && (
-            <AddAllToCart>Add All To Cart</AddAllToCart>
+            <AddAllToCart itemsToAddOnClick={items} label="Add All To Cart" />
           )}
         </>
+      )}
+      {isEditModalOpen && (
+        <CreateWishlistModal
+          isEditingWishlist
+          defaultWishlistName={wishlistName}
+          closeModalHandler={() => setIsEditModalOpen(false)}
+          modalTitle="Edit Wishlist"
+          defaultWishlist={wishlist}
+          wishlistId={wishlistId}
+        />
       )}
       <FullPageSpinner
         isLoading={isUpdatingWishlist}

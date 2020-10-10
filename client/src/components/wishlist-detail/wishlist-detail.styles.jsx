@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "../button/button.component";
+import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
 import {
   ProductCategory,
   ProductName
@@ -73,6 +74,6 @@ export const WishlistItemName = styled(ProductName)`
   }
 `;
 
-export const AddAllToCart = styled(Button)`
+export const AddAllToCart = styled(AddToCartButton)`
   margin-top: 30px;
 `;
