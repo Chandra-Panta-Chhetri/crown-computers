@@ -41,6 +41,7 @@ import {
   startWishlistFetchById
 } from "../../redux/wishlist/wishlist.actions";
 import useRedirect from "../../hooks/useRedirect.hook";
+import WishlistDetailSkeleton from "../wishlist-detail-skeleton/wishlist-detail-skeleton.component";
 
 const WishListDetail = ({
   match,
@@ -61,108 +62,103 @@ const WishListDetail = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { wishlistName, items, createdAt } = wishlist;
 
+  if (isFetchingWishlist) {
+    return <WishlistDetailSkeleton />;
+  }
+
   return (
     <WishlistDetailContainer>
       {redirectComponent}
-      {!isFetchingWishlist && (
-        <>
-          <Header>
-            <BackToWishlistsBtn
-              onClick={() => history.push("/wishlists")}
-              variant="no-border"
-              iconClass="fas fa-angle-double-left"
-            >
-              Back to all wishlists
-            </BackToWishlistsBtn>
-            <div>
-              <WishlistName>
-                {wishlistName}{" "}
-                <WishlistEditIcon
-                  className="fas fa-pencil-alt"
-                  onClick={() => setIsEditModalOpen(true)}
-                />
-              </WishlistName>
-              <WishlistCreatedDate>
-                <i className="far fa-calendar-alt" /> Created On:{" "}
-                {createdAt && createdAt.toDateString()}
-              </WishlistCreatedDate>
-            </div>
-          </Header>
-          <WishlistItemsTable>
-            <TableHeadings>
-              <tr>
-                <TableHeading>Product</TableHeading>
-                <TableHeading>Unit Price</TableHeading>
-                <TableHeading>Left In Stock</TableHeading>
-                <TableHeading></TableHeading>
-                <TableHeading>Remove</TableHeading>
+      <Header>
+        <BackToWishlistsBtn
+          onClick={() => history.push("/wishlists")}
+          variant="no-border"
+          iconClass="fas fa-angle-double-left"
+        >
+          Back to all wishlists
+        </BackToWishlistsBtn>
+        <div>
+          <WishlistName>
+            {wishlistName}{" "}
+            <WishlistEditIcon
+              className="fas fa-pencil-alt"
+              onClick={() => setIsEditModalOpen(true)}
+            />
+          </WishlistName>
+          <WishlistCreatedDate>
+            <i className="far fa-calendar-alt" /> Created On:{" "}
+            {createdAt && createdAt.toDateString()}
+          </WishlistCreatedDate>
+        </div>
+      </Header>
+      <WishlistItemsTable>
+        <TableHeadings>
+          <tr>
+            <TableHeading>Product</TableHeading>
+            <TableHeading>Unit Price</TableHeading>
+            <TableHeading>Left In Stock</TableHeading>
+            <TableHeading></TableHeading>
+            <TableHeading>Remove</TableHeading>
+          </tr>
+        </TableHeadings>
+        <tbody>
+          {(items || []).map((wishlistItem, i) => {
+            const {
+              imageUrls,
+              price,
+              stock,
+              name,
+              category,
+              productId
+            } = wishlistItem;
+            return (
+              <tr key={i}>
+                <ItemTableData>
+                  <ProductMetaInfo>
+                    <ProductImage src={imageUrls[0]} alt={name} />
+                    <ProductInfo>
+                      <WishlistItemCategory
+                        onClick={() =>
+                          history.push(`/shop/category/${category}`)
+                        }
+                      >
+                        {category}
+                      </WishlistItemCategory>
+                      <WishlistItemName
+                        onClick={() => history.push(`/shop/${productId}`)}
+                      >
+                        {name}
+                      </WishlistItemName>
+                    </ProductInfo>
+                  </ProductMetaInfo>
+                </ItemTableData>
+                <ItemTableData>${price}</ItemTableData>
+                <ItemTableData>{stock}</ItemTableData>
+                <ItemTableData>
+                  <AddToCartButton itemsToAddOnClick={[wishlistItem]} />
+                </ItemTableData>
+                <ItemTableData>
+                  <RemoveItemButton
+                    onClick={() =>
+                      removeFromWishlist(wishlistItem, wishlist, wishlistId)
+                    }
+                  >
+                    <Icon className="fas fa-trash-alt"></Icon>
+                  </RemoveItemButton>
+                </ItemTableData>
               </tr>
-            </TableHeadings>
-            <tbody>
-              {items &&
-                items.map((wishlistItem, i) => {
-                  const {
-                    imageUrls,
-                    price,
-                    stock,
-                    name,
-                    category,
-                    productId
-                  } = wishlistItem;
-                  return (
-                    <tr key={i}>
-                      <ItemTableData>
-                        <ProductMetaInfo>
-                          <ProductImage src={imageUrls[0]} alt={name} />
-                          <ProductInfo>
-                            <WishlistItemCategory
-                              onClick={() =>
-                                history.push(`/shop/category/${category}`)
-                              }
-                            >
-                              {category}
-                            </WishlistItemCategory>
-                            <WishlistItemName
-                              onClick={() => history.push(`/shop/${productId}`)}
-                            >
-                              {name}
-                            </WishlistItemName>
-                          </ProductInfo>
-                        </ProductMetaInfo>
-                      </ItemTableData>
-                      <ItemTableData>${price}</ItemTableData>
-                      <ItemTableData>{stock}</ItemTableData>
-                      <ItemTableData>
-                        <AddToCartButton itemsToAddOnClick={[wishlistItem]} />
-                      </ItemTableData>
-                      <ItemTableData>
-                        <RemoveItemButton
-                          onClick={() =>
-                            removeFromWishlist(
-                              wishlistItem,
-                              wishlist,
-                              wishlistId
-                            )
-                          }
-                        >
-                          <Icon className="fas fa-trash-alt"></Icon>
-                        </RemoveItemButton>
-                      </ItemTableData>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </WishlistItemsTable>
-          {items && items.length === 0 && (
-            <NoItemsText>
-              It seems you have no items in your wishlist. Add items using the
-              shop page!
-            </NoItemsText>
-          )}
-          {items && items.length > 0 && (
-            <AddAllToCart itemsToAddOnClick={items} label="Add All To Cart" />
-          )}
-        </>
+            );
+          })}
+        </tbody>
+      </WishlistItemsTable>
+      {items && items.length === 0 && (
+        <NoItemsText>
+          It seems you have no items in your wishlist. Add items using the shop
+          page!
+        </NoItemsText>
+      )}
+      {items && items.length > 0 && (
+        <AddAllToCart itemsToAddOnClick={items} label="Add All To Cart" />
       )}
       {isEditModalOpen && (
         <CreateWishlistModal
