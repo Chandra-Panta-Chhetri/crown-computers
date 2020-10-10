@@ -2,7 +2,8 @@ import { firestore } from "./firebase.config";
 import {
   cartCollectionRef,
   populateCart,
-  createNewCart
+  createNewCart,
+  deleteAllCartItemDocsInCart
 } from "./firebase.cart_utils";
 import { getUserRefById } from "./firebase.user_utils";
 
@@ -59,7 +60,8 @@ export const getWishlistById = async (wishlistId) => {
   }
 };
 
-export const deleteWishlistById = async (wishlistId) => {
+export const deleteWishlistById = async (wishlistToDelete, wishlistId) => {
+  await deleteAllCartItemDocsInCart(wishlistToDelete.items);
   const wishlistRef = getWishlistRefById(wishlistId);
   await wishlistRef.delete();
 };

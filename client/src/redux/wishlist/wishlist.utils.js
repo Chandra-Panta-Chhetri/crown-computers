@@ -39,9 +39,9 @@ export const removeItemFromWishlist = async (wishlist, item) => {
 };
 
 export const removeWishlist = (wishlists, wishlistId) => {
-  if (wishlists[wishlistId]) {
-    delete wishlists[wishlistId];
-    return { ...wishlists };
+  if (!wishlists[wishlistId]) {
+    throw Error(`Wishlist with id ${wishlistId} does not exist`);
   }
-  return wishlists;
+  delete wishlists[wishlistId];
+  return { ...wishlists };
 };
