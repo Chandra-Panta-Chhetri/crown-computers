@@ -7,11 +7,17 @@ import {
 } from "../cart-summary-item/cart-summary-item.styles";
 import { secondaryColor } from "../../global.styles";
 
+export const WishlistDetailContainer = styled.article`
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+`;
+
 export const Header = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
 export const WishlistName = styled.p`
@@ -74,6 +80,15 @@ export const WishlistItemName = styled(ProductName)`
   }
 `;
 
+export const NoItemsText = styled.p`
+  margin-top: auto;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 1.5px;
+`;
+
 export const AddAllToCart = styled(AddToCartButton)`
   margin-top: 30px;
+  width: fit-content;
 `;

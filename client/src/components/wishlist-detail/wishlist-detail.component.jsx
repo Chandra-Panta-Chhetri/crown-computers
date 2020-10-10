@@ -9,7 +9,9 @@ import {
   Header,
   WishlistItemCategory,
   WishlistItemName,
-  WishlistEditIcon
+  WishlistEditIcon,
+  WishlistDetailContainer,
+  NoItemsText
 } from "./wishlist-detail.styles";
 import {
   TableHeadings,
@@ -60,7 +62,7 @@ const WishListDetail = ({
   const { wishlistName, items, createdAt } = wishlist;
 
   return (
-    <article>
+    <WishlistDetailContainer>
       {redirectComponent}
       {!isFetchingWishlist && (
         <>
@@ -151,6 +153,12 @@ const WishListDetail = ({
                 })}
             </tbody>
           </WishlistItemsTable>
+          {items && items.length === 0 && (
+            <NoItemsText>
+              It seems you have no items in your wishlist. Add items using the
+              shop page!
+            </NoItemsText>
+          )}
           {items && items.length > 0 && (
             <AddAllToCart itemsToAddOnClick={items} label="Add All To Cart" />
           )}
@@ -170,7 +178,7 @@ const WishListDetail = ({
         isLoading={isUpdatingWishlist}
         loadingText={loadingText}
       />
-    </article>
+    </WishlistDetailContainer>
   );
 };
 

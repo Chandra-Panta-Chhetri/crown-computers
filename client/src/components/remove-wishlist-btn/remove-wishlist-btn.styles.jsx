@@ -11,6 +11,11 @@ export const WishlistDeleteModal = styled(Modal)`
   ${ModalContent} {
     height: 50%;
   }
+
+  p span {
+    font-weight: bold;
+    text-transform: capitalize;
+  }
 `;
 
 export const DeleteModalButtonContainer = styled.div`

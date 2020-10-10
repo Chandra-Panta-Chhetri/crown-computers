@@ -15,7 +15,7 @@ export const FullPageSpinnerContainer = styled.div`
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.9);
   z-index: 9999;
-  visibility: ${(props) => (props.isLoading ? "visible" : "hidden")};
+  display: ${(props) => (props.isLoading ? "block" : "none")};
 
   &::after {
     content: "";

@@ -8,6 +8,10 @@ import {
   selectIsUpdatingWishlist,
   selectWishlistLoadingText
 } from "../../redux/wishlist/wishlist.selectors";
+import {
+  selectCartLoadingText,
+  selectIsUpdatingCart
+} from "../../redux/cart/cart.selectors";
 
 const WishListOverview = lazy(() =>
   import("../../components/wishlist-overview/wishlist-overview.component")
@@ -19,7 +23,13 @@ const PageNotFound = lazy(() =>
   import("../../components/page-not-found/page-not-found.component")
 );
 
-const WishList = ({ match, loadingText, isUpdatingWishlist }) => {
+const WishList = ({
+  match,
+  wishlistLoadingText,
+  isUpdatingWishlist,
+  cartLoadingText,
+  isUpdatingCart
+}) => {
   return (
     <article>
       <Suspense fallback={<Spinner />}>
@@ -34,16 +44,18 @@ const WishList = ({ match, loadingText, isUpdatingWishlist }) => {
         </Switch>
       </Suspense>
       <FullPageSpinner
-        isLoading={isUpdatingWishlist}
-        loadingText={loadingText}
+        isLoading={isUpdatingWishlist || isUpdatingCart}
+        loadingText={isUpdatingCart ? cartLoadingText : wishlistLoadingText}
       />
     </article>
   );
 };
 
 const mapStateToProps = (state) => ({
-  loadingText: selectWishlistLoadingText(state),
-  isUpdatingWishlist: selectIsUpdatingWishlist(state)
+  wishlistLoadingText: selectWishlistLoadingText(state),
+  isUpdatingWishlist: selectIsUpdatingWishlist(state),
+  isUpdatingCart: selectIsUpdatingCart(state),
+  cartLoadingText: selectCartLoadingText(state)
 });
 
 export default connect(mapStateToProps)(WishList);

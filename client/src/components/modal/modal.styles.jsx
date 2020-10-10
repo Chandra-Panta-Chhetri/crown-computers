@@ -10,7 +10,7 @@ export const ModalContainer = styled.div`
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.65);
-  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
+  display: ${(props) => (props.isOpen ? "block" : "none")};
 `;
 
 export const ModalContent = styled.div`

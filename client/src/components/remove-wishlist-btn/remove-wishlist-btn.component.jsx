@@ -37,8 +37,8 @@ const RemoveWishlistBtn = ({
         modalTitle="Wishlist Delete Confirmation"
       >
         <p>
-          Deleting {wishlistName} will remove all the items in the wishlist. Are
-          you sure you want to delete {wishlistName}?
+          Deleting <span>{wishlistName}</span> will remove all the items in the
+          wishlist. Are you sure you want to delete <span>{wishlistName}</span>?
         </p>
         <DeleteModalButtonContainer>
           <Button onClick={closeModal}>Cancel</Button>
