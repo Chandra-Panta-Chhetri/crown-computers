@@ -29,7 +29,7 @@ const NavBar = ({ currentUser, hidden, logOut }) => (
         Shop
       </NavItem>
       {currentUser && (
-        <NavItem to="/wishlists" activeClassName="active">
+        <NavItem to="/wish-lists" activeClassName="active">
           Wish Lists
         </NavItem>
       )}

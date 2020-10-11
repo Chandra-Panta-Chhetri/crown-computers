@@ -19,13 +19,7 @@ import {
   addErrorNotification,
   addSuccessNotification
 } from "../notification/notification.actions";
-
-const NUM_ITEM_NAME_CHAR_SHOWN = 20;
-
-export const truncate = (str, numCharacterToShow = NUM_ITEM_NAME_CHAR_SHOWN) =>
-  str.length > numCharacterToShow
-    ? str.substr(0, numCharacterToShow - 1) + "..."
-    : str;
+import { truncate } from "../../global.utils";
 
 function* handleAddingItemToCart({ item }) {
   try {

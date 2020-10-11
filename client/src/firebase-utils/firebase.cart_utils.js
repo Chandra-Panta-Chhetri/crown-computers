@@ -3,15 +3,15 @@ import {
   updateProductStock,
   getProductDataAndRefById
 } from "./firebase.product_utils";
-import { truncate } from "../redux/cart/cart.sagas";
+import { truncate } from "../global.utils";
 
 export const cartCollectionRef = firestore.collection("carts");
 export const cartItemCollectionRef = firestore.collection("cart_items");
 
-export const createNewCart = async (userRef, isWishlist = false, extraInfo) => {
+export const createNewCart = async (userRef, isWishList = false, extraInfo) => {
   const cartRef = await cartCollectionRef.add({
     cartItems: [],
-    isWishlist,
+    isWishList,
     userRef,
     ...extraInfo
   });
@@ -68,7 +68,7 @@ export const updateProductStocksInCart = async (shoppingCart) => {
 const getUserCartSnapshot = async (userRef) => {
   const getUserCartAndCartIdQuery = cartCollectionRef
     .where("userRef", "==", userRef)
-    .where("isWishlist", "==", false);
+    .where("isWishList", "==", false);
   const userCartQuerySnapshot = await getUserCartAndCartIdQuery.get();
   const userCartSnapshot = userCartQuerySnapshot.docs[0];
   return userCartSnapshot;

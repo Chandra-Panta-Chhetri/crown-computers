@@ -8,7 +8,7 @@ import {
   ItemInfo
 } from "./cart-item.styles";
 
-import { truncate } from "../../redux/cart/cart.sagas";
+import { truncate } from "../../global.utils";
 
 const CartItem = ({ item }) => (
   <CartItemContainer>

@@ -4,7 +4,7 @@ import userSagas from "./user/user.sagas";
 import cartSagas from "./cart/cart.sagas";
 import directorySagas from "./directory/directory.sagas";
 import checkoutSagas from "./checkout/checkout.sagas";
-import wishlistSagas from "./wishlist/wishlist.sagas";
+import wishListSagas from "./wish-list/wish-list.sagas";
 
 function* rootSaga() {
   yield all([
@@ -13,7 +13,7 @@ function* rootSaga() {
     call(cartSagas),
     call(directorySagas),
     call(checkoutSagas),
-    call(wishlistSagas)
+    call(wishListSagas)
   ]);
 }
 

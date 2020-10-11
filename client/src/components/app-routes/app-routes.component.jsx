@@ -15,7 +15,9 @@ const ShopPage = lazy(() => import("../../pages/shop/shop.component"));
 const PageNotFound = lazy(() =>
   import("../page-not-found/page-not-found.component")
 );
-const WishList = lazy(() => import("../../pages/wishlist/wishlist.component"));
+const WishList = lazy(() =>
+  import("../../pages/wish-list/wish-list.component")
+);
 
 const AppRoutes = ({ currentUser }) => (
   <Switch>
@@ -33,7 +35,7 @@ const AppRoutes = ({ currentUser }) => (
     />
     <Route exact path="/cart-summary" component={CartSummary} />
     <Route
-      path="/wishlists"
+      path="/wish-lists"
       render={(props) =>
         !currentUser ? <Redirect to="/" /> : <WishList {...props} />
       }
