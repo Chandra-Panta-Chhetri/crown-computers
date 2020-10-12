@@ -8,6 +8,7 @@ export const getProductDataAndRefById = async (productId) => {
     let productRef = firestore.doc(`products/${productId}`);
     let productDocSnapshot = await productRef.get();
     let productData = {
+      productId: productDocSnapshot.id,
       ...productDocSnapshot.data()
     };
     let productCategory = await getProductCategoryName(

@@ -17,6 +17,7 @@ import ProductsCarousel from "../products-carousel/products-carousel.component";
 import ProductImageCarousel from "../product-image-carousel/product-image-carousel.component";
 import Banner from "../banner/banner.component";
 import ProductDetailSkeleton from "../product-detail-skeleton/product-detail-skeleton.component";
+import AddToWishListBtn from "../add-to-wish-list-btn/add-to-wish-list-btn.component";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
@@ -26,6 +27,7 @@ import {
   selectIsFetchingProducts,
   selectProductData
 } from "../../redux/product/product.selectors";
+import { selectCurrentUser } from "../../redux/user/user.selectors";
 import useRedirect from "../../hooks/useRedirect.hook";
 
 const ProductDetail = ({
@@ -33,7 +35,8 @@ const ProductDetail = ({
   match,
   history,
   isFetchingProduct,
-  fetchProductById
+  fetchProductById,
+  currentUser
 }) => {
   const {
     imageUrls,
@@ -93,6 +96,7 @@ const ProductDetail = ({
                 />
               </ProductActionContainer>
               {stock < 10 && <ProductStock>{stock} left in stock</ProductStock>}
+              {currentUser && <AddToWishListBtn itemToAddOnClick={product} />}
             </ProductInfoContainer>
           </ProductDetailContainer>
           {category && <ProductsCarousel categoryName={category} />}
@@ -104,7 +108,8 @@ const ProductDetail = ({
 
 const mapStateToProps = (state) => ({
   product: selectProductData(state),
-  isFetchingProduct: selectIsFetchingProducts(state)
+  isFetchingProduct: selectIsFetchingProducts(state),
+  currentUser: selectCurrentUser(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

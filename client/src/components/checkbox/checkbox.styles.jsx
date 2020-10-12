@@ -3,10 +3,12 @@ import styled from "styled-components";
 export const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
+  text-transform: capitalize;
+  margin-bottom: 15px;
 `;
 
 export const CheckboxLabel = styled.label`
-  font-size: 16px;
+  font-size: 17px;
   font-weight: normal;
   pointer-events: none;
 `;

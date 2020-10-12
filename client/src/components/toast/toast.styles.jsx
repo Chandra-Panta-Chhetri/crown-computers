@@ -95,6 +95,7 @@ export const NotificationTitle = styled.p`
   margin-bottom: 6px;
   width: 300px;
   height: 18px;
+  text-transform: capitalize;
 `;
 
 export const NotificationMessage = styled.p`

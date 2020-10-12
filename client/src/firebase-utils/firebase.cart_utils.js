@@ -133,7 +133,8 @@ export const replaceCartWithCartItemRefs = async (cartWithoutCartItemRefs) => {
   const batch = firestore.batch();
   for (let cartItem of cartWithoutCartItemRefs) {
     let cartItemRef = firestore.doc(`cart_items/${cartItem.cartItemId}`);
-    batch.update(cartItemRef, { quantity: cartItem.quantity });
+    console.log(cartItem);
+    batch.update(cartItemRef, { quantity: cartItem.quantity || 1 });
     cartWithCartItemRefs.push(cartItemRef);
   }
   await batch.commit();

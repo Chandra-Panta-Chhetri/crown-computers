@@ -55,7 +55,7 @@ const buttonFocusStyles = css`
 
 const buttonDisabledStyles = css`
   &:disabled {
-    opacity: 0.3;
+    opacity: 0.4;
     filter: grayscale(100%);
     pointer-events: none;
   }

@@ -144,6 +144,7 @@ function* handleCreateWishListSuccess({ payload: createdWishList }) {
 function* handleAddingItemToWishList({ payload: { item, wishList } }) {
   const { wishListName, wishListId } = wishList;
   try {
+    console.log(item, wishList);
     const updatedWishList = yield addItemToWishList(wishList, item);
     yield call(saveWishListItems, updatedWishList.items, wishListId);
     yield put(
@@ -155,10 +156,7 @@ function* handleAddingItemToWishList({ payload: { item, wishList } }) {
     );
   } catch (err) {
     yield put(
-      updateWishListFail(
-        `Adding To ${wishListName} Failed`,
-        `There was a problem adding ${truncate(item.name)} to ${wishListName}`
-      )
+      updateWishListFail(`Adding To ${wishListName} Failed`, err.message)
     );
   }
 }
@@ -177,12 +175,7 @@ function* handleRemovingItemFromWishList({ payload: { item, wishList } }) {
     );
   } catch (err) {
     yield put(
-      updateWishListFail(
-        `Removing From ${wishListName} Failed`,
-        `There was a problem removing ${truncate(
-          item.name
-        )} from ${wishListName}`
-      )
+      updateWishListFail(`Removing From ${wishListName} Failed`, err.message)
     );
   }
 }
