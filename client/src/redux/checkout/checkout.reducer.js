@@ -1,7 +1,8 @@
 import CHECKOUT_ACTION_TYPES from "./checkout.action.types";
 
 const INITIAL_STATE = {
-  isCheckingOut: false
+  isCheckingOut: false,
+  loadingText: "Processing Payment"
 };
 
 const checkoutReducer = (prevState = INITIAL_STATE, action) => {

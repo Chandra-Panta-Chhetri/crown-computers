@@ -41,14 +41,14 @@ export const getWishLists = async (userId) => {
   return wishLists;
 };
 
-export const getWishlistRefById = (wishListId) => {
+export const getWishListRefById = (wishListId) => {
   const wishListRef = firestore.doc(`carts/${wishListId}`);
   return wishListRef;
 };
 
 export const getWishListById = async (wishListId) => {
   try {
-    const wishListRef = getWishlistRefById(wishListId);
+    const wishListRef = getWishListRefById(wishListId);
     const wishListSnapshot = await wishListRef.get();
     const wishListData = await extraWishListDataFromSnapshot(wishListSnapshot);
     return wishListData;
@@ -59,7 +59,7 @@ export const getWishListById = async (wishListId) => {
 
 export const deleteWishListById = async (wishListToDelete) => {
   await deleteAllCartItemDocsInCart(wishListToDelete.items);
-  const wishListRef = getWishlistRefById(wishListToDelete.wishListId);
+  const wishListRef = getWishListRefById(wishListToDelete.wishListId);
   await wishListRef.delete();
 };
 

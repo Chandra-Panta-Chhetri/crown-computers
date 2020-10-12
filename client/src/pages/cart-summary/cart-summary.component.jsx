@@ -13,12 +13,18 @@ import {
   selectCartLoadingText
 } from "../../redux/cart/cart.selectors";
 import { createStructuredSelector } from "reselect";
+import {
+  selectCheckoutLoadingText,
+  selectIsCheckingOut
+} from "../../redux/checkout/checkout.selectors";
 
 const CartSummary = ({
   cartItems,
   cartTotal,
   isUpdatingCart,
-  cartLoadingText
+  cartLoadingText,
+  isCheckingOut,
+  checkoutLoadingText
 }) => (
   <CartSummaryContainer>
     {cartItems.length ? (
@@ -31,7 +37,10 @@ const CartSummary = ({
         Once you add items to your cart, they will appear here!
       </NoCartItemsText>
     )}
-    <FullPageSpinner isLoading={isUpdatingCart} loadingText={cartLoadingText} />
+    <FullPageSpinner
+      isLoading={isUpdatingCart || isCheckingOut}
+      loadingText={isUpdatingCart ? cartLoadingText : checkoutLoadingText}
+    />
   </CartSummaryContainer>
 );
 
@@ -39,7 +48,9 @@ const mapStateToProps = createStructuredSelector({
   cartItems: selectShoppingCart,
   cartTotal: selectCartTotal,
   isUpdatingCart: selectIsUpdatingCart,
-  cartLoadingText: selectCartLoadingText
+  cartLoadingText: selectCartLoadingText,
+  isCheckingOut: selectIsCheckingOut,
+  checkoutLoadingText: selectCheckoutLoadingText
 });
 
 export default connect(mapStateToProps)(CartSummary);

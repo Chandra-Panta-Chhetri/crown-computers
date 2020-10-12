@@ -6,15 +6,13 @@ import {
 import {
   CardElementContainer,
   cardElementStyles,
-  PayNowButton,
-  LoadingText
+  PayNowButton
 } from "./card-details-form.styles";
 
 import Button from "../button/button.component";
 import { CardElement } from "@stripe/react-stripe-js";
 
 import { addInfoNotification } from "../../redux/notification/notification.actions";
-import { selectIsCheckingOut } from "../../redux/checkout/checkout.selectors";
 import { connect } from "react-redux";
 
 const cardElementOptions = {
@@ -28,7 +26,6 @@ const CardDetailsForm = ({
   handleSubmit,
   amountToBePaid,
   displayInfoNotification,
-  isCheckingOut,
   stripeLoaded
 }) => {
   const [isCardDetailFilled, setIsCardDetailFilled] = useState(false);
@@ -53,25 +50,17 @@ const CardDetailsForm = ({
       </Button>
       <PayNowButton
         type="submit"
-        disabled={isCheckingOut || !stripeLoaded || !isCardDetailFilled}
+        disabled={!stripeLoaded || !isCardDetailFilled}
       >
-        {isCheckingOut ? (
-          <LoadingText>Processing Payment</LoadingText>
-        ) : (
-          `Confirm & Pay $${amountToBePaid}`
-        )}
+        Confirm & Pay {amountToBePaid}
       </PayNowButton>
     </FormContainer>
   );
 };
-
-const mapStateToProps = (state) => ({
-  isCheckingOut: selectIsCheckingOut(state)
-});
 
 const mapDispatchToProps = (dispatch) => ({
   displayInfoNotification: (title, msg) =>
     dispatch(addInfoNotification(title, msg))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardDetailsForm);
+export default connect(null, mapDispatchToProps)(CardDetailsForm);

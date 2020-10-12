@@ -27,8 +27,8 @@ const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
         <ProductMetaInfo>
           <ProductImage src={imageUrls[0]} alt={name} />
           <ProductInfo>
-            <ProductName>{name}</ProductName>
             <ProductCategory>{category}</ProductCategory>
+            <ProductName>{name}</ProductName>
             {stock < 10 && (
               <ProductStockLeft>Only {stock} left in stock</ProductStockLeft>
             )}

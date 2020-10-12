@@ -82,8 +82,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   createWishList: (newWishListInfo, onSuccess) =>
     dispatch(createNewWishList(newWishListInfo, onSuccess)),
-  updateWishList: (updatedWishlist, wishListId, onSuccess) =>
-    dispatch(startWishListUpdate(updatedWishlist, wishListId, onSuccess))
+  updateWishList: (updatedWishList, wishListId, onSuccess) =>
+    dispatch(startWishListUpdate(updatedWishList, wishListId, onSuccess))
 });
 
 export default connect(

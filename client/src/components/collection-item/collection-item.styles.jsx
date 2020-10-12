@@ -77,6 +77,7 @@ export const ItemName = styled.h5`
   width: ${(props) => (props.isLoading ? "100%" : "fit-content")};
   font-size: 14.5px;
   cursor: ${(props) => (props.isLoading ? "default" : "pointer")};
+  text-transform: capitalize;
 
   &:hover {
     color: ${secondaryColor};

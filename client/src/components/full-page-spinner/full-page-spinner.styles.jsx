@@ -35,8 +35,8 @@ export const FullPageSpinnerText = styled.p`
   position: absolute;
   left: 50%;
   top: 50%;
-  margin-left: -85px;
-  width: 170px;
+  margin-left: -130px;
+  width: 270px;
   height: 24px;
   text-align: center;
   text-transform: capitalize;
