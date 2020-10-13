@@ -4,7 +4,8 @@ import {
   LogoContainer,
   NavBarItems,
   NavItem,
-  LogOutBtn
+  LogOutBtn,
+  Username
 } from "./navbar.styles";
 
 import CartDropDown from "../cart-drop-down/cart-drop-down.component";
@@ -20,6 +21,12 @@ const NavBar = ({ currentUser, hidden, logOut }) => (
   <NavBarContainer>
     <LogoContainer>
       <i className="fas fa-plug fa-3x"></i>
+      {currentUser && (
+        <Username>
+          <span>{currentUser.fullName}</span>
+          <i className="far fa-user" />
+        </Username>
+      )}
     </LogoContainer>
     <NavBarItems>
       <NavItem exact to="/" activeClassName="active">
@@ -33,6 +40,7 @@ const NavBar = ({ currentUser, hidden, logOut }) => (
           Wish Lists
         </NavItem>
       )}
+
       {!currentUser ? (
         <NavItem to="/login" activeClassName="active">
           Log In
