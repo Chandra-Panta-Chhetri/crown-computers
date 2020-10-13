@@ -21,6 +21,7 @@ import {
   addErrorNotification,
   addSuccessNotification
 } from "../notification/notification.actions";
+import { capitalize } from "../../global.utils";
 
 function* setUserFromSnapShot(userAuth, additionalData) {
   const userRef = yield createOrGetUser(userAuth, additionalData);
@@ -99,7 +100,9 @@ function* handleSignInSuccess({ payload: loggedInUser }) {
   yield put(
     addSuccessNotification(
       "Sign In Successful",
-      `Welcome back ${loggedInUser.fullName.toUpperCase()}! Your cart has been restored`
+      `Welcome back ${capitalize(
+        loggedInUser.fullName
+      )}! Your cart has been restored`
     )
   );
 }

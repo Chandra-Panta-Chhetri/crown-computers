@@ -24,7 +24,7 @@ import {
   removeItemFromWishList,
   removeWishList
 } from "./wish-list.utils";
-import { truncate } from "../../global.utils.js";
+import { capitalize, truncate } from "../../global.utils.js";
 import {
   wishListsFetchFail,
   wishListsFetchSuccess,
@@ -82,6 +82,7 @@ function* handleWishListFetchByIdFail({ payload: errorMsg }) {
 }
 
 function* removeWishListById({ payload: { wishListToDelete } }) {
+  const wishListName = capitalize(wishListToDelete.wishListName);
   try {
     const wishLists = yield select(selectWishLists);
     yield deleteWishListById(wishListToDelete);
@@ -91,14 +92,14 @@ function* removeWishListById({ payload: { wishListToDelete } }) {
     );
     yield put(
       deleteWishListByIdSuccess(
-        `${wishListToDelete.wishListName} has been deleted`,
+        `${wishListName} has been deleted`,
         updatedWishLists
       )
     );
   } catch (err) {
     yield put(
       deleteWishListByIdFail(
-        `There was a problem deleting ${wishListToDelete.wishListName}. It has either been already deleted or you do not have permission`
+        `There was a problem deleting ${wishListName}. It has either been already deleted or you do not have permission`
       )
     );
   }
@@ -113,7 +114,7 @@ function* handleRemoveWishListSuccess({ payload: { notificationMsg } }) {
 }
 
 function* createWishList({ payload: { newWishListInfo, onSuccess } }) {
-  const { wishListName } = newWishListInfo;
+  const wishListName = capitalize(newWishListInfo.wishListName);
   try {
     const { id: userId } = yield select(selectCurrentUser);
     const newWishList = yield createNewWishList(userId, newWishListInfo);
@@ -145,40 +146,42 @@ function* handleAddingItemToWishList({
   payload: { item, wishList, onSuccess }
 }) {
   const { wishListName, wishListId } = wishList;
+  const capitalizedName = capitalize(wishListName);
   try {
     console.log(item, wishList);
     const updatedWishList = yield addItemToWishList(wishList, item);
     yield call(saveWishListItems, updatedWishList.items, wishListId);
     yield put(
       updateWishListSuccess(
-        `Added Item To ${wishListName}`,
-        `${truncate(item.name)} was added to ${wishListName}`,
+        `Added Item To ${capitalizedName}`,
+        `${truncate(item.name)} was added to ${capitalizedName}`,
         updatedWishList
       )
     );
     yield onSuccess();
   } catch (err) {
     yield put(
-      updateWishListFail(`Adding To ${wishListName} Failed`, err.message)
+      updateWishListFail(`Adding To ${capitalizedName} Failed`, err.message)
     );
   }
 }
 
 function* handleRemovingItemFromWishList({ payload: { item, wishList } }) {
   const { wishListName, wishListId } = wishList;
+  const capitalizedName = capitalize(wishListName);
   try {
     const updatedWishList = yield removeItemFromWishList(wishList, item);
     yield call(saveWishListItems, updatedWishList.items, wishListId);
     yield put(
       updateWishListSuccess(
-        `Removed From ${wishListName}`,
-        `${truncate(item.name)} was removed from ${wishListName}`,
+        `Removed From ${capitalizedName}`,
+        `${truncate(item.name)} was removed from ${capitalizedName}`,
         updatedWishList
       )
     );
   } catch (err) {
     yield put(
-      updateWishListFail(`Removing From ${wishListName} Failed`, err.message)
+      updateWishListFail(`Removing From ${capitalizedName} Failed`, err.message)
     );
   }
 }

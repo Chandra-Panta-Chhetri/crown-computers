@@ -6,6 +6,7 @@ import {
   deleteAllCartItemDocsInCart
 } from "./firebase.cart_utils";
 import { getUserRefById } from "./firebase.user_utils";
+import { capitalize } from "../global.utils";
 
 const getWishListSnapshots = async (userId) => {
   const userRef = getUserRefById(userId);
@@ -66,14 +67,17 @@ export const deleteWishListById = async (wishListToDelete) => {
 export const createNewWishList = async (userId, newWishListInfo) => {
   const userRef = getUserRefById(userId);
   const createdAt = new Date();
+  const wishListName = capitalize(newWishListInfo.wishListName);
   const newWishListRef = await createNewCart(userRef, true, {
     ...newWishListInfo,
+    wishListName,
     createdAt
   });
   return {
+    ...newWishListInfo,
     wishListId: newWishListRef.id,
     items: [],
     createdAt,
-    ...newWishListInfo
+    wishListName
   };
 };

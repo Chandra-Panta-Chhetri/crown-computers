@@ -41,6 +41,10 @@ export const ModalHeader = styled.span`
   align-items: center;
   font-size: 18px;
 
+  h3 {
+    margin-bottom: 10px;
+  }
+
   i {
     cursor: pointer;
     color: lightgrey;
