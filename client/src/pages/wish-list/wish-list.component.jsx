@@ -28,7 +28,7 @@ const PageNotFound = lazy(() =>
 const WishList = ({
   match,
   wishListLoadingText,
-  isUpdatingWishList,
+  isUpdatingWishLists,
   cartLoadingText,
   isUpdatingCart
 }) => {
@@ -46,7 +46,7 @@ const WishList = ({
         </Switch>
       </Suspense>
       <FullPageSpinner
-        isLoading={isUpdatingWishList || isUpdatingCart}
+        isLoading={isUpdatingWishLists || isUpdatingCart}
         loadingText={isUpdatingCart ? cartLoadingText : wishListLoadingText}
       />
     </article>
@@ -55,7 +55,7 @@ const WishList = ({
 
 const mapStateToProps = createStructuredSelector({
   wishListLoadingText: selectWishListLoadingText,
-  isUpdatingWishList: selectIsUpdatingWishList,
+  isUpdatingWishLists: selectIsUpdatingWishList,
   isUpdatingCart: selectIsUpdatingCart,
   cartLoadingText: selectCartLoadingText
 });

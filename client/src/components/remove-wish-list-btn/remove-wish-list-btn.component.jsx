@@ -4,20 +4,13 @@ import {
   DeleteModalButtonContainer,
   DeleteIcon
 } from "./remove-wish-list-btn.styles";
-import { LoadingText } from "../card-details-form/card-details-form.styles";
 
 import Button from "../button/button.component";
 
 import { deleteWishListById } from "../../redux/wish-list/wish-list.actions";
-import { selectIsUpdatingWishList } from "../../redux/wish-list/wish-list.selectors";
 import { connect } from "react-redux";
 
-const RemoveWishListBtn = ({
-  wishList,
-  deleteWishList,
-  isDeletingWishList,
-  className
-}) => {
+const RemoveWishListBtn = ({ wishList, deleteWishList, className }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
@@ -42,16 +35,8 @@ const RemoveWishListBtn = ({
         </p>
         <DeleteModalButtonContainer>
           <Button onClick={closeDeleteModal}>Cancel</Button>
-          <Button
-            color="red"
-            onClick={() => deleteWishList(wishList)}
-            disabled={isDeletingWishList}
-          >
-            {isDeletingWishList ? (
-              <LoadingText>Deleting Wish List</LoadingText>
-            ) : (
-              "Delete Wish List"
-            )}
+          <Button color="red" onClick={() => deleteWishList(wishList)}>
+            Delete Wish List
           </Button>
         </DeleteModalButtonContainer>
       </WishListDeleteModal>
@@ -59,13 +44,9 @@ const RemoveWishListBtn = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  isDeletingWishList: selectIsUpdatingWishList(state)
-});
-
 const mapDispatchToProps = (dispatch) => ({
   deleteWishList: (wishListToDelete) =>
     dispatch(deleteWishListById(wishListToDelete))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemoveWishListBtn);
+export default connect(null, mapDispatchToProps)(RemoveWishListBtn);

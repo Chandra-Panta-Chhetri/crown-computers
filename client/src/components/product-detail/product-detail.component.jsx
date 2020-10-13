@@ -8,7 +8,8 @@ import {
   ProductName,
   ProductDescription,
   ProductStock,
-  AddProductToCart
+  AddProductToCart,
+  AddToWishListIcon
 } from "./product-detail.styles";
 
 import Tabs from "../tabs/tabs.component";
@@ -17,7 +18,6 @@ import ProductsCarousel from "../products-carousel/products-carousel.component";
 import ProductImageCarousel from "../product-image-carousel/product-image-carousel.component";
 import Banner from "../banner/banner.component";
 import ProductDetailSkeleton from "../product-detail-skeleton/product-detail-skeleton.component";
-import AddToWishListBtn from "../add-to-wish-list-btn/add-to-wish-list-btn.component";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
@@ -75,7 +75,12 @@ const ProductDetail = ({
               >
                 {category}
               </ProductCategory>
-              <ProductName>{name}</ProductName>
+              <ProductName>
+                <span>{name}</span>{" "}
+                {currentUser && (
+                  <AddToWishListIcon itemToAddOnClick={product} />
+                )}
+              </ProductName>
               <Tabs>
                 <Tab tabLabel="Description">
                   <ProductDescription>
@@ -96,7 +101,6 @@ const ProductDetail = ({
                 />
               </ProductActionContainer>
               {stock < 10 && <ProductStock>{stock} left in stock</ProductStock>}
-              {currentUser && <AddToWishListBtn itemToAddOnClick={product} />}
             </ProductInfoContainer>
           </ProductDetailContainer>
           {category && <ProductsCarousel categoryName={category} />}

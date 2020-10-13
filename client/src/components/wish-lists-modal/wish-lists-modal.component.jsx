@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import {
   WishListsModalContainer,
   AddItemToWishListBtn,
-  AddToWishListForm
+  AddToWishListForm,
+  NoWishListsText
 } from "./wish-lists-modal.styles";
-import { LoadingText } from "../card-details-form/card-details-form.styles";
 
 import Checkbox from "../checkbox/checkbox.component";
 import Spinner from "../spinner/spinner.component";
 
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { compose } from "redux";
 import {
-  selectIsUpdatingWishList,
   selectIsFetchingWishLists,
   selectWishLists
 } from "../../redux/wish-list/wish-list.selectors";
@@ -19,13 +20,14 @@ import { startWishListsFetch } from "../../redux/wish-list/wish-list.actions";
 
 const WishListsModal = ({
   wishLists,
-  isUpdatingWishList,
   isFetchingWishList,
   fetchWishLists,
   closeModal,
+  history,
   submitHandler = () => {}
 }) => {
   const [selectedCheckboxes, setSelectedCheckbox] = useState([]);
+  const numOfWishLists = (wishLists || []).length;
 
   useEffect(() => {
     if (wishLists.length) {
@@ -61,33 +63,40 @@ const WishListsModal = ({
     <WishListsModalContainer
       isOpen={true}
       closeModalHandler={closeModal}
-      modalTitle="Select Wish List(s)"
+      modalTitle="Select Wish Lists"
+      numOfWishLists={numOfWishLists}
     >
       {isFetchingWishList ? (
         <Spinner loadingText="Getting Latest Wish Lists" />
       ) : (
-        <AddToWishListForm onSubmit={handleSubmit}>
-          {(wishLists || []).map((wishList, index) => (
-            <Checkbox
-              label={wishList.wishListName}
-              key={index}
-              inputChangeHandler={handleWishListSelect}
-              value={index}
-            />
-          ))}
-          <AddItemToWishListBtn
-            type="submit"
-            variant="icon"
-            iconClass="fas fa-plus"
-            disabled={isUpdatingWishList || !selectedCheckboxes.length}
-          >
-            {isUpdatingWishList ? (
-              <LoadingText>Adding To Wish List(s)</LoadingText>
-            ) : (
-              "Add To Wish List(s)"
-            )}
-          </AddItemToWishListBtn>
-        </AddToWishListForm>
+        <>
+          {numOfWishLists > 0 && (
+            <AddToWishListForm onSubmit={handleSubmit}>
+              {(wishLists || []).map((wishList, index) => (
+                <Checkbox
+                  label={wishList.wishListName}
+                  key={index}
+                  inputChangeHandler={handleWishListSelect}
+                  value={index}
+                />
+              ))}
+              <AddItemToWishListBtn
+                type="submit"
+                variant="icon"
+                iconClass="fas fa-plus"
+                disabled={!selectedCheckboxes.length}
+              >
+                Add To Wish Lists
+              </AddItemToWishListBtn>
+            </AddToWishListForm>
+          )}
+          {numOfWishLists === 0 && (
+            <NoWishListsText>
+              It seems you have no wish lists. Create One{" "}
+              <span onClick={() => history.push("/wish-lists")}>Here</span>
+            </NoWishListsText>
+          )}
+        </>
       )}
     </WishListsModalContainer>
   );
@@ -95,7 +104,6 @@ const WishListsModal = ({
 
 const mapStateToProps = (state) => ({
   wishLists: selectWishLists(state),
-  isUpdatingWishList: selectIsUpdatingWishList(state),
   isFetchingWishList: selectIsFetchingWishLists(state)
 });
 
@@ -103,4 +111,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchWishLists: () => dispatch(startWishListsFetch())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(WishListsModal);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter
+)(WishListsModal);

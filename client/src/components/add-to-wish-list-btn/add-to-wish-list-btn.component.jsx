@@ -1,38 +1,31 @@
 import React, { useState } from "react";
-
-import Button from "../button/button.component";
+import { AddToWishListIcon } from "./add-to-wish-list.styles";
 
 import { connect } from "react-redux";
-import { selectIsUpdatingWishList } from "../../redux/wish-list/wish-list.selectors";
 import { addToWishList } from "../../redux/wish-list/wish-list.actions";
 
 import WishListsModal from "../wish-lists-modal/wish-lists-modal.component";
 
 const AddToWishListBtn = ({
-  isUpdatingWishList,
   addItemToWishList,
   itemToAddOnClick,
   className
 }) => {
   const [isWishListsModalOpen, setIsWishListsModalOpen] = useState(false);
 
+  const closeModal = () => setIsWishListsModalOpen(false);
   const addItemToWishLists = (wishLists) => {
     for (let wishList of wishLists) {
-      addItemToWishList(itemToAddOnClick, wishList);
+      addItemToWishList(itemToAddOnClick, wishList, closeModal);
     }
   };
 
-  const closeModal = () => setIsWishListsModalOpen(false);
-
   return (
     <>
-      <Button
+      <AddToWishListIcon
         onClick={() => setIsWishListsModalOpen(true)}
-        className={className}
-        disabled={isUpdatingWishList}
-      >
-        Add To Wish List(s)
-      </Button>
+        className={`${className} far fa-bookmark`}
+      />
       {isWishListsModalOpen && (
         <WishListsModal
           closeModal={closeModal}
@@ -43,12 +36,9 @@ const AddToWishListBtn = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  isUpdatingWishList: selectIsUpdatingWishList(state)
-});
-
 const mapDispatchToProps = (dispatch) => ({
-  addItemToWishList: (item, wishList) => dispatch(addToWishList(item, wishList))
+  addItemToWishList: (item, wishList, onSuccess) =>
+    dispatch(addToWishList(item, wishList, onSuccess))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddToWishListBtn);
+export default connect(null, mapDispatchToProps)(AddToWishListBtn);

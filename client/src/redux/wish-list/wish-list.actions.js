@@ -66,11 +66,12 @@ export const createWishListSuccess = (createdWishList) => ({
   payload: createdWishList
 });
 
-export const addToWishList = (item, wishList) => ({
+export const addToWishList = (item, wishList, onSuccess) => ({
   type: WISH_LIST_ACTION_TYPES.START_ADD_TO_WISH_LIST,
   payload: {
     item,
     wishList,
+    onSuccess,
     loadingText: `Adding item to ${wishList.wishListName}`
   }
 });

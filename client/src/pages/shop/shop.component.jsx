@@ -10,6 +10,10 @@ import {
   selectIsUpdatingCart,
   selectCartLoadingText
 } from "../../redux/cart/cart.selectors";
+import {
+  selectIsUpdatingWishList,
+  selectWishListLoadingText
+} from "../../redux/wish-list/wish-list.selectors";
 
 const CollectionOverview = lazy(() =>
   import("../../components/collection-overview/collection-overview.component")
@@ -24,7 +28,13 @@ const PageNotFound = lazy(() =>
   import("../../components/page-not-found/page-not-found.component")
 );
 
-const ShopPage = ({ match, isUpdatingCart, cartLoadingText }) => {
+const ShopPage = ({
+  match,
+  isUpdatingCart,
+  cartLoadingText,
+  isUpdatingWishLists,
+  wishListLoadingText
+}) => {
   return (
     <article>
       <Suspense fallback={<Spinner />}>
@@ -44,8 +54,8 @@ const ShopPage = ({ match, isUpdatingCart, cartLoadingText }) => {
         </Switch>
       </Suspense>
       <FullPageSpinner
-        isLoading={isUpdatingCart}
-        loadingText={cartLoadingText}
+        isLoading={isUpdatingCart || isUpdatingWishLists}
+        loadingText={isUpdatingCart ? cartLoadingText : wishListLoadingText}
       />
     </article>
   );
@@ -53,7 +63,9 @@ const ShopPage = ({ match, isUpdatingCart, cartLoadingText }) => {
 
 const mapStateToProps = createStructuredSelector({
   isUpdatingCart: selectIsUpdatingCart,
-  cartLoadingText: selectCartLoadingText
+  cartLoadingText: selectCartLoadingText,
+  isUpdatingWishLists: selectIsUpdatingWishList,
+  wishListLoadingText: selectWishListLoadingText
 });
 
 export default connect(mapStateToProps)(ShopPage);

@@ -3,7 +3,6 @@ import {
   CreateWishListModalContainer,
   ConfirmWishListInfoBtn
 } from "./create-wish-list-modal.styles";
-import { LoadingText } from "../card-details-form/card-details-form.styles";
 
 import FormInput from "../form-input/form-input.component";
 
@@ -11,12 +10,10 @@ import {
   createNewWishList,
   startWishListUpdate
 } from "../../redux/wish-list/wish-list.actions";
-import { selectIsUpdatingWishList } from "../../redux/wish-list/wish-list.selectors";
 import { connect } from "react-redux";
 
 const CreateWishListModal = ({
   createWishList,
-  isCreatingWishList,
   closeModalHandler,
   modalTitle,
   updateWishList,
@@ -56,28 +53,14 @@ const CreateWishListModal = ({
         />
         <ConfirmWishListInfoBtn
           type="submit"
-          disabled={
-            isCreatingWishList || defaultWishList.wishListName === wishListName
-          }
+          disabled={defaultWishList.wishListName === wishListName}
         >
-          {isCreatingWishList ? (
-            <LoadingText>
-              {isEditingWishList ? "Creating Wish List" : "Updating Wish List"}
-            </LoadingText>
-          ) : isEditingWishList ? (
-            "Update Wish List"
-          ) : (
-            "Create Wish List"
-          )}
+          {isEditingWishList ? "Update Wish List" : "Create Wish List"}
         </ConfirmWishListInfoBtn>
       </form>
     </CreateWishListModalContainer>
   );
 };
-
-const mapStateToProps = (state) => ({
-  isCreatingWishList: selectIsUpdatingWishList(state)
-});
 
 const mapDispatchToProps = (dispatch) => ({
   createWishList: (newWishListInfo, onSuccess) =>
@@ -86,7 +69,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(startWishListUpdate(updatedWishList, wishListId, onSuccess))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateWishListModal);
+export default connect(null, mapDispatchToProps)(CreateWishListModal);

@@ -141,7 +141,9 @@ function* handleCreateWishListSuccess({ payload: createdWishList }) {
   );
 }
 
-function* handleAddingItemToWishList({ payload: { item, wishList } }) {
+function* handleAddingItemToWishList({
+  payload: { item, wishList, onSuccess }
+}) {
   const { wishListName, wishListId } = wishList;
   try {
     console.log(item, wishList);
@@ -154,6 +156,7 @@ function* handleAddingItemToWishList({ payload: { item, wishList } }) {
         updatedWishList
       )
     );
+    yield onSuccess();
   } catch (err) {
     yield put(
       updateWishListFail(`Adding To ${wishListName} Failed`, err.message)

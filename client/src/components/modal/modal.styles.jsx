@@ -39,6 +39,7 @@ export const ModalHeader = styled.span`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 18px;
 
   i {
     cursor: pointer;

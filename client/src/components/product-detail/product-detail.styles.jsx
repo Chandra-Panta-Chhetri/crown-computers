@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { secondaryColor } from "../../global.styles";
 import AddToCartBtn from "../add-to-cart-btn/add-to-cart-btn.component";
+import AddToWishListBtn from "../add-to-wish-list-btn/add-to-wish-list-btn.component";
 
 export const ProductDetailContainer = styled.section`
   display: flex;
@@ -38,6 +39,11 @@ export const ProductStock = styled.p`
 export const ProductName = styled.h1`
   margin: 0 0 10px;
   font-size: 1.875rem;
+  text-transform: capitalize;
+`;
+
+export const AddToWishListIcon = styled(AddToWishListBtn)`
+  float: right;
 `;
 
 export const ProductDescription = styled.p`
