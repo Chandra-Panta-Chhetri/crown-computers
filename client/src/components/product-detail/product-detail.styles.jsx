@@ -58,6 +58,12 @@ export const ProductActionContainer = styled.div`
 
 export const AddProductToCart = styled(AddToCartBtn)`
   margin-left: auto;
+  padding-right: 0.85rem;
+  padding-left: 3.7rem;
+
+  i {
+    width: 25%;
+  }
 `;
 
 export const ProductPrice = styled.span`

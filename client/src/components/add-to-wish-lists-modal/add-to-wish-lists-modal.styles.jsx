@@ -25,6 +25,10 @@ export const AddToWishListBtn = styled(Button)`
   width: 100%;
   justify-content: center;
   margin-top: auto;
+
+  i {
+    width: 15%;
+  }
 `;
 
 export const NoWishListsText = styled.p`

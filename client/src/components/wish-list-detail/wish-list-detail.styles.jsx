@@ -63,6 +63,15 @@ export const ItemTableData = styled.td`
   padding: 0.9em;
 `;
 
+export const AddItemToCartBtn = styled(AddToCartButton)`
+  padding-left: 3.5rem;
+  padding-right: 0.8rem;
+
+  i {
+    width: 25%;
+  }
+`;
+
 export const WishListItemCategory = styled(ProductCategory)`
   cursor: pointer;
 
@@ -92,4 +101,6 @@ export const NoItemsText = styled.p`
 export const AddAllToCart = styled(AddToCartButton)`
   margin-top: 30px;
   width: fit-content;
+  padding-left: 3.7rem;
+  padding-right: 1.2rem;
 `;

@@ -23,6 +23,8 @@ const AddToCartButton = ({
     <Button
       className={className}
       onClick={addItemsToCart}
+      variant="icon"
+      iconClass="fas fa-cart-plus"
       disabled={
         itemsToAddOnClick.length === 1 &&
         itemQuantityInCart === itemsToAddOnClick[0].stock

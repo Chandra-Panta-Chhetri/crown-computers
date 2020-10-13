@@ -14,7 +14,13 @@ const StripeCheckoutButton = ({ price, label, history }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>{label}</Button>
+      <Button
+        onClick={() => setIsOpen(true)}
+        variant="icon"
+        iconClass="far fa-credit-card fa-2x"
+      >
+        {label}
+      </Button>
       <Modal
         isOpen={isOpen}
         closeModalHandler={() => setIsOpen(false)}

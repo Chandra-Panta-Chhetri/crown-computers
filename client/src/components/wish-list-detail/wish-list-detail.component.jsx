@@ -11,7 +11,8 @@ import {
   WishListItemName,
   WishListEditIcon,
   WishListDetailContainer,
-  NoItemsText
+  NoItemsText,
+  AddItemToCartBtn
 } from "./wish-list-detail.styles";
 import {
   TableHeadings,
@@ -25,7 +26,6 @@ import {
   Icon
 } from "../cart-summary-item/cart-summary-item.styles";
 
-import AddToCartButton from "../add-to-cart-btn/add-to-cart-btn.component";
 import FullPageSpinner from "../full-page-spinner/full-page-spinner.component";
 import CreateWishListModal from "../create-wish-list-modal/create-wish-list-modal.component";
 import WishListDetailSkeleton from "../wish-list-detail-skeleton/wish-list-detail-skeleton.component";
@@ -132,7 +132,7 @@ const WishListDetail = ({
               <ItemTableData>${wishListItem.price}</ItemTableData>
               <ItemTableData>{wishListItem.stock}</ItemTableData>
               <ItemTableData>
-                <AddToCartButton itemsToAddOnClick={[wishListItem]} />
+                <AddItemToCartBtn itemsToAddOnClick={[wishListItem]} />
               </ItemTableData>
               <ItemTableData>
                 <RemoveItemButton

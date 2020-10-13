@@ -75,10 +75,11 @@ export const ButtonWithIcon = styled.button`
   ${buttonDisabledStyles}
   display: flex;
   align-items: center;
-  padding-right: 2.2rem;
-  justify-content: flex-end;
+  padding-right: 0;
+  justify-content: center;
 
   i {
+    font-size: 22px;
     margin-right: 5px;
     border-right: 2px solid;
     position: absolute;
