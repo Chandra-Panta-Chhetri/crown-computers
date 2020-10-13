@@ -27,7 +27,7 @@ const WishListPreview = ({ wishList, history, match }) => {
           <StyledRemoveWishListBtn wishList={wishList} />
         </div>
         <WishListCreationDate>
-          <i className="far fa-calendar-alt"></i> Created On{" "}
+          <i className="far fa-calendar-alt" /> Created On{" "}
           {createdAt.toDateString()}
         </WishListCreationDate>
         <WishListItemPreviewContainer>

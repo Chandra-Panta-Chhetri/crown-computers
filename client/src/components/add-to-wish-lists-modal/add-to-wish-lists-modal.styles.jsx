@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { secondaryColor } from "../../global.styles";
 import Button from "../button/button.component";
 import Modal from "../modal/modal.component";
 import { ModalBody } from "../modal/modal.styles";
+import { secondaryColor } from "../../global.styles";
 
 export const WishListsModalContainer = styled(Modal)`
   ${ModalBody} {
@@ -21,7 +21,7 @@ export const AddToWishListForm = styled.form`
   flex-direction: column;
 `;
 
-export const AddItemToWishListBtn = styled(Button)`
+export const AddToWishListBtn = styled(Button)`
   width: 100%;
   justify-content: center;
   margin-top: auto;

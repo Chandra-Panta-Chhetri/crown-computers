@@ -17,13 +17,13 @@ const Button = ({
     case "icon":
       return (
         <ButtonWithIcon {...otherButtonAttr} color={color}>
-          <i className={iconClass}></i> <span>{children}</span>
+          <i className={iconClass} /> <span>{children}</span>
         </ButtonWithIcon>
       );
     case "no-border":
       return (
         <ButtonWithNoBorder {...otherButtonAttr} color={color}>
-          <i className={iconClass}></i> <span>{children}</span>
+          <i className={iconClass} /> <span>{children}</span>
         </ButtonWithNoBorder>
       );
     default:
