@@ -21,7 +21,7 @@ const ProductsCarousel = ({
     fetchProductsInCategory(categoryName, () => {
       setIsCarouselShown(false);
     });
-  }, [fetchProductsInCategory, categoryName, products]);
+  }, [fetchProductsInCategory, categoryName]);
 
   if (!isCarouselShown) {
     return null;

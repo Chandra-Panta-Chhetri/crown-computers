@@ -34,7 +34,7 @@ const WishListsModal = ({
       return;
     }
     fetchWishLists();
-  }, [fetchWishLists, wishLists]);
+  }, [fetchWishLists]);
 
   const handleWishListSelect = (e) => {
     const { checked, value } = e.target;
@@ -92,8 +92,10 @@ const WishListsModal = ({
           )}
           {numOfWishLists === 0 && (
             <NoWishListsText>
-              It seems you have no wish lists. Create One{" "}
-              <span onClick={() => history.push("/wish-lists")}>Here</span>
+              It seems you have no wish lists.{" "}
+              <span onClick={() => history.push("/wish-lists")}>
+                Create wish list
+              </span>
             </NoWishListsText>
           )}
         </>
