@@ -1,13 +1,12 @@
 import USER_ACTION_TYPES from "./user.action.types";
-import { takeLatest, put, call, all, select } from "redux-saga/effects";
+import { takeLatest, put, call, all } from "redux-saga/effects";
 import {
   signInSuccess,
   signInFail,
   signUpFail,
   logOutSuccess,
   logOutFail,
-  startEmailSignIn,
-  startAutoSignIn
+  startEmailSignIn
 } from "./user.actions";
 import { restoreCart, clearCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../firebase-utils/firebase.config";
@@ -16,7 +15,6 @@ import {
   getUserFromSession
 } from "../../firebase-utils/firebase.user_utils";
 import { getUserCartAndCartId } from "../../firebase-utils/firebase.cart_utils";
-import { selectWasSignedIn } from "./user.selectors";
 import {
   addErrorNotification,
   addSuccessNotification
@@ -52,16 +50,13 @@ function* signInWithEmail({ payload: { email, password } }) {
   }
 }
 
-function* setUserFromSession() {
+function* autoSignIn() {
   try {
     const user = yield getUserFromSession();
-    const wasSignedIn = yield select(selectWasSignedIn);
-    if (!user && wasSignedIn) {
+    if (!user) {
       throw Error();
-    } else if (user && wasSignedIn) {
-      yield put(startAutoSignIn());
-      yield call(setUserFromSnapShot, user);
     }
+    yield call(setUserFromSnapShot, user);
   } catch (err) {
     yield put(signInFail("Auto sign in failed, please login again"));
     yield put(clearCart());
@@ -131,11 +126,8 @@ function* watchEmailSignIn() {
   yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, signInWithEmail);
 }
 
-function* watchgetUserFromSession() {
-  yield takeLatest(
-    USER_ACTION_TYPES.START_SIGN_IN_USER_FROM_SESSION,
-    setUserFromSession
-  );
+function* watchGetUserFromSession() {
+  yield takeLatest(USER_ACTION_TYPES.START_AUTO_SIGN_IN, autoSignIn);
 }
 
 function* watchSignInSuccess() {
@@ -160,7 +152,7 @@ export default function* userSagas() {
     call(watchSignUpFail),
     call(watchGoogleSignIn),
     call(watchEmailSignIn),
-    call(watchgetUserFromSession),
+    call(watchGetUserFromSession),
     call(watchSignInFail),
     call(watchSignInSuccess),
     call(watchLogOutStart),

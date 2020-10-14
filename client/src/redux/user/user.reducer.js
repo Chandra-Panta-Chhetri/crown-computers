@@ -24,7 +24,8 @@ const userReducer = (prevState = INITIAL_STATE, action) => {
       return {
         ...prevState,
         currentUser: action.payload,
-        isChangingAuthState: false
+        isChangingAuthState: false,
+        wasSignedIn: true
       };
     case USER_ACTION_TYPES.SIGN_IN_FAIL:
     case USER_ACTION_TYPES.LOG_OUT_FAIL:
@@ -32,14 +33,16 @@ const userReducer = (prevState = INITIAL_STATE, action) => {
       localStorage.setItem("wasSignedIn", false);
       return {
         ...prevState,
-        isChangingAuthState: false
+        isChangingAuthState: false,
+        wasSignedIn: false
       };
     case USER_ACTION_TYPES.LOG_OUT_SUCCESS:
       localStorage.setItem("wasSignedIn", false);
       return {
         ...prevState,
         currentUser: null,
-        isChangingAuthState: false
+        isChangingAuthState: false,
+        wasSignedIn: false
       };
     default:
       return prevState;

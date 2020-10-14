@@ -1,18 +1,18 @@
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect } from "react";
 import { GlobalStyles } from "./global.styles";
 
 import NavBar from "./components/navbar/navbar.component";
-import { withRouter } from "react-router-dom";
-import Spinner from "./components/spinner/spinner.component";
-import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 import Toast from "./components/toast/toast.component";
 import AppRoutes from "./components/app-routes/app-routes.component";
+import FullPageSpinner from "./components/full-page-spinner/full-page-spinner.component";
+import { withRouter } from "react-router-dom";
 
 import {
   selectIsChangingAuthState,
-  selectUserLoadingText
+  selectUserLoadingText,
+  selectWasSignedIn
 } from "./redux/user/user.selectors";
-import { signInUserFromSession } from "./redux/user/user.actions";
+import { startAutoSignIn } from "./redux/user/user.actions";
 import { selectCartVisibility } from "./redux/cart/cart.selectors";
 import { toggleCartVisibility } from "./redux/cart/cart.actions";
 import { createStructuredSelector } from "reselect";
@@ -20,16 +20,19 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 
 const App = ({
-  signInUserFromSession,
+  autoSignIn,
   history,
   isCartHidden,
   toggleCartVisibility,
   isChangingAuthState,
+  wasSignedIn,
   userLoadingText
 }) => {
   useEffect(() => {
-    signInUserFromSession();
-  }, [signInUserFromSession]);
+    if (wasSignedIn) {
+      autoSignIn();
+    }
+  }, [autoSignIn]);
 
   useEffect(() => {
     return history.listen(() => {
@@ -45,18 +48,12 @@ const App = ({
   return (
     <div>
       <GlobalStyles />
-      {isChangingAuthState ? (
-        <Spinner loadingText={userLoadingText} />
-      ) : (
-        <>
-          <NavBar />
-          <ErrorBoundary>
-            <Suspense fallback={<Spinner />}>
-              <AppRoutes />
-            </Suspense>
-          </ErrorBoundary>
-        </>
-      )}
+      <NavBar />
+      <AppRoutes />
+      <FullPageSpinner
+        isLoading={isChangingAuthState}
+        loadingText={userLoadingText}
+      />
       <Toast autoDelete dismissTime={2650} />
     </div>
   );
@@ -65,11 +62,12 @@ const App = ({
 const mapStateToProps = createStructuredSelector({
   isCartHidden: selectCartVisibility,
   isChangingAuthState: selectIsChangingAuthState,
-  userLoadingText: selectUserLoadingText
+  userLoadingText: selectUserLoadingText,
+  wasSignedIn: selectWasSignedIn
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  signInUserFromSession: () => dispatch(signInUserFromSession()),
+  autoSignIn: () => dispatch(startAutoSignIn()),
   toggleCartVisibility: () => dispatch(toggleCartVisibility())
 });
 

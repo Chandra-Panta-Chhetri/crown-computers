@@ -1,9 +1,5 @@
 import USER_ACTION_TYPES from "./user.action.types";
 
-export const signInUserFromSession = () => ({
-  type: USER_ACTION_TYPES.START_SIGN_IN_USER_FROM_SESSION
-});
-
 export const startAutoSignIn = () => ({
   type: USER_ACTION_TYPES.START_AUTO_SIGN_IN,
   payload: { loadingText: "Auto signing in" }

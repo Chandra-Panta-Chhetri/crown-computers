@@ -1,6 +1,8 @@
-import React, { lazy } from "react";
+import React, { lazy, Suspense } from "react";
 
 import { Route, Switch, Redirect } from "react-router-dom";
+import Spinner from "../spinner/spinner.component";
+import ErrorBoundary from "../error-boundary/error-boundary.component";
 
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { connect } from "react-redux";
@@ -20,28 +22,32 @@ const WishList = lazy(() =>
 );
 
 const AppRoutes = ({ currentUser }) => (
-  <Switch>
-    <Route exact path="/" component={Home} />
-    <Route path="/shop" component={ShopPage} />
-    <Route
-      exact
-      path="/login"
-      render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
-    />
-    <Route
-      exact
-      path="/signup"
-      render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
-    />
-    <Route exact path="/cart-summary" component={CartSummary} />
-    <Route
-      path="/wish-lists"
-      render={(props) =>
-        !currentUser ? <Redirect to="/" /> : <WishList {...props} />
-      }
-    />
-    <Route component={PageNotFound} />
-  </Switch>
+  <ErrorBoundary>
+    <Suspense fallback={<Spinner />}>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/shop" component={ShopPage} />
+        <Route
+          exact
+          path="/login"
+          render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
+        />
+        <Route
+          exact
+          path="/signup"
+          render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
+        />
+        <Route exact path="/cart-summary" component={CartSummary} />
+        <Route
+          path="/wish-lists"
+          render={(props) =>
+            !currentUser ? <Redirect to="/login" /> : <WishList {...props} />
+          }
+        />
+        <Route component={PageNotFound} />
+      </Switch>
+    </Suspense>
+  </ErrorBoundary>
 );
 
 const mapStateToProps = (state) => ({
