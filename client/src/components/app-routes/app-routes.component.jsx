@@ -24,40 +24,71 @@ const Dashboard = lazy(() =>
   import("../../pages/dashboard/dashboard.component")
 );
 
-const AppRoutes = ({ currentUser }) => (
-  <ErrorBoundary>
-    <Suspense fallback={<Spinner />}>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/shop" component={ShopPage} />
-        <Route
-          exact
-          path="/login"
-          render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
-        />
-        <Route
-          exact
-          path="/signup"
-          render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
-        />
-        <Route exact path="/cart-summary" component={CartSummary} />
-        <Route
-          path="/wish-lists"
-          render={(props) =>
-            !currentUser ? <Redirect to="/login" /> : <WishList {...props} />
-          }
-        />
-        <Route
-          path="/dashboard"
-          render={(props) =>
-            currentUser ? <Redirect to="/login" /> : <Dashboard {...props} />
-          }
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    </Suspense>
-  </ErrorBoundary>
-);
+const AppRoutes = ({ currentUser }) => {
+  const isAdmin = currentUser && currentUser.isAdmin;
+  const isAuthenticated = !!currentUser;
+  const isAuthenticatedAndNotAdmin = currentUser && !currentUser.isAdmin;
+
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<Spinner />}>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={(props) =>
+              isAdmin ? <Redirect to="/dashboard" /> : <Home {...props} />
+            }
+          />
+          <Route
+            path="/shop"
+            render={(props) =>
+              isAdmin ? <Redirect to="/dashboard" /> : <ShopPage {...props} />
+            }
+          />
+          <Route
+            exact
+            path="/login"
+            render={() => (isAuthenticated ? <Redirect to="/" /> : <LogIn />)}
+          />
+          <Route
+            exact
+            path="/signup"
+            render={() => (isAuthenticated ? <Redirect to="/" /> : <SignUp />)}
+          />
+          <Route
+            exact
+            path="/cart-summary"
+            render={(props) =>
+              isAdmin ? (
+                <Redirect to="/dashboard" />
+              ) : (
+                <CartSummary {...props} />
+              )
+            }
+          />
+          <Route
+            path="/wish-lists"
+            render={(props) =>
+              isAuthenticatedAndNotAdmin ? (
+                <WishList {...props} />
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/dashboard"
+            render={(props) =>
+              isAdmin ? <Dashboard {...props} /> : <Redirect to="/" />
+            }
+          />
+          <Route component={PageNotFound} />
+        </Switch>
+      </Suspense>
+    </ErrorBoundary>
+  );
+};
 
 const mapStateToProps = (state) => ({
   currentUser: selectCurrentUser(state)

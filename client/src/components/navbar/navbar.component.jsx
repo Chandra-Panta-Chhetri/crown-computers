@@ -32,22 +32,14 @@ const NavBar = ({ currentUser, hidden, logOut }) => (
       <NavItem exact to="/" activeClassName="active">
         Home
       </NavItem>
-      {(!currentUser || (currentUser && !currentUser.isAdmin)) && (
-        <NavItem to="/shop" activeClassName="active">
-          Shop
+      <NavItem to="/shop" activeClassName="active">
+        Shop
+      </NavItem>
+      {currentUser && (
+        <NavItem to="/wish-lists" activeClassName="active">
+          Wish Lists
         </NavItem>
       )}
-      {currentUser && currentUser.isAdmin && (
-        <NavItem to="/dashboard" activeClassName="active">
-          Dashboard
-        </NavItem>
-      )}
-      {currentUser &&
-        !currentUser.isAdmin(
-          <NavItem to="/wish-lists" activeClassName="active">
-            Wish Lists
-          </NavItem>
-        )}
       {!currentUser ? (
         <NavItem to="/login" activeClassName="active">
           Log In

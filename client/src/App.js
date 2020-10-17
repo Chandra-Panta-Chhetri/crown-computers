@@ -8,6 +8,7 @@ import FullPageSpinner from "./components/full-page-spinner/full-page-spinner.co
 import { withRouter } from "react-router-dom";
 
 import {
+  selectCurrentUser,
   selectIsChangingAuthState,
   selectUserLoadingText,
   selectWasSignedIn
@@ -26,7 +27,8 @@ const App = ({
   toggleCartVisibility,
   isChangingAuthState,
   wasSignedIn,
-  userLoadingText
+  userLoadingText,
+  currentUser
 }) => {
   useEffect(() => {
     if (wasSignedIn) {
@@ -48,7 +50,7 @@ const App = ({
   return (
     <div>
       <GlobalStyles />
-      <NavBar />
+      {(currentUser && currentUser.isAdmin) || <NavBar />}
       <AppRoutes />
       <FullPageSpinner
         isLoading={isChangingAuthState}
@@ -63,7 +65,8 @@ const mapStateToProps = createStructuredSelector({
   isCartHidden: selectCartVisibility,
   isChangingAuthState: selectIsChangingAuthState,
   userLoadingText: selectUserLoadingText,
-  wasSignedIn: selectWasSignedIn
+  wasSignedIn: selectWasSignedIn,
+  currentUser: selectCurrentUser
 });
 
 const mapDispatchToProps = (dispatch) => ({
