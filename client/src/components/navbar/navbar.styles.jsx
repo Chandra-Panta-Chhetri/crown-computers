@@ -16,7 +16,7 @@ const navItemStyles = css`
   color: ${mainColorLight};
 `;
 
-export const NavBarContainer = styled.div`
+export const NavBarContainer = styled.nav`
   height: 70px;
   width: 100%;
   display: flex;

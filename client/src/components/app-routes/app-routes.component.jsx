@@ -20,6 +20,9 @@ const PageNotFound = lazy(() =>
 const WishList = lazy(() =>
   import("../../pages/wish-list/wish-list.component")
 );
+const Dashboard = lazy(() =>
+  import("../../pages/dashboard/dashboard.component")
+);
 
 const AppRoutes = ({ currentUser }) => (
   <ErrorBoundary>
@@ -42,6 +45,12 @@ const AppRoutes = ({ currentUser }) => (
           path="/wish-lists"
           render={(props) =>
             !currentUser ? <Redirect to="/login" /> : <WishList {...props} />
+          }
+        />
+        <Route
+          path="/dashboard"
+          render={(props) =>
+            currentUser ? <Redirect to="/login" /> : <Dashboard {...props} />
           }
         />
         <Route component={PageNotFound} />
