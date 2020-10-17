@@ -30,6 +30,7 @@ const App = ({
   userLoadingText,
   currentUser
 }) => {
+  const isAdmin = currentUser && currentUser.isAdmin;
   useEffect(() => {
     if (wasSignedIn) {
       autoSignIn();
@@ -50,7 +51,7 @@ const App = ({
   return (
     <div>
       <GlobalStyles />
-      {(currentUser && currentUser.isAdmin) || <NavBar />}
+      {isAdmin || <NavBar />}
       <AppRoutes />
       <FullPageSpinner
         isLoading={isChangingAuthState}

@@ -19,5 +19,5 @@ export const selectUserLoadingText = createSelector(
 
 export const selectWasSignedIn = createSelector(
   [selectUser],
-  (user) => user.wasSignedIn
+  (user) => !!user.currentUser
 );

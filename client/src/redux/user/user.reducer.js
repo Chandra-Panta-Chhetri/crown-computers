@@ -1,10 +1,10 @@
 import USER_ACTION_TYPES from "./user.action.types";
 
+const persistedUser = JSON.parse(localStorage.getItem("user"));
 const INITIAL_STATE = {
-  currentUser: null,
+  currentUser: persistedUser,
   isChangingAuthState: false,
-  loadingText: "",
-  wasSignedIn: localStorage.getItem("wasSignedIn") === "true"
+  loadingText: ""
 };
 
 const userReducer = (prevState = INITIAL_STATE, action) => {
@@ -20,29 +20,25 @@ const userReducer = (prevState = INITIAL_STATE, action) => {
         loadingText: action.payload.loadingText
       };
     case USER_ACTION_TYPES.SIGN_IN_SUCCESS:
-      localStorage.setItem("wasSignedIn", true);
+      localStorage.setItem("user", JSON.stringify(action.payload));
       return {
         ...prevState,
         currentUser: action.payload,
-        isChangingAuthState: false,
-        wasSignedIn: true
+        isChangingAuthState: false
       };
     case USER_ACTION_TYPES.SIGN_IN_FAIL:
-    case USER_ACTION_TYPES.LOG_OUT_FAIL:
     case USER_ACTION_TYPES.SIGN_UP_FAIL:
-      localStorage.setItem("wasSignedIn", false);
-      return {
-        ...prevState,
-        isChangingAuthState: false,
-        wasSignedIn: false
-      };
     case USER_ACTION_TYPES.LOG_OUT_SUCCESS:
-      localStorage.setItem("wasSignedIn", false);
+      localStorage.removeItem("user");
       return {
         ...prevState,
         currentUser: null,
-        isChangingAuthState: false,
-        wasSignedIn: false
+        isChangingAuthState: false
+      };
+    case USER_ACTION_TYPES.LOG_OUT_FAIL:
+      return {
+        ...prevState,
+        isChangingAuthState: false
       };
     default:
       return prevState;
