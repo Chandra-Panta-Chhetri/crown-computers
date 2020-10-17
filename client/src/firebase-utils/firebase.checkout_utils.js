@@ -10,6 +10,7 @@ export const createNewSale = async (
   shoppingCart,
   paymentMethod,
   subTotal,
+  customerInfo,
   isUserLoggedIn,
   cartId
 ) => {
@@ -18,11 +19,13 @@ export const createNewSale = async (
     await clearUserCart(cartId);
   }
   const itemsSold = createNewCartWithImportantItemInfo(shoppingCart);
+  const { name, email } = customerInfo;
   const newSaleRef = await saleCollectionRef.add({
     itemsSold,
     subTotal,
     paymentMethod,
-    createdAt: new Date()
+    createdAt: new Date(),
+    customerInfo: { name, email }
   });
   return newSaleRef;
 };

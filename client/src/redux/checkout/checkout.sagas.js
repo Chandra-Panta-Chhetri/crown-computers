@@ -57,6 +57,7 @@ function* checkoutCart({
 }) {
   try {
     const shoppingCart = yield select(selectShoppingCart);
+    const { customerInfo } = checkoutInfo;
     yield checkCartItemsInStockOrOutdated(shoppingCart);
     const paymentMethod = yield call(
       processPayment,
@@ -70,8 +71,9 @@ function* checkoutCart({
       checkoutSuccess(
         onSuccessfulCheckout,
         "Payment Successful",
-        `${checkoutInfo.customerInfo.name.toUpperCase()} your payment was successful. Have a good day`,
-        paymentMethod
+        `${customerInfo.name.toUpperCase()} your payment was successful. Have a good day`,
+        paymentMethod,
+        customerInfo
       )
     );
   } catch (err) {
@@ -84,7 +86,8 @@ function* handleCheckoutSuccess({
     onSuccessfulCheckout,
     notificationTitle,
     notificationMsg,
-    paymentMethod
+    paymentMethod,
+    customerInfo
   }
 }) {
   try {
@@ -99,6 +102,7 @@ function* handleCheckoutSuccess({
       shoppingCart,
       paymentMethod,
       shoppingCartSubtotal,
+      customerInfo,
       !!currentUser,
       cartId
     );
