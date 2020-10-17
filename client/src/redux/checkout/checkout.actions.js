@@ -21,14 +21,16 @@ export const checkoutSuccess = (
   onSuccessfulCheckout,
   notificationTitle,
   notificationMsg,
-  paymentMethod
+  paymentMethod,
+  customerInfo
 ) => ({
   type: CHECKOUT_ACTION_TYPES.CHECKOUT_SUCCESS,
   payload: {
     onSuccessfulCheckout,
     notificationTitle,
     notificationMsg,
-    paymentMethod
+    paymentMethod,
+    customerInfo
   }
 });
 

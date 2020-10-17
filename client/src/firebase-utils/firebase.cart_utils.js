@@ -47,7 +47,11 @@ export const checkCartItemsInStockOrOutdated = async (shoppingCart) => {
       throw Error(
         `${truncate(
           cartItem.name
-        )} is no longer sold. Please remove the item from cart before trying again`
+        )} is no longer sold. Please remove the item from the cart and try again`
+      );
+    } else if (cartItem.price !== productData.price) {
+      throw Error(
+        `There was a problem. Please remove the item from the cart and add it again`
       );
     } else if (cartItem.quantity > productData.stock) {
       throw Error(
