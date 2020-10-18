@@ -18,6 +18,7 @@ const buttonStyles = css`
   overflow: hidden;
   z-index: 1;
   transition: color 250ms ease-in-out;
+  font-family: "Open Sans", sans-serif;
 
   &:after {
     content: "";
