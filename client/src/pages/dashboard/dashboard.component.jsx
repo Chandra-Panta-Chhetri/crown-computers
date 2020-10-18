@@ -8,9 +8,19 @@ const DashboardSales = lazy(() =>
   import("../../components/dashboard-sales/dashboard-sales.component")
 );
 
+const dashboardNavOptions = [
+  { title: "Sales", path: "sales", iconClass: "fas fa-chart-line" },
+  { title: "Products", path: "products", iconClass: "fas fa-shopping-basket" },
+  {
+    title: "Product Categories",
+    path: "product-categories",
+    iconClass: "fas fa-shopping-bag"
+  }
+];
+
 const Dashboard = ({ match }) => (
   <DashboardContainer>
-    <SideNav />
+    <SideNav navOptions={dashboardNavOptions} />
     <Switch>
       <Route
         exact

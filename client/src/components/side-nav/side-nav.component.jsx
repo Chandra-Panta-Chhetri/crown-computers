@@ -1,7 +1,18 @@
 import React, { useState } from "react";
-import { SideNavContainer } from "./side-nav.styles";
+import {
+  SideNavContainer,
+  Navbar,
+  NavbarBrand,
+  AdminName,
+  SideNavTitle,
+  NavMenu,
+  NavMenuItems,
+  NavMenuClose,
+  MenuBars,
+  NavMenuOption
+} from "./side-nav.styles";
 
-import { NavLink, withRouter, Link } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import Button from "../button/button.component";
 
 import { connect } from "react-redux";
@@ -9,60 +20,49 @@ import { compose } from "redux";
 import { logOutStart } from "../../redux/user/user.actions";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 
-const sideNavOptions = [
-  { title: "Sales", path: "sales", iconClass: "fas fa-chart-line" },
-  { title: "Products", path: "products", iconClass: "fas fa-shopping-basket" },
-  {
-    title: "Product Categories",
-    path: "product-categories",
-    iconClass: "fas fa-shopping-bag"
-  }
-];
-
-const SideNav = ({ match, logOut, currentUser }) => {
-  const [isShown, setIsShown] = useState(false);
-
-  const toggleSideNav = () => setIsShown(!isShown);
+const SideNav = ({ match, logOut, currentUser, navOptions = [] }) => {
+  const [isMenuShown, setIsMenuShown] = useState(false);
+  const toggleMenuVisibility = () => setIsMenuShown(!isMenuShown);
 
   return (
     <SideNavContainer>
-      <div className="navbar">
-        <div>
-          <Link to="#" className="menu-bars">
-            <i className="fas fa-bars" onClick={toggleSideNav} />
-          </Link>
-          <span className="admin-name">
+      <Navbar>
+        <NavbarBrand>
+          <MenuBars>
+            <i className="fas fa-bars" onClick={toggleMenuVisibility} />
+          </MenuBars>
+          <AdminName>
             {currentUser && currentUser.fullName}
             <i className="fas fa-user-shield" />
-          </span>
-        </div>
+          </AdminName>
+        </NavbarBrand>
         <div>
-          <span>Dashboard</span>
+          <SideNavTitle>Dashboard</SideNavTitle>
           <Button onClick={() => logOut()}>Log Out</Button>
         </div>
-      </div>
-      <nav className={isShown ? "nav-menu active" : "nav-menu"}>
-        <ul className="nav-menu-items" onClick={toggleSideNav}>
-          <li className="navbar-toggle">
-            <Link to="#" className="menu-bars">
+      </Navbar>
+      <NavMenu isMenuShown={isMenuShown}>
+        <NavMenuItems onClick={toggleMenuVisibility}>
+          <NavMenuClose>
+            <span>
               <i className="fas fa-times" />
-            </Link>
-          </li>
-          {sideNavOptions.map((option, index) => {
+            </span>
+          </NavMenuClose>
+          {navOptions.map((option, index) => {
             return (
-              <li key={index} className="nav-text">
+              <NavMenuOption key={index}>
                 <NavLink
                   to={`${match.path}/${option.path}`}
-                  activeClassName="active-nav-option"
+                  activeClassName="active-nav-menu-option"
                 >
                   <i className={option.iconClass} />
                   <span>{option.title}</span>
                 </NavLink>
-              </li>
+              </NavMenuOption>
             );
           })}
-        </ul>
-      </nav>
+        </NavMenuItems>
+      </NavMenu>
     </SideNavContainer>
   );
 };
