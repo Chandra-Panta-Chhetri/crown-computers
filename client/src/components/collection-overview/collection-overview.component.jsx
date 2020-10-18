@@ -4,7 +4,7 @@ import ProductCollection from "../product-collection/product-collection.componen
 
 import {
   selectIsFetchingProducts,
-  selectHasMoreToFetch
+  selectHasMoreProductsToFetch
 } from "../../redux/product/product.selectors";
 import {
   startInitialProductsFetch,
@@ -40,7 +40,7 @@ const CollectionOverview = ({
 
 const mapStateToProps = createStructuredSelector({
   isFetchingProducts: selectIsFetchingProducts,
-  hasMoreToFetch: selectHasMoreToFetch
+  hasMoreToFetch: selectHasMoreProductsToFetch
 });
 
 const mapDispatchToProps = (dispatch) => ({

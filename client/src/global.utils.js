@@ -15,3 +15,5 @@ export const capitalize = (str) => {
   }
   return words.join(" ");
 };
+
+export const getLastElementInArray = (arr) => arr[arr.length - 1];

@@ -1,4 +1,5 @@
 import { firestore } from "./firebase.config";
+import { getLastElementInArray } from "../global.utils";
 
 const categoriesCollectionRef = firestore.collection("product_categories");
 const productCollectionRef = firestore.collection("products");
@@ -57,8 +58,6 @@ export const getProductCategoryRefByCategoryName = async (categoryName) => {
     return null;
   }
 };
-
-export const getLastElementInArray = (arr) => arr[arr.length - 1];
 
 export const getProductCategoryName = async (productCategoryRef) => {
   const productCategorySnapshot = await productCategoryRef.get();

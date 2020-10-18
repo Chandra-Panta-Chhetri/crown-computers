@@ -27,7 +27,7 @@ function* fetchProducts() {
     const productsPerPage = yield select(selectProductsPerPage);
     const { products, lastVisibleDoc } = yield getProducts(productsPerPage);
     if (!products.length) {
-      throw Error();
+      return yield put(noMoreToLoad());
     }
     yield put(initialProductsFetchSuccess(products, lastVisibleDoc));
   } catch (err) {
@@ -175,7 +175,7 @@ function* watchFetchProductByIdFail() {
   );
 }
 
-export default function* collectionSagas() {
+export default function* productSagas() {
   yield all([
     call(watchProductsFetchStart),
     call(watchProductsFetchFail),

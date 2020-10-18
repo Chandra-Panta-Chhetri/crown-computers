@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-export const selectProduct = (state) => state.product;
+const selectProduct = (state) => state.product;
 
 export const selectProductCollection = createSelector(
   [selectProduct],
@@ -22,7 +22,7 @@ export const selectLastVisibleDoc = createSelector(
   (product) => product.lastVisibleDoc
 );
 
-export const selectHasMoreToFetch = createSelector(
+export const selectHasMoreProductsToFetch = createSelector(
   [selectProduct],
   (product) => product.hasMoreToFetch
 );

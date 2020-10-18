@@ -5,6 +5,7 @@ import productReducer from "./product/product.reducer";
 import notificationReducer from "./notification/notification.reducer";
 import checkoutReducer from "./checkout/checkout.reducer";
 import wishListReducer from "./wish-list/wish-list.reducer";
+import saleReducer from "./sale/sale.reducer";
 import { combineReducers } from "redux";
 
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
   product: productReducer,
   notification: notificationReducer,
   checkout: checkoutReducer,
-  wishList: wishListReducer
+  wishList: wishListReducer,
+  sale: saleReducer
 });
