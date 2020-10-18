@@ -18,12 +18,12 @@ const CollectionOverview = ({
   fetchInitialProducts,
   fetchMoreProducts,
   isFetchingProducts,
-  hasMoreToFetch
+  hasMoreProductsToFetch
 }) => {
   const fetchMoreOnIntersection = usePaginationOnIntersection(
     fetchMoreProducts,
     isFetchingProducts,
-    hasMoreToFetch
+    hasMoreProductsToFetch
   );
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const CollectionOverview = ({
 
 const mapStateToProps = createStructuredSelector({
   isFetchingProducts: selectIsFetchingProducts,
-  hasMoreToFetch: selectHasMoreProductsToFetch
+  hasMoreProductsToFetch: selectHasMoreProductsToFetch
 });
 
 const mapDispatchToProps = (dispatch) => ({
