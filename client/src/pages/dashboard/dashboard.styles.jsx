@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { secondaryColor } from "../../global.styles";
 
 export const DashboardContainer = styled.article`
   display: flex;
@@ -16,4 +17,15 @@ export const DashboardContentTitle = styled.h3`
   margin: 10px 0 10px;
   text-align: center;
   letter-spacing: 0.2rem;
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 60px;
+    bottom: 0;
+    left: 50%;
+    margin-left: -30px;
+    border-bottom: 2px solid #3498db;
+  }
 `;
