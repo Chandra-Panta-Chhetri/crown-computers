@@ -10,3 +10,10 @@ export const DashboardContent = styled.section`
   position: relative;
   left: -20px;
 `;
+
+export const DashboardContentTitle = styled.h3`
+  font-size: 35px;
+  margin: 10px 0 10px;
+  text-align: center;
+  letter-spacing: 0.2rem;
+`;

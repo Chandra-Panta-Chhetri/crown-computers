@@ -17,7 +17,7 @@ const getWishListSnapshots = async (userId) => {
   return wishListsSnapshot.docs;
 };
 
-const extraWishListDataFromSnapshot = async (wishListSnapshot) => {
+const extractWishListDataFromSnapshot = async (wishListSnapshot) => {
   let {
     cartItems: wishListItemsWithRefs,
     wishListName,
@@ -36,7 +36,7 @@ export const getWishLists = async (userId) => {
   const wishLists = [];
   const wishListSnapshots = await getWishListSnapshots(userId);
   for (let wishListSnapshot of wishListSnapshots) {
-    let wishListData = await extraWishListDataFromSnapshot(wishListSnapshot);
+    let wishListData = await extractWishListDataFromSnapshot(wishListSnapshot);
     wishLists.push(wishListData);
   }
   return wishLists;
@@ -51,7 +51,9 @@ export const getWishListById = async (wishListId) => {
   try {
     const wishListRef = getWishListRefById(wishListId);
     const wishListSnapshot = await wishListRef.get();
-    const wishListData = await extraWishListDataFromSnapshot(wishListSnapshot);
+    const wishListData = await extractWishListDataFromSnapshot(
+      wishListSnapshot
+    );
     return wishListData;
   } catch (err) {
     return null;

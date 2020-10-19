@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const CardContainer = styled.section`
   background: #fff;
   border-radius: 3px;
-  display: inline-block;
   height: ${(props) => props.height};
   position: relative;
   width: ${(props) => props.width};

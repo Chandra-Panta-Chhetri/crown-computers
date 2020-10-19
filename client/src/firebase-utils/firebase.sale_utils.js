@@ -11,6 +11,7 @@ const populateSaleDocSnapshots = async (saleDocSnapshots) => {
         saleId: saleSnapshot.id,
         ...saleSnapshot.data()
       };
+      sale.createdAt = sale.createdAt.toDate();
       sales.push(sale);
     }
     return sales;

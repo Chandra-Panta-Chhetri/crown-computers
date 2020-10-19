@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { DashboardSalesContainer, Sales } from "./dashboard-sales.styles";
+import {
+  DashboardSalesContainer,
+  SalesList,
+  Subtitle
+} from "./dashboard-sales.styles";
+import { DashboardContentTitle } from "../../pages/dashboard/dashboard.styles";
 
 import SaleEntry from "../sale-entry/sale-entry.component";
 
@@ -11,9 +16,11 @@ import {
 import {
   selectIsFetchingSales,
   selectSales,
-  selectHasMoreSalesToFetch
+  selectHasMoreSalesToFetch,
+  selectSalesPerPage
 } from "../../redux/sale/sale.selectors";
 import usePaginationOnIntersection from "../../hooks/usePaginationOnIntersection.hook";
+import { createStructuredSelector } from "reselect";
 
 const DashboardSales = ({
   sales,
@@ -22,7 +29,8 @@ const DashboardSales = ({
   totalProfit = 1000,
   fetchSales,
   fetchMoreSales,
-  hasMoreSalesToFetch
+  hasMoreSalesToFetch,
+  salesPerPage
 }) => {
   const fetchMoreOnIntersection = usePaginationOnIntersection(
     fetchMoreSales,
@@ -36,10 +44,10 @@ const DashboardSales = ({
 
   return (
     <DashboardSalesContainer>
-      <h3>Sales</h3>
-      <span>Total Items Sold: {totalItemsSold}</span>
-      <span>Total Profit: ${totalProfit}</span>
-      <Sales>
+      <DashboardContentTitle>Sales</DashboardContentTitle>
+      <Subtitle>Total Profit: ${totalProfit}</Subtitle>
+      <Subtitle>Total Items Sold: {totalItemsSold}</Subtitle>
+      <SalesList>
         {(sales || []).map((saleEntry, index) => (
           <SaleEntry
             saleInfo={saleEntry}
@@ -49,15 +57,16 @@ const DashboardSales = ({
             }
           />
         ))}
-      </Sales>
+      </SalesList>
     </DashboardSalesContainer>
   );
 };
 
-const mapStateToProps = (state) => ({
-  sales: selectSales(state),
-  isFetchingSales: selectIsFetchingSales(state),
-  hasMoreSalesToFetch: selectHasMoreSalesToFetch(state)
+const mapStateToProps = createStructuredSelector({
+  sales: selectSales,
+  isFetchingSales: selectIsFetchingSales,
+  hasMoreSalesToFetch: selectHasMoreSalesToFetch,
+  salesPerPage: selectSalesPerPage
 });
 
 const mapDispatchToProps = (dispatch) => ({
