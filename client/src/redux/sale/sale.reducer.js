@@ -3,7 +3,7 @@ import SALE_ACTION_TYPES from "./sale.action.types";
 const INITIAL_STATE = {
   sales: [],
   isFetchingSales: false,
-  salesPerPage: 6,
+  salesPerPage: 3,
   lastVisibleDoc: null,
   hasMoreToFetch: true
 };

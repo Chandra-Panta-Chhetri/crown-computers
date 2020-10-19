@@ -3,6 +3,7 @@ import { SalesList, Subtitle } from "./dashboard-sales.styles";
 import { DashboardContentTitle } from "../../pages/dashboard/dashboard.styles";
 
 import SaleEntry from "../sale-entry/sale-entry.component";
+import Skeleton from "../skeleton/skeleton.component";
 
 import { connect } from "react-redux";
 import {
@@ -53,6 +54,12 @@ const DashboardSales = ({
             }
           />
         ))}
+        {isFetchingSales &&
+          Array(salesPerPage)
+            .fill()
+            .map((sale, index) => (
+              <Skeleton key={index} height="250px" margin="0 0 30px" />
+            ))}
       </SalesList>
     </>
   );
