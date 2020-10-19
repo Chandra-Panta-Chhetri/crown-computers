@@ -1,5 +1,5 @@
 import USER_ACTION_TYPES from "./user.action.types";
-import { takeLatest, put, call, all } from "redux-saga/effects";
+import { takeLatest, put, call, all, select } from "redux-saga/effects";
 import {
   signInSuccess,
   signInFail,
@@ -20,6 +20,7 @@ import {
   addSuccessNotification
 } from "../notification/notification.actions";
 import { capitalize } from "../../global.utils";
+import { selectHasAutoSignedIn } from "./user.selectors";
 
 function* setUserFromSnapShot(userAuth, additionalData) {
   const userRef = yield createOrGetUser(userAuth, additionalData);
@@ -56,6 +57,7 @@ function* autoSignIn() {
       throw Error();
     }
     yield call(setUserFromSnapShot, user);
+    sessionStorage.setItem("hasAutoSignedIn", true);
   } catch (err) {
     yield put(signInFail("Auto sign in failed, please login again"));
     yield put(clearCart());
@@ -91,14 +93,19 @@ function* handleSignInFail({ payload: errorMsg }) {
 }
 
 function* handleSignInSuccess({ payload: loggedInUser }) {
-  yield put(
-    addSuccessNotification(
-      "Sign In Successful",
-      `Welcome back ${capitalize(
-        loggedInUser.fullName
-      )}! Your cart has been restored`
-    )
-  );
+  const hasAutoLoggedIn = yield select(selectHasAutoSignedIn);
+  if (!hasAutoLoggedIn) {
+    yield put(
+      addSuccessNotification(
+        "Sign In Successful",
+        `Welcome back ${capitalize(
+          loggedInUser.fullName
+        )}! Your cart has been restored`
+      )
+    );
+    sessionStorage.setItem("hasAutoSignedIn", true);
+  }
+  localStorage.setItem("user", JSON.stringify(loggedInUser));
 }
 
 function* handleSignUpFail({ payload: errorMsg }) {

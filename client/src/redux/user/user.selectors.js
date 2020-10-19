@@ -21,3 +21,8 @@ export const selectWasSignedIn = createSelector(
   [selectUser],
   (user) => !!user.currentUser
 );
+
+export const selectHasAutoSignedIn = createSelector(
+  [selectUser],
+  (user) => user.hasAutoSignedIn
+);
