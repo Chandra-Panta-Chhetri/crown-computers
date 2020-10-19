@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  DashboardSalesContainer,
-  SalesList,
-  Subtitle
-} from "./dashboard-sales.styles";
+import { SalesList, Subtitle } from "./dashboard-sales.styles";
 import { DashboardContentTitle } from "../../pages/dashboard/dashboard.styles";
 
 import SaleEntry from "../sale-entry/sale-entry.component";
@@ -43,7 +39,7 @@ const DashboardSales = ({
   }, [fetchSales]);
 
   return (
-    <DashboardSalesContainer>
+    <>
       <DashboardContentTitle>Sales</DashboardContentTitle>
       <Subtitle>Total Profit: ${totalProfit}</Subtitle>
       <Subtitle>Total Items Sold: {totalItemsSold}</Subtitle>
@@ -58,7 +54,7 @@ const DashboardSales = ({
           />
         ))}
       </SalesList>
-    </DashboardSalesContainer>
+    </>
   );
 };
 

@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
-export const DashboardSalesContainer = styled.article``;
-
 export const SalesList = styled.section`
-  margin-top: 40px;
+  margin-top: 30px;
 `;
 
 export const Subtitle = styled.span`
