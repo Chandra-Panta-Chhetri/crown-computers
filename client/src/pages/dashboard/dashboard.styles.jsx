@@ -8,8 +8,6 @@ export const DashboardContainer = styled.article`
 
 export const DashboardContent = styled.section`
   margin-top: 80px;
-  position: relative;
-  left: -20px;
 `;
 
 export const DashboardContentTitle = styled.h3`

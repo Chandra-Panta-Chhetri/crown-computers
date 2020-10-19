@@ -10,8 +10,7 @@ import {
 
 import Card from "../card/card.component";
 import Collapse from "../collapse/collapse.component";
-
-import { roundPrice } from "../../global.utils";
+import ProductSoldSummary from "../product-sold-summary/product-sold-summary.component";
 
 const SaleEntry = ({ saleInfo, intersectionCb }) => {
   const {
@@ -47,36 +46,9 @@ const SaleEntry = ({ saleInfo, intersectionCb }) => {
         </PaymentMethod>
         <Collapse title="Products Sold">
           <Card>
-            {(itemsSold || []).map(
-              ({ name, price, category, quantity }, index) => (
-                <div style={{ marginBottom: "12px" }} key={index}>
-                  <span
-                    style={{
-                      textTransform: "uppercase",
-                      color: "gray",
-                      fontWeight: "bold",
-                      fontSize: "14px"
-                    }}
-                  >
-                    {category}
-                  </span>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center"
-                    }}
-                  >
-                    <span style={{ fontWeight: "bold" }}>
-                      {quantity} x {name} @${price}
-                    </span>
-                    <span style={{ fontWeight: "bold" }}>
-                      ${roundPrice(quantity * price)}
-                    </span>
-                  </div>
-                </div>
-              )
-            )}
+            {(itemsSold || []).map((item, index) => (
+              <ProductSoldSummary key={index} product={item} />
+            ))}
           </Card>
         </Collapse>
       </Card>

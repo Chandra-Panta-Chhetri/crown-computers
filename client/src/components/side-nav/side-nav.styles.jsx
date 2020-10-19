@@ -21,7 +21,7 @@ export const Navbar = styled.div`
 export const NavbarBrand = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 1rem;
+  margin-right: 0.7rem;
 `;
 
 export const AdminName = styled.span`
