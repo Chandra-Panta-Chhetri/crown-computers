@@ -26,6 +26,6 @@ export const DashboardContentTitle = styled.h3`
     bottom: 0;
     left: 50%;
     margin-left: -30px;
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid ${secondaryColor};
   }
 `;

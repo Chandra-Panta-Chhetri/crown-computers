@@ -9,6 +9,7 @@ import {
 } from "./sale-entry.styles";
 
 import Card from "../card/card.component";
+import Collapse from "../collapse/collapse.component";
 
 const SaleEntry = ({ saleInfo, intersectionCb }) => {
   const {
@@ -42,7 +43,11 @@ const SaleEntry = ({ saleInfo, intersectionCb }) => {
         <PaymentMethod>
           <i className="fas fa-money-bill" /> Payment Method: {paymentMethod}
         </PaymentMethod>
-        <span>Items Sold</span>
+        <Collapse title="Products Sold">
+          <Card>
+            <p>Test</p>
+          </Card>
+        </Collapse>
       </Card>
     </SaleEntryContainer>
   );

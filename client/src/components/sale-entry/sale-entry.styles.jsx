@@ -36,5 +36,5 @@ export const OrderedDate = styled.span`
 
 export const PaymentMethod = styled.span`
   text-transform: capitalize;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
