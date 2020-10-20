@@ -23,3 +23,13 @@ export const selectHasMoreSalesToFetch = createSelector(
   [selectSale],
   (sale) => sale.hasMoreToFetch
 );
+
+export const selectIsFetchingSalesSummary = createSelector(
+  [selectSale],
+  (sale) => sale.isFetchingSalesSummary
+);
+
+export const selectSalesSummary = createSelector(
+  [selectSale],
+  (sale) => sale.salesSummary
+);

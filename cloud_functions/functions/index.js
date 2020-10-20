@@ -2,15 +2,15 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-const salesSummaryCollectionRef = admin.firestore().collection("sales_summary");
+const saleSummaryCollectionRef = admin.firestore().collection("sales_summary");
 
 const getPreviousSaleSummaryDoc = async () => {
-  const salesSummarySnapshot = await salesSummaryCollectionRef.limit(1).get();
+  const salesSummarySnapshot = await saleSummaryCollectionRef.limit(1).get();
   return salesSummarySnapshot.docs[0];
 };
 
 const createNewSaleSummary = async (saleSummaryInfo) =>
-  await salesSummaryCollectionRef.add(saleSummaryInfo);
+  await saleSummaryCollectionRef.add(saleSummaryInfo);
 
 const updateSaleSummary = async (updatedSummaryInfo, saleSummaryDocRef) =>
   await saleSummaryDocRef.update(updatedSummaryInfo);

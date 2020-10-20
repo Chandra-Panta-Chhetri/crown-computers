@@ -5,7 +5,9 @@ const INITIAL_STATE = {
   isFetchingSales: false,
   salesPerPage: 3,
   lastVisibleDoc: null,
-  hasMoreToFetch: true
+  hasMoreToFetch: true,
+  isFetchingSalesSummary: false,
+  salesSummary: {}
 };
 
 const saleReducer = (prevState = INITIAL_STATE, action) => {
@@ -40,6 +42,22 @@ const saleReducer = (prevState = INITIAL_STATE, action) => {
         ...prevState,
         hasMoreToFetch: false,
         isFetchingSales: false
+      };
+    case SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_START:
+      return {
+        ...prevState,
+        isFetchingSalesSummary: true
+      };
+    case SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_FAIL:
+      return {
+        ...prevState,
+        isFetchingSalesSummary: false
+      };
+    case SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_SUCCESS:
+      return {
+        ...prevState,
+        isFetchingSalesSummary: false,
+        salesSummary: action.payload
       };
     default:
       return prevState;

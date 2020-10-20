@@ -2,6 +2,11 @@ import { firestore } from "./firebase.config";
 import { getLastElementInArray } from "../global.utils";
 
 export const saleCollectionRef = firestore.collection("sales");
+export const saleSummaryCollectionRef = firestore.collection("sales_summary");
+const defaultNewSaleSummary = {
+  salesTotal: 0,
+  totalProductsSold: 0
+};
 
 const populateSaleDocSnapshots = async (saleDocSnapshots) => {
   try {
@@ -51,4 +56,22 @@ export const getMoreSales = async (lastVisibleDoc, salesPerPage) => {
     nextSalesQuery
   );
   return salesAndLastVisibleDoc;
+};
+
+export const createNewSaleSummary = async () => {
+  const newSaleSummaryDocRef = await saleSummaryCollectionRef.add(
+    defaultNewSaleSummary
+  );
+  return newSaleSummaryDocRef;
+};
+
+export const getSalesSummary = async () => {
+  try {
+    const salesSummarySnapshot = await saleSummaryCollectionRef.limit(1).get();
+    const saleSummaryDocSnapshot = salesSummarySnapshot[0];
+    return { ...saleSummaryDocSnapshot.data() };
+  } catch (err) {
+    await createNewSaleSummary();
+    return defaultNewSaleSummary;
+  }
 };

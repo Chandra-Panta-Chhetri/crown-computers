@@ -31,3 +31,17 @@ export const loadingMoreSalesSuccess = (newSales, lastVisibleDoc) => ({
 export const noMoreToLoad = () => ({
   type: SALE_ACTION_TYPES.NO_MORE_TO_LOAD
 });
+
+export const startSalesSummaryFetch = () => ({
+  type: SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_START
+});
+
+export const salesSummaryFetchFail = (errorMsg) => ({
+  type: SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_FAIL,
+  payload: errorMsg
+});
+
+export const salesSummaryFetchSuccess = (salesSummary) => ({
+  type: SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_SUCCESS,
+  payload: salesSummary
+});
