@@ -12,7 +12,7 @@ export const DashboardContent = styled.section`
 
 export const DashboardContentTitle = styled.h3`
   font-size: 35px;
-  margin: 10px 0 10px;
+  margin: 10px 0 20px;
   text-align: center;
   letter-spacing: 0.2rem;
   position: relative;

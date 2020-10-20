@@ -8,13 +8,16 @@ import Skeleton from "../skeleton/skeleton.component";
 import { connect } from "react-redux";
 import {
   startInitialSalesFetch,
-  startLoadingMoreSales
+  startLoadingMoreSales,
+  startSalesSummaryFetch
 } from "../../redux/sale/sale.actions";
 import {
   selectIsFetchingSales,
   selectSales,
   selectHasMoreSalesToFetch,
-  selectSalesPerPage
+  selectSalesPerPage,
+  selectSalesSummary,
+  selectIsFetchingSalesSummary
 } from "../../redux/sale/sale.selectors";
 import usePaginationOnIntersection from "../../hooks/usePaginationOnIntersection.hook";
 import { createStructuredSelector } from "reselect";
@@ -22,12 +25,13 @@ import { createStructuredSelector } from "reselect";
 const DashboardSales = ({
   sales,
   isFetchingSales,
-  totalItemsSold = 100,
-  totalProfit = 1000,
   fetchSales,
   fetchMoreSales,
   hasMoreSalesToFetch,
-  salesPerPage
+  salesPerPage,
+  isFetchingSalesSummary,
+  salesSummary,
+  fetchSalesSummary
 }) => {
   const fetchMoreOnIntersection = usePaginationOnIntersection(
     fetchMoreSales,
@@ -37,13 +41,22 @@ const DashboardSales = ({
 
   useEffect(() => {
     fetchSales();
-  }, [fetchSales]);
+    fetchSalesSummary();
+  }, [fetchSales, fetchSalesSummary]);
 
   return (
     <>
       <DashboardContentTitle>Sales</DashboardContentTitle>
-      <Subtitle>Total Profit: ${totalProfit}</Subtitle>
-      <Subtitle>Total Items Sold: {totalItemsSold}</Subtitle>
+      {isFetchingSalesSummary ? (
+        <Skeleton height="30px" margin="0 0 12px" count={2} width="40%" />
+      ) : (
+        <>
+          <Subtitle>Total Profit: ${salesSummary.salesTotal}</Subtitle>
+          <Subtitle>
+            Total Products Sold: {salesSummary.totalProductsSold}
+          </Subtitle>
+        </>
+      )}
       <SalesList>
         {(sales || []).map((saleEntry, index) => (
           <SaleEntry
@@ -54,12 +67,9 @@ const DashboardSales = ({
             }
           />
         ))}
-        {isFetchingSales &&
-          Array(salesPerPage)
-            .fill()
-            .map((sale, index) => (
-              <Skeleton key={index} height="250px" margin="0 0 30px" />
-            ))}
+        {isFetchingSales && (
+          <Skeleton height="250px" margin="0 0 30px" count={salesPerPage} />
+        )}
       </SalesList>
     </>
   );
@@ -69,12 +79,15 @@ const mapStateToProps = createStructuredSelector({
   sales: selectSales,
   isFetchingSales: selectIsFetchingSales,
   hasMoreSalesToFetch: selectHasMoreSalesToFetch,
-  salesPerPage: selectSalesPerPage
+  salesPerPage: selectSalesPerPage,
+  isFetchingSalesSummary: selectIsFetchingSalesSummary,
+  salesSummary: selectSalesSummary
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSales: () => dispatch(startInitialSalesFetch()),
-  fetchMoreSales: () => dispatch(startLoadingMoreSales())
+  fetchMoreSales: () => dispatch(startLoadingMoreSales()),
+  fetchSalesSummary: () => dispatch(startSalesSummaryFetch())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardSales);

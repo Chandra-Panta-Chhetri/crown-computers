@@ -6,11 +6,14 @@ import {
   initialSalesFetchSuccess,
   loadingMoreSalesFail,
   loadingMoreSalesSuccess,
-  noMoreToLoad
+  noMoreToLoad,
+  salesSummaryFetchFail,
+  salesSummaryFetchSuccess
 } from "./sale.actions";
 import {
   getSales,
-  getMoreSales
+  getMoreSales,
+  getSalesSummary
 } from "../../firebase-utils/firebase.sale_utils";
 import { addErrorNotification } from "../notification/notification.actions";
 
@@ -56,6 +59,23 @@ function* handleSalesFetchFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Sales Fetching Failed", errorMsg));
 }
 
+function* fetchSalesSummary() {
+  try {
+    const salesSummary = yield getSalesSummary();
+    yield put(salesSummaryFetchSuccess(salesSummary));
+  } catch (err) {
+    yield put(
+      salesSummaryFetchFail(
+        "There was a problem displaying the summaries of the sales. Please try again later"
+      )
+    );
+  }
+}
+
+function* handleSalesSummaryFetchFail({ payload: errorMsg }) {
+  yield put(addErrorNotification("Sales Summary Fetching Fail", errorMsg));
+}
+
 function* watchSalesFetchStart() {
   yield takeLatest(SALE_ACTION_TYPES.INITIAL_SALES_FETCH_START, fetchSales);
 }
@@ -74,10 +94,26 @@ function* watchLoadMoreSales() {
   yield takeLatest(SALE_ACTION_TYPES.LOAD_MORE_SALES_START, fetchMoreSales);
 }
 
+function* watchSalesSummaryFetchStart() {
+  yield takeLatest(
+    SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_START,
+    fetchSalesSummary
+  );
+}
+
+function* watchSalesSummaryFetchFail() {
+  yield takeLatest(
+    SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_FAIL,
+    handleSalesSummaryFetchFail
+  );
+}
+
 export default function* saleSagas() {
   yield all([
     call(watchSalesFetchStart),
     call(watchSalesFetchFail),
-    call(watchLoadMoreSales)
+    call(watchLoadMoreSales),
+    call(watchSalesSummaryFetchStart),
+    call(watchSalesSummaryFetchFail)
   ]);
 }

@@ -14,7 +14,6 @@ export const pulseAnimation = css`
 `;
 
 export const SkeletonContainer = styled.div`
-  display: inline-block;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   margin: ${(props) => props.margin};

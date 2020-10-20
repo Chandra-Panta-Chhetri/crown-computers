@@ -68,7 +68,7 @@ export const createNewSaleSummary = async () => {
 export const getSalesSummary = async () => {
   try {
     const salesSummarySnapshot = await saleSummaryCollectionRef.limit(1).get();
-    const saleSummaryDocSnapshot = salesSummarySnapshot[0];
+    const saleSummaryDocSnapshot = salesSummarySnapshot.docs[0];
     return { ...saleSummaryDocSnapshot.data() };
   } catch (err) {
     await createNewSaleSummary();
