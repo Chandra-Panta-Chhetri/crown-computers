@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import SalesList from "../sales-list/sales-list.component";
 
-export const SalesList = styled.section`
+export const Sales = styled(SalesList)`
   margin-top: 30px;
 `;
 
