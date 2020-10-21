@@ -18,6 +18,7 @@ const SaleEntry = ({ saleInfo, intersectionCb }) => {
     subTotal,
     paymentMethod,
     createdAt,
+    numItemsSold,
     customerInfo: { name, email }
   } = saleInfo;
 
@@ -44,7 +45,7 @@ const SaleEntry = ({ saleInfo, intersectionCb }) => {
         <PaymentMethod>
           <i className="fas fa-money-bill" /> Payment Method: {paymentMethod}
         </PaymentMethod>
-        <Collapse title="Products Sold">
+        <Collapse title={`Products Sold (${numItemsSold})`}>
           <Card>
             {(itemsSold || []).map((item, index) => (
               <ProductSoldSummary key={index} product={item} />

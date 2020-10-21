@@ -12,7 +12,8 @@ export const createNewSale = async (
   subTotal,
   customerInfo,
   isUserLoggedIn,
-  cartId
+  cartId,
+  numItemsSold
 ) => {
   if (isUserLoggedIn) {
     await deleteAllCartItemDocsInCart(shoppingCart);
@@ -25,7 +26,8 @@ export const createNewSale = async (
     subTotal,
     paymentMethod,
     createdAt: new Date(),
-    customerInfo: { name, email }
+    customerInfo: { name, email },
+    numItemsSold
   });
   return newSaleRef;
 };

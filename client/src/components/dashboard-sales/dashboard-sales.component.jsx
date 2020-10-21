@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { Sales, Subtitle } from "./dashboard-sales.styles";
+import { Sales } from "./dashboard-sales.styles";
 import { DashboardContentTitle } from "../../pages/dashboard/dashboard.styles";
 
 import Skeleton from "../skeleton/skeleton.component";
+import Banner from "../banner/banner.component";
 
 import { connect } from "react-redux";
 import { startSalesSummaryFetch } from "../../redux/sale/sale.actions";
@@ -16,6 +17,7 @@ const DashboardSales = ({
   salesSummary,
   fetchSalesSummary
 }) => {
+  const { salesTotal, totalProductsSold, totalNumSales } = salesSummary;
   useEffect(() => {
     fetchSalesSummary();
   }, [fetchSalesSummary]);
@@ -24,13 +26,12 @@ const DashboardSales = ({
     <>
       <DashboardContentTitle>Sales</DashboardContentTitle>
       {isFetchingSalesSummary ? (
-        <Skeleton height="30px" margin="0 0 12px" count={2} width="40%" />
+        <Skeleton height="30px" margin="0 0 12px" count={3} />
       ) : (
         <>
-          <Subtitle>Total Profit: ${salesSummary.salesTotal}</Subtitle>
-          <Subtitle>
-            Total Products Sold: {salesSummary.totalProductsSold}
-          </Subtitle>
+          <Banner label="Total Sales" value={totalNumSales} />
+          <Banner label="Total Revenue" value={`$${salesTotal}`} />
+          <Banner label="Total Products Sold" value={totalProductsSold} />
         </>
       )}
       <Sales />

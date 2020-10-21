@@ -10,7 +10,8 @@ import { createNewSale } from "../../firebase-utils/firebase.checkout_utils";
 import {
   selectShoppingCart,
   selectCartTotal,
-  selectCartId
+  selectCartId,
+  selectNumCartItems
 } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
 import axios from "axios";
@@ -93,6 +94,7 @@ function* handleCheckoutSuccess({
   try {
     const shoppingCart = yield select(selectShoppingCart);
     const shoppingCartSubtotal = yield select(selectCartTotal);
+    const numItemsSold = yield select(selectNumCartItems);
     const currentUser = yield select(selectCurrentUser);
     const cartId = yield select(selectCartId);
     yield put(addSuccessNotification(notificationTitle, notificationMsg));
@@ -104,7 +106,8 @@ function* handleCheckoutSuccess({
       shoppingCartSubtotal,
       customerInfo,
       !!currentUser,
-      cartId
+      cartId,
+      numItemsSold
     );
   } catch (err) {}
 }

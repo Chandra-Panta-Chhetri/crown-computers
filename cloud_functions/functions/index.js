@@ -18,20 +18,25 @@ const updateSaleSummary = async (updatedSummaryInfo, saleSummaryDocRef) =>
 exports.onNewSaleCreated = functions.firestore
   .document("/sales/{id}")
   .onCreate(async (snap, context) => {
-    const { subTotal, itemsSold } = snap.data();
-    const numProductsSold = itemsSold.length;
+    const { subTotal, numItemsSold } = snap.data();
     const previousSaleSummaryDoc = await getPreviousSaleSummaryDoc();
     if (!previousSaleSummaryDoc) {
       return await createNewSaleSummary({
         salesTotal: subTotal,
-        totalProductsSold: numProductsSold
+        totalProductsSold: numItemsSold,
+        totalNumSales: 1
       });
     }
-    const { salesTotal, totalProductsSold } = previousSaleSummaryDoc.data();
+    const {
+      salesTotal,
+      totalProductsSold,
+      totalNumSales
+    } = previousSaleSummaryDoc.data();
     return await updateSaleSummary(
       {
         salesTotal: salesTotal + subTotal,
-        totalProductsSold: totalProductsSold + numProductsSold
+        totalProductsSold: totalProductsSold + numItemsSold,
+        totalNumSales: totalNumSales + 1
       },
       previousSaleSummaryDoc.ref
     );
