@@ -13,6 +13,13 @@ const INITIAL_STATE = {
 const saleReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
     case SALE_ACTION_TYPES.INITIAL_SALES_FETCH_START:
+      return {
+        ...prevState,
+        isFetchingSales: true,
+        hasMoreToFetch: true,
+        lastVisibleDoc: null,
+        sales: []
+      };
     case SALE_ACTION_TYPES.LOAD_MORE_SALES_START:
       return {
         ...prevState,

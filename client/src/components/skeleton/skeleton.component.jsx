@@ -5,7 +5,8 @@ const Skeleton = ({
   width = "100%",
   height = "100%",
   margin = "0",
-  count = 1
+  count = 1,
+  flexGrow = false
 }) => (
   <>
     {Array(count)
@@ -16,6 +17,7 @@ const Skeleton = ({
           height={height}
           margin={margin}
           key={index}
+          flexGrow={flexGrow}
         />
       ))}
   </>

@@ -17,6 +17,7 @@ export const SkeletonContainer = styled.div`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   margin: ${(props) => props.margin};
+  flex: ${(props) => (props.flexGrow ? "1 1 auto" : "none")};
   background: linear-gradient(
     -90deg,
     ${pulseMainColor} 0%,

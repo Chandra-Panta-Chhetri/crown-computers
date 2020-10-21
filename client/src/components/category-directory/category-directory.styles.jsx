@@ -26,7 +26,7 @@ export const DirectoryContent = styled.div`
 `;
 
 export const CategoryDirectoryContainer = styled.div`
-  min-width: 30%;
+  width: 25%;
   height: 240px;
   flex: 1 1 auto;
   display: flex;

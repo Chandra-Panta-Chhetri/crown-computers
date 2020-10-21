@@ -11,3 +11,18 @@ export const selectIsFetchingCategories = createSelector(
   [selectProductCategory],
   (productCategory) => productCategory.isFetchingCategories
 );
+
+export const selectCategoriesPerPage = createSelector(
+  [selectProductCategory],
+  (productCategory) => productCategory.categoriesPerPage
+);
+
+export const selectLastVisibleDoc = createSelector(
+  [selectProductCategory],
+  (productCategory) => productCategory.lastVisibleDoc
+);
+
+export const selectHasMoreCategoriesToFetch = createSelector(
+  [selectProductCategory],
+  (productCategory) => productCategory.hasMoreToFetch
+);

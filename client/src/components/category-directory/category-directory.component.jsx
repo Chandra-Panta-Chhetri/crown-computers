@@ -9,9 +9,14 @@ import {
 
 import { withRouter } from "react-router-dom";
 
-const CategoryDirectory = ({ category, imageUrl, history }) => (
+const CategoryDirectory = ({
+  categoryInfo: { category, imageUrl },
+  history,
+  intersectionCb
+}) => (
   <CategoryDirectoryContainer
     onClick={() => history.push(`/shop/category/${encodeURI(category)}`)}
+    ref={intersectionCb}
   >
     <CategoryImage imageUrl={imageUrl}></CategoryImage>
     <DirectoryContent>

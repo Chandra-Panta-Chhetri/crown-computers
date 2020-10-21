@@ -17,7 +17,8 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         ...prevState,
         isFetchingProducts: true,
         products: [],
-        hasMoreToFetch: true
+        hasMoreToFetch: true,
+        lastVisibleDoc: null
       };
     case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_FAIL:
     case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_FAIL:

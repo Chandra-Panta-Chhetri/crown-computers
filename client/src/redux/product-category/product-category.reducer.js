@@ -2,7 +2,10 @@ import PRODUCT_CATEGORY_ACTION_TYPES from "./product-category.action.types";
 
 const INITIAL_STATE = {
   productCategories: [],
-  isFetchingCategories: false
+  isFetchingCategories: false,
+  categoriesPerPage: 6,
+  lastVisibleDoc: null,
+  hasMoreToFetch: true
 };
 
 const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
@@ -10,19 +13,42 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
     case PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_START:
       return {
         ...prevState,
+        isFetchingCategories: true,
+        productCategories: [],
+        hasMoreToFetch: true,
+        lastVisibleDoc: null
+      };
+    case PRODUCT_CATEGORY_ACTION_TYPES.LOAD_MORE_PRODUCT_CATEGORIES_START:
+      return {
+        ...prevState,
         isFetchingCategories: true
+      };
+    case PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_FAIL:
+    case PRODUCT_CATEGORY_ACTION_TYPES.LOAD_MORE_PRODUCT_CATEGORIES_FAIL:
+      return {
+        ...prevState,
+        isFetchingCategories: false
       };
     case PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_SUCCESS:
       return {
         ...prevState,
-        isFetchingCategories: false,
-        productCategories: action.payload
+        ...action.payload,
+        isFetchingCategories: false
       };
-
-    case PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_FAIL:
+    case PRODUCT_CATEGORY_ACTION_TYPES.LOAD_MORE_PRODUCT_CATEGORIES_SUCCESS:
       return {
         ...prevState,
-        isFetchingCategories: false
+        productCategories: [
+          ...prevState.productCategories,
+          ...action.payload.newProductCategories
+        ],
+        lastVisibleDoc: action.payload.lastVisibleDoc
+      };
+    case PRODUCT_CATEGORY_ACTION_TYPES.NO_MORE_TO_LOAD:
+      return {
+        ...prevState,
+        isFetchingCategories: false,
+        hasMoreToFetch: false
       };
     default:
       return prevState;

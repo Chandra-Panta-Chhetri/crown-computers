@@ -1,7 +1,7 @@
 import { firestore } from "./firebase.config";
 import { getLastElementInArray } from "../global.utils";
 
-const categoriesCollectionRef = firestore.collection("product_categories");
+const categoryCollectionRef = firestore.collection("product_categories");
 const productCollectionRef = firestore.collection("products");
 
 export const getProductDataAndRefById = async (productId) => {
@@ -34,19 +34,47 @@ export const updateProductStock = async (productId, quantityToCheckout) => {
   await productRef.update({ stock: stock - quantityToCheckout });
 };
 
-export const getProductCategories = async () => {
-  const categoriesSnapshot = await categoriesCollectionRef.get();
-  const categoryDocSnapshots = categoriesSnapshot.docs;
-  const productCategories = categoryDocSnapshots.map((categorySnapshot) => ({
-    id: categorySnapshot.id,
-    ...categorySnapshot.data()
-  }));
-  return productCategories;
+export const executePaginatedCategoryQuery = async (paginatedCategoryQuery) => {
+  try {
+    const categoriesSnapshot = await paginatedCategoryQuery.get();
+    const categoryDocSnapshots = categoriesSnapshot.docs;
+    const lastVisibleDoc = getLastElementInArray(categoryDocSnapshots);
+    const productCategories = categoryDocSnapshots.map((categorySnapshot) => ({
+      ...categorySnapshot.data()
+    }));
+    return { categories: productCategories, lastVisibleDoc };
+  } catch (err) {
+    return { categories: [], lastVisibleDoc: null };
+  }
+};
+
+export const getProductCategories = async (categoriesPerPage) => {
+  const paginatedCategoriesQuery = categoryCollectionRef
+    .orderBy("category")
+    .limit(categoriesPerPage);
+  const categoriesAndLastVisibleDoc = await executePaginatedCategoryQuery(
+    paginatedCategoriesQuery
+  );
+  return categoriesAndLastVisibleDoc;
+};
+
+export const getMoreProductCategories = async (
+  lastVisibleDoc,
+  categoriesPerPage
+) => {
+  const nextCategoriesQuery = categoryCollectionRef
+    .orderBy("category")
+    .startAfter(lastVisibleDoc)
+    .limit(categoriesPerPage);
+  const categoriesAndLastVisibleDoc = await executePaginatedCategoryQuery(
+    nextCategoriesQuery
+  );
+  return categoriesAndLastVisibleDoc;
 };
 
 export const getProductCategoryRefByCategoryName = async (categoryName) => {
   try {
-    const productCategoryByNameQuery = categoriesCollectionRef.where(
+    const productCategoryByNameQuery = categoryCollectionRef.where(
       "category",
       "==",
       categoryName
