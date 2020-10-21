@@ -1,9 +1,9 @@
 import React from "react";
 import {
   CategoryDirectoryContainer,
-  DirectoryImage,
+  CategoryImage,
   DirectoryContent,
-  DirectoryTitle,
+  CategoryName,
   DirectorySubtitle
 } from "./category-directory.styles";
 
@@ -13,9 +13,9 @@ const CategoryDirectory = ({ category, imageUrl, history }) => (
   <CategoryDirectoryContainer
     onClick={() => history.push(`/shop/category/${encodeURI(category)}`)}
   >
-    <DirectoryImage imageUrl={imageUrl}></DirectoryImage>
+    <CategoryImage imageUrl={imageUrl}></CategoryImage>
     <DirectoryContent>
-      <DirectoryTitle>{category.toUpperCase()}</DirectoryTitle>
+      <CategoryName>{category}</CategoryName>
       <DirectorySubtitle>SHOP NOW</DirectorySubtitle>
     </DirectoryContent>
   </CategoryDirectoryContainer>

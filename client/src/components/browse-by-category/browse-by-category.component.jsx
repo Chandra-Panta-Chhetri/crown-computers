@@ -1,27 +1,27 @@
 import React, { useEffect } from "react";
-import { DirectoryContainer } from "./directory.styles";
+import { BrowseByCategoryContainer } from "./browse-by-category.styles";
 
 import CategoryDirectory from "../category-directory/category-directory.component";
+import Spinner from "../spinner/spinner.component";
 
 import { connect } from "react-redux";
 import {
   selectProductCategories,
   selectIsFetchingCategories
-} from "../../redux/directory/directory.selectors";
-import { startCategoriesFetch } from "../../redux/directory/directory.actions";
-import Spinner from "../spinner/spinner.component";
+} from "../../redux/product-category/product-category.selectors";
+import { startInitialCategoriesFetch } from "../../redux/product-category/product-category.actions";
 
-const Directory = ({
+const BrowseByCategory = ({
   productCategories,
-  getProductCategories,
+  fetchInitialCategories,
   isFetchingCategories
 }) => {
   useEffect(() => {
-    getProductCategories();
-  }, [getProductCategories]);
+    fetchInitialCategories();
+  }, [fetchInitialCategories]);
 
   return (
-    <DirectoryContainer>
+    <BrowseByCategoryContainer>
       {isFetchingCategories ? (
         <Spinner loadingText="Getting latest categories" />
       ) : (
@@ -29,7 +29,7 @@ const Directory = ({
           <CategoryDirectory key={id} {...otherProductFields} />
         ))
       )}
-    </DirectoryContainer>
+    </BrowseByCategoryContainer>
   );
 };
 
@@ -39,7 +39,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getProductCategories: () => dispatch(startCategoriesFetch())
+  fetchInitialCategories: () => dispatch(startInitialCategoriesFetch())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Directory);
+export default connect(mapStateToProps, mapDispatchToProps)(BrowseByCategory);

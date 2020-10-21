@@ -1,19 +1,19 @@
-import DIRECTORY_ACTION_TYPES from "./directory.action.types";
+import PRODUCT_CATEGORY_ACTION_TYPES from "./product-category.action.types";
 import { takeLatest, call, all, put } from "redux-saga/effects";
 import {
-  categoriesFetchFail,
-  categoriesFetchSuccess
-} from "./directory.actions";
+  initialCategoriesFetchFail,
+  initialCategoriesFetchSuccess
+} from "./product-category.actions";
 import { getProductCategories } from "../../firebase-utils/firebase.product_utils";
 import { addErrorNotification } from "../notification/notification.actions";
 
 function* fetchCategories() {
   try {
     const productCategories = yield getProductCategories();
-    yield put(categoriesFetchSuccess(productCategories));
+    yield put(initialCategoriesFetchSuccess(productCategories));
   } catch (err) {
     yield put(
-      categoriesFetchFail(
+      initialCategoriesFetchFail(
         "There was a problem with displaying the product categories"
       )
     );
@@ -26,18 +26,18 @@ function* handleCategoriesFetchFail({ payload: errorMsg }) {
 
 function* watchCategoriesFetchStart() {
   yield takeLatest(
-    DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_START,
+    PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_START,
     fetchCategories
   );
 }
 
 function* watchCategoriesFetchFail() {
   yield takeLatest(
-    DIRECTORY_ACTION_TYPES.CATEGORIES_FETCH_FAIL,
+    PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_FAIL,
     handleCategoriesFetchFail
   );
 }
 
-export default function* directorySagas() {
+export default function* productCategorySagas() {
   yield all([call(watchCategoriesFetchStart), call(watchCategoriesFetchFail)]);
 }

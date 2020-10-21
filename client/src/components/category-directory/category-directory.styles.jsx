@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { secondaryColorLight, mainColorLight } from "../../global.styles";
 
-export const DirectoryImage = styled.div`
+export const CategoryImage = styled.div`
   width: 100%;
   height: 100%;
   background-position: center center;
@@ -39,7 +39,7 @@ export const CategoryDirectoryContainer = styled.div`
 
   &:hover {
     cursor: pointer;
-    & ${DirectoryImage} {
+    & ${CategoryImage} {
       transform: scale(1.6);
       transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
     }
@@ -50,11 +50,12 @@ export const CategoryDirectoryContainer = styled.div`
   }
 `;
 
-export const DirectoryTitle = styled.h1`
+export const CategoryName = styled.h1`
   font-weight: bold;
   margin-bottom: 1px;
   font-size: 22px;
   color: ${mainColorLight};
+  text-transform: uppercase;
 `;
 
 export const DirectorySubtitle = styled.p`

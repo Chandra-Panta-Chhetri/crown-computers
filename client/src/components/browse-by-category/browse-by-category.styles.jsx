@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const DirectoryContainer = styled.div`
+export const BrowseByCategoryContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
