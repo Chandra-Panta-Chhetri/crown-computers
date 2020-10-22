@@ -8,6 +8,12 @@ const DashboardSales = lazy(() =>
   import("../../components/dashboard-sales/dashboard-sales.component")
 );
 
+const DashboardProductCategories = lazy(() =>
+  import(
+    "../../components/dashboard-product-categories/dashboard-product-categories.component"
+  )
+);
+
 const dashboardNavOptions = [
   { title: "Sales", path: "sales", iconClass: "fas fa-chart-line" },
   { title: "Products", path: "products", iconClass: "fas fa-shopping-basket" },
@@ -32,12 +38,12 @@ const Dashboard = ({ match }) => (
         <Route
           exact
           path={`${match.path}/products`}
-          component={DashboardSales}
+          component={DashboardProductCategories}
         />
         <Route
           exact
           path={`${match.path}/product-categories`}
-          component={DashboardSales}
+          component={DashboardProductCategories}
         />
 
         <Route render={() => <Redirect to={`${match.path}/sales`} />} />

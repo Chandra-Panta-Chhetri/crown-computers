@@ -40,7 +40,8 @@ export const executePaginatedCategoryQuery = async (paginatedCategoryQuery) => {
     const categoryDocSnapshots = categoriesSnapshot.docs;
     const lastVisibleDoc = getLastElementInArray(categoryDocSnapshots);
     const productCategories = categoryDocSnapshots.map((categorySnapshot) => ({
-      ...categorySnapshot.data()
+      ...categorySnapshot.data(),
+      categoryId: categorySnapshot.id
     }));
     return { categories: productCategories, lastVisibleDoc };
   } catch (err) {
