@@ -31,10 +31,14 @@ const WishListPreview = ({ wishList, history, match, deleteWishList }) => {
             wishList={wishList}
             modalTitle="Wish List Delete Confirmation"
             confirmButtonText="Delete Wish List"
-            confirmationMsg={`Are you sure you want to delete ${wishList.wishListName}? Deleting will remove all the
-            items in the wish list.`}
             onConfirmation={() => deleteWishList(wishList)}
-          />
+          >
+            <p>
+              Are you sure you want to delete{" "}
+              <span>{wishList.wishListName}</span>? Deleting will remove all the
+              items in the wish list.
+            </p>
+          </RemoveWishListBtn>
         </div>
         <WishListCreationDate>
           <i className="far fa-calendar-alt" /> Created On{" "}

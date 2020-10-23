@@ -9,20 +9,17 @@ import Button from "../button/button.component";
 
 const DeleteConfirmationModal = ({
   modalTitle,
-  confirmationMsg,
   onConfirmation = () => {},
   confirmButtonText,
+  children,
   className
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
   return (
-    <>
-      <DeleteIcon
-        onClick={() => setIsDeleteModalOpen(true)}
-        className={className}
-      >
+    <div className={className}>
+      <DeleteIcon onClick={() => setIsDeleteModalOpen(true)}>
         <i className="fa fa-trash-alt"></i>
       </DeleteIcon>
       <DeleteModalContainer
@@ -30,7 +27,7 @@ const DeleteConfirmationModal = ({
         closeModalHandler={closeDeleteModal}
         modalTitle={modalTitle}
       >
-        <p>{confirmationMsg}</p>
+        {children}
         <ModalButtonContainer>
           <Button onClick={closeDeleteModal}>Cancel</Button>
           <Button color="red" onClick={onConfirmation}>
@@ -38,7 +35,7 @@ const DeleteConfirmationModal = ({
           </Button>
         </ModalButtonContainer>
       </DeleteModalContainer>
-    </>
+    </div>
   );
 };
 

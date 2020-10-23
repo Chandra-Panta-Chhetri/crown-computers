@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Card from "../card/card.component";
 import Button from "../button/button.component";
 import DeleteConfirmationModal from "../delete-confirmation-modal/delete-confirmation-modal.component";
+import { ModalBody } from "../modal/modal.styles";
+import { DeleteIcon } from "../delete-confirmation-modal/delete-confirmation-modal.styles";
 
 export const WishListPreviewContainer = styled.section`
   width: 33%;
@@ -14,16 +16,24 @@ export const PreviewCard = styled(Card)`
 `;
 
 export const RemoveWishListBtn = styled(DeleteConfirmationModal)`
-  position: absolute;
-  top: 15px;
-  right: 12px;
+  ${DeleteIcon} {
+    position: absolute;
+    top: 15px;
+    right: 12px;
 
-  &:hover {
-    transform: scale(1.3);
+    &:hover {
+      transform: scale(1.3);
+    }
+
+    i {
+      font-size: 1.27rem;
+    }
   }
 
-  i {
-    font-size: 1.27rem;
+  ${ModalBody} {
+    p span {
+      font-weight: bold;
+    }
   }
 `;
 
