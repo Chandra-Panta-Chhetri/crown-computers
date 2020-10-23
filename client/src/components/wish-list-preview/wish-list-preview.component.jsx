@@ -6,17 +6,20 @@ import {
   ViewWishListBtn,
   Ellipsis,
   PreviewCard,
-  StyledRemoveWishListBtn,
+  RemoveWishListBtn,
   WishListItemPreviewContainer
 } from "./wish-list-preview.styles";
 
 import WishListItemPreview from "../wish-list-item-preview/wish-list-item-preview.component";
 
+import { deleteWishListById } from "../../redux/wish-list/wish-list.actions";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { compose } from "redux";
 
 const NUM_ITEMS_TO_SHOW = 3;
 
-const WishListPreview = ({ wishList, history, match }) => {
+const WishListPreview = ({ wishList, history, match, deleteWishList }) => {
   const { wishListName, createdAt, items, wishListId } = wishList;
 
   return (
@@ -24,7 +27,14 @@ const WishListPreview = ({ wishList, history, match }) => {
       <PreviewCard>
         <div>
           <WishListName>{wishListName}</WishListName>
-          <StyledRemoveWishListBtn wishList={wishList} />
+          <RemoveWishListBtn
+            wishList={wishList}
+            modalTitle="Wish List Delete Confirmation"
+            confirmButtonText="Delete Wish List"
+            confirmationMsg={`Are you sure you want to delete ${wishList.wishListName}? Deleting will remove all the
+            items in the wish list.`}
+            onConfirmation={() => deleteWishList(wishList)}
+          />
         </div>
         <WishListCreationDate>
           <i className="far fa-calendar-alt" /> Created On{" "}
@@ -48,4 +58,12 @@ const WishListPreview = ({ wishList, history, match }) => {
   );
 };
 
-export default withRouter(WishListPreview);
+const mapDispatchToProps = (dispatch) => ({
+  deleteWishList: (wishListToDelete) =>
+    dispatch(deleteWishListById(wishListToDelete))
+});
+
+export default compose(
+  connect(null, mapDispatchToProps),
+  withRouter
+)(WishListPreview);

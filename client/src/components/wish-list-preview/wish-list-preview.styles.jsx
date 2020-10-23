@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Card from "../card/card.component";
 import Button from "../button/button.component";
-import RemoveWishListBtn from "../remove-wish-list-btn/remove-wish-list-btn.component";
+import DeleteConfirmationModal from "../delete-confirmation-modal/delete-confirmation-modal.component";
 
 export const WishListPreviewContainer = styled.section`
   width: 33%;
@@ -13,7 +13,7 @@ export const PreviewCard = styled(Card)`
   position: relative;
 `;
 
-export const StyledRemoveWishListBtn = styled(RemoveWishListBtn)`
+export const RemoveWishListBtn = styled(DeleteConfirmationModal)`
   position: absolute;
   top: 15px;
   right: 12px;
