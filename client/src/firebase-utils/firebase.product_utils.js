@@ -34,6 +34,21 @@ export const updateProductStock = async (productId, quantityToCheckout) => {
   await productRef.update({ stock: stock - quantityToCheckout });
 };
 
+export const createNewProductCategory = async (newCategoryInfo) => {
+  const newProductCategoryRef = await categoryCollectionRef.add(
+    newCategoryInfo
+  );
+  return newProductCategoryRef;
+};
+
+export const updateProductCategoryDoc = async (
+  categoryId,
+  updatedProductCategoryInfo
+) => {
+  const productCategoryRef = firestore.doc(`product_categories/${categoryId}`);
+  await productCategoryRef.update(updatedProductCategoryInfo);
+};
+
 export const executePaginatedCategoryQuery = async (paginatedCategoryQuery) => {
   try {
     const categoriesSnapshot = await paginatedCategoryQuery.get();
