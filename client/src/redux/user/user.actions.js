@@ -7,7 +7,7 @@ export const startAutoSignIn = () => ({
 
 export const startGoogleSignIn = () => ({
   type: USER_ACTION_TYPES.GOOGLE_SIGN_IN_START,
-  payload: { loadingText: "Signing in and checking for saved cart" }
+  payload: { loadingText: "Signing in" }
 });
 
 export const startEmailSignIn = ({ email, password }) => ({
@@ -15,7 +15,7 @@ export const startEmailSignIn = ({ email, password }) => ({
   payload: {
     email,
     password,
-    loadingText: "Signing in and checking for saved cart"
+    loadingText: "Signing in"
   }
 });
 
@@ -44,7 +44,7 @@ export const signUpFail = (errorMsg) => ({
 
 export const logOutStart = () => ({
   type: USER_ACTION_TYPES.LOG_OUT_START,
-  payload: { loadingText: "Signing out and saving cart" }
+  payload: { loadingText: "Signing out" }
 });
 
 export const logOutSuccess = () => ({

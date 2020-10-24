@@ -25,9 +25,12 @@ import { selectHasAutoSignedIn } from "./user.selectors";
 function* setUserFromSnapShot(userAuth, additionalData) {
   const userRef = yield createOrGetUser(userAuth, additionalData);
   const userSnapshot = yield userRef.get();
-  const { cart, cartId } = yield getUserCartAndCartId(userRef);
-  yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
-  yield put(restoreCart(cart, cartId));
+  const userData = userSnapshot.data();
+  yield put(signInSuccess({ id: userSnapshot.id, ...userData }));
+  if (!userData.isAdmin) {
+    const { cart, cartId } = yield getUserCartAndCartId(userRef);
+    yield put(restoreCart(cart, cartId));
+  }
 }
 
 function* signInWithGoogle() {

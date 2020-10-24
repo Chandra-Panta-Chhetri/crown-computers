@@ -85,7 +85,7 @@ function* handleCartUpdateSuccess({
     yield put(addSuccessNotification(notificationTitle, notificationMsg));
     const currentUser = yield select(selectCurrentUser);
     const cartId = yield select(selectCartId);
-    if (currentUser && cartId) {
+    if (currentUser && !currentUser.isAdmin && cartId) {
       yield saveCartItems(cartWithoutCartItemRefs, cartId);
     }
   } catch (err) {}
