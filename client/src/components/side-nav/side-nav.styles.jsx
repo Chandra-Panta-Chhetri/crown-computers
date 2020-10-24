@@ -53,7 +53,7 @@ export const NavMenu = styled.nav`
   position: fixed;
   top: 0;
   left: ${(props) => (props.isMenuShown ? "0" : "-100%")};
-  transition: ${(props) => (props.isMenuShown ? "350ms" : "850ms")};
+  transition: all 350ms;
   z-index: 100;
 `;
 

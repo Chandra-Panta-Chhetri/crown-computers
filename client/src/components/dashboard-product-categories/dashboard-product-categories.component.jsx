@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
-import {
-  CategoryImagePreview,
-  ProductCategoryEntryContainer,
-  CategoriesList
-} from "./dashboard-product-category.styles";
+import { CategoriesList } from "./dashboard-product-category.styles";
+import { DashboardContentTitle } from "../../pages/dashboard/dashboard.styles";
 
-import Card from "../card/card.component";
 import Skeleton from "../skeleton/skeleton.component";
+import CategoryEntry from "../category-entry/category-entry.component";
 
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -42,22 +39,26 @@ const DashboardProductCategories = ({
 
   return (
     <>
+      <DashboardContentTitle>Product Categories</DashboardContentTitle>
       <CategoriesList>
-        {(categories || []).map(({ category, categoryId, imageUrl }, index) => (
-          <ProductCategoryEntryContainer key={index}>
-            <Card>
-              <div>
-                <CategoryImagePreview src={imageUrl} alt={category} />
-                <span style={{ textTransform: "capitalize" }}>{category}</span>
-              </div>
-            </Card>
-          </ProductCategoryEntryContainer>
+        {(categories || []).map((category, index) => (
+          <CategoryEntry
+            category={category}
+            key={index}
+            intersectionCb={
+              categories.length === index + 1
+                ? fetchMoreOnIntersection
+                : undefined
+            }
+          />
         ))}
         {isFetchingCategories && (
           <Skeleton
-            height="150px"
-            margin="0 0 40px 0"
+            width="28%"
+            height="270px"
+            margin="0 10px 40px"
             count={categoriesPerPage}
+            flexGrow
           />
         )}
       </CategoriesList>
