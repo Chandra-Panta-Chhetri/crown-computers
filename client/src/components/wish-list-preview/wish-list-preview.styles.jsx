@@ -21,10 +21,6 @@ export const RemoveWishListBtn = styled(DeleteConfirmationModal)`
     top: 15px;
     right: 12px;
 
-    &:hover {
-      transform: scale(1.3);
-    }
-
     i {
       font-size: 1.27rem;
     }

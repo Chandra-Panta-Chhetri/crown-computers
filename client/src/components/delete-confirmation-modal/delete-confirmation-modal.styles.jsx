@@ -11,6 +11,10 @@ export const DeleteModalContainer = styled(Modal)`
 export const DeleteIcon = styled.span`
   cursor: pointer;
   color: red;
+
+  &:hover {
+    transform: scale(1.3);
+  }
 `;
 
 export const ModalButtonContainer = styled.div`

@@ -2,7 +2,8 @@ import React from "react";
 import {
   CategoryEntryContainer,
   CategoryImagePreview,
-  CardContainer
+  CardContainer,
+  DeleteCategoryIcon
 } from "./category-entry.styles";
 
 const CategoryEntry = ({ category, intersectionCb }) => {
@@ -11,6 +12,16 @@ const CategoryEntry = ({ category, intersectionCb }) => {
   return (
     <CategoryEntryContainer ref={intersectionCb}>
       <CardContainer>
+        <DeleteCategoryIcon
+          onConfirmation={() => console.log("deleting")}
+          confirmButtonText="Delete Product Category"
+          modalTitle="Delete Category Confirmation"
+        >
+          <p>
+            Are you sure you want to delete this category? Doing so will also
+            delete all the products in <span>{categoryName}</span>.
+          </p>
+        </DeleteCategoryIcon>
         <CategoryImagePreview src={imageUrl} alt={categoryName} />
         <span>{categoryName}</span>
       </CardContainer>
