@@ -12,8 +12,8 @@ import {
 import {
   getProducts,
   getMoreProducts,
-  getProductsByCategory,
-  getMoreProductsByCategory,
+  getProductsByCategoryName,
+  getMoreProductsByCategoryName,
   getProductDataAndRefById
 } from "../../firebase-utils/firebase.product_utils";
 import { addErrorNotification } from "../notification/notification.actions";
@@ -68,7 +68,7 @@ function* fetchProductsByCategory({
     const {
       products: productsInCategory,
       lastVisibleDoc
-    } = yield getProductsByCategory(categoryName, productsPerPage);
+    } = yield getProductsByCategoryName(categoryName, productsPerPage);
     if (!productsInCategory.length) {
       throw Error();
     }
@@ -86,7 +86,11 @@ function* fetchMoreProductsByCategory({ payload: categoryName }) {
     const {
       products: newProductsInCategory,
       lastVisibleDoc
-    } = yield getMoreProductsByCategory(lastDoc, categoryName, productsPerPage);
+    } = yield getMoreProductsByCategoryName(
+      lastDoc,
+      categoryName,
+      productsPerPage
+    );
     if (!newProductsInCategory.length) {
       return yield put(noMoreToLoad());
     }

@@ -7,7 +7,6 @@ import SideNav from "../../components/side-nav/side-nav.component";
 const DashboardSales = lazy(() =>
   import("../../components/dashboard-sales/dashboard-sales.component")
 );
-
 const DashboardProductCategories = lazy(() =>
   import(
     "../../components/dashboard-product-categories/dashboard-product-categories.component"

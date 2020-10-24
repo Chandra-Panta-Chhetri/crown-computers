@@ -41,12 +41,23 @@ export const createNewProductCategory = async (newCategoryInfo) => {
   return newProductCategoryRef;
 };
 
-export const updateProductCategoryDoc = async (
+export const updateProductCategory = async (
   categoryId,
   updatedProductCategoryInfo
 ) => {
   const productCategoryRef = firestore.doc(`product_categories/${categoryId}`);
   await productCategoryRef.update(updatedProductCategoryInfo);
+};
+
+export const deleteProductCategoryById = async (categoryId) => {
+  const productCategoryRef = firestore.doc(`product_categories/${categoryId}`);
+  const productSnapshots = await getProductSnapshotsByCategoryRef(
+    productCategoryRef
+  );
+  for (let productSnapshot of productSnapshots) {
+    await productSnapshot.ref.delete();
+  }
+  await productCategoryRef.delete();
 };
 
 export const executePaginatedCategoryQuery = async (paginatedCategoryQuery) => {
@@ -163,7 +174,20 @@ export const getMoreProducts = async (lastVisibleDoc, productsPerPage) => {
   return productsAndLastVisibleDoc;
 };
 
-export const getProductsByCategory = async (categoryName, productsPerPage) => {
+export const getProductSnapshotsByCategoryRef = async (productCategoryRef) => {
+  const productsWithCategoryId = productCollectionRef.where(
+    "productCategoryRef",
+    "==",
+    productCategoryRef
+  );
+  const productsSnapshot = await productsWithCategoryId.get();
+  return productsSnapshot.docs;
+};
+
+export const getProductsByCategoryName = async (
+  categoryName,
+  productsPerPage
+) => {
   const productCategoryRef = await getProductCategoryRefByCategoryName(
     categoryName
   );
@@ -178,7 +202,7 @@ export const getProductsByCategory = async (categoryName, productsPerPage) => {
   return productsAndLastVisibleDoc;
 };
 
-export const getMoreProductsByCategory = async (
+export const getMoreProductsByCategoryName = async (
   lastVisibleDoc,
   categoryName,
   productsPerPage

@@ -5,17 +5,22 @@ import {
   initialCategoriesFetchSuccess,
   loadingMoreCategoriesFail,
   loadingMoreCategoriesSuccess,
-  noMoreToLoad
+  noMoreToLoad,
+  deleteCategoryByIdFail,
+  deleteCategoryByIdSuccess
 } from "./product-category.actions";
 import {
   getProductCategories,
-  getMoreProductCategories
+  getMoreProductCategories,
+  deleteProductCategoryById
 } from "../../firebase-utils/firebase.product_utils";
 import { addErrorNotification } from "../notification/notification.actions";
 import {
   selectLastVisibleDoc,
-  selectCategoriesPerPage
+  selectCategoriesPerPage,
+  selectProductCategories
 } from "./product-category.selectors";
+import { removeCategory } from "./product-category.utils";
 
 function* fetchCategories() {
   try {
@@ -58,6 +63,28 @@ function* handleCategoriesFetchFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Categories Fetching Failed", errorMsg));
 }
 
+function* deleteCategoryById({ payload: { categoryId, categoryName } }) {
+  try {
+    const productCategories = yield select(selectProductCategories);
+    yield deleteProductCategoryById(categoryId);
+    const updatedCategories = yield removeCategory(
+      categoryId,
+      productCategories
+    );
+    yield put(deleteCategoryByIdSuccess(updatedCategories));
+  } catch (err) {
+    yield put(
+      deleteCategoryByIdFail(
+        `There was a problem deleting ${categoryName}. Please try again later`
+      )
+    );
+  }
+}
+
+function* handleCategoryDeleteFail({ payload: errorMsg }) {
+  yield put(addErrorNotification("Product Category Delete Fail", errorMsg));
+}
+
 function* watchCategoriesFetchStart() {
   yield takeLatest(
     PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_START,
@@ -82,10 +109,26 @@ function* watchCategoriesFetchFail() {
   );
 }
 
+function* watchCategoryDeleteById() {
+  yield takeLatest(
+    PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID,
+    deleteCategoryById
+  );
+}
+
+function* watchCategoryDeleteByIdFail() {
+  yield takeLatest(
+    PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_FAIL,
+    handleCategoryDeleteFail
+  );
+}
+
 export default function* productCategorySagas() {
   yield all([
     call(watchCategoriesFetchStart),
     call(watchCategoriesFetchFail),
-    call(watchLoadMoreProductCategories)
+    call(watchLoadMoreProductCategories),
+    call(watchCategoryDeleteById),
+    call(watchCategoryDeleteByIdFail)
   ]);
 }

@@ -26,3 +26,13 @@ export const selectHasMoreCategoriesToFetch = createSelector(
   [selectProductCategory],
   (productCategory) => productCategory.hasMoreToFetch
 );
+
+export const selectIsUpdatingCategories = createSelector(
+  [selectProductCategory],
+  (productCategory) => productCategory.isUpdatingCategories
+);
+
+export const selectCategoryLoadingText = createSelector(
+  [selectProductCategory],
+  (productCategory) => productCategory.loadingText
+);

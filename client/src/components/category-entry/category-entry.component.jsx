@@ -6,14 +6,17 @@ import {
   DeleteCategoryIcon
 } from "./category-entry.styles";
 
-const CategoryEntry = ({ category, intersectionCb }) => {
+import { connect } from "react-redux";
+import { startDeleteCategoryById } from "../../redux/product-category/product-category.actions";
+
+const CategoryEntry = ({ category, intersectionCb, deleteCategoryById }) => {
   const { category: categoryName, imageUrl, categoryId } = category;
 
   return (
     <CategoryEntryContainer ref={intersectionCb}>
       <CardContainer>
         <DeleteCategoryIcon
-          onConfirmation={() => console.log("deleting")}
+          onConfirmation={() => deleteCategoryById(categoryId, categoryName)}
           confirmButtonText="Delete Product Category"
           modalTitle="Delete Category Confirmation"
         >
@@ -29,4 +32,9 @@ const CategoryEntry = ({ category, intersectionCb }) => {
   );
 };
 
-export default CategoryEntry;
+const mapDispatchToProps = (dispatch) => ({
+  deleteCategoryById: (categoryId, categoryName) =>
+    dispatch(startDeleteCategoryById(categoryId, categoryName))
+});
+
+export default connect(null, mapDispatchToProps)(CategoryEntry);

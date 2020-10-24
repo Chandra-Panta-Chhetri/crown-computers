@@ -37,3 +37,22 @@ export const loadingMoreCategoriesSuccess = (
 export const noMoreToLoad = () => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.NO_MORE_TO_LOAD
 });
+
+export const startDeleteCategoryById = (categoryId, categoryName) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID,
+  payload: {
+    categoryId,
+    categoryName,
+    loadingText: "Deleting product category"
+  }
+});
+
+export const deleteCategoryByIdFail = (errorMsg) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_FAIL,
+  payload: errorMsg
+});
+
+export const deleteCategoryByIdSuccess = (updatedProductCategories) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_SUCCESS,
+  payload: updatedProductCategories
+});

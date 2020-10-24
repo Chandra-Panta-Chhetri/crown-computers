@@ -4,13 +4,16 @@ import { DashboardContentTitle } from "../../pages/dashboard/dashboard.styles";
 
 import Skeleton from "../skeleton/skeleton.component";
 import CategoryEntry from "../category-entry/category-entry.component";
+import FullPageSpinner from "../full-page-spinner/full-page-spinner.component";
 
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import {
   selectCategoriesPerPage,
+  selectCategoryLoadingText,
   selectHasMoreCategoriesToFetch,
   selectIsFetchingCategories,
+  selectIsUpdatingCategories,
   selectProductCategories
 } from "../../redux/product-category/product-category.selectors";
 import {
@@ -25,7 +28,9 @@ const DashboardProductCategories = ({
   isFetchingCategories,
   hasMoreCategoriesToFetch,
   fetchCategories,
-  fetchMoreCategories
+  fetchMoreCategories,
+  isUpdatingCategories,
+  categoryLoadingText
 }) => {
   const fetchMoreOnIntersection = usePaginationOnIntersection(
     fetchMoreCategories,
@@ -55,13 +60,17 @@ const DashboardProductCategories = ({
         {isFetchingCategories && (
           <Skeleton
             width="28%"
-            height="270px"
+            height="290px"
             margin="0 10px 40px"
             count={categoriesPerPage}
             flexGrow
           />
         )}
       </CategoriesList>
+      <FullPageSpinner
+        isLoading={isUpdatingCategories}
+        loadingText={categoryLoadingText}
+      />
     </>
   );
 };
@@ -70,7 +79,9 @@ const mapStateToProps = createStructuredSelector({
   categories: selectProductCategories,
   categoriesPerPage: selectCategoriesPerPage,
   isFetchingCategories: selectIsFetchingCategories,
-  hasMoreCategoriesToFetch: selectHasMoreCategoriesToFetch
+  hasMoreCategoriesToFetch: selectHasMoreCategoriesToFetch,
+  isUpdatingCategories: selectIsUpdatingCategories,
+  categoryLoadingText: selectCategoryLoadingText
 });
 
 const mapDispatchToProps = (dispatch) => ({

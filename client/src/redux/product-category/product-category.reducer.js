@@ -5,7 +5,9 @@ const INITIAL_STATE = {
   isFetchingCategories: false,
   categoriesPerPage: 6,
   lastVisibleDoc: null,
-  hasMoreToFetch: true
+  hasMoreToFetch: true,
+  isUpdatingCategories: false,
+  loadingText: ""
 };
 
 const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
@@ -42,13 +44,31 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
           ...prevState.productCategories,
           ...action.payload.newProductCategories
         ],
-        lastVisibleDoc: action.payload.lastVisibleDoc
+        lastVisibleDoc: action.payload.lastVisibleDoc,
+        isFetchingCategories: false
       };
     case PRODUCT_CATEGORY_ACTION_TYPES.NO_MORE_TO_LOAD:
       return {
         ...prevState,
         isFetchingCategories: false,
         hasMoreToFetch: false
+      };
+    case PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID:
+      return {
+        ...prevState,
+        isUpdatingCategories: true,
+        loadingText: action.payload.loadingText
+      };
+    case PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_FAIL:
+      return {
+        ...prevState,
+        isUpdatingCategories: false
+      };
+    case PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_SUCCESS:
+      return {
+        ...prevState,
+        productCategories: action.payload,
+        isUpdatingCategories: false
       };
     default:
       return prevState;

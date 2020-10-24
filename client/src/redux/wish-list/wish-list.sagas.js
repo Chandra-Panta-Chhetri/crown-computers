@@ -303,10 +303,6 @@ function* watchAddItemToWishList() {
     const action = yield take(channel);
     yield call(handleAddingItemToWishList, action);
   }
-  // yield takeLatest(
-  //   WISH_LIST_ACTION_TYPES.START_ADD_TO_WISH_LIST,
-  //   handleAddingItemToWishList
-  // );
 }
 
 function* watchRemoveItemFromWishList() {
