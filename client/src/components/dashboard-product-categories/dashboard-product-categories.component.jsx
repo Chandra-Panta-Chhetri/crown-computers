@@ -45,7 +45,9 @@ const DashboardProductCategories = ({
 
   return (
     <>
-      <DashboardContentTitle>Product Categories</DashboardContentTitle>
+      <DashboardContentTitle underlineWidth={260}>
+        Product Categories
+      </DashboardContentTitle>
       <NewCategoryBtn />
       <CategoriesList>
         {(categories || []).map((category, index) => (

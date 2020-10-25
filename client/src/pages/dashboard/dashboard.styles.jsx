@@ -16,14 +16,17 @@ export const DashboardContentTitle = styled.h3`
   text-align: center;
   letter-spacing: 0.2rem;
   position: relative;
+  padding-bottom: 3px;
 
   &:before {
     content: "";
     position: absolute;
-    width: 60px;
+    width: ${(props) =>
+      props.underlineWidth ? `${props.underlineWidth}px` : "60px"};
     bottom: 0;
     left: 50%;
-    margin-left: -30px;
+    margin-left: ${(props) =>
+      props.underlineWidth ? `${(props.underlineWidth / 2) * -1}px` : "-30px"};
     border-bottom: 2px solid ${secondaryColor};
   }
 `;
