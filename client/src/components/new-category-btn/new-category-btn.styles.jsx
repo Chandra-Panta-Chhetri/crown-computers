@@ -9,3 +9,7 @@ export const AddCategoryBtn = styled(Button)`
 `;
 
 export const NewCategoryModal = styled(Modal)``;
+
+export const SubmitCategoryBtn = styled(Button)`
+  float: right;
+`;

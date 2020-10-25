@@ -7,14 +7,20 @@ import {
   loadingMoreCategoriesSuccess,
   noMoreToLoad,
   deleteCategoryByIdFail,
-  deleteCategoryByIdSuccess
+  deleteCategoryByIdSuccess,
+  createNewCategoryFail,
+  createNewCategorySuccess
 } from "./product-category.actions";
 import {
   getProductCategories,
   getMoreProductCategories,
-  deleteProductCategoryById
+  deleteProductCategoryById,
+  createNewProductCategory
 } from "../../firebase-utils/firebase.product_utils";
-import { addErrorNotification } from "../notification/notification.actions";
+import {
+  addErrorNotification,
+  addSuccessNotification
+} from "../notification/notification.actions";
 import {
   selectLastVisibleDoc,
   selectCategoriesPerPage,
@@ -85,6 +91,34 @@ function* handleCategoryDeleteFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Product Category Delete Fail", errorMsg));
 }
 
+function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
+  try {
+    const newCategoryRef = yield createNewProductCategory(newCategoryInfo);
+    const categoryId = newCategoryRef.id;
+    yield put(createNewCategorySuccess({ ...newCategoryInfo, categoryId }));
+    yield onSuccess();
+  } catch (err) {
+    yield put(
+      createNewCategoryFail(
+        `There was a problem creating ${newCategoryInfo.category}. Please try again later`
+      )
+    );
+  }
+}
+
+function* handleCreateCategoryFail({ payload: errorMsg }) {
+  yield put(addErrorNotification("Category Creation Failed", errorMsg));
+}
+
+function* handleCreateCategorySuccess({ payload: createdCategory }) {
+  yield put(
+    addSuccessNotification(
+      "Category Created",
+      `New ${createdCategory.category} created`
+    )
+  );
+}
+
 function* watchCategoriesFetchStart() {
   yield takeLatest(
     PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_START,
@@ -123,12 +157,36 @@ function* watchCategoryDeleteByIdFail() {
   );
 }
 
+function* watchCreateNewCategory() {
+  yield takeLatest(
+    PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY,
+    createNewCategory
+  );
+}
+
+function* watchCreateNewCategoryFail() {
+  yield takeLatest(
+    PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_FAIL,
+    handleCreateCategoryFail
+  );
+}
+
+function* watchCreateNewCategorySuccess() {
+  yield takeLatest(
+    PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_SUCCESS,
+    handleCreateCategorySuccess
+  );
+}
+
 export default function* productCategorySagas() {
   yield all([
     call(watchCategoriesFetchStart),
     call(watchCategoriesFetchFail),
     call(watchLoadMoreProductCategories),
     call(watchCategoryDeleteById),
-    call(watchCategoryDeleteByIdFail)
+    call(watchCategoryDeleteByIdFail),
+    call(watchCreateNewCategory),
+    call(watchCreateNewCategoryFail),
+    call(watchCreateNewCategorySuccess)
   ]);
 }

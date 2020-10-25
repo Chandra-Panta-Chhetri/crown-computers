@@ -54,12 +54,14 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
         hasMoreToFetch: false
       };
     case PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID:
+    case PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY:
       return {
         ...prevState,
         isUpdatingCategories: true,
         loadingText: action.payload.loadingText
       };
     case PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_FAIL:
+    case PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_FAIL:
       return {
         ...prevState,
         isUpdatingCategories: false
@@ -69,6 +71,12 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
         ...prevState,
         productCategories: action.payload,
         isUpdatingCategories: false
+      };
+    case PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_SUCCESS:
+      return {
+        ...prevState,
+        isUpdatingCategories: false,
+        productCategories: [...prevState.productCategories, ...action.payload]
       };
     default:
       return prevState;

@@ -56,3 +56,22 @@ export const deleteCategoryByIdSuccess = (updatedProductCategories) => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_SUCCESS,
   payload: updatedProductCategories
 });
+
+export const createNewCategory = (newCategoryInfo, onSuccess) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY,
+  payload: {
+    newCategoryInfo,
+    onSuccess,
+    loadingText: `Creating ${newCategoryInfo.category} category`
+  }
+});
+
+export const createNewCategoryFail = (errorMsg) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_FAIL,
+  payload: errorMsg
+});
+
+export const createNewCategorySuccess = (createdCategory) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_SUCCESS,
+  payload: createdCategory
+});
