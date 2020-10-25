@@ -9,7 +9,7 @@ import { secondaryColor } from "../../global.styles";
 const Button = ({
   children,
   iconClass = "",
-  variant = "default",
+  variant,
   color = secondaryColor,
   ...otherButtonAttr
 }) => {

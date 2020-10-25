@@ -5,6 +5,7 @@ import { DashboardContentTitle } from "../../pages/dashboard/dashboard.styles";
 import Skeleton from "../skeleton/skeleton.component";
 import CategoryEntry from "../category-entry/category-entry.component";
 import FullPageSpinner from "../full-page-spinner/full-page-spinner.component";
+import NewCategoryBtn from "../new-category-btn/new-category-btn.component";
 
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -45,6 +46,7 @@ const DashboardProductCategories = ({
   return (
     <>
       <DashboardContentTitle>Product Categories</DashboardContentTitle>
+      <NewCategoryBtn />
       <CategoriesList>
         {(categories || []).map((category, index) => (
           <CategoryEntry
