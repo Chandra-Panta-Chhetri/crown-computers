@@ -34,10 +34,11 @@ export const updateProductStock = async (productId, quantityToCheckout) => {
   await productRef.update({ stock: stock - quantityToCheckout });
 };
 
-export const uploadImage = async (image) =>
+export const uploadImage = async (image, directoryToSaveImage = "") =>
   new Promise((resolve, reject) => {
+    const uniqueImageName = new Date().getTime() + image.name;
     const uploadTask = fileStorage
-      .ref(`product_category_images/${image.name}`)
+      .ref(`${directoryToSaveImage}/${uniqueImageName}`)
       .put(image);
     uploadTask.on(
       "state_changed",
@@ -47,8 +48,8 @@ export const uploadImage = async (image) =>
       },
       () => {
         fileStorage
-          .ref("product_category_images")
-          .child(image.name)
+          .ref(directoryToSaveImage)
+          .child(uniqueImageName)
           .getDownloadURL()
           .then((imageUrl) => {
             resolve(imageUrl);
@@ -61,7 +62,10 @@ export const uploadImage = async (image) =>
   });
 
 export const createNewProductCategory = async (newCategoryInfo) => {
-  const imageUrl = await uploadImage(newCategoryInfo.image);
+  const imageUrl = await uploadImage(
+    newCategoryInfo.image,
+    "product_category_images"
+  );
   delete newCategoryInfo.image;
   newCategoryInfo.imageUrl = imageUrl;
   const newProductCategoryRef = await categoryCollectionRef.add(
