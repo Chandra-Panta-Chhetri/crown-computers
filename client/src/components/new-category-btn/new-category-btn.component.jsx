@@ -16,7 +16,7 @@ const NewCategoryBtn = ({ createNewCategory }) => {
 
   const [newCategoryInfo, setNewCategoryInfo] = useState({
     category: "",
-    imageUrl: "https://dummyimage.com/400"
+    image: null
   });
 
   const handleSubmit = (e) => {
@@ -25,9 +25,9 @@ const NewCategoryBtn = ({ createNewCategory }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
     setNewCategoryInfo((prevCategoryInfo) => {
-      prevCategoryInfo[name] = value;
+      prevCategoryInfo[name] = name === "image" ? files[0] : value;
       return { ...prevCategoryInfo };
     });
   };
@@ -53,6 +53,13 @@ const NewCategoryBtn = ({ createNewCategory }) => {
               inputValue={newCategoryInfo.category}
               inputChangeHandler={handleChange}
               name="category"
+              required
+            />
+            <FormInput
+              type="file"
+              label="Category Image"
+              inputChangeHandler={handleChange}
+              name="image"
               required
             />
             <SubmitCategoryBtn type="submit">

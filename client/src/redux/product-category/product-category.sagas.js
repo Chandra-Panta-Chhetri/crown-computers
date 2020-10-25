@@ -93,9 +93,8 @@ function* handleCategoryDeleteFail({ payload: errorMsg }) {
 
 function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
   try {
-    const newCategoryRef = yield createNewProductCategory(newCategoryInfo);
-    const categoryId = newCategoryRef.id;
-    yield put(createNewCategorySuccess({ ...newCategoryInfo, categoryId }));
+    const createdCategory = yield createNewProductCategory(newCategoryInfo);
+    yield put(createNewCategorySuccess(createdCategory));
     yield onSuccess();
   } catch (err) {
     yield put(

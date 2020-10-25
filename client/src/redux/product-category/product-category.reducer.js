@@ -76,7 +76,7 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
       return {
         ...prevState,
         isUpdatingCategories: false,
-        productCategories: [...prevState.productCategories, ...action.payload]
+        productCategories: [...prevState.productCategories, action.payload]
       };
     default:
       return prevState;

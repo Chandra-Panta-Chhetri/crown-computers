@@ -1,4 +1,4 @@
-import { firestore } from "./firebase.config";
+import { firestore, fileStorage } from "./firebase.config";
 import { getLastElementInArray } from "../global.utils";
 
 const categoryCollectionRef = firestore.collection("product_categories");
@@ -34,11 +34,40 @@ export const updateProductStock = async (productId, quantityToCheckout) => {
   await productRef.update({ stock: stock - quantityToCheckout });
 };
 
+export const uploadImage = async (image) =>
+  new Promise((resolve, reject) => {
+    const uploadTask = fileStorage
+      .ref(`product_category_images/${image.name}`)
+      .put(image);
+    uploadTask.on(
+      "state_changed",
+      () => {},
+      (err) => {
+        reject(err);
+      },
+      () => {
+        fileStorage
+          .ref("product_category_images")
+          .child(image.name)
+          .getDownloadURL()
+          .then((imageUrl) => {
+            resolve(imageUrl);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      }
+    );
+  });
+
 export const createNewProductCategory = async (newCategoryInfo) => {
+  const imageUrl = await uploadImage(newCategoryInfo.image);
+  delete newCategoryInfo.image;
+  newCategoryInfo.imageUrl = imageUrl;
   const newProductCategoryRef = await categoryCollectionRef.add(
     newCategoryInfo
   );
-  return newProductCategoryRef;
+  return { categoryId: newProductCategoryRef.id, ...newCategoryInfo };
 };
 
 export const updateProductCategory = async (

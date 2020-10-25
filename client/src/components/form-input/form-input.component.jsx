@@ -4,11 +4,17 @@ import { FormInputContainer, InputLabel, FormField } from "./form-input.styles";
 const FormInput = ({
   label,
   inputChangeHandler = undefined,
-  inputValue = "",
+  inputValue,
   ...otherFieldProps
 }) => (
   <FormInputContainer>
-    <InputLabel className={inputValue.length ? "shrink" : ""}>
+    <InputLabel
+      className={
+        otherFieldProps.type === "file" || (inputValue && inputValue.length)
+          ? "shrink"
+          : ""
+      }
+    >
       {label}
     </InputLabel>
     <FormField
