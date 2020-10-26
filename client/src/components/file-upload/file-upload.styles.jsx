@@ -1,14 +1,9 @@
-import styled, { css } from "styled-components";
-
-export const secondaryColor = "grey";
-export const mainColor = "black";
-
-export const shrinkLabelMixin = css`
-  top: -21px;
-  font-size: 12px;
-  color: ${mainColor};
-  left: 0;
-`;
+import styled from "styled-components";
+import {
+  secondaryColor,
+  shrinkLabelMixin,
+  mainColor
+} from "../form-input/form-input.styles";
 
 export const FormInputContainer = styled.div`
   position: relative;
@@ -16,18 +11,8 @@ export const FormInputContainer = styled.div`
 `;
 
 export const InputLabel = styled.label`
-  color: ${secondaryColor};
-  font-size: 16px;
-  font-weight: normal;
   position: absolute;
-  pointer-events: none;
-  left: 7px;
-  top: 10px;
-  transition: 300ms ease all;
-
-  &.shrink {
-    ${shrinkLabelMixin}
-  }
+  ${shrinkLabelMixin}
 `;
 
 export const FormField = styled.input`

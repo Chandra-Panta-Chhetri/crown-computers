@@ -1,5 +1,9 @@
 import React from "react";
-import { FormInputContainer, InputLabel, FormField } from "./form-input.styles";
+import {
+  FormInputContainer,
+  InputLabel,
+  FormField
+} from "./file-upload.styles";
 
 const FormInput = ({
   label,
@@ -8,10 +12,9 @@ const FormInput = ({
   ...otherFieldProps
 }) => (
   <FormInputContainer>
-    <InputLabel className={inputValue && inputValue.length ? "shrink" : ""}>
-      {label}
-    </InputLabel>
+    <InputLabel className="shrink">{label}</InputLabel>
     <FormField
+      type="file"
       onChange={inputChangeHandler}
       value={inputValue}
       {...otherFieldProps}

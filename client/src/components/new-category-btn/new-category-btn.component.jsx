@@ -6,6 +6,7 @@ import {
 } from "./new-category-btn.styles";
 
 import FormInput from "../form-input/form-input.component";
+import FileUpload from "../file-upload/file-upload.component";
 
 import { connect } from "react-redux";
 import { createNewCategory } from "../../redux/product-category/product-category.actions";
@@ -26,6 +27,7 @@ const NewCategoryBtn = ({ createNewCategory }) => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+    console.log(files, "heree");
     setNewCategoryInfo((prevCategoryInfo) => {
       prevCategoryInfo[name] = name === "image" ? files[0] : value;
       return { ...prevCategoryInfo };
@@ -55,8 +57,7 @@ const NewCategoryBtn = ({ createNewCategory }) => {
               name="category"
               required
             />
-            <FormInput
-              type="file"
+            <FileUpload
               accept=".jpg,.png,.jpeg"
               label="Category Image"
               inputChangeHandler={handleChange}
