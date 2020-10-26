@@ -38,11 +38,10 @@ export const noMoreToLoad = () => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.NO_MORE_TO_LOAD
 });
 
-export const startDeleteCategoryById = (categoryId, categoryName) => ({
+export const startDeleteCategoryById = (categoryToDelete) => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID,
   payload: {
-    categoryId,
-    categoryName,
+    categoryToDelete,
     loadingText: "Deleting product category"
   }
 });

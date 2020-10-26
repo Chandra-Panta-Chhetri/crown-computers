@@ -69,10 +69,11 @@ function* handleCategoriesFetchFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Categories Fetching Failed", errorMsg));
 }
 
-function* deleteCategoryById({ payload: { categoryId, categoryName } }) {
+function* deleteCategoryById({ payload: { categoryToDelete } }) {
+  const { categoryId, category: name, imageUrl } = categoryToDelete;
   try {
     const productCategories = yield select(selectProductCategories);
-    yield deleteProductCategoryById(categoryId);
+    yield deleteProductCategoryById(categoryId, imageUrl);
     const updatedCategories = yield removeCategory(
       categoryId,
       productCategories
@@ -81,7 +82,7 @@ function* deleteCategoryById({ payload: { categoryId, categoryName } }) {
   } catch (err) {
     yield put(
       deleteCategoryByIdFail(
-        `There was a problem deleting ${categoryName}. Please try again later`
+        `There was a problem deleting ${name}. Please try again later`
       )
     );
   }

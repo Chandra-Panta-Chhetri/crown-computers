@@ -37,9 +37,8 @@ export const updateProductStock = async (productId, quantityToCheckout) => {
 export const uploadImage = async (image, directoryToSaveImage = "") =>
   new Promise((resolve, reject) => {
     const uniqueImageName = new Date().getTime() + image.name;
-    const uploadTask = fileStorage
-      .ref(`${directoryToSaveImage}/${uniqueImageName}`)
-      .put(image);
+    const imageStoragePath = `${directoryToSaveImage}/${uniqueImageName}`;
+    const uploadTask = fileStorage.ref(imageStoragePath).put(image);
     uploadTask.on(
       "state_changed",
       () => {},
@@ -48,8 +47,8 @@ export const uploadImage = async (image, directoryToSaveImage = "") =>
       },
       () => {
         fileStorage
-          .ref(directoryToSaveImage)
-          .child(uniqueImageName)
+          .ref()
+          .child(imageStoragePath)
           .getDownloadURL()
           .then((imageUrl) => {
             resolve(imageUrl);
@@ -61,10 +60,16 @@ export const uploadImage = async (image, directoryToSaveImage = "") =>
     );
   });
 
+export const deleteUploadedImage = async (imageStoragePath) => {
+  const imageRef = fileStorage.refFromURL(imageStoragePath);
+  await imageRef.delete();
+};
+
 export const createNewProductCategory = async (newCategoryInfo) => {
+  const firebaseStorageDirectory = "product_category_images";
   const imageUrl = await uploadImage(
     newCategoryInfo.image,
-    "product_category_images"
+    firebaseStorageDirectory
   );
   delete newCategoryInfo.image;
   newCategoryInfo.imageUrl = imageUrl;
@@ -82,7 +87,10 @@ export const updateProductCategory = async (
   await productCategoryRef.update(updatedProductCategoryInfo);
 };
 
-export const deleteProductCategoryById = async (categoryId) => {
+export const deleteProductCategoryById = async (
+  categoryId,
+  categoryImageStoragePath
+) => {
   const productCategoryRef = firestore.doc(`product_categories/${categoryId}`);
   const productSnapshots = await getProductSnapshotsByCategoryRef(
     productCategoryRef
@@ -90,6 +98,7 @@ export const deleteProductCategoryById = async (categoryId) => {
   for (let productSnapshot of productSnapshots) {
     await productSnapshot.ref.delete();
   }
+  await deleteUploadedImage(categoryImageStoragePath);
   await productCategoryRef.delete();
 };
 
