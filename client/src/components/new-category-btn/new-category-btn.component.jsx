@@ -57,6 +57,7 @@ const NewCategoryBtn = ({ createNewCategory }) => {
             />
             <FormInput
               type="file"
+              accept=".jpg,.png,.jpeg"
               label="Category Image"
               inputChangeHandler={handleChange}
               name="image"

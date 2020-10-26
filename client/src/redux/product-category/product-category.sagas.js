@@ -100,7 +100,7 @@ function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
   } catch (err) {
     yield put(
       createNewCategoryFail(
-        `There was a problem creating ${newCategoryInfo.category}. Please try again later`
+        `There was a problem creating ${newCategoryInfo.category}. Please ensure the uploaded image is of type png, jpg or jpeg.`
       )
     );
   }
