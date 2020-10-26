@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
-import { CategoriesList } from "./dashboard-product-category.styles";
+import {
+  CategoriesList,
+  NoCategoriesText
+} from "./dashboard-product-category.styles";
 import { DashboardContentTitle } from "../../pages/dashboard/dashboard.styles";
 
 import Skeleton from "../skeleton/skeleton.component";
@@ -49,6 +52,12 @@ const DashboardProductCategories = ({
         Product Categories
       </DashboardContentTitle>
       <NewCategoryBtn />
+      {!categories.length && !isFetchingCategories && (
+        <NoCategoriesText>
+          It seems there are no product categories. Create one using the button
+          above!
+        </NoCategoriesText>
+      )}
       <CategoriesList>
         {(categories || []).map((category, index) => (
           <CategoryEntry
