@@ -27,6 +27,7 @@ import {
   selectProductCategories
 } from "./product-category.selectors";
 import { removeCategory } from "./product-category.utils";
+import { capitalize } from "../../global.utils";
 
 function* fetchCategories() {
   try {
@@ -78,11 +79,20 @@ function* deleteCategoryById({ payload: { categoryToDelete } }) {
       categoryId,
       productCategories
     );
-    yield put(deleteCategoryByIdSuccess(updatedCategories));
+    yield put(
+      deleteCategoryByIdSuccess(
+        updatedCategories,
+        `All the products in ${capitalize(name)} category and ${capitalize(
+          name
+        )} category itself has been deleted`
+      )
+    );
   } catch (err) {
     yield put(
       deleteCategoryByIdFail(
-        `There was a problem deleting ${name}. Please try again later`
+        `There was a problem deleting ${capitalize(
+          name
+        )}. Please try again later`
       )
     );
   }
@@ -92,15 +102,28 @@ function* handleCategoryDeleteFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Product Category Delete Fail", errorMsg));
 }
 
+function* handleCategoryDeleteSuccess({ payload: { notificationMsg } }) {
+  yield put(addSuccessNotification("Product Category Delete", notificationMsg));
+}
+
 function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
   try {
+    const productCategories = yield select(selectProductCategories);
     const createdCategory = yield createNewProductCategory(newCategoryInfo);
-    yield put(createNewCategorySuccess(createdCategory));
+    const updatedProductCategories = [...productCategories, createdCategory];
+    yield put(
+      createNewCategorySuccess(
+        updatedProductCategories,
+        `${capitalize(createdCategory.category)} category has been created`
+      )
+    );
     yield onSuccess();
   } catch (err) {
     yield put(
       createNewCategoryFail(
-        `There was a problem creating ${newCategoryInfo.category}. Please ensure the uploaded image is of type png, jpg or jpeg.`
+        `There was a problem creating ${capitalize(
+          newCategoryInfo.category
+        )}. Please ensure the uploaded image is of type png, jpg or jpeg.`
       )
     );
   }
@@ -110,13 +133,8 @@ function* handleCreateCategoryFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Category Creation Failed", errorMsg));
 }
 
-function* handleCreateCategorySuccess({ payload: createdCategory }) {
-  yield put(
-    addSuccessNotification(
-      "Category Created",
-      `New ${createdCategory.category} created`
-    )
-  );
+function* handleCreateCategorySuccess({ payload: { notificationMsg } }) {
+  yield put(addSuccessNotification("Category Created", notificationMsg));
 }
 
 function* watchCategoriesFetchStart() {
@@ -157,6 +175,13 @@ function* watchCategoryDeleteByIdFail() {
   );
 }
 
+function* watchCategoryDeleteByIdSuccess() {
+  yield takeLatest(
+    PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_SUCCESS,
+    handleCategoryDeleteSuccess
+  );
+}
+
 function* watchCreateNewCategory() {
   yield takeLatest(
     PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY,
@@ -185,6 +210,7 @@ export default function* productCategorySagas() {
     call(watchLoadMoreProductCategories),
     call(watchCategoryDeleteById),
     call(watchCategoryDeleteByIdFail),
+    call(watchCategoryDeleteByIdSuccess),
     call(watchCreateNewCategory),
     call(watchCreateNewCategoryFail),
     call(watchCreateNewCategorySuccess)

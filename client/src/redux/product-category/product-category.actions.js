@@ -42,7 +42,7 @@ export const startDeleteCategoryById = (categoryToDelete) => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID,
   payload: {
     categoryToDelete,
-    loadingText: "Deleting product category"
+    loadingText: `Deleting ${categoryToDelete.category}`
   }
 });
 
@@ -51,9 +51,12 @@ export const deleteCategoryByIdFail = (errorMsg) => ({
   payload: errorMsg
 });
 
-export const deleteCategoryByIdSuccess = (updatedProductCategories) => ({
+export const deleteCategoryByIdSuccess = (
+  updatedProductCategories,
+  notificationMsg
+) => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_SUCCESS,
-  payload: updatedProductCategories
+  payload: { updatedProductCategories, notificationMsg }
 });
 
 export const createNewCategory = (newCategoryInfo, onSuccess) => ({
@@ -70,7 +73,37 @@ export const createNewCategoryFail = (errorMsg) => ({
   payload: errorMsg
 });
 
-export const createNewCategorySuccess = (createdCategory) => ({
+export const createNewCategorySuccess = (
+  updatedProductCategories,
+  notificationMsg
+) => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_SUCCESS,
-  payload: createdCategory
+  payload: { updatedProductCategories, notificationMsg }
+});
+
+export const updateCategoryInfo = (
+  updatedCategoryInfo,
+  categoryId,
+  onSuccess
+) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO,
+  payload: {
+    updatedCategoryInfo,
+    categoryId,
+    onSuccess,
+    loadingText: "Updating product category"
+  }
+});
+
+export const updateCategoryInfoFail = (errorMsg) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO_FAIL,
+  payload: errorMsg
+});
+
+export const updateCategoryInfoSuccess = (
+  updatedProductCategories,
+  notificationMsg
+) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO_SUCCESS,
+  payload: { updatedProductCategories, notificationMsg }
 });

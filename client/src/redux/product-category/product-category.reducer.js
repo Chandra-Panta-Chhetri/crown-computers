@@ -67,16 +67,12 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
         isUpdatingCategories: false
       };
     case PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_SUCCESS:
-      return {
-        ...prevState,
-        productCategories: action.payload,
-        isUpdatingCategories: false
-      };
     case PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_SUCCESS:
+    case PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO_SUCCESS:
       return {
         ...prevState,
-        isUpdatingCategories: false,
-        productCategories: [...prevState.productCategories, action.payload]
+        productCategories: action.payload.updatedProductCategories,
+        isUpdatingCategories: false
       };
     default:
       return prevState;
