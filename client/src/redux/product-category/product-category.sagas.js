@@ -140,13 +140,17 @@ function* handleCreateCategorySuccess({ payload: { notificationMsg } }) {
   yield put(addSuccessNotification("Category Created", notificationMsg));
 }
 
-function* updateCategoryById({ updatedCategoryInfo, categoryId, onSuccess }) {
+function* updateCategoryById({
+  payload: { updatedCategoryInfo, categoryId, onSuccess }
+}) {
   try {
     const productCategories = yield select(selectProductCategories);
+    delete updatedCategoryInfo.categoryId;
     const updatedCategory = yield updateProductCategoryById(
       categoryId,
       updatedCategoryInfo
     );
+    console.log(updatedCategory);
     const updatedProductCategories = yield updateCategory(
       categoryId,
       updatedCategory,
@@ -160,6 +164,7 @@ function* updateCategoryById({ updatedCategoryInfo, categoryId, onSuccess }) {
     );
     yield onSuccess();
   } catch (err) {
+    console.log(err);
     yield put(
       updateCategoryInfoFail(
         "There was a problem updating the product category info. Please try again later"

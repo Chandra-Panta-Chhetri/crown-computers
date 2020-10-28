@@ -92,10 +92,11 @@ export const updateProductCategoryById = async (
       updatedProductCategoryInfo.image,
       PRODUCT_CATEGORY_IMAGES_DIRECTORY
     );
-    delete newCategoryInfo.image;
     updatedProductCategoryInfo.imageUrl = newImageUrl;
   }
+  delete updatedProductCategoryInfo.image;
   await productCategoryRef.update(updatedProductCategoryInfo);
+  return { ...updatedProductCategoryInfo, categoryId };
 };
 
 export const deleteProductCategoryById = async (

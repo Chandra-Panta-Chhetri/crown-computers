@@ -12,7 +12,7 @@ export const DeleteIcon = styled.span`
   cursor: pointer;
   color: red;
 
-  &:hover {
+  i:hover {
     transform: scale(1.3);
   }
 `;

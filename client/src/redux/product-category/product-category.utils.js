@@ -22,7 +22,7 @@ export const updateCategory = (
   }
   productCategories[indexOfCategoryToUpdate] = {
     ...productCategories[indexOfCategoryToUpdate],
-    updatedCategoryInfo
+    ...updatedCategoryInfo
   };
   return [...productCategories];
 };

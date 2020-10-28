@@ -1,7 +1,6 @@
 import styled from "styled-components";
+import { secondaryColor } from "../../global.styles";
 import Card from "../card/card.component";
-import DeleteConfirmationModal from "../delete-confirmation-modal/delete-confirmation-modal.component";
-import { DeleteIcon } from "../delete-confirmation-modal/delete-confirmation-modal.styles";
 
 export const CategoryEntryContainer = styled.article`
   flex-grow: 1;
@@ -22,11 +21,21 @@ export const CardContainer = styled(Card)`
   }
 `;
 
-export const DeleteCategoryIcon = styled(DeleteConfirmationModal)`
-  ${DeleteIcon} {
-    position: absolute;
-    top: 1px;
-    right: 5px;
+export const CategoryActionContainer = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 3px;
+  right: 5px;
+`;
+
+export const EditCategoryIcon = styled.i`
+  cursor: pointer;
+  color: ${secondaryColor};
+  margin-right: 10px;
+
+  &:hover {
+    transform: scale(1.3);
   }
 `;
 

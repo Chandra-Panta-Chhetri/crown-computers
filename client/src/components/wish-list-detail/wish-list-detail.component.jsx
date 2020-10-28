@@ -158,7 +158,7 @@ const WishListDetail = ({
         <CreateWishListModal
           isEditingWishList
           closeModalHandler={() => setIsEditModalOpen(false)}
-          modalTitle="Edit WishList"
+          modalTitle="Edit Wish List"
           defaultWishList={wishList}
         />
       )}
