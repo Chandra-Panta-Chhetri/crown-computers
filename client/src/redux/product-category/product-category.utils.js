@@ -8,3 +8,21 @@ export const removeCategory = (categoryId, productCategories) => {
   productCategories.splice(indexOfCategoryToDelete, 1);
   return [...productCategories];
 };
+
+export const updateCategory = (
+  categoryId,
+  updatedCategoryInfo,
+  productCategories
+) => {
+  const indexOfCategoryToUpdate = productCategories.findIndex(
+    (category) => category.categoryId === categoryId
+  );
+  if (indexOfCategoryToUpdate === -1) {
+    throw Error(`Category with id ${categoryId} does not exist`);
+  }
+  productCategories[indexOfCategoryToUpdate] = {
+    ...productCategories[indexOfCategoryToUpdate],
+    updatedCategoryInfo
+  };
+  return [...productCategories];
+};

@@ -1,6 +1,9 @@
 import { firestore, fileStorage } from "./firebase.config";
 import { getLastElementInArray } from "../global.utils";
 
+const PRODUCT_CATEGORY_IMAGES_DIRECTORY = "product_category_images";
+const PRODUCT_IMAGES_DIRECTORY = "product_images";
+
 const categoryCollectionRef = firestore.collection("product_categories");
 const productCollectionRef = firestore.collection("products");
 
@@ -60,16 +63,15 @@ export const uploadImage = async (image, directoryToSaveImage = "") =>
     );
   });
 
-export const deleteUploadedImage = async (imageStoragePath) => {
-  const imageRef = fileStorage.refFromURL(imageStoragePath);
+export const deleteUploadedImage = async (imageStorageAbsolutePath) => {
+  const imageRef = fileStorage.refFromURL(imageStorageAbsolutePath);
   await imageRef.delete();
 };
 
 export const createNewProductCategory = async (newCategoryInfo) => {
-  const firebaseStorageDirectory = "product_category_images";
   const imageUrl = await uploadImage(
     newCategoryInfo.image,
-    firebaseStorageDirectory
+    PRODUCT_CATEGORY_IMAGES_DIRECTORY
   );
   delete newCategoryInfo.image;
   newCategoryInfo.imageUrl = imageUrl;
@@ -79,11 +81,20 @@ export const createNewProductCategory = async (newCategoryInfo) => {
   return { categoryId: newProductCategoryRef.id, ...newCategoryInfo };
 };
 
-export const updateProductCategory = async (
+export const updateProductCategoryById = async (
   categoryId,
   updatedProductCategoryInfo
 ) => {
   const productCategoryRef = firestore.doc(`product_categories/${categoryId}`);
+  if (updatedProductCategoryInfo.image) {
+    await deleteUploadedImage(updatedProductCategoryInfo.imageUrl);
+    const newImageUrl = await uploadImage(
+      updatedProductCategoryInfo.image,
+      PRODUCT_CATEGORY_IMAGES_DIRECTORY
+    );
+    delete newCategoryInfo.image;
+    updatedProductCategoryInfo.imageUrl = newImageUrl;
+  }
   await productCategoryRef.update(updatedProductCategoryInfo);
 };
 

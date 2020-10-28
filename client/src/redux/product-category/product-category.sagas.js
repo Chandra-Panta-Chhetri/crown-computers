@@ -9,13 +9,16 @@ import {
   deleteCategoryByIdFail,
   deleteCategoryByIdSuccess,
   createNewCategoryFail,
-  createNewCategorySuccess
+  createNewCategorySuccess,
+  updateCategoryInfoFail,
+  updateCategoryInfoSuccess
 } from "./product-category.actions";
 import {
   getProductCategories,
   getMoreProductCategories,
   deleteProductCategoryById,
-  createNewProductCategory
+  createNewProductCategory,
+  updateProductCategoryById
 } from "../../firebase-utils/firebase.product_utils";
 import {
   addErrorNotification,
@@ -26,7 +29,7 @@ import {
   selectCategoriesPerPage,
   selectProductCategories
 } from "./product-category.selectors";
-import { removeCategory } from "./product-category.utils";
+import { removeCategory, updateCategory } from "./product-category.utils";
 import { capitalize } from "../../global.utils";
 
 function* fetchCategories() {
@@ -75,13 +78,13 @@ function* deleteCategoryById({ payload: { categoryToDelete } }) {
   try {
     const productCategories = yield select(selectProductCategories);
     yield deleteProductCategoryById(categoryId, imageUrl);
-    const updatedCategories = yield removeCategory(
+    const updatedProductCategories = yield removeCategory(
       categoryId,
       productCategories
     );
     yield put(
       deleteCategoryByIdSuccess(
-        updatedCategories,
+        updatedProductCategories,
         `All the products in ${capitalize(name)} category and ${capitalize(
           name
         )} category itself has been deleted`
@@ -135,6 +138,42 @@ function* handleCreateCategoryFail({ payload: errorMsg }) {
 
 function* handleCreateCategorySuccess({ payload: { notificationMsg } }) {
   yield put(addSuccessNotification("Category Created", notificationMsg));
+}
+
+function* updateCategoryById({ updatedCategoryInfo, categoryId, onSuccess }) {
+  try {
+    const productCategories = yield select(selectProductCategories);
+    const updatedCategory = yield updateProductCategoryById(
+      categoryId,
+      updatedCategoryInfo
+    );
+    const updatedProductCategories = yield updateCategory(
+      categoryId,
+      updatedCategory,
+      productCategories
+    );
+    yield put(
+      updateCategoryInfoSuccess(
+        updatedProductCategories,
+        "Product category info has been updated"
+      )
+    );
+    yield onSuccess();
+  } catch (err) {
+    yield put(
+      updateCategoryInfoFail(
+        "There was a problem updating the product category info. Please try again later"
+      )
+    );
+  }
+}
+
+function* handleCategoryUpdateFail({ payload: errorMsg }) {
+  yield put(addErrorNotification("Category Update Failed", errorMsg));
+}
+
+function* handleCategoryUpdateSuccess({ payload: { notificationMsg } }) {
+  yield put(addSuccessNotification("Category Info Updated", notificationMsg));
 }
 
 function* watchCategoriesFetchStart() {
@@ -203,6 +242,27 @@ function* watchCreateNewCategorySuccess() {
   );
 }
 
+function* watchUpdateCategoryInfo() {
+  yield takeLatest(
+    PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO,
+    updateCategoryById
+  );
+}
+
+function* watchUpdateCategoryInfoFail() {
+  yield takeLatest(
+    PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO_FAIL,
+    handleCategoryUpdateFail
+  );
+}
+
+function* watchUpdateCategoryInfoSuccess() {
+  yield takeLatest(
+    PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO_SUCCESS,
+    handleCategoryUpdateSuccess
+  );
+}
+
 export default function* productCategorySagas() {
   yield all([
     call(watchCategoriesFetchStart),
@@ -213,6 +273,9 @@ export default function* productCategorySagas() {
     call(watchCategoryDeleteByIdSuccess),
     call(watchCreateNewCategory),
     call(watchCreateNewCategoryFail),
-    call(watchCreateNewCategorySuccess)
+    call(watchCreateNewCategorySuccess),
+    call(watchUpdateCategoryInfo),
+    call(watchUpdateCategoryInfoFail),
+    call(watchUpdateCategoryInfoSuccess)
   ]);
 }

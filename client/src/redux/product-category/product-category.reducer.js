@@ -55,6 +55,7 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
       };
     case PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID:
     case PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY:
+    case PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO:
       return {
         ...prevState,
         isUpdatingCategories: true,
@@ -62,6 +63,7 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
       };
     case PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_FAIL:
     case PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_FAIL:
+    case PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO_FAIL:
       return {
         ...prevState,
         isUpdatingCategories: false
