@@ -35,12 +35,11 @@ const userReducer = (prevState = INITIAL_STATE, action) => {
     case USER_ACTION_TYPES.SIGN_IN_FAIL:
     case USER_ACTION_TYPES.SIGN_UP_FAIL:
     case USER_ACTION_TYPES.LOG_OUT_SUCCESS:
-      localStorage.removeItem("user");
-      sessionStorage.removeItem("hasAutoSignedIn");
       return {
         ...prevState,
         currentUser: null,
-        isChangingAuthState: false
+        isChangingAuthState: false,
+        hasAutoSignedIn: false
       };
     case USER_ACTION_TYPES.LOG_OUT_FAIL:
       return {

@@ -28,7 +28,6 @@ const WishListPreview = ({ wishList, history, match, deleteWishList }) => {
         <div>
           <WishListName>{wishListName}</WishListName>
           <RemoveWishListBtn
-            wishList={wishList}
             modalTitle="Wish List Delete Confirmation"
             confirmButtonText="Delete Wish List"
             onConfirmation={() => deleteWishList(wishList)}

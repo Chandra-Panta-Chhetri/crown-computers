@@ -60,7 +60,6 @@ function* autoSignIn() {
       throw Error();
     }
     yield call(setUserFromSnapShot, user);
-    sessionStorage.setItem("hasAutoSignedIn", true);
   } catch (err) {
     yield put(signInFail("Auto sign in failed, please login again"));
     yield put(clearCart());
@@ -71,6 +70,8 @@ function* signOutUser() {
   try {
     yield auth.signOut();
     yield put(logOutSuccess());
+    yield localStorage.removeItem("user");
+    yield sessionStorage.removeItem("hasAutoSignedIn");
   } catch (err) {
     yield put(logOutFail("Signing out failed, please try again"));
   }
@@ -106,9 +107,9 @@ function* handleSignInSuccess({ payload: loggedInUser }) {
         )}! Your cart has been restored`
       )
     );
-    sessionStorage.setItem("hasAutoSignedIn", true);
+    yield sessionStorage.setItem("hasAutoSignedIn", true);
   }
-  localStorage.setItem("user", JSON.stringify(loggedInUser));
+  yield localStorage.setItem("user", JSON.stringify(loggedInUser));
 }
 
 function* handleSignUpFail({ payload: errorMsg }) {
