@@ -26,3 +26,16 @@ export const updateCategory = (
   };
   return [...productCategories];
 };
+
+export const addNewCategories = (productCategories, newCategories) => {
+  for (let productCategory of newCategories) {
+    if (
+      !productCategories.some(
+        (pc) => pc.categoryId === productCategory.categoryId
+      )
+    ) {
+      productCategories.push(productCategory);
+    }
+  }
+  return [...productCategories];
+};

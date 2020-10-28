@@ -29,7 +29,11 @@ import {
   selectCategoriesPerPage,
   selectProductCategories
 } from "./product-category.selectors";
-import { removeCategory, updateCategory } from "./product-category.utils";
+import {
+  removeCategory,
+  updateCategory,
+  addNewCategories
+} from "./product-category.utils";
 import { capitalize } from "../../global.utils";
 
 function* fetchCategories() {
@@ -59,7 +63,14 @@ function* fetchMoreCategories() {
     if (!newCategories.length) {
       return yield put(noMoreToLoad());
     }
-    yield put(loadingMoreCategoriesSuccess(newCategories, lastVisibleDoc));
+    const prevProductCategories = yield select(selectProductCategories);
+    const updatedProductCategories = yield addNewCategories(
+      prevProductCategories,
+      newCategories
+    );
+    yield put(
+      loadingMoreCategoriesSuccess(updatedProductCategories, lastVisibleDoc)
+    );
   } catch (err) {
     yield put(
       loadingMoreCategoriesFail(

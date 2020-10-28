@@ -27,11 +27,11 @@ export const loadingMoreCategoriesFail = (errorMsg) => ({
 });
 
 export const loadingMoreCategoriesSuccess = (
-  newProductCategories,
+  updatedProductCategories,
   lastVisibleDoc
 ) => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.LOAD_MORE_PRODUCT_CATEGORIES_SUCCESS,
-  payload: { newProductCategories, lastVisibleDoc }
+  payload: { updatedProductCategories, lastVisibleDoc }
 });
 
 export const noMoreToLoad = () => ({

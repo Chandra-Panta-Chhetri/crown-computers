@@ -40,10 +40,7 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
     case PRODUCT_CATEGORY_ACTION_TYPES.LOAD_MORE_PRODUCT_CATEGORIES_SUCCESS:
       return {
         ...prevState,
-        productCategories: [
-          ...prevState.productCategories,
-          ...action.payload.newProductCategories
-        ],
+        productCategories: action.payload.updatedProductCategories,
         lastVisibleDoc: action.payload.lastVisibleDoc,
         isFetchingCategories: false
       };
