@@ -17,3 +17,13 @@ export const capitalize = (str) => {
 };
 
 export const getLastElementInArray = (arr) => arr[arr.length - 1];
+
+export const convertNestedObjectToArray = (nestedObj) => {
+  const objectAsArray = [];
+  for (let key in nestedObj) {
+    if (nestedObj.hasOwnProperty(key)) {
+      objectAsArray.push(nestedObj[key]);
+    }
+  }
+  return objectAsArray;
+};

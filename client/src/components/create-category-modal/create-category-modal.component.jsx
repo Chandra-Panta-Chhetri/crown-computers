@@ -12,6 +12,7 @@ import {
   createNewCategory,
   updateCategoryInfo
 } from "../../redux/product-category/product-category.actions";
+import { addInfoNotification } from "../../redux/notification/notification.actions";
 
 const CreateCategoryModal = ({
   createNewCategory,
@@ -20,7 +21,8 @@ const CreateCategoryModal = ({
   isEditing = false,
   defaultCategory,
   submitBtnText = "Create New Category",
-  updateCategory
+  updateCategory,
+  displayInfoNotification
 }) => {
   const [categoryInfo, setCategoryInfo] = useState({
     category: defaultCategory ? defaultCategory.category : "",
@@ -29,6 +31,12 @@ const CreateCategoryModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!isEditing && !categoryInfo.image) {
+      return displayInfoNotification(
+        "Category Creation Failed",
+        "To create a new product category, an category image is required"
+      );
+    }
     if (isEditing) {
       return updateCategory(
         { ...defaultCategory, ...categoryInfo },
@@ -40,13 +48,12 @@ const CreateCategoryModal = ({
   };
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    console.log(files[0], "dsadasd");
-    setCategoryInfo((prevCategoryInfo) => {
-      prevCategoryInfo[name] = name === "image" ? files[0] : value;
-      return { ...prevCategoryInfo };
-    });
+    const { name, value } = e.target;
+    setCategoryInfo({ ...categoryInfo, [name]: value });
   };
+
+  const updateUploadedFiles = (files) =>
+    setCategoryInfo({ ...categoryInfo, image: files[0] });
 
   return (
     <NewCategoryModal
@@ -65,9 +72,7 @@ const CreateCategoryModal = ({
         <FileUpload
           accept=".jpg,.png,.jpeg"
           label={isEditing ? "New Category Image" : "Category Image"}
-          inputChangeHandler={handleChange}
-          name="image"
-          required={!isEditing}
+          updateFilesCb={updateUploadedFiles}
         />
         <SubmitCategoryBtn type="submit">{submitBtnText}</SubmitCategoryBtn>
       </form>
@@ -79,7 +84,9 @@ const mapDispatchToProps = (dispatch) => ({
   createNewCategory: (newCategoryInfo, onSuccess) =>
     dispatch(createNewCategory(newCategoryInfo, onSuccess)),
   updateCategory: (updatedCategoryInfo, categoryId, onSuccess) =>
-    dispatch(updateCategoryInfo(updatedCategoryInfo, categoryId, onSuccess))
+    dispatch(updateCategoryInfo(updatedCategoryInfo, categoryId, onSuccess)),
+  displayInfoNotification: (title, msg) =>
+    dispatch(addInfoNotification(title, msg))
 });
 
 export default connect(null, mapDispatchToProps)(CreateCategoryModal);

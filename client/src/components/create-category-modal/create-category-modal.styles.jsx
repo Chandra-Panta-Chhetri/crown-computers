@@ -5,7 +5,7 @@ import { ModalContent } from "../modal/modal.styles";
 
 export const NewCategoryModal = styled(Modal)`
   ${ModalContent} {
-    height: 70%;
+    height: 85%;
   }
 `;
 
