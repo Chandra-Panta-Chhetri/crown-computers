@@ -41,6 +41,7 @@ const CreateCategoryModal = ({
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+    console.log(files[0], "dsadasd");
     setCategoryInfo((prevCategoryInfo) => {
       prevCategoryInfo[name] = name === "image" ? files[0] : value;
       return { ...prevCategoryInfo };
