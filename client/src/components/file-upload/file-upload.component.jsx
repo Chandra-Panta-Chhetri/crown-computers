@@ -13,10 +13,23 @@ import {
 } from "./file-upload.styles";
 
 import { convertNestedObjectToArray } from "../../global.utils";
+import { connect } from "react-redux";
+import { addWarningNotification } from "../../redux/notification/notification.actions";
 
-const FormInput = ({ label, updateFilesCb, ...otherProps }) => {
+const KILO_BYTES_PER_BYTE = 1024;
+
+const FormInput = ({
+  label,
+  updateFilesCb,
+  maxFileSizeInBytes = 100000,
+  displayWarningNotification,
+  ...otherProps
+}) => {
   const fileInputField = useRef(null);
   const [files, setFiles] = useState({});
+
+  const convertBytesToKiloBytes = (bytes) =>
+    Math.round(bytes / KILO_BYTES_PER_BYTE);
 
   const handleUploadBtnClick = () => {
     fileInputField.current.click();
@@ -24,7 +37,21 @@ const FormInput = ({ label, updateFilesCb, ...otherProps }) => {
 
   const addNewFiles = (newFiles) => {
     for (let file of newFiles) {
-      files[file.name] = file;
+      if (file.size < maxFileSizeInBytes) {
+        if (!otherProps.multiple) {
+          return { file };
+        }
+        files[file.name] = file;
+      } else {
+        displayWarningNotification(
+          "File Size Too Large",
+          `${
+            file.name
+          } file size exceeds the maxium file size allowed (${convertBytesToKiloBytes(
+            maxFileSizeInBytes
+          )} kb)`
+        );
+      }
     }
     return { ...files };
   };
@@ -37,9 +64,7 @@ const FormInput = ({ label, updateFilesCb, ...otherProps }) => {
   const handleNewFileUpload = (e) => {
     const { files: newFiles } = e.target;
     if (newFiles.length) {
-      let updatedFiles = otherProps.multiple
-        ? addNewFiles(newFiles)
-        : { file: newFiles[0] };
+      let updatedFiles = addNewFiles(newFiles);
       setFiles(updatedFiles);
       callUpdateFilesCb(updatedFiles);
     }
@@ -90,7 +115,7 @@ const FormInput = ({ label, updateFilesCb, ...otherProps }) => {
                 <FileMetaData isImageFile={isImageFile}>
                   <span>{file.name}</span>
                   <aside>
-                    <span>{Math.round(file.size / 1024)} kb</span>
+                    <span>{convertBytesToKiloBytes(file.size)} kb</span>
                     <RemoveFileIcon
                       className="fas fa-trash-alt"
                       onClick={() => removeFile(fileKey)}
@@ -106,4 +131,9 @@ const FormInput = ({ label, updateFilesCb, ...otherProps }) => {
   );
 };
 
-export default FormInput;
+const mapDispatchToProps = (dispatch) => ({
+  displayWarningNotification: (title, msg) =>
+    dispatch(addWarningNotification(title, msg))
+});
+
+export default connect(null, mapDispatchToProps)(FormInput);

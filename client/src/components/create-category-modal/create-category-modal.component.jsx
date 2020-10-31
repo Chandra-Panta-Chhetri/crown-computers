@@ -73,6 +73,7 @@ const CreateCategoryModal = ({
           accept=".jpg,.png,.jpeg"
           label={isEditing ? "New Category Image" : "Category Image"}
           updateFilesCb={updateUploadedFiles}
+          multiple
         />
         <SubmitCategoryBtn type="submit">{submitBtnText}</SubmitCategoryBtn>
       </form>

@@ -137,7 +137,7 @@ function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
       createNewCategoryFail(
         `There was a problem creating ${capitalize(
           newCategoryInfo.category
-        )}. Please ensure the uploaded image is of type png, jpg or jpeg.`
+        )}. Please ensure the uploaded image is of type png, jpg or jpeg and is less than 100 kb.`
       )
     );
   }
