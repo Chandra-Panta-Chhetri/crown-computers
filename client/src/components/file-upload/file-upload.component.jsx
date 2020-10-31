@@ -95,6 +95,7 @@ const FormInput = ({
           ref={fileInputField}
           onChange={handleNewFileUpload}
           title=""
+          value={""}
           {...otherProps}
         />
       </FileUploadContainer>
