@@ -12,7 +12,7 @@ import Button from "../button/button.component";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { roundPrice } from "../../global.utils";
+import { roundNumber } from "../../global.utils";
 import { selectCartTotal } from "../../redux/cart/cart.selectors";
 
 const CartDropDown = ({ history, cartTotal }) => (
@@ -20,7 +20,7 @@ const CartDropDown = ({ history, cartTotal }) => (
     <CartDropDownHeader>
       <CartTotal>
         <LighterText>Total:</LighterText>
-        <span>${roundPrice(cartTotal)}</span>
+        <span>${roundNumber(cartTotal)}</span>
       </CartTotal>
     </CartDropDownHeader>
     <CartItems />

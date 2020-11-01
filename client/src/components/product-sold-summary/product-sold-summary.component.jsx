@@ -5,7 +5,7 @@ import {
   PriceBreakdownContainer
 } from "./product-sold-summary.styles";
 
-import { roundPrice } from "../../global.utils";
+import { roundNumber } from "../../global.utils";
 
 const ProductSoldSummary = ({
   product: { name, price, category, quantity }
@@ -16,7 +16,7 @@ const ProductSoldSummary = ({
       <span>
         {quantity} x {name} @${price}
       </span>
-      <span>${roundPrice(quantity * price)}</span>
+      <span>${roundNumber(quantity * price)}</span>
     </PriceBreakdownContainer>
   </ProductSoldSummaryContainer>
 );

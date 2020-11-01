@@ -1,11 +1,7 @@
-const NUM_ITEM_NAME_CHAR_SHOWN = 20;
+export const truncate = (str, maxStrLength = 20) =>
+  str.length > maxStrLength ? str.substr(0, maxStrLength - 1) + "..." : str;
 
-export const truncate = (str, numCharacterToShow = NUM_ITEM_NAME_CHAR_SHOWN) =>
-  str.length > numCharacterToShow
-    ? str.substr(0, numCharacterToShow - 1) + "..."
-    : str;
-
-export const roundPrice = (price) => Math.round(price * 100) / 100;
+export const roundNumber = (num) => Math.round(num * 100) / 100;
 
 export const capitalize = (str) => {
   const words = str.split(" ");
@@ -18,12 +14,5 @@ export const capitalize = (str) => {
 
 export const getLastElementInArray = (arr) => arr[arr.length - 1];
 
-export const convertNestedObjectToArray = (nestedObj) => {
-  const objectAsArray = [];
-  for (let key in nestedObj) {
-    if (nestedObj.hasOwnProperty(key)) {
-      objectAsArray.push(nestedObj[key]);
-    }
-  }
-  return objectAsArray;
-};
+export const convertNestedObjectToArray = (nestedObj) =>
+  Object.keys(nestedObj).map((key) => nestedObj[key]);

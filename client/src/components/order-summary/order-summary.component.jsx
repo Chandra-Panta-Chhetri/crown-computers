@@ -6,16 +6,16 @@ import {
   Price,
   PriceSummaryItem
 } from "./order-summary.styles";
-import { roundPrice } from "../../global.utils";
+import { roundNumber } from "../../global.utils";
 
 import StripeCheckoutButton from "../stripe-checkout-button/stripe-checkout-button.component";
 
 const TAX_RATE = 0.13;
 
 const OrderSummary = ({ cartTotal }) => {
-  const subTotal = roundPrice(cartTotal);
-  const totalTax = roundPrice(subTotal * TAX_RATE);
-  const total = roundPrice(subTotal + totalTax);
+  const subTotal = roundNumber(cartTotal);
+  const totalTax = roundNumber(subTotal * TAX_RATE);
+  const total = roundNumber(subTotal + totalTax);
   return (
     <OrderSummaryContainer>
       <Heading>Order Summary</Heading>
