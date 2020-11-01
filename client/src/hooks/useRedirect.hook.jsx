@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+
 import { Redirect } from "react-router-dom";
 
 const useRedirect = (dispatchAction, funcArguments, path = "/") => {
@@ -19,13 +20,12 @@ const useRedirect = (dispatchAction, funcArguments, path = "/") => {
     setIsActionDispatched(true);
   }, [dispatchAction, funcArguments, isActionDispatched]);
 
-  if (redirectUser) {
-    return {
-      redirectComponent: <Redirect to={path} />,
-      resetIsActionDispatched
-    };
-  }
-  return { redirectComponent: null, resetIsActionDispatched };
+  return redirectUser
+    ? {
+        redirectComponent: <Redirect to={path} />,
+        resetIsActionDispatched
+      }
+    : { redirectComponent: null, resetIsActionDispatched };
 };
 
 export default useRedirect;

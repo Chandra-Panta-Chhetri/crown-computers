@@ -6,9 +6,10 @@ import {
   Price,
   PriceSummaryItem
 } from "./order-summary.styles";
-import { roundNumber } from "../../global.utils";
 
 import StripeCheckoutButton from "../stripe-checkout-button/stripe-checkout-button.component";
+
+import { roundNumber } from "../../global.utils";
 
 const TAX_RATE = 0.13;
 
