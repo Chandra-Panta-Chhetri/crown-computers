@@ -16,7 +16,7 @@ export const Title = styled.h1`
   margin-bottom: 0;
 `;
 
-export const SubTitle = styled.h4`
-  margin: 5px 0 40px;
+export const Subtitle = styled.h4`
+  margin: 5px 0 25px;
   color: ${mainColorLight};
 `;

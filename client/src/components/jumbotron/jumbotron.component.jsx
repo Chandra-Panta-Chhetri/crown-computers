@@ -1,16 +1,12 @@
 import React from "react";
-import { JumbotronContainer, Title, SubTitle } from "./jumbotron.styles";
+import { JumbotronContainer, Title, Subtitle } from "./jumbotron.styles";
 
-import Button from "../button/button.component";
-
-import { withRouter } from "react-router-dom";
-
-const Jumbotron = ({ history }) => (
+const Jumbotron = ({ title, subtitle, children }) => (
   <JumbotronContainer>
-    <Title>Welcome to Crown Computers!</Title>
-    <SubTitle>A one-stop shop for all your computer needs</SubTitle>
-    <Button onClick={() => history.push("/shop")}>Browse Collection</Button>
+    <Title>{title}</Title>
+    <Subtitle>{subtitle}</Subtitle>
+    {children}
   </JumbotronContainer>
 );
 
-export default withRouter(Jumbotron);
+export default Jumbotron;
