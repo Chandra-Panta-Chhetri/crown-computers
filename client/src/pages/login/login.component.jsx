@@ -42,7 +42,7 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
           <FormInput
             type="email"
             name="email"
-            label="Email"
+            label="Email*"
             inputValue={email}
             inputChangeHandler={handleUserCredentialsChange}
             required
@@ -50,7 +50,7 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
           <FormInput
             type="password"
             name="password"
-            label="Password"
+            label="Password*"
             inputValue={password}
             inputChangeHandler={handleUserCredentialsChange}
             required

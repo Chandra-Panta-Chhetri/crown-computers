@@ -1,6 +1,6 @@
 import styled from "styled-components";
-
 import Button from "../../components/button/button.component";
+import Card from "../../components/card/card.component";
 
 export const SignUpContainer = styled.section`
   display: flex;
@@ -8,12 +8,10 @@ export const SignUpContainer = styled.section`
   justify-content: center;
 `;
 
-export const FormContainer = styled.div`
+export const FormContainer = styled(Card)`
   display: flex;
   flex-direction: column;
-  border: 4px solid #efefef;
   align-items: center;
-  border-radius: 6px;
   width: 40%;
 `;
 
@@ -23,6 +21,7 @@ export const Form = styled.form`
 
 export const FormTitle = styled.h1`
   margin-bottom: 0;
+  text-transform: uppercase;
 `;
 
 export const FormButton = styled(Button)`

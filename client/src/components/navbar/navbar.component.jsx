@@ -17,7 +17,7 @@ import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
 import { logOutStart } from "../../redux/user/user.actions";
 
-const NavBar = ({ currentUser, hidden, logOut }) => (
+const Navbar = ({ currentUser, hidden, logOut }) => (
   <NavBarContainer>
     <LogoContainer>
       <i className="fas fa-plug fa-3x"></i>
@@ -69,4 +69,4 @@ const mapDispatchToProps = (dispatch) => ({
   logOut: () => dispatch(logOutStart())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

@@ -41,7 +41,7 @@ const SignUp = ({ signUpUser }) => {
           <FormInput
             type="text"
             name="fullName"
-            label="Full Name"
+            label="Full Name*"
             inputValue={fullName}
             inputChangeHandler={handleChange}
             required
@@ -49,7 +49,7 @@ const SignUp = ({ signUpUser }) => {
           <FormInput
             type="email"
             name="email"
-            label="Email"
+            label="Email*"
             inputValue={email}
             inputChangeHandler={handleChange}
             required
@@ -57,7 +57,7 @@ const SignUp = ({ signUpUser }) => {
           <FormInput
             type="password"
             name="password"
-            label="Password"
+            label="Password*"
             inputValue={password}
             inputChangeHandler={handleChange}
             required
@@ -65,7 +65,7 @@ const SignUp = ({ signUpUser }) => {
           <FormInput
             type="password"
             name="confirmPassword"
-            label="Confirm Password"
+            label="Confirm Password*"
             inputValue={confirmPassword}
             inputChangeHandler={handleChange}
             required
@@ -81,8 +81,7 @@ const SignUp = ({ signUpUser }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  signUpUser: ({ email, password, confirmPassword, fullName }) =>
-    dispatch(signUpStart({ email, password, confirmPassword, fullName }))
+  signUpUser: (newUserInfo) => dispatch(signUpStart(newUserInfo))
 });
 
 export default connect(null, mapDispatchToProps)(SignUp);

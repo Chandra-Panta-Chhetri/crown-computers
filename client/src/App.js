@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { GlobalStyles } from "./global.styles";
 
-import NavBar from "./components/navbar/navbar.component";
+import Navbar from "./components/navbar/navbar.component";
 import Toast from "./components/toast/toast.component";
 import AppRoutes from "./components/app-routes/app-routes.component";
 import FullPageSpinner from "./components/full-page-spinner/full-page-spinner.component";
@@ -51,7 +51,7 @@ const App = ({
   return (
     <div>
       <GlobalStyles />
-      {isAdmin || <NavBar />}
+      {isAdmin || <Navbar />}
       <AppRoutes />
       <FullPageSpinner
         isLoading={isChangingAuthState}
