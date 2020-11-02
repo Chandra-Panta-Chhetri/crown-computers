@@ -70,6 +70,7 @@ function* signOutUser() {
   try {
     yield auth.signOut();
     yield put(logOutSuccess());
+    yield put(clearCart());
     yield localStorage.removeItem("user");
     yield sessionStorage.removeItem("hasAutoSignedIn");
   } catch (err) {
@@ -120,6 +121,14 @@ function* handleLogOutFail({ payload: errorMsg }) {
   yield put(addErrorNotification("Log Out Failed", errorMsg));
 }
 
+function* handleLogOutSuccess() {
+  yield put(addSuccessNotification("Log Out Successful", "See you next time!"));
+}
+
+function* watchLogOutSuccess() {
+  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_SUCCESS, handleLogOutSuccess);
+}
+
 function* watchSignUpStart() {
   yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, signUpUser);
 }
@@ -166,6 +175,7 @@ export default function* userSagas() {
     call(watchSignInFail),
     call(watchSignInSuccess),
     call(watchLogOutStart),
-    call(watchLogOutFail)
+    call(watchLogOutFail),
+    call(watchLogOutSuccess)
   ]);
 }

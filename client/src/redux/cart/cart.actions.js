@@ -19,17 +19,13 @@ export const changeItemQuantity = (item, newQuantity) => ({
   payload: {
     item,
     newQuantity,
-    loadingText: `Changing item quantity`
+    loadingText: "Changing item quantity"
   }
 });
 
-export const updateCartSuccess = (
-  cart,
-  notificationTitle,
-  notificationMsg
-) => ({
+export const updateCartSuccess = (cart, successTitle, successMsg) => ({
   type: CART_ACTION_TYPES.UPDATE_CART_SUCCESS,
-  payload: { cart, notificationTitle, notificationMsg }
+  payload: { cart, successTitle, successMsg }
 });
 
 export const updateCartFail = (errorTitle, errorMsg) => ({

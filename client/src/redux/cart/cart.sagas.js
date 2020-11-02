@@ -1,4 +1,3 @@
-import USER_ACTION_TYPES from "../user/user.action.types";
 import CART_ACTION_TYPES from "./cart.action.types";
 import {
   takeLatest,
@@ -10,7 +9,7 @@ import {
   actionChannel,
   take
 } from "redux-saga/effects";
-import { clearCart, updateCartSuccess, updateCartFail } from "./cart.actions";
+import { updateCartSuccess, updateCartFail } from "./cart.actions";
 import { saveCartItems } from "../../firebase-utils/firebase.cart_utils";
 import { selectShoppingCart, selectCartId } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
@@ -21,7 +20,7 @@ import {
 } from "../notification/notification.actions";
 import { truncate } from "../../global.utils";
 
-function* handleAddingItemToCart({ item }) {
+function* addItemToCart({ payload: { item } }) {
   try {
     const cart = yield select(selectShoppingCart);
     const currentUser = yield select(selectCurrentUser);
@@ -43,16 +42,26 @@ function* handleAddingItemToCart({ item }) {
   }
 }
 
-function* handleRemovingItemFromCart({ payload: { item } }) {
-  const cart = yield select(selectShoppingCart);
-  const currentUser = yield select(selectCurrentUser);
-  const updatedCart = yield removeFromCart(cart, item, !!currentUser);
-  yield put(
-    updateCartSuccess(updatedCart, "Removed From Cart", truncate(item.name))
-  );
+function* removeItemFromCart({ payload: { item } }) {
+  const { name } = item;
+  try {
+    const cart = yield select(selectShoppingCart);
+    const currentUser = yield select(selectCurrentUser);
+    const updatedCart = yield removeFromCart(cart, item, !!currentUser);
+    yield put(
+      updateCartSuccess(updatedCart, "Removed From Cart", truncate(name))
+    );
+  } catch (err) {
+    yield put(
+      updateCartFail(
+        "Removing Item Failed",
+        `There was a problem removing ${truncate(name)} from the cart`
+      )
+    );
+  }
 }
 
-function* handleUpdatingItemQuantity({ payload: { item, newQuantity } }) {
+function* updateItemQuantity({ payload: { item, newQuantity } }) {
   try {
     const cart = yield select(selectShoppingCart);
     const currentUser = yield select(selectCurrentUser);
@@ -79,53 +88,39 @@ function* handleUpdatingItemQuantity({ payload: { item, newQuantity } }) {
 }
 
 function* handleCartUpdateSuccess({
-  payload: { cart: cartWithoutCartItemRefs, notificationTitle, notificationMsg }
+  payload: { cart: cartWithoutCartItemRefs, successTitle, successMsg }
 }) {
   try {
-    yield put(addSuccessNotification(notificationTitle, notificationMsg));
+    yield put(addSuccessNotification(successTitle, successMsg));
     const currentUser = yield select(selectCurrentUser);
     const cartId = yield select(selectCartId);
     if (currentUser && !currentUser.isAdmin && cartId) {
       yield saveCartItems(cartWithoutCartItemRefs, cartId);
     }
-  } catch (err) {}
-}
-
-function* handleCartUpdateFail({ payload: { errorMsg, errorTitle } }) {
-  yield put(addErrorNotification(errorTitle, errorMsg));
-}
-
-function* handleLogOutSuccess() {
-  yield put(clearCart());
-  yield put(addSuccessNotification("Log Out Successful", "See you next time!"));
-}
-
-function* watchSuccessfulLogOut() {
-  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_SUCCESS, handleLogOutSuccess);
+  } catch (err) {
+    yield put(
+      addErrorNotification(
+        "Saving Cart Failed",
+        "There was a problem saving your cart"
+      )
+    );
+  }
 }
 
 function* watchAddingToCart() {
   const channel = yield actionChannel(CART_ACTION_TYPES.START_ADD_TO_CART);
   while (true) {
-    const { payload } = yield take(channel);
-    console.log(payload);
-    yield call(handleAddingItemToCart, payload);
+    const action = yield take(channel);
+    yield call(addItemToCart, action);
   }
-  // yield takeEvery(CART_ACTION_TYPES.START_ADD_TO_CART, handleAddingItemToCart);
 }
 
 function* watchRemovingFromCart() {
-  yield takeEvery(
-    CART_ACTION_TYPES.START_REMOVE_FROM_CART,
-    handleRemovingItemFromCart
-  );
+  yield takeEvery(CART_ACTION_TYPES.START_REMOVE_FROM_CART, removeItemFromCart);
 }
 
 function* watchUpdatingItemQuantity() {
-  yield takeEvery(
-    CART_ACTION_TYPES.START_CHANGE_QUANTITY,
-    handleUpdatingItemQuantity
-  );
+  yield takeEvery(CART_ACTION_TYPES.START_CHANGE_QUANTITY, updateItemQuantity);
 }
 
 function* watchCartUpdateSuccess() {
@@ -135,17 +130,11 @@ function* watchCartUpdateSuccess() {
   );
 }
 
-function* watchCartUpdateFail() {
-  yield takeLatest(CART_ACTION_TYPES.UPDATE_CART_FAIL, handleCartUpdateFail);
-}
-
 export default function* cartSagas() {
   yield all([
-    call(watchSuccessfulLogOut),
     call(watchAddingToCart),
     call(watchRemovingFromCart),
     call(watchUpdatingItemQuantity),
-    call(watchCartUpdateSuccess),
-    call(watchCartUpdateFail)
+    call(watchCartUpdateSuccess)
   ]);
 }

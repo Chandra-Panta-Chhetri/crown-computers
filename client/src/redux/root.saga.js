@@ -6,6 +6,7 @@ import productCategorySagas from "./product-category/product-category.sagas";
 import checkoutSagas from "./checkout/checkout.sagas";
 import wishListSagas from "./wish-list/wish-list.sagas";
 import saleSagas from "./sale/sale.sagas";
+import notificationSagas from "./notification/notification.sagas";
 
 function* rootSaga() {
   yield all([
@@ -15,7 +16,8 @@ function* rootSaga() {
     call(productCategorySagas),
     call(checkoutSagas),
     call(wishListSagas),
-    call(saleSagas)
+    call(saleSagas),
+    call(notificationSagas)
   ]);
 }
 
