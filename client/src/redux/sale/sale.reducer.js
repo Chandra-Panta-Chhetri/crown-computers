@@ -12,7 +12,7 @@ const INITIAL_STATE = {
 
 const saleReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SALE_ACTION_TYPES.INITIAL_SALES_FETCH_START:
+    case SALE_ACTION_TYPES.START_INITIAL_SALES_FETCH:
       return {
         ...prevState,
         isFetchingSales: true,
@@ -20,16 +20,17 @@ const saleReducer = (prevState = INITIAL_STATE, action) => {
         lastVisibleDoc: null,
         sales: []
       };
-    case SALE_ACTION_TYPES.LOAD_MORE_SALES_START:
+    case SALE_ACTION_TYPES.START_LOADING_MORE_SALES:
       return {
         ...prevState,
         isFetchingSales: true
       };
     case SALE_ACTION_TYPES.INITIAL_SALES_FETCH_FAIL:
-    case SALE_ACTION_TYPES.LOAD_MORE_SALES_FAIL:
+    case SALE_ACTION_TYPES.LOADING_MORE_SALES_FAIL:
       return {
         ...prevState,
-        isFetchingSales: false
+        isFetchingSales: false,
+        hasMoreToFetch: false
       };
     case SALE_ACTION_TYPES.INITIAL_SALES_FETCH_SUCCESS:
       return {
@@ -37,20 +38,20 @@ const saleReducer = (prevState = INITIAL_STATE, action) => {
         ...action.payload,
         isFetchingSales: false
       };
-    case SALE_ACTION_TYPES.LOAD_MORE_SALES_SUCCESS:
+    case SALE_ACTION_TYPES.LOADING_MORE_SALES_SUCCESS:
       return {
         ...prevState,
         isFetchingSales: false,
         sales: [...prevState.sales, ...action.payload.newSales],
         lastVisibleDoc: action.payload.lastVisibleDoc
       };
-    case SALE_ACTION_TYPES.NO_MORE_TO_LOAD:
+    case SALE_ACTION_TYPES.NO_MORE_SALES_TO_LOAD:
       return {
         ...prevState,
         hasMoreToFetch: false,
         isFetchingSales: false
       };
-    case SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_START:
+    case SALE_ACTION_TYPES.START_SALES_SUMMARY_FETCH:
       return {
         ...prevState,
         isFetchingSalesSummary: true

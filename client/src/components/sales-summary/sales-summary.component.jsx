@@ -9,6 +9,7 @@ import {
   selectSalesSummary,
   selectIsFetchingSalesSummary
 } from "../../redux/sale/sale.selectors";
+import { roundNumber } from "../../global.utils";
 
 const SalesSummary = ({
   isFetchingSalesSummary,
@@ -31,7 +32,10 @@ const SalesSummary = ({
             <Banner label="Total Sales" value={totalNumSales} />
           )}
           {salesTotal && (
-            <Banner label="Total Revenue" value={`$${salesTotal}`} />
+            <Banner
+              label="Total Revenue"
+              value={`$${roundNumber(salesTotal)}`}
+            />
           )}
           {totalProductsSold && (
             <Banner label="Total Products Sold" value={totalProductsSold} />

@@ -15,7 +15,6 @@ import {
   getMoreSales,
   getSalesSummary
 } from "../../firebase-utils/firebase.sale_utils";
-import { addErrorNotification } from "../notification/notification.actions";
 
 function* fetchSales() {
   try {
@@ -28,7 +27,7 @@ function* fetchSales() {
   } catch (err) {
     yield put(
       initialSalesFetchFail(
-        "There was a problem with getting the latest sales. Please try again later"
+        "There was a problem with getting the latest sales."
       )
     );
   }
@@ -48,15 +47,9 @@ function* fetchMoreSales() {
     yield put(loadingMoreSalesSuccess(newSales, lastVisibleDoc));
   } catch (err) {
     yield put(
-      loadingMoreSalesFail(
-        "There was a problem with loading more sales. Please try again later"
-      )
+      loadingMoreSalesFail("There was a problem with loading more sales.")
     );
   }
-}
-
-function* handleSalesFetchFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Sales Fetching Failed", errorMsg));
 }
 
 function* fetchSalesSummary() {
@@ -66,54 +59,31 @@ function* fetchSalesSummary() {
   } catch (err) {
     yield put(
       salesSummaryFetchFail(
-        "There was a problem displaying the summaries of the sales. Please try again later"
+        "There was a problem displaying the summaries of the sales."
       )
     );
   }
 }
 
-function* handleSalesSummaryFetchFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Sales Summary Fetching Fail", errorMsg));
-}
-
 function* watchSalesFetchStart() {
-  yield takeLatest(SALE_ACTION_TYPES.INITIAL_SALES_FETCH_START, fetchSales);
-}
-
-function* watchSalesFetchFail() {
-  yield takeLatest(
-    [
-      SALE_ACTION_TYPES.INITIAL_SALES_FETCH_FAIL,
-      SALE_ACTION_TYPES.LOAD_MORE_SALES_FAIL
-    ],
-    handleSalesFetchFail
-  );
+  yield takeLatest(SALE_ACTION_TYPES.START_INITIAL_SALES_FETCH, fetchSales);
 }
 
 function* watchLoadMoreSales() {
-  yield takeLatest(SALE_ACTION_TYPES.LOAD_MORE_SALES_START, fetchMoreSales);
+  yield takeLatest(SALE_ACTION_TYPES.START_LOADING_MORE_SALES, fetchMoreSales);
 }
 
 function* watchSalesSummaryFetchStart() {
   yield takeLatest(
-    SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_START,
+    SALE_ACTION_TYPES.START_SALES_SUMMARY_FETCH,
     fetchSalesSummary
-  );
-}
-
-function* watchSalesSummaryFetchFail() {
-  yield takeLatest(
-    SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_FAIL,
-    handleSalesSummaryFetchFail
   );
 }
 
 export default function* saleSagas() {
   yield all([
     call(watchSalesFetchStart),
-    call(watchSalesFetchFail),
     call(watchLoadMoreSales),
-    call(watchSalesSummaryFetchStart),
-    call(watchSalesSummaryFetchFail)
+    call(watchSalesSummaryFetchStart)
   ]);
 }
