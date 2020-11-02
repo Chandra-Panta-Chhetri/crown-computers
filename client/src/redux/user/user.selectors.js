@@ -18,8 +18,8 @@ export const selectUserLoadingText = createSelector(
 );
 
 export const selectWasSignedIn = createSelector(
-  [selectUser],
-  (user) => !!user.currentUser
+  [selectCurrentUser],
+  (currentUser) => Boolean(currentUser)
 );
 
 export const selectHasAutoSignedIn = createSelector(

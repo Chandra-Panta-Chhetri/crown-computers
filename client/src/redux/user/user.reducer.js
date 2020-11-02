@@ -11,10 +11,10 @@ const INITIAL_STATE = {
 
 const userReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
-    case USER_ACTION_TYPES.EMAIL_SIGN_IN_START:
-    case USER_ACTION_TYPES.GOOGLE_SIGN_IN_START:
-    case USER_ACTION_TYPES.SIGN_UP_START:
-    case USER_ACTION_TYPES.LOG_OUT_START:
+    case USER_ACTION_TYPES.START_EMAIL_SIGN_IN:
+    case USER_ACTION_TYPES.START_GOOGLE_SIGN_IN:
+    case USER_ACTION_TYPES.START_SIGN_UP:
+    case USER_ACTION_TYPES.START_LOG_OUT:
       return {
         ...prevState,
         isChangingAuthState: true,

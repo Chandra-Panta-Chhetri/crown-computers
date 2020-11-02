@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import { selectCartVisibility } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
-import { logOutStart } from "../../redux/user/user.actions";
+import { startLogOut } from "../../redux/user/user.actions";
 
 const Navbar = ({ currentUser, hidden, logOut }) => (
   <NavBarContainer>
@@ -66,7 +66,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  logOut: () => dispatch(logOutStart())
+  logOut: () => dispatch(startLogOut())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

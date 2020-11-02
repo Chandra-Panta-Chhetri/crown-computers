@@ -17,7 +17,7 @@ import Button from "../button/button.component";
 
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { logOutStart } from "../../redux/user/user.actions";
+import { startLogOut } from "../../redux/user/user.actions";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 
 const SideNav = ({ match, logOut, currentUser, navOptions = [] }) => {
@@ -72,7 +72,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  logOut: () => dispatch(logOutStart())
+  logOut: () => dispatch(startLogOut())
 });
 
 export default compose(

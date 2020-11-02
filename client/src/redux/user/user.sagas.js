@@ -15,10 +15,7 @@ import {
   getUserFromSession
 } from "../../firebase-utils/firebase.user_utils";
 import { getUserCartAndCartId } from "../../firebase-utils/firebase.cart_utils";
-import {
-  addErrorNotification,
-  addSuccessNotification
-} from "../notification/notification.actions";
+import { addSuccessNotification } from "../notification/notification.actions";
 import { capitalize } from "../../global.utils";
 import { selectHasAutoSignedIn } from "./user.selectors";
 
@@ -70,20 +67,14 @@ function* signOutUser() {
   try {
     yield auth.signOut();
     yield put(logOutSuccess());
-    yield put(clearCart());
-    yield localStorage.removeItem("user");
-    yield sessionStorage.removeItem("hasAutoSignedIn");
   } catch (err) {
     yield put(logOutFail("Signing out failed, please try again"));
   }
 }
 
-function* signUpUser({
-  payload: {
-    newUserInfo: { email, password, fullName, confirmPassword }
-  }
-}) {
+function* signUpUser({ payload: { newUserInfo } }) {
   try {
+    const { email, password, fullName, confirmPassword } = yield newUserInfo;
     if (password !== confirmPassword) throw Error("Passwords must match");
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
     yield createOrGetUser(user, { fullName });
@@ -91,10 +82,6 @@ function* signUpUser({
   } catch (err) {
     yield put(signUpFail(err.message));
   }
-}
-
-function* handleSignInFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Sign In Failed", errorMsg));
 }
 
 function* handleSignInSuccess({ payload: loggedInUser }) {
@@ -113,69 +100,49 @@ function* handleSignInSuccess({ payload: loggedInUser }) {
   yield localStorage.setItem("user", JSON.stringify(loggedInUser));
 }
 
-function* handleSignUpFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Sign Up Failed", errorMsg));
-}
-
-function* handleLogOutFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Log Out Failed", errorMsg));
-}
-
 function* handleLogOutSuccess() {
+  yield put(clearCart());
+  yield localStorage.removeItem("user");
+  yield sessionStorage.removeItem("hasAutoSignedIn");
   yield put(addSuccessNotification("Log Out Successful", "See you next time!"));
 }
 
-function* watchLogOutSuccess() {
-  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_SUCCESS, handleLogOutSuccess);
-}
-
-function* watchSignUpStart() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, signUpUser);
-}
-
-function* watchSignUpFail() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_FAIL, handleSignUpFail);
-}
-
 function* watchGoogleSignIn() {
-  yield takeLatest(USER_ACTION_TYPES.GOOGLE_SIGN_IN_START, signInWithGoogle);
+  yield takeLatest(USER_ACTION_TYPES.START_GOOGLE_SIGN_IN, signInWithGoogle);
 }
 
 function* watchEmailSignIn() {
-  yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, signInWithEmail);
+  yield takeLatest(USER_ACTION_TYPES.START_EMAIL_SIGN_IN, signInWithEmail);
 }
 
 function* watchGetUserFromSession() {
   yield takeLatest(USER_ACTION_TYPES.START_AUTO_SIGN_IN, autoSignIn);
 }
 
+function* watchSignUpStart() {
+  yield takeLatest(USER_ACTION_TYPES.START_SIGN_UP, signUpUser);
+}
+
 function* watchSignInSuccess() {
   yield takeLatest(USER_ACTION_TYPES.SIGN_IN_SUCCESS, handleSignInSuccess);
 }
 
-function* watchSignInFail() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_IN_FAIL, handleSignInFail);
+function* watchStartLogOut() {
+  yield takeLatest(USER_ACTION_TYPES.START_LOG_OUT, signOutUser);
 }
 
-function* watchLogOutStart() {
-  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_START, signOutUser);
-}
-
-function* watchLogOutFail() {
-  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_FAIL, handleLogOutFail);
+function* watchLogOutSuccess() {
+  yield takeLatest(USER_ACTION_TYPES.LOG_OUT_SUCCESS, handleLogOutSuccess);
 }
 
 export default function* userSagas() {
   yield all([
     call(watchSignUpStart),
-    call(watchSignUpFail),
     call(watchGoogleSignIn),
     call(watchEmailSignIn),
     call(watchGetUserFromSession),
-    call(watchSignInFail),
     call(watchSignInSuccess),
-    call(watchLogOutStart),
-    call(watchLogOutFail),
+    call(watchStartLogOut),
     call(watchLogOutSuccess)
   ]);
 }

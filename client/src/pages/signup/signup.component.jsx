@@ -10,7 +10,7 @@ import {
 import FormInput from "../../components/form-input/form-input.component";
 import { Link } from "react-router-dom";
 
-import { signUpStart } from "../../redux/user/user.actions";
+import { startSignUp } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
 
 const SignUp = ({ signUpUser }) => {
@@ -81,7 +81,7 @@ const SignUp = ({ signUpUser }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  signUpUser: (newUserInfo) => dispatch(signUpStart(newUserInfo))
+  signUpUser: (newUserInfo) => dispatch(startSignUp(newUserInfo))
 });
 
 export default connect(null, mapDispatchToProps)(SignUp);
