@@ -49,10 +49,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchProductsInCategory: (categoryName, onNoProductsFound) =>
-    dispatch(
-      startInitialProductsFetchByCategory(categoryName, onNoProductsFound)
-    )
+  fetchProductsInCategory: (categoryName, onFail) =>
+    dispatch(startInitialProductsFetchByCategory(categoryName, onFail))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsCarousel);

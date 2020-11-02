@@ -117,8 +117,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchProductById: (id, onNoProductFound) =>
-    dispatch(startFetchProductById(id, onNoProductFound))
+  fetchProductById: (id, onFail) => dispatch(startFetchProductById(id, onFail))
 });
 
 export default compose(

@@ -55,10 +55,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchProductsInCategory: (categoryName, onNoProductsFound) =>
-    dispatch(
-      startInitialProductsFetchByCategory(categoryName, onNoProductsFound)
-    ),
+  fetchProductsInCategory: (categoryName, onFail) =>
+    dispatch(startInitialProductsFetchByCategory(categoryName, onFail)),
   fetchMoreProductsInCategory: (categoryName) =>
     dispatch(startLoadingMoreProductsByCategory(categoryName))
 });

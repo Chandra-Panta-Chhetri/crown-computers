@@ -11,8 +11,8 @@ const INITIAL_STATE = {
 
 const productReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
-    case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_START:
-    case PRODUCT_ACTION_TYPES.INITIAL_FETCH_PRODUCTS_BY_CATEGORY_START:
+    case PRODUCT_ACTION_TYPES.START_INITIAL_PRODUCTS_FETCH:
+    case PRODUCT_ACTION_TYPES.START_INITIAL_FETCH_PRODUCTS_BY_CATEGORY:
       return {
         ...prevState,
         isFetchingProducts: true,
@@ -21,11 +21,12 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         lastVisibleDoc: null
       };
     case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_FAIL:
-    case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_FAIL:
+    case PRODUCT_ACTION_TYPES.LOADING_MORE_PRODUCTS_FAIL:
     case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_FAIL:
       return {
         ...prevState,
-        isFetchingProducts: false
+        isFetchingProducts: false,
+        hasMoreToFetch: false
       };
     case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_SUCCESS:
       return {
@@ -33,22 +34,22 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         ...action.payload,
         isFetchingProducts: false
       };
-    case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_START:
-    case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_BY_CATEGORY_START:
-    case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_START:
+    case PRODUCT_ACTION_TYPES.START_LOADING_MORE_PRODUCTS:
+    case PRODUCT_ACTION_TYPES.START_LOADING_MORE_PRODUCTS_BY_CATEGORY:
+    case PRODUCT_ACTION_TYPES.START_FETCH_PRODUCT_BY_ID:
       return {
         ...prevState,
         isFetchingProducts: true,
         productData: {}
       };
-    case PRODUCT_ACTION_TYPES.LOAD_MORE_PRODUCTS_SUCCESS:
+    case PRODUCT_ACTION_TYPES.LOADING_MORE_PRODUCTS_SUCCESS:
       return {
         ...prevState,
         isFetchingProducts: false,
         products: [...prevState.products, ...action.payload.newProducts],
         lastVisibleDoc: action.payload.lastVisibleDoc
       };
-    case PRODUCT_ACTION_TYPES.NO_MORE_TO_LOAD:
+    case PRODUCT_ACTION_TYPES.NO_MORE_PRODUCTS_TO_LOAD:
       return {
         ...prevState,
         isFetchingProducts: false,
