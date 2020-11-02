@@ -43,7 +43,7 @@ function* addItemToCart({ payload: { item } }) {
 }
 
 function* removeItemFromCart({ payload: { item } }) {
-  const { name } = item;
+  const { name } = yield item;
   try {
     const cart = yield select(selectShoppingCart);
     const currentUser = yield select(selectCurrentUser);

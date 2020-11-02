@@ -1,9 +1,6 @@
 import CHECKOUT_ACTION_TYPES from "./checkout.action.types";
 import { takeLatest, all, call, put, select } from "redux-saga/effects";
-import {
-  addErrorNotification,
-  addSuccessNotification
-} from "../notification/notification.actions";
+import { addSuccessNotification } from "../notification/notification.actions";
 import { checkoutFail, checkoutSuccess } from "./checkout.actions";
 import { clearCart } from "../cart/cart.actions";
 import { createNewSale } from "../../firebase-utils/firebase.checkout_utils";
@@ -37,7 +34,7 @@ function* processPayment(
   if (paymentMethodReq.error) {
     throw Error(paymentMethodReq.error.message);
   }
-  const paymentMethod = paymentMethodReq.paymentMethod.card.brand;
+  const paymentMethod = yield paymentMethodReq.paymentMethod.card.brand;
   const { error } = yield stripeInstance.confirmCardPayment(clientSecret, {
     payment_method: paymentMethodReq.paymentMethod.id
   });
@@ -58,7 +55,7 @@ function* checkoutCart({
 }) {
   try {
     const shoppingCart = yield select(selectShoppingCart);
-    const { customerInfo } = checkoutInfo;
+    const { customerInfo } = yield checkoutInfo;
     yield checkCartItemsInStockOrOutdated(shoppingCart);
     const paymentMethod = yield call(
       processPayment,
@@ -85,8 +82,8 @@ function* checkoutCart({
 function* handleCheckoutSuccess({
   payload: {
     onSuccessfulCheckout,
-    notificationTitle,
-    notificationMsg,
+    successTitle,
+    successMsg,
     paymentMethod,
     customerInfo
   }
@@ -97,7 +94,7 @@ function* handleCheckoutSuccess({
     const numItemsSold = yield select(selectNumCartItems);
     const currentUser = yield select(selectCurrentUser);
     const cartId = yield select(selectCartId);
-    yield put(addSuccessNotification(notificationTitle, notificationMsg));
+    yield put(addSuccessNotification(successTitle, successMsg));
     yield put(clearCart());
     yield onSuccessfulCheckout();
     yield createNewSale(
@@ -112,10 +109,6 @@ function* handleCheckoutSuccess({
   } catch (err) {}
 }
 
-function* handleCheckoutFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Checkout Failed", errorMsg));
-}
-
 function* watchCheckoutStart() {
   yield takeLatest(CHECKOUT_ACTION_TYPES.START_CHECKOUT, checkoutCart);
 }
@@ -127,14 +120,6 @@ function* watchCheckoutSuccess() {
   );
 }
 
-function* watchCheckoutFail() {
-  yield takeLatest(CHECKOUT_ACTION_TYPES.CHECKOUT_FAIL, handleCheckoutFail);
-}
-
 export default function* checkoutSagas() {
-  yield all([
-    call(watchCheckoutStart),
-    call(watchCheckoutSuccess),
-    call(watchCheckoutFail)
-  ]);
+  yield all([call(watchCheckoutStart), call(watchCheckoutSuccess)]);
 }

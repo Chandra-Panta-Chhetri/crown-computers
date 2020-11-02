@@ -19,16 +19,16 @@ export const startCheckout = (
 
 export const checkoutSuccess = (
   onSuccessfulCheckout,
-  notificationTitle,
-  notificationMsg,
+  successTitle,
+  successMsg,
   paymentMethod,
   customerInfo
 ) => ({
   type: CHECKOUT_ACTION_TYPES.CHECKOUT_SUCCESS,
   payload: {
     onSuccessfulCheckout,
-    notificationTitle,
-    notificationMsg,
+    successTitle,
+    successMsg,
     paymentMethod,
     customerInfo
   }
@@ -36,5 +36,5 @@ export const checkoutSuccess = (
 
 export const checkoutFail = (errorMsg) => ({
   type: CHECKOUT_ACTION_TYPES.CHECKOUT_FAIL,
-  payload: errorMsg
+  payload: { errorTitle: "Checkout Failed", errorMsg }
 });
