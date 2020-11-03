@@ -23,6 +23,7 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
     case PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_FAIL:
     case PRODUCT_ACTION_TYPES.LOADING_MORE_PRODUCTS_FAIL:
     case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_FAIL:
+    case PRODUCT_ACTION_TYPES.NO_MORE_PRODUCTS_TO_LOAD:
       return {
         ...prevState,
         isFetchingProducts: false,
@@ -48,12 +49,6 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         isFetchingProducts: false,
         products: [...prevState.products, ...action.payload.newProducts],
         lastVisibleDoc: action.payload.lastVisibleDoc
-      };
-    case PRODUCT_ACTION_TYPES.NO_MORE_PRODUCTS_TO_LOAD:
-      return {
-        ...prevState,
-        isFetchingProducts: false,
-        hasMoreToFetch: false
       };
     case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_SUCCESS:
       return {

@@ -5,7 +5,7 @@ import {
   initialCategoriesFetchSuccess,
   loadingMoreCategoriesFail,
   loadingMoreCategoriesSuccess,
-  noMoreToLoad,
+  noMoreCategoriesToLoad,
   deleteCategoryByIdFail,
   deleteCategoryByIdSuccess,
   createNewCategoryFail,
@@ -20,10 +20,6 @@ import {
   createNewProductCategory,
   updateProductCategoryById
 } from "../../firebase-utils/firebase.product_utils";
-import {
-  addErrorNotification,
-  addSuccessNotification
-} from "../notification/notification.actions";
 import {
   selectLastVisibleDoc,
   selectCategoriesPerPage,
@@ -46,7 +42,7 @@ function* fetchCategories() {
   } catch (err) {
     yield put(
       initialCategoriesFetchFail(
-        "There was a problem with displaying the product categories"
+        "There was a problem with displaying the product categories."
       )
     );
   }
@@ -61,7 +57,7 @@ function* fetchMoreCategories() {
       lastVisibleDoc
     } = yield getMoreProductCategories(lastDoc, categoriesPerPage);
     if (!newCategories.length) {
-      return yield put(noMoreToLoad());
+      return yield put(noMoreCategoriesToLoad());
     }
     const prevProductCategories = yield select(selectProductCategories);
     const updatedProductCategories = yield addNewCategories(
@@ -73,15 +69,9 @@ function* fetchMoreCategories() {
     );
   } catch (err) {
     yield put(
-      loadingMoreCategoriesFail(
-        "There was a problem loading more categories. Please try again later"
-      )
+      loadingMoreCategoriesFail("There was a problem loading more categories.")
     );
   }
-}
-
-function* handleCategoriesFetchFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Categories Fetching Failed", errorMsg));
 }
 
 function* deleteCategoryById({ payload: { categoryToDelete } }) {
@@ -96,9 +86,9 @@ function* deleteCategoryById({ payload: { categoryToDelete } }) {
     yield put(
       deleteCategoryByIdSuccess(
         updatedProductCategories,
-        `All the products in ${capitalize(name)} category and ${capitalize(
+        `The ${capitalize(
           name
-        )} category itself has been deleted`
+        )} category has been deleted along with all the products within the category.`
       )
     );
   } catch (err) {
@@ -106,18 +96,10 @@ function* deleteCategoryById({ payload: { categoryToDelete } }) {
       deleteCategoryByIdFail(
         `There was a problem deleting ${capitalize(
           name
-        )}. Please try again later`
+        )}. Please try again later.`
       )
     );
   }
-}
-
-function* handleCategoryDeleteFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Product Category Delete Fail", errorMsg));
-}
-
-function* handleCategoryDeleteSuccess({ payload: { notificationMsg } }) {
-  yield put(addSuccessNotification("Product Category Delete", notificationMsg));
 }
 
 function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
@@ -128,7 +110,7 @@ function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
     yield put(
       createNewCategorySuccess(
         updatedProductCategories,
-        `${capitalize(createdCategory.category)} category has been created`
+        `${capitalize(createdCategory.category)} category has been created.`
       )
     );
     yield onSuccess();
@@ -137,18 +119,10 @@ function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
       createNewCategoryFail(
         `There was a problem creating ${capitalize(
           newCategoryInfo.category
-        )}. Please ensure the uploaded image is of type png, jpg or jpeg and is less than 100 kb.`
+        )}. Ensure the uploaded image is a png/jpg/jpeg and is less than 100 kb.`
       )
     );
   }
-}
-
-function* handleCreateCategoryFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Category Creation Failed", errorMsg));
-}
-
-function* handleCreateCategorySuccess({ payload: { notificationMsg } }) {
-  yield put(addSuccessNotification("Category Created", notificationMsg));
 }
 
 function* updateCategoryById({
@@ -161,7 +135,6 @@ function* updateCategoryById({
       categoryId,
       updatedCategoryInfo
     );
-    console.log(updatedCategory);
     const updatedProductCategories = yield updateCategory(
       categoryId,
       updatedCategory,
@@ -170,49 +143,30 @@ function* updateCategoryById({
     yield put(
       updateCategoryInfoSuccess(
         updatedProductCategories,
-        "Product category info has been updated"
+        "Product category info has been updated."
       )
     );
     yield onSuccess();
   } catch (err) {
-    console.log(err);
     yield put(
       updateCategoryInfoFail(
-        "There was a problem updating the product category info. Please try again later"
+        "There was a problem updating the product category info. Please try again later."
       )
     );
   }
 }
 
-function* handleCategoryUpdateFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Category Update Failed", errorMsg));
-}
-
-function* handleCategoryUpdateSuccess({ payload: { notificationMsg } }) {
-  yield put(addSuccessNotification("Category Info Updated", notificationMsg));
-}
-
 function* watchCategoriesFetchStart() {
   yield takeLatest(
-    PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_START,
+    PRODUCT_CATEGORY_ACTION_TYPES.START_INITIAL_PRODUCT_CATEGORIES_FETCH,
     fetchCategories
   );
 }
 
 function* watchLoadMoreProductCategories() {
   yield takeLatest(
-    PRODUCT_CATEGORY_ACTION_TYPES.LOAD_MORE_PRODUCT_CATEGORIES_START,
+    PRODUCT_CATEGORY_ACTION_TYPES.START_LOADING_MORE_PRODUCT_CATEGORIES,
     fetchMoreCategories
-  );
-}
-
-function* watchCategoriesFetchFail() {
-  yield takeLatest(
-    [
-      PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_FAIL,
-      PRODUCT_CATEGORY_ACTION_TYPES.LOAD_MORE_PRODUCT_CATEGORIES_FAIL
-    ],
-    handleCategoriesFetchFail
   );
 }
 
@@ -223,20 +177,6 @@ function* watchCategoryDeleteById() {
   );
 }
 
-function* watchCategoryDeleteByIdFail() {
-  yield takeLatest(
-    PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_FAIL,
-    handleCategoryDeleteFail
-  );
-}
-
-function* watchCategoryDeleteByIdSuccess() {
-  yield takeLatest(
-    PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_SUCCESS,
-    handleCategoryDeleteSuccess
-  );
-}
-
 function* watchCreateNewCategory() {
   yield takeLatest(
     PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY,
@@ -244,54 +184,19 @@ function* watchCreateNewCategory() {
   );
 }
 
-function* watchCreateNewCategoryFail() {
-  yield takeLatest(
-    PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_FAIL,
-    handleCreateCategoryFail
-  );
-}
-
-function* watchCreateNewCategorySuccess() {
-  yield takeLatest(
-    PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_SUCCESS,
-    handleCreateCategorySuccess
-  );
-}
-
 function* watchUpdateCategoryInfo() {
   yield takeLatest(
-    PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO,
+    PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_BY_ID,
     updateCategoryById
-  );
-}
-
-function* watchUpdateCategoryInfoFail() {
-  yield takeLatest(
-    PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO_FAIL,
-    handleCategoryUpdateFail
-  );
-}
-
-function* watchUpdateCategoryInfoSuccess() {
-  yield takeLatest(
-    PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_INFO_SUCCESS,
-    handleCategoryUpdateSuccess
   );
 }
 
 export default function* productCategorySagas() {
   yield all([
     call(watchCategoriesFetchStart),
-    call(watchCategoriesFetchFail),
     call(watchLoadMoreProductCategories),
     call(watchCategoryDeleteById),
-    call(watchCategoryDeleteByIdFail),
-    call(watchCategoryDeleteByIdSuccess),
     call(watchCreateNewCategory),
-    call(watchCreateNewCategoryFail),
-    call(watchCreateNewCategorySuccess),
-    call(watchUpdateCategoryInfo),
-    call(watchUpdateCategoryInfoFail),
-    call(watchUpdateCategoryInfoSuccess)
+    call(watchUpdateCategoryInfo)
   ]);
 }

@@ -27,6 +27,7 @@ const saleReducer = (prevState = INITIAL_STATE, action) => {
       };
     case SALE_ACTION_TYPES.INITIAL_SALES_FETCH_FAIL:
     case SALE_ACTION_TYPES.LOADING_MORE_SALES_FAIL:
+    case SALE_ACTION_TYPES.NO_MORE_SALES_TO_LOAD:
       return {
         ...prevState,
         isFetchingSales: false,
@@ -44,12 +45,6 @@ const saleReducer = (prevState = INITIAL_STATE, action) => {
         isFetchingSales: false,
         sales: [...prevState.sales, ...action.payload.newSales],
         lastVisibleDoc: action.payload.lastVisibleDoc
-      };
-    case SALE_ACTION_TYPES.NO_MORE_SALES_TO_LOAD:
-      return {
-        ...prevState,
-        hasMoreToFetch: false,
-        isFetchingSales: false
       };
     case SALE_ACTION_TYPES.START_SALES_SUMMARY_FETCH:
       return {

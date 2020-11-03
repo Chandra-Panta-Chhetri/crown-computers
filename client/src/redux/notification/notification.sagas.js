@@ -3,6 +3,7 @@ import CHECKOUT_ACTION_TYPES from "../checkout/checkout.action.types";
 import USER_ACTION_TYPES from "../user/user.action.types";
 import SALE_ACTION_TYPES from "../sale/sale.action.types";
 import PRODUCT_ACTION_TYPES from "../product/product.action.types";
+import PRODUCT_CATEGORY_ACTION_TYPES from "../product-category/product-category.action.types";
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import {
   addErrorNotification,
@@ -30,14 +31,26 @@ function* watchErrorNotifications() {
       SALE_ACTION_TYPES.SALES_SUMMARY_FETCH_FAIL,
       PRODUCT_ACTION_TYPES.INITIAL_PRODUCTS_FETCH_FAIL,
       PRODUCT_ACTION_TYPES.LOADING_MORE_PRODUCTS_FAIL,
-      PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_FAIL
+      PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_FAIL,
+      PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_FAIL,
+      PRODUCT_CATEGORY_ACTION_TYPES.LOADING_MORE_PRODUCT_CATEGORIES_FAIL,
+      PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_FAIL,
+      PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_FAIL,
+      PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_BY_ID_FAIL
     ],
     showErrorNotification
   );
 }
 
 function* watchSuccessNotifications() {
-  yield takeEvery([], showSuccessNotification);
+  yield takeEvery(
+    [
+      PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_SUCCESS,
+      PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_SUCCESS,
+      PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_BY_ID_SUCCESS
+    ],
+    showSuccessNotification
+  );
 }
 
 export default function* notificationSagas() {

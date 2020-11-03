@@ -57,7 +57,7 @@ const App = ({
         isLoading={isChangingAuthState}
         loadingText={userLoadingText}
       />
-      <Toast autoDelete dismissTime={2000} />
+      <Toast autoDelete dismissTime={2200} />
     </div>
   );
 };
