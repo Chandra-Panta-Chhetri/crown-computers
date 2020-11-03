@@ -25,12 +25,8 @@ import {
   selectCategoriesPerPage,
   selectProductCategories
 } from "./product-category.selectors";
-import {
-  removeCategory,
-  updateCategory,
-  addNewCategories
-} from "./product-category.utils";
-import { capitalize } from "../../global.utils";
+import { removeCategory, updateCategory } from "./product-category.utils";
+import { capitalize, addToCollection } from "../../global.utils";
 
 function* fetchCategories() {
   try {
@@ -60,12 +56,16 @@ function* fetchMoreCategories() {
       return yield put(noMoreCategoriesToLoad());
     }
     const prevProductCategories = yield select(selectProductCategories);
-    const updatedProductCategories = yield addNewCategories(
+    const updatedCategoriesWithoutDuplicates = yield addToCollection(
       prevProductCategories,
-      newCategories
+      newCategories,
+      "categoryId"
     );
     yield put(
-      loadingMoreCategoriesSuccess(updatedProductCategories, lastVisibleDoc)
+      loadingMoreCategoriesSuccess(
+        updatedCategoriesWithoutDuplicates,
+        lastVisibleDoc
+      )
     );
   } catch (err) {
     yield put(
