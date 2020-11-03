@@ -6,6 +6,7 @@ export const SignUpContainer = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 25px;
 `;
 
 export const FormContainer = styled(Card)`

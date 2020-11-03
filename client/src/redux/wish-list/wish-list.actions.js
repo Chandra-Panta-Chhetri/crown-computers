@@ -6,7 +6,7 @@ export const startWishListsFetch = () => ({
 
 export const wishListsFetchFail = (errorMsg) => ({
   type: WISH_LIST_ACTION_TYPES.WISH_LISTS_FETCH_FAIL,
-  payload: errorMsg
+  payload: { errorTitle: "Wish Lists Fetching Failed", errorMsg }
 });
 
 export const wishListsFetchSuccess = (wishLists) => ({
@@ -15,13 +15,13 @@ export const wishListsFetchSuccess = (wishLists) => ({
 });
 
 export const startWishListFetchById = (wishListId, onFail = () => {}) => ({
-  type: WISH_LIST_ACTION_TYPES.FETCH_WISH_LIST_BY_ID_START,
+  type: WISH_LIST_ACTION_TYPES.START_FETCH_WISH_LIST_BY_ID,
   payload: { wishListId, onFail }
 });
 
 export const fetchWishListByIdFail = (errorMsg) => ({
   type: WISH_LIST_ACTION_TYPES.FETCH_WISH_LIST_BY_ID_FAIL,
-  payload: errorMsg
+  payload: { errorTitle: "Wish List Not Found", errorMsg }
 });
 
 export const fetchWishListByIdSuccess = (wishList) => ({
@@ -39,12 +39,12 @@ export const deleteWishListById = (wishListToDelete) => ({
 
 export const deleteWishListByIdFail = (errorMsg) => ({
   type: WISH_LIST_ACTION_TYPES.WISH_LIST_DELETE_BY_ID_FAIL,
-  payload: errorMsg
+  payload: { errorTitle: "Deleting Wish List Failed", errorMsg }
 });
 
-export const deleteWishListByIdSuccess = (notificationMsg, wishLists) => ({
+export const deleteWishListByIdSuccess = (successMsg, wishLists) => ({
   type: WISH_LIST_ACTION_TYPES.WISH_LIST_DELETE_BY_ID_SUCCESS,
-  payload: { notificationMsg, wishLists }
+  payload: { successTitle: "Wish List Deleted", successMsg, wishLists }
 });
 
 export const createNewWishList = (newWishListInfo, onSuccess) => ({
@@ -58,12 +58,16 @@ export const createNewWishList = (newWishListInfo, onSuccess) => ({
 
 export const createWishListFail = (errorMsg) => ({
   type: WISH_LIST_ACTION_TYPES.CREATE_WISH_LIST_FAIL,
-  payload: errorMsg
+  payload: { errorTitle: "Creating Wish List Failed", errorMsg }
 });
 
-export const createWishListSuccess = (createdWishList) => ({
+export const createWishListSuccess = (createdWishList, successMsg) => ({
   type: WISH_LIST_ACTION_TYPES.CREATE_WISH_LIST_SUCCESS,
-  payload: createdWishList
+  payload: {
+    createdWishList,
+    successTitle: "Wish List Created",
+    successMsg
+  }
 });
 
 export const addToWishList = (item, wishList, onSuccess) => ({
@@ -105,16 +109,14 @@ export const updateWishListFail = (errorTitle, errorMsg) => ({
 });
 
 export const updateWishListSuccess = (
-  notificationTitle,
-  notificationMsg,
-  updatedWishList,
-  onSuccess = () => {}
+  successTitle,
+  successMsg,
+  updatedWishList
 ) => ({
   type: WISH_LIST_ACTION_TYPES.UPDATE_WISH_LIST_SUCCESS,
   payload: {
-    notificationTitle,
-    notificationMsg,
-    updatedWishList,
-    onSuccess
+    successTitle,
+    successMsg,
+    updatedWishList
   }
 });

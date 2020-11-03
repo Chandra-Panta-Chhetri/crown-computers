@@ -37,10 +37,6 @@ import {
   createWishListFail,
   createWishListSuccess
 } from "./wish-list.actions";
-import {
-  addErrorNotification,
-  addSuccessNotification
-} from "../notification/notification.actions";
 import { selectCurrentUser } from "../user/user.selectors";
 import { selectWishLists } from "./wish-list.selectors";
 
@@ -51,15 +47,9 @@ function* fetchWishLists() {
     yield put(wishListsFetchSuccess(wishLists));
   } catch (err) {
     yield put(
-      wishListsFetchFail(
-        "There was a problem getting your wish lists. Please try again"
-      )
+      wishListsFetchFail("There was a problem getting your wish lists.")
     );
   }
-}
-
-function* handleWishListsFetchFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Getting Wish Lists Failed", errorMsg));
 }
 
 function* fetchWishListById({ payload: { wishListId, onFail } }) {
@@ -71,18 +61,16 @@ function* fetchWishListById({ payload: { wishListId, onFail } }) {
     yield put(fetchWishListByIdSuccess(wishList));
   } catch (err) {
     yield put(
-      fetchWishListByIdFail(`There is no wish list with id ${wishListId}`)
+      fetchWishListByIdFail(
+        "The requested wish list has been removed or does not exist."
+      )
     );
     yield onFail();
   }
 }
 
-function* handleWishListFetchByIdFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Getting Wish List Failed", errorMsg));
-}
-
 function* removeWishListById({ payload: { wishListToDelete } }) {
-  const wishListName = capitalize(wishListToDelete.wishListName);
+  const wishListName = yield capitalize(wishListToDelete.wishListName);
   try {
     const wishLists = yield select(selectWishLists);
     yield deleteWishListById(wishListToDelete);
@@ -92,63 +80,43 @@ function* removeWishListById({ payload: { wishListToDelete } }) {
     );
     yield put(
       deleteWishListByIdSuccess(
-        `${wishListName} has been deleted`,
+        `${wishListName} has been deleted.`,
         updatedWishLists
       )
     );
   } catch (err) {
     yield put(
       deleteWishListByIdFail(
-        `There was a problem deleting ${wishListName}. It has either been already deleted or you do not have permission`
+        `There was a problem deleting ${wishListName}. It has been deleted or you do not have permission to do so.`
       )
     );
   }
 }
 
-function* handleRemoveWishListFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Deleting Wish List Failed", errorMsg));
-}
-
-function* handleRemoveWishListSuccess({ payload: { notificationMsg } }) {
-  yield put(addSuccessNotification("Wish List Deleted", notificationMsg));
-}
-
 function* createWishList({ payload: { newWishListInfo, onSuccess } }) {
-  const wishListName = capitalize(newWishListInfo.wishListName);
+  const wishListName = yield capitalize(newWishListInfo.wishListName);
   try {
     const { id: userId } = yield select(selectCurrentUser);
     const newWishList = yield createNewWishList(userId, newWishListInfo);
-    yield put(createWishListSuccess(newWishList));
+    yield put(
+      createWishListSuccess(newWishList, `${wishListName} was created`)
+    );
     yield onSuccess();
   } catch (err) {
     yield put(
       createWishListFail(
-        `A problem occurred while creating ${wishListName}. Please ensure you are logged in`
+        `A problem occurred while creating ${wishListName}. Please ensure you are logged in.`
       )
     );
   }
-}
-
-function* handleCreateWishListFail({ payload: errorMsg }) {
-  yield put(addErrorNotification("Creating Wish List Failed", errorMsg));
-}
-
-function* handleCreateWishListSuccess({ payload: createdWishList }) {
-  yield put(
-    addSuccessNotification(
-      "Wish List Created",
-      `${createdWishList.wishListName} was created`
-    )
-  );
 }
 
 function* handleAddingItemToWishList({
   payload: { item, wishList, onSuccess }
 }) {
-  const { wishListName, wishListId } = wishList;
-  const capitalizedName = capitalize(wishListName);
+  const { wishListName, wishListId } = yield wishList;
+  const capitalizedName = yield capitalize(wishListName);
   try {
-    console.log(item, wishList);
     const updatedWishList = yield addItemToWishList(wishList, item);
     yield call(saveWishListItems, updatedWishList.items, wishListId);
     yield put(
@@ -175,13 +143,13 @@ function* handleRemovingItemFromWishList({ payload: { item, wishList } }) {
     yield put(
       updateWishListSuccess(
         `Removed From ${capitalizedName}`,
-        `${truncate(item.name)} was removed from ${capitalizedName}`,
+        `${truncate(item.name)} was removed from ${capitalizedName}.`,
         updatedWishList
       )
     );
   } catch (err) {
     yield put(
-      updateWishListFail(`Removing From ${capitalizedName} Failed`, err.message)
+      updateWishListFail(`Removing From Wish List Failed`, err.message)
     );
   }
 }
@@ -189,7 +157,7 @@ function* handleRemovingItemFromWishList({ payload: { item, wishList } }) {
 function* saveWishListItems(wishListItems, wishListId) {
   const currentUser = yield select(selectCurrentUser);
   if (!currentUser) {
-    throw Error("Please ensure you are logged in");
+    throw Error("Please ensure you are logged in.");
   }
   yield saveCartItems(wishListItems, wishListId);
 }
@@ -201,31 +169,20 @@ function* updateWishList({
     yield updateCart(wishListId, updatedWishList);
     yield put(
       updateWishListSuccess(
-        "Wish List Update Success",
+        "Wish List Updated",
         "Wish list details have been updated!",
-        updatedWishList,
-        onSuccess
+        updatedWishList
       )
     );
+    yield onSuccess();
   } catch (err) {
     yield put(
       updateWishListFail(
         "Wish List Update Failed",
-        "Wish list details failed to update. Please try again"
+        "Wish list details failed to update. Please try again later."
       )
     );
   }
-}
-
-function* handleWishListUpdateFail({ payload: { errorTitle, errorMsg } }) {
-  yield put(addErrorNotification(errorTitle, errorMsg));
-}
-
-function* handleWishListUpdateSuccess({
-  payload: { notificationTitle, notificationMsg, onSuccess }
-}) {
-  yield put(addSuccessNotification(notificationTitle, notificationMsg));
-  yield onSuccess();
 }
 
 function* watchWishListsFetchStart() {
@@ -235,24 +192,10 @@ function* watchWishListsFetchStart() {
   );
 }
 
-function* watchWishListsFetchFail() {
-  yield takeLatest(
-    WISH_LIST_ACTION_TYPES.WISH_LISTS_FETCH_FAIL,
-    handleWishListsFetchFail
-  );
-}
-
 function* watchWishListFetchById() {
   yield takeLatest(
-    WISH_LIST_ACTION_TYPES.FETCH_WISH_LIST_BY_ID_START,
+    WISH_LIST_ACTION_TYPES.START_FETCH_WISH_LIST_BY_ID,
     fetchWishListById
-  );
-}
-
-function* watchWishListFetchByIdFail() {
-  yield takeLatest(
-    WISH_LIST_ACTION_TYPES.FETCH_WISH_LIST_BY_ID_FAIL,
-    handleWishListFetchByIdFail
   );
 }
 
@@ -263,36 +206,8 @@ function* watchDeleteWishListById() {
   );
 }
 
-function* watchDeleteWishListByIdFail() {
-  yield takeLatest(
-    WISH_LIST_ACTION_TYPES.WISH_LIST_DELETE_BY_ID_FAIL,
-    handleRemoveWishListFail
-  );
-}
-
-function* watchDeleteWishListByIdSuccess() {
-  yield takeLatest(
-    WISH_LIST_ACTION_TYPES.WISH_LIST_DELETE_BY_ID_SUCCESS,
-    handleRemoveWishListSuccess
-  );
-}
-
 function* watchCreateNewWishList() {
   yield takeLatest(WISH_LIST_ACTION_TYPES.CREATE_NEW_WISH_LIST, createWishList);
-}
-
-function* watchCreateWishListFail() {
-  yield takeLatest(
-    WISH_LIST_ACTION_TYPES.CREATE_WISH_LIST_FAIL,
-    handleCreateWishListFail
-  );
-}
-
-function* watchCreateWishListSuccess() {
-  yield takeLatest(
-    WISH_LIST_ACTION_TYPES.CREATE_WISH_LIST_SUCCESS,
-    handleCreateWishListSuccess
-  );
 }
 
 function* watchAddItemToWishList() {
@@ -319,36 +234,14 @@ function* watchWishListUpdateStart() {
   );
 }
 
-function* watchWishListUpdateFail() {
-  yield takeLatest(
-    WISH_LIST_ACTION_TYPES.UPDATE_WISH_LIST_FAIL,
-    handleWishListUpdateFail
-  );
-}
-
-function* watchWishListUpdateSuccess() {
-  yield takeLatest(
-    WISH_LIST_ACTION_TYPES.UPDATE_WISH_LIST_SUCCESS,
-    handleWishListUpdateSuccess
-  );
-}
-
 export default function* wishListSagas() {
   yield all([
     call(watchWishListsFetchStart),
-    call(watchWishListsFetchFail),
     call(watchWishListFetchById),
-    call(watchWishListFetchByIdFail),
     call(watchDeleteWishListById),
-    call(watchDeleteWishListByIdFail),
-    call(watchDeleteWishListByIdSuccess),
     call(watchCreateNewWishList),
-    call(watchCreateWishListFail),
-    call(watchCreateWishListSuccess),
     call(watchAddItemToWishList),
     call(watchRemoveItemFromWishList),
-    call(watchWishListUpdateStart),
-    call(watchWishListUpdateFail),
-    call(watchWishListUpdateSuccess)
+    call(watchWishListUpdateStart)
   ]);
 }

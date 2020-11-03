@@ -5,4 +5,5 @@ export const LoginContainer = styled.section`
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin-bottom: 25px;
 `;

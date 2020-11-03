@@ -10,7 +10,7 @@ export const addItemToWishList = async (wishList, item) => {
   );
   if (isItemInWishList) {
     throw Error(
-      `${truncate(item.name)} is already in ${wishList.wishListName}`
+      `${truncate(item.name)} is already in ${wishList.wishListName}.`
     );
   }
   const { id: newCartItemId } = await createNewCartItemDoc(item.productId);
@@ -27,7 +27,7 @@ export const removeItemFromWishList = async (wishList, item) => {
   );
   if (!isItemInWishList) {
     throw Error(
-      `${truncate(item.name)} does not exist in ${wishList.wishListName}`
+      `${truncate(item.name)} does not exist in ${wishList.wishListName}.`
     );
   }
   await deleteCartItemDoc(item.cartItemId);
@@ -43,7 +43,7 @@ export const removeWishList = (wishLists, wishListId) => {
     (wishList) => wishList.wishListId === wishListId
   );
   if (indexOfWishListToDelete === -1) {
-    throw Error(`Wish list with id ${wishListId} does not exist`);
+    throw Error("The requested wish list has been removed or does not exist.");
   }
   wishLists.splice(indexOfWishListToDelete, 1);
   return [...wishLists];

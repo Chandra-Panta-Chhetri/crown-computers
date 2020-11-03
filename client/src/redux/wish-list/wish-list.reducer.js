@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 const wishListReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
     case WISH_LIST_ACTION_TYPES.START_WISH_LISTS_FETCH:
-    case WISH_LIST_ACTION_TYPES.FETCH_WISH_LIST_BY_ID_START:
+    case WISH_LIST_ACTION_TYPES.START_FETCH_WISH_LIST_BY_ID:
       return {
         ...prevState,
         isFetchingWishLists: true
@@ -61,7 +61,7 @@ const wishListReducer = (prevState = INITIAL_STATE, action) => {
       return {
         ...prevState,
         isUpdatingWishList: false,
-        wishLists: [...prevState.wishLists, action.payload]
+        wishLists: [...prevState.wishLists, action.payload.createdWishList]
       };
     case WISH_LIST_ACTION_TYPES.UPDATE_WISH_LIST_SUCCESS:
       return {

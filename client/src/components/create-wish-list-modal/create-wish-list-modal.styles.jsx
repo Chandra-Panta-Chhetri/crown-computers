@@ -5,7 +5,7 @@ import { ModalContent } from "../modal/modal.styles";
 
 export const CreateWishListModalContainer = styled(Modal)`
   ${ModalContent} {
-    height: 52%;
+    height: 54%;
   }
 `;
 

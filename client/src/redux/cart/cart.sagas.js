@@ -36,7 +36,7 @@ function* addItemToCart({ payload: { item } }) {
     yield put(
       updateCartFail(
         "Adding To Cart Failed",
-        `Not enough ${truncate(item.name)} in stock`
+        `Not enough ${truncate(item.name)} in stock.`
       )
     );
   }
