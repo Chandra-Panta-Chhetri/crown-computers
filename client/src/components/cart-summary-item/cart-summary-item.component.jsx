@@ -21,6 +21,12 @@ import {
 
 const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
   const { name, imageUrls, price, quantity, stock, category } = item;
+
+  const increaseItemQuantity = (e) => changeItemQuantity(item, quantity + 1);
+
+  const decreaseItemQuantity = (e) =>
+    quantity - 1 > 0 ? changeItemQuantity(item, quantity - 1) : "";
+
   return (
     <tr>
       <ItemInfoSection>
@@ -40,12 +46,12 @@ const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
         <ItemQuantityContainer>
           <ChangeQuantityButton
             className="fa fa-minus"
-            onClick={() => changeItemQuantity(item, quantity - 1)}
+            onClick={decreaseItemQuantity}
           ></ChangeQuantityButton>
           {quantity}
           <ChangeQuantityButton
             className="fa fa-plus"
-            onClick={() => changeItemQuantity(item, quantity + 1)}
+            onClick={increaseItemQuantity}
           ></ChangeQuantityButton>
         </ItemQuantityContainer>
       </ItemInfoSection>

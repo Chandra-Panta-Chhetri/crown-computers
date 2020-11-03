@@ -36,15 +36,7 @@ export const addToCart = async (shoppingCart, item, isLoggedIn) => {
   return [...shoppingCart];
 };
 
-export const changeItemQuantity = async (
-  shoppingCart,
-  { item, newQuantity },
-  isLoggedIn
-) => {
-  if (newQuantity <= 0) {
-    const updatedCart = await removeFromCart(shoppingCart, item, isLoggedIn);
-    return updatedCart;
-  }
+export const changeItemQuantity = (shoppingCart, { item, newQuantity }) => {
   const itemIndex = shoppingCart.findIndex(
     (cartItem) => cartItem.productId === item.productId
   );

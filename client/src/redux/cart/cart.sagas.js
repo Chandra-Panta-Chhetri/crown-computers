@@ -55,7 +55,7 @@ function* removeItemFromCart({ payload: { item } }) {
     yield put(
       updateCartFail(
         "Removing Item Failed",
-        `There was a problem removing ${truncate(name)} from the cart`
+        `There was a problem removing ${truncate(name)} from the cart.`
       )
     );
   }
@@ -64,12 +64,7 @@ function* removeItemFromCart({ payload: { item } }) {
 function* updateItemQuantity({ payload: { item, newQuantity } }) {
   try {
     const cart = yield select(selectShoppingCart);
-    const currentUser = yield select(selectCurrentUser);
-    const updatedCart = yield changeItemQuantity(
-      cart,
-      { item, newQuantity },
-      !!currentUser
-    );
+    const updatedCart = yield changeItemQuantity(cart, { item, newQuantity });
     yield put(
       updateCartSuccess(
         updatedCart,
@@ -81,7 +76,7 @@ function* updateItemQuantity({ payload: { item, newQuantity } }) {
     yield put(
       updateCartFail(
         `Increasing Quantity Failed`,
-        `Cannot add anymore ${truncate(item.name)}. Not enough in stock`
+        `Cannot add anymore ${truncate(item.name)}. Not enough in stock.`
       )
     );
   }
