@@ -90,9 +90,9 @@ function* handleSignInSuccess({ payload: loggedInUser }) {
     yield put(
       addSuccessNotification(
         "Sign In Successful",
-        `Welcome back ${capitalize(
-          loggedInUser.fullName
-        )}! Your cart has been restored`
+        `Welcome back ${capitalize(loggedInUser.fullName)}!${
+          loggedInUser.isAdmin ? "" : " Your cart has been restored."
+        }`
       )
     );
     yield sessionStorage.setItem("hasAutoSignedIn", true);
