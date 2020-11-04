@@ -17,14 +17,14 @@ import {
 } from "../../firebase-utils/firebase.wish-list_utils";
 import {
   saveCartItems,
-  updateCart
+  updateCart,
+  deleteCartItemDoc
 } from "../../firebase-utils/firebase.cart_utils";
 import {
-  addItemToWishList,
-  removeItemFromWishList,
-  removeWishList
-} from "./wish-list.utils";
-import { capitalize, truncate } from "../../global.utils.js";
+  capitalize,
+  truncate,
+  removeObjFromArrOfObjects
+} from "../../global.utils.js";
 import {
   wishListsFetchFail,
   wishListsFetchSuccess,
@@ -37,6 +37,7 @@ import {
   createWishListFail,
   createWishListSuccess
 } from "./wish-list.actions";
+import { addItemToWishList } from "./wish-list.utils";
 import { selectCurrentUser } from "../user/user.selectors";
 import { selectWishLists } from "./wish-list.selectors";
 
@@ -74,9 +75,11 @@ function* removeWishListById({ payload: { wishListToDelete } }) {
   try {
     const wishLists = yield select(selectWishLists);
     yield deleteWishListById(wishListToDelete);
-    const updatedWishLists = yield removeWishList(
+    const updatedWishLists = yield removeObjFromArrOfObjects(
+      "wishListId",
+      wishListToDelete.wishListId,
       wishLists,
-      wishListToDelete.wishListId
+      `${wishListName} has been removed or does not exist.`
     );
     yield put(
       deleteWishListByIdSuccess(
@@ -111,9 +114,7 @@ function* createWishList({ payload: { newWishListInfo, onSuccess } }) {
   }
 }
 
-function* handleAddingItemToWishList({
-  payload: { item, wishList, onSuccess }
-}) {
+function* addToWishList({ payload: { item, wishList, onSuccess } }) {
   const { wishListName, wishListId } = yield wishList;
   const capitalizedName = yield capitalize(wishListName);
   try {
@@ -134,12 +135,19 @@ function* handleAddingItemToWishList({
   }
 }
 
-function* handleRemovingItemFromWishList({ payload: { item, wishList } }) {
-  const { wishListName, wishListId } = wishList;
-  const capitalizedName = capitalize(wishListName);
+function* removeFromWishList({ payload: { item, wishList } }) {
+  const { wishListName, wishListId, items } = yield wishList;
+  const capitalizedName = yield capitalize(wishListName);
   try {
-    const updatedWishList = yield removeItemFromWishList(wishList, item);
-    yield call(saveWishListItems, updatedWishList.items, wishListId);
+    const updatedWishListItems = yield removeObjFromArrOfObjects(
+      "productId",
+      item.productId,
+      items,
+      `${item.name} has already been removed or does not exist.`
+    );
+    yield deleteCartItemDoc(item.cartItemId);
+    const updatedWishList = yield { ...wishList, items: updatedWishListItems };
+    yield call(saveWishListItems, updatedWishListItems, wishListId);
     yield put(
       updateWishListSuccess(
         `Removed From ${capitalizedName}`,
@@ -216,14 +224,14 @@ function* watchAddItemToWishList() {
   ]);
   while (true) {
     const action = yield take(channel);
-    yield call(handleAddingItemToWishList, action);
+    yield call(addToWishList, action);
   }
 }
 
 function* watchRemoveItemFromWishList() {
   yield takeEvery(
     WISH_LIST_ACTION_TYPES.START_REMOVE_FROM_WISH_LIST,
-    handleRemovingItemFromWishList
+    removeFromWishList
   );
 }
 

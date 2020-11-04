@@ -17,17 +17,55 @@ export const getLastElementInArray = (arr) => arr[arr.length - 1];
 export const convertNestedObjectToArray = (nestedObj) =>
   Object.keys(nestedObj).map((key) => nestedObj[key]);
 
-export const addToCollection = (
+export const addUniqueItemsToCollection = (
   collection,
   newCollectionItems,
-  uniqueField
+  uniqueFieldName
 ) => {
   for (let collectionItem of newCollectionItems) {
     if (
-      !collection.some((c) => c[uniqueField] === collectionItem[uniqueField])
+      !collection.some(
+        (c) => c[uniqueFieldName] === collectionItem[uniqueFieldName]
+      )
     ) {
       collection.push(collectionItem);
     }
   }
   return [...collection];
+};
+
+export const removeObjFromArrOfObjects = (
+  uniqueFieldName,
+  uniqueFieldValue,
+  arrOfObjects,
+  errorMsgToThrow
+) => {
+  const indexOfObjectToDelete = arrOfObjects.findIndex(
+    (obj) => obj[uniqueFieldName] === uniqueFieldValue
+  );
+  if (indexOfObjectToDelete === -1) {
+    throw Error(errorMsgToThrow);
+  }
+  arrOfObjects.splice(indexOfObjectToDelete, 1);
+  return [...arrOfObjects];
+};
+
+export const updateObjInArrOfObjects = (
+  uniqueFieldName,
+  uniqueFieldValue,
+  arrOfObjects,
+  errorMsgToThrow,
+  updatedObj
+) => {
+  const indexOfObjToUpdate = arrOfObjects.findIndex(
+    (obj) => obj[uniqueFieldName] === uniqueFieldValue
+  );
+  if (indexOfObjToUpdate === -1) {
+    throw Error(errorMsgToThrow);
+  }
+  arrOfObjects[indexOfObjToUpdate] = {
+    ...arrOfObjects[indexOfObjToUpdate],
+    ...updatedObj
+  };
+  return [...arrOfObjects];
 };

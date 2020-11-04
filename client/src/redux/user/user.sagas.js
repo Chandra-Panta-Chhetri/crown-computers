@@ -22,7 +22,7 @@ import { selectHasAutoSignedIn } from "./user.selectors";
 function* setUserFromSnapShot(userAuth, additionalData) {
   const userRef = yield createOrGetUser(userAuth, additionalData);
   const userSnapshot = yield userRef.get();
-  const userData = userSnapshot.data();
+  const userData = yield userSnapshot.data();
   yield put(signInSuccess({ id: userSnapshot.id, ...userData }));
   if (!userData.isAdmin) {
     const { cart, cartId } = yield getUserCartAndCartId(userRef);

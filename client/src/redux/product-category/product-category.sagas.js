@@ -25,8 +25,12 @@ import {
   selectCategoriesPerPage,
   selectProductCategories
 } from "./product-category.selectors";
-import { removeCategory, updateCategory } from "./product-category.utils";
-import { capitalize, addToCollection } from "../../global.utils";
+import {
+  capitalize,
+  addUniqueItemsToCollection,
+  removeObjFromArrOfObjects,
+  updateObjInArrOfObjects
+} from "../../global.utils";
 
 function* fetchCategories() {
   try {
@@ -56,7 +60,7 @@ function* fetchMoreCategories() {
       return yield put(noMoreCategoriesToLoad());
     }
     const prevProductCategories = yield select(selectProductCategories);
-    const updatedCategoriesWithoutDuplicates = yield addToCollection(
+    const updatedCategoriesWithoutDuplicates = yield addUniqueItemsToCollection(
       prevProductCategories,
       newCategories,
       "categoryId"
@@ -75,13 +79,15 @@ function* fetchMoreCategories() {
 }
 
 function* deleteCategoryById({ payload: { categoryToDelete } }) {
-  const { categoryId, category: name, imageUrl } = categoryToDelete;
+  const { categoryId, category: name, imageUrl } = yield categoryToDelete;
   try {
     const productCategories = yield select(selectProductCategories);
     yield deleteProductCategoryById(categoryId, imageUrl);
-    const updatedProductCategories = yield removeCategory(
+    const updatedProductCategories = yield removeObjFromArrOfObjects(
+      "categoryId",
       categoryId,
-      productCategories
+      productCategories,
+      `${capitalize(name)} has been deleted or does not exist.`
     );
     yield put(
       deleteCategoryByIdSuccess(
@@ -92,13 +98,7 @@ function* deleteCategoryById({ payload: { categoryToDelete } }) {
       )
     );
   } catch (err) {
-    yield put(
-      deleteCategoryByIdFail(
-        `There was a problem deleting ${capitalize(
-          name
-        )}. Please try again later.`
-      )
-    );
+    yield put(deleteCategoryByIdFail(err.message));
   }
 }
 
@@ -106,7 +106,10 @@ function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
   try {
     const productCategories = yield select(selectProductCategories);
     const createdCategory = yield createNewProductCategory(newCategoryInfo);
-    const updatedProductCategories = [...productCategories, createdCategory];
+    const updatedProductCategories = yield [
+      ...productCategories,
+      createdCategory
+    ];
     yield put(
       createNewCategorySuccess(
         updatedProductCategories,
@@ -130,15 +133,17 @@ function* updateCategoryById({
 }) {
   try {
     const productCategories = yield select(selectProductCategories);
-    delete updatedCategoryInfo.categoryId;
+    yield delete updatedCategoryInfo.categoryId;
     const updatedCategory = yield updateProductCategoryById(
       categoryId,
       updatedCategoryInfo
     );
-    const updatedProductCategories = yield updateCategory(
+    const updatedProductCategories = yield updateObjInArrOfObjects(
+      "categoryId",
       categoryId,
-      updatedCategory,
-      productCategories
+      productCategories,
+      "There was a problem updating the product category as it may have been deleted or does not exist.",
+      updatedCategory
     );
     yield put(
       updateCategoryInfoSuccess(
@@ -148,11 +153,7 @@ function* updateCategoryById({
     );
     yield onSuccess();
   } catch (err) {
-    yield put(
-      updateCategoryInfoFail(
-        "There was a problem updating the product category info. Please try again later."
-      )
-    );
+    yield put(updateCategoryInfoFail(err.message));
   }
 }
 

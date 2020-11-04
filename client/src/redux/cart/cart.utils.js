@@ -14,6 +14,7 @@ const updateItemQuantityInCart = (
     ...shoppingCart[itemIndex],
     quantity: newQuantity
   };
+  return [...shoppingCart];
 };
 
 export const addToCart = async (shoppingCart, item, isLoggedIn) => {
@@ -32,8 +33,13 @@ export const addToCart = async (shoppingCart, item, isLoggedIn) => {
     ];
   }
   const newQuantity = shoppingCart[itemIndex].quantity + 1;
-  updateItemQuantityInCart(shoppingCart, item.stock, newQuantity, itemIndex);
-  return [...shoppingCart];
+  const updatedCart = updateItemQuantityInCart(
+    shoppingCart,
+    item.stock,
+    newQuantity,
+    itemIndex
+  );
+  return updatedCart;
 };
 
 export const changeItemQuantity = (shoppingCart, { item, newQuantity }) => {
@@ -41,9 +47,15 @@ export const changeItemQuantity = (shoppingCart, { item, newQuantity }) => {
     (cartItem) => cartItem.productId === item.productId
   );
   if (itemIndex !== -1) {
-    updateItemQuantityInCart(shoppingCart, item.stock, newQuantity, itemIndex);
+    const updatedCart = updateItemQuantityInCart(
+      shoppingCart,
+      item.stock,
+      newQuantity,
+      itemIndex
+    );
+    return updatedCart;
   }
-  return [...shoppingCart];
+  return shoppingCart;
 };
 
 export const removeFromCart = async (shoppingCart, item, isLoggedIn) => {
