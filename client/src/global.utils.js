@@ -17,6 +17,8 @@ export const getLastElementInArray = (arr) => arr[arr.length - 1];
 export const convertNestedObjectToArray = (nestedObj) =>
   Object.keys(nestedObj).map((key) => nestedObj[key]);
 
+export const isVariableDefined = (variable) => typeof variable !== "undefined";
+
 export const addUniqueItemsToCollection = (
   collection,
   newCollectionItems,

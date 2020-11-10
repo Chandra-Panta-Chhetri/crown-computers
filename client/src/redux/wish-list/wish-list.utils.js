@@ -1,4 +1,4 @@
-import { createNewCartItemDoc } from "../../firebase-utils/firebase.cart_utils";
+import { createNewCartItem } from "../../firebase-utils/firebase.cart_utils";
 import { truncate } from "../../global.utils.js";
 
 export const addItemToWishList = async (wishList, item) => {
@@ -10,7 +10,7 @@ export const addItemToWishList = async (wishList, item) => {
       `${truncate(item.name)} is already in ${wishList.wishListName}.`
     );
   }
-  const { id: newCartItemId } = await createNewCartItemDoc(item.productId);
+  const { id: newCartItemId } = await createNewCartItem(item.productId);
   wishList.items.push({
     ...item,
     cartItemId: newCartItemId

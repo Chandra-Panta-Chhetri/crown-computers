@@ -10,7 +10,7 @@ import {
   take
 } from "redux-saga/effects";
 import { updateCartSuccess, updateCartFail } from "./cart.actions";
-import { saveCartItems } from "../../firebase-utils/firebase.cart_utils";
+import { saveCart } from "../../firebase-utils/firebase.cart_utils";
 import { selectShoppingCart, selectCartId } from "../cart/cart.selectors";
 import { selectCurrentUser } from "../user/user.selectors";
 import { addToCart, changeItemQuantity, removeFromCart } from "./cart.utils";
@@ -90,7 +90,7 @@ function* handleCartUpdateSuccess({
     const currentUser = yield select(selectCurrentUser);
     const cartId = yield select(selectCartId);
     if (currentUser && !currentUser.isAdmin && cartId) {
-      yield saveCartItems(cartWithoutCartItemRefs, cartId);
+      yield saveCart(cartWithoutCartItemRefs, cartId);
     }
   } catch (err) {
     yield put(

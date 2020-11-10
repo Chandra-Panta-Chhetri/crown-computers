@@ -15,11 +15,7 @@ import {
   getWishListById,
   deleteWishListById
 } from "../../firebase-utils/firebase.wish-list_utils";
-import {
-  saveCartItems,
-  updateCart,
-  deleteCartItemDoc
-} from "../../firebase-utils/firebase.cart_utils";
+import { saveCart } from "../../firebase-utils/firebase.cart_utils";
 import {
   capitalize,
   truncate,
@@ -40,6 +36,12 @@ import {
 import { addItemToWishList } from "./wish-list.utils";
 import { selectCurrentUser } from "../user/user.selectors";
 import { selectWishLists } from "./wish-list.selectors";
+import {
+  deleteDocById,
+  updateDocDataById,
+  CART_ITEM_COLLECTION_NAME,
+  CART_COLLECTION_NAME
+} from "../../firebase-utils/firebase.abstract_utils";
 
 function* fetchWishLists() {
   try {
@@ -102,7 +104,7 @@ function* createWishList({ payload: { newWishListInfo, onSuccess } }) {
     const { id: userId } = yield select(selectCurrentUser);
     const newWishList = yield createNewWishList(userId, newWishListInfo);
     yield put(
-      createWishListSuccess(newWishList, `${wishListName} was created`)
+      createWishListSuccess(newWishList, `${wishListName} was created!`)
     );
     yield onSuccess();
   } catch (err) {
@@ -123,7 +125,7 @@ function* addToWishList({ payload: { item, wishList, onSuccess } }) {
     yield put(
       updateWishListSuccess(
         `Added Item To ${capitalizedName}`,
-        `${truncate(item.name)} was added to ${capitalizedName}`,
+        `${truncate(item.name)} was added to ${capitalizedName}.`,
         updatedWishList
       )
     );
@@ -145,7 +147,7 @@ function* removeFromWishList({ payload: { item, wishList } }) {
       items,
       `${item.name} has already been removed or does not exist.`
     );
-    yield deleteCartItemDoc(item.cartItemId);
+    yield deleteDocById(CART_ITEM_COLLECTION_NAME, item.cartItemId);
     const updatedWishList = yield { ...wishList, items: updatedWishListItems };
     yield call(saveWishListItems, updatedWishListItems, wishListId);
     yield put(
@@ -167,14 +169,14 @@ function* saveWishListItems(wishListItems, wishListId) {
   if (!currentUser) {
     throw Error("Please ensure you are logged in.");
   }
-  yield saveCartItems(wishListItems, wishListId);
+  yield saveCart(wishListItems, wishListId);
 }
 
 function* updateWishList({
   payload: { updatedWishList, wishListId, onSuccess }
 }) {
   try {
-    yield updateCart(wishListId, updatedWishList);
+    yield updateDocDataById(CART_COLLECTION_NAME, wishListId, updatedWishList);
     yield put(
       updateWishListSuccess(
         "Wish List Updated",

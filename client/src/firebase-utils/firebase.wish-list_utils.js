@@ -1,85 +1,88 @@
-import { firestore } from "./firebase.config";
-import {
-  cartCollectionRef,
-  populateCart,
-  createNewCart,
-  deleteAllCartItemDocsInCart
-} from "./firebase.cart_utils";
-import { getUserRefById } from "./firebase.user_utils";
+import { populateCart, deleteAllCartItemInArr } from "./firebase.cart_utils";
 import { capitalize } from "../global.utils";
+import {
+  createNewDoc,
+  deleteDocById,
+  executeQuery,
+  FIRESTORE_COLLECTION_REFS,
+  getDocDataFromSnapshot,
+  getDocRefById,
+  getDocSnapshotById,
+  USER_COLLECTION_NAME,
+  CART_COLLECTION_NAME
+} from "./firebase.abstract_utils";
 
-const getWishListSnapshots = async (userId) => {
-  const userRef = getUserRefById(userId);
-  const userWishListQuery = cartCollectionRef
-    .where("userRef", "==", userRef)
-    .where("isWishList", "==", true);
-  const wishListsSnapshot = await userWishListQuery.get();
-  return wishListsSnapshot.docs;
-};
-
-const extractWishListDataFromSnapshot = async (wishListSnapshot) => {
-  let {
-    cartItems: wishListItemsWithRefs,
-    wishListName,
-    createdAt
-  } = wishListSnapshot.data();
-  let wishListItemsWithoutRefs = await populateCart(wishListItemsWithRefs);
-  return {
-    wishListId: wishListSnapshot.id,
-    items: wishListItemsWithoutRefs,
-    wishListName,
-    createdAt: createdAt.toDate()
+const getWishListFromSnapshot = async (wishListSnapshot) => {
+  let wishListData = getDocDataFromSnapshot(
+    wishListSnapshot,
+    true,
+    "wishListId"
+  );
+  let wishListItems = await populateCart(wishListData.cartItems);
+  let wishList = {
+    wishListName: wishListData.wishListName,
+    createdAt: wishListData.createdAt.toDate(),
+    wishListId: wishListData.wishListId,
+    items: wishListItems
   };
+  return wishList;
 };
 
 export const getWishLists = async (userId) => {
+  const userRef = getDocRefById(USER_COLLECTION_NAME, userId);
+  const userWishListsQuery = FIRESTORE_COLLECTION_REFS.cartCollectionRef
+    .where("userRef", "==", userRef)
+    .where("isWishList", "==", true);
+  const wishListSnapshots = await executeQuery(userWishListsQuery);
   const wishLists = [];
-  const wishListSnapshots = await getWishListSnapshots(userId);
   for (let wishListSnapshot of wishListSnapshots) {
-    let wishListData = await extractWishListDataFromSnapshot(wishListSnapshot);
-    wishLists.push(wishListData);
+    let wishList = await getWishListFromSnapshot(wishListSnapshot);
+    wishLists.push(wishList);
   }
   return wishLists;
 };
 
-export const getWishListRefById = (wishListId) => {
-  const wishListRef = firestore.doc(`carts/${wishListId}`);
-  return wishListRef;
-};
-
 export const getWishListById = async (wishListId) => {
   try {
-    const wishListRef = getWishListRefById(wishListId);
-    const wishListSnapshot = await wishListRef.get();
-    const wishListData = await extractWishListDataFromSnapshot(
-      wishListSnapshot
+    const wishListSnapshot = await getDocSnapshotById(
+      CART_COLLECTION_NAME,
+      wishListId
     );
-    return wishListData;
+    const wishList = await getWishListFromSnapshot(wishListSnapshot);
+    return wishList;
   } catch (err) {
     return null;
   }
 };
 
 export const deleteWishListById = async (wishListToDelete) => {
-  await deleteAllCartItemDocsInCart(wishListToDelete.items);
-  const wishListRef = getWishListRefById(wishListToDelete.wishListId);
-  await wishListRef.delete();
+  const { items, wishListId } = wishListToDelete;
+  await deleteAllCartItemInArr(items);
+  await deleteDocById(CART_COLLECTION_NAME, wishListId);
 };
 
 export const createNewWishList = async (userId, newWishListInfo) => {
-  const userRef = getUserRefById(userId);
+  const { wishListName } = newWishListInfo;
   const createdAt = new Date();
-  const wishListName = capitalize(newWishListInfo.wishListName);
-  const newWishListRef = await createNewCart(userRef, true, {
+  const capitalizedWishListName = capitalize(wishListName);
+  const newWishList = {
     ...newWishListInfo,
-    wishListName,
+    userRef: getDocRefById(USER_COLLECTION_NAME, userId),
+    cartItems: [],
+    isWishList: true,
+    wishListName: capitalizedWishListName,
     createdAt
-  });
-  return {
+  };
+  const newWishListRef = await createNewDoc(
+    FIRESTORE_COLLECTION_REFS.cartCollectionRef,
+    newWishList
+  );
+  const formattedWishList = {
     ...newWishListInfo,
     wishListId: newWishListRef.id,
     items: [],
     createdAt,
-    wishListName
+    wishListName: capitalizedWishListName
   };
+  return formattedWishList;
 };

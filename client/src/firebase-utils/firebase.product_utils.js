@@ -1,136 +1,125 @@
-import { firestore, fileStorage } from "./firebase.config";
-import { getLastElementInArray } from "../global.utils";
+import {
+  createNewDoc,
+  deleteDocByRef,
+  deleteUploadedFile,
+  executePaginatedQuery,
+  executeQuery,
+  FIRESTORE_COLLECTION_REFS,
+  getDocDataByRef,
+  getDocRefById,
+  populateDocSnapshots,
+  updateDocDataByRef,
+  uploadFileAndGetUrl,
+  PRODUCT_COLLECTION_NAME,
+  PRODUCT_CATEGORY_COLLECTION_NAME
+} from "./firebase.abstract_utils";
 
 const PRODUCT_CATEGORY_IMAGES_DIRECTORY = "product_category_images";
 const PRODUCT_IMAGES_DIRECTORY = "product_images";
 
-const categoryCollectionRef = firestore.collection("product_categories");
-const productCollectionRef = firestore.collection("products");
-
-export const getProductDataAndRefById = async (productId) => {
+export const getProductById = async (productId) => {
   try {
-    let productRef = firestore.doc(`products/${productId}`);
-    let productDocSnapshot = await productRef.get();
-    let productData = {
-      productId: productDocSnapshot.id,
-      ...productDocSnapshot.data()
-    };
-    let productCategory = await getProductCategoryName(
-      productData.productCategoryRef
-    );
-    productData.category = productCategory;
-    delete productData.productCategoryRef;
-    return {
-      productData,
-      productRef
-    };
+    const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
+    const product = await getDocDataByRef(productRef, true, "productId");
+    product.category = await getProductCategoryName(product.productCategoryRef);
+    delete product.productCategoryRef;
+    return product;
   } catch (err) {
     return null;
   }
 };
 
 export const updateProductStock = async (productId, quantityToCheckout) => {
-  let {
-    productData: { stock },
-    productRef
-  } = await getProductDataAndRefById(productId);
-  await productRef.update({ stock: stock - quantityToCheckout });
-};
-
-export const uploadImage = async (image, directoryToSaveImage = "") =>
-  new Promise((resolve, reject) => {
-    const uniqueImageName = new Date().getTime() + image.name;
-    const imageStoragePath = `${directoryToSaveImage}/${uniqueImageName}`;
-    const uploadTask = fileStorage.ref(imageStoragePath).put(image);
-    uploadTask.on(
-      "state_changed",
-      () => {},
-      (err) => {
-        reject(err);
-      },
-      () => {
-        fileStorage
-          .ref()
-          .child(imageStoragePath)
-          .getDownloadURL()
-          .then((imageUrl) => {
-            resolve(imageUrl);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      }
-    );
+  let product = await getProductById(productId);
+  let productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
+  await updateDocDataByRef(productRef, {
+    stock: product.stock - quantityToCheckout
   });
-
-export const deleteUploadedImage = async (imageStorageAbsolutePath) => {
-  const imageRef = fileStorage.refFromURL(imageStorageAbsolutePath);
-  await imageRef.delete();
 };
 
 export const createNewProductCategory = async (newCategoryInfo) => {
-  const imageUrl = await uploadImage(
+  const imageUrl = await uploadFileAndGetUrl(
     newCategoryInfo.image,
     PRODUCT_CATEGORY_IMAGES_DIRECTORY
   );
   delete newCategoryInfo.image;
   newCategoryInfo.imageUrl = imageUrl;
-  const newProductCategoryRef = await categoryCollectionRef.add(
+  const newProductCategoryRef = await createNewDoc(
+    FIRESTORE_COLLECTION_REFS.productCategoryCollectionRef,
     newCategoryInfo
   );
-  return { categoryId: newProductCategoryRef.id, ...newCategoryInfo };
+  const createdProductCategory = {
+    ...newCategoryInfo,
+    categoryId: newProductCategoryRef.id
+  };
+  return createdProductCategory;
 };
 
 export const updateProductCategoryById = async (
   categoryId,
   updatedProductCategoryInfo
 ) => {
-  const productCategoryRef = firestore.doc(`product_categories/${categoryId}`);
+  const productCategoryRef = getDocRefById(
+    PRODUCT_CATEGORY_COLLECTION_NAME,
+    categoryId
+  );
   if (updatedProductCategoryInfo.image) {
-    await deleteUploadedImage(updatedProductCategoryInfo.imageUrl);
-    const newImageUrl = await uploadImage(
+    await deleteUploadedFile(updatedProductCategoryInfo.imageUrl);
+    const newImageUrl = await uploadFileAndGetUrl(
       updatedProductCategoryInfo.image,
       PRODUCT_CATEGORY_IMAGES_DIRECTORY
     );
     updatedProductCategoryInfo.imageUrl = newImageUrl;
   }
   delete updatedProductCategoryInfo.image;
-  await productCategoryRef.update(updatedProductCategoryInfo);
-  return { ...updatedProductCategoryInfo, categoryId };
+  await updateDocDataByRef(productCategoryRef, updatedProductCategoryInfo);
+};
+
+export const deleteAllProductsInCategory = async (productCategoryRef) => {
+  const productsInCategoryQuery = FIRESTORE_COLLECTION_REFS.productCollectionRef.where(
+    "productCategoryRef",
+    "==",
+    productCategoryRef
+  );
+  const productSnapshots = await executeQuery(productsInCategoryQuery);
+  for (let productSnapshot of productSnapshots) {
+    let productRef = productSnapshot.ref;
+    await deleteDocByRef(productRef);
+  }
 };
 
 export const deleteProductCategoryById = async (
   categoryId,
   categoryImageStoragePath
 ) => {
-  const productCategoryRef = firestore.doc(`product_categories/${categoryId}`);
-  const productSnapshots = await getProductSnapshotsByCategoryRef(
-    productCategoryRef
+  const productCategoryRef = getDocRefById(
+    PRODUCT_CATEGORY_COLLECTION_NAME,
+    categoryId
   );
-  for (let productSnapshot of productSnapshots) {
-    await productSnapshot.ref.delete();
-  }
-  await deleteUploadedImage(categoryImageStoragePath);
-  await productCategoryRef.delete();
+  await deleteAllProductsInCategory(productCategoryRef);
+  await deleteUploadedFile(categoryImageStoragePath);
+  await deleteDocByRef(productCategoryRef);
 };
 
 export const executePaginatedCategoryQuery = async (paginatedCategoryQuery) => {
   try {
-    const categoriesSnapshot = await paginatedCategoryQuery.get();
-    const categoryDocSnapshots = categoriesSnapshot.docs;
-    const lastVisibleDoc = getLastElementInArray(categoryDocSnapshots);
-    const productCategories = categoryDocSnapshots.map((categorySnapshot) => ({
-      ...categorySnapshot.data(),
-      categoryId: categorySnapshot.id
-    }));
-    return { categories: productCategories, lastVisibleDoc };
+    const {
+      docSnapshots: categorySnapshots,
+      lastVisibleDoc
+    } = await executePaginatedQuery(paginatedCategoryQuery);
+    const categories = populateDocSnapshots(
+      categorySnapshots,
+      true,
+      "categoryId"
+    );
+    return { categories, lastVisibleDoc };
   } catch (err) {
     return { categories: [], lastVisibleDoc: null };
   }
 };
 
 export const getProductCategories = async (categoriesPerPage) => {
-  const paginatedCategoriesQuery = categoryCollectionRef
+  const paginatedCategoriesQuery = FIRESTORE_COLLECTION_REFS.productCategoryCollectionRef
     .orderBy("category")
     .limit(categoriesPerPage);
   const categoriesAndLastVisibleDoc = await executePaginatedCategoryQuery(
@@ -143,7 +132,7 @@ export const getMoreProductCategories = async (
   lastVisibleDoc,
   categoriesPerPage
 ) => {
-  const nextCategoriesQuery = categoryCollectionRef
+  const nextCategoriesQuery = FIRESTORE_COLLECTION_REFS.productCategoryCollectionRef
     .orderBy("category")
     .startAfter(lastVisibleDoc)
     .limit(categoriesPerPage);
@@ -155,13 +144,15 @@ export const getMoreProductCategories = async (
 
 export const getProductCategoryRefByCategoryName = async (categoryName) => {
   try {
-    const productCategoryByNameQuery = categoryCollectionRef.where(
+    const productCategoryWithNameQuery = FIRESTORE_COLLECTION_REFS.productCategoryCollectionRef.where(
       "category",
       "==",
       categoryName
     );
-    const productCategoriesSnapshot = await productCategoryByNameQuery.get();
-    const productCategoryRef = productCategoriesSnapshot.docs[0].ref;
+    const productCategorySnapshots = await executeQuery(
+      productCategoryWithNameQuery
+    );
+    const productCategoryRef = productCategorySnapshots[0].ref;
     return productCategoryRef;
   } catch (err) {
     return null;
@@ -169,22 +160,16 @@ export const getProductCategoryRefByCategoryName = async (categoryName) => {
 };
 
 export const getProductCategoryName = async (productCategoryRef) => {
-  const productCategorySnapshot = await productCategoryRef.get();
-  return productCategorySnapshot.data().category;
+  const productCategory = await getDocDataByRef(productCategoryRef);
+  return productCategory.category;
 };
 
 const populateProductDocSnapshots = async (productDocSnapshots) => {
   try {
     const products = [];
     for (let productSnapshot of productDocSnapshots) {
-      let product = {
-        productId: productSnapshot.id,
-        ...productSnapshot.data()
-      };
-      product.category = await getProductCategoryName(
-        product.productCategoryRef
-      );
-      delete product.productCategoryRef;
+      let productId = productSnapshot.id;
+      let product = await getProductById(productId);
       products.push(product);
     }
     return products;
@@ -195,10 +180,11 @@ const populateProductDocSnapshots = async (productDocSnapshots) => {
 
 export const excutePaginatedProductQuery = async (paginatedProductQuery) => {
   try {
-    const productSnapshot = await paginatedProductQuery.get();
-    const productDocSnapshots = productSnapshot.docs;
-    const lastVisibleDoc = getLastElementInArray(productDocSnapshots);
-    const products = await populateProductDocSnapshots(productDocSnapshots);
+    const {
+      lastVisibleDoc,
+      docSnapshots: productSnapshots
+    } = await executePaginatedQuery(paginatedProductQuery);
+    const products = await populateProductDocSnapshots(productSnapshots);
     return { products, lastVisibleDoc };
   } catch (err) {
     return { products: [], lastVisibleDoc: null };
@@ -206,18 +192,18 @@ export const excutePaginatedProductQuery = async (paginatedProductQuery) => {
 };
 
 export const getProducts = async (productsPerPage) => {
-  const productsInStockQuery = productCollectionRef
+  const paginatedProductsQuery = FIRESTORE_COLLECTION_REFS.productCollectionRef
     .where("stock", ">", 0)
     .orderBy("stock")
     .limit(productsPerPage);
   const productsAndLastVisibleDoc = await excutePaginatedProductQuery(
-    productsInStockQuery
+    paginatedProductsQuery
   );
   return productsAndLastVisibleDoc;
 };
 
 export const getMoreProducts = async (lastVisibleDoc, productsPerPage) => {
-  const nextProductsQuery = productCollectionRef
+  const nextProductsQuery = FIRESTORE_COLLECTION_REFS.productCollectionRef
     .where("stock", ">", 0)
     .orderBy("stock")
     .startAfter(lastVisibleDoc)
@@ -228,16 +214,6 @@ export const getMoreProducts = async (lastVisibleDoc, productsPerPage) => {
   return productsAndLastVisibleDoc;
 };
 
-export const getProductSnapshotsByCategoryRef = async (productCategoryRef) => {
-  const productsWithCategoryId = productCollectionRef.where(
-    "productCategoryRef",
-    "==",
-    productCategoryRef
-  );
-  const productsSnapshot = await productsWithCategoryId.get();
-  return productsSnapshot.docs;
-};
-
 export const getProductsByCategoryName = async (
   categoryName,
   productsPerPage
@@ -245,13 +221,13 @@ export const getProductsByCategoryName = async (
   const productCategoryRef = await getProductCategoryRefByCategoryName(
     categoryName
   );
-  const productsInCategoryQuery = productCollectionRef
+  const paginatedProductsInCategoryQuery = FIRESTORE_COLLECTION_REFS.productCollectionRef
     .where("productCategoryRef", "==", productCategoryRef)
     .where("stock", ">", 0)
     .orderBy("stock")
     .limit(productsPerPage);
   const productsAndLastVisibleDoc = await excutePaginatedProductQuery(
-    productsInCategoryQuery
+    paginatedProductsInCategoryQuery
   );
   return productsAndLastVisibleDoc;
 };
@@ -264,7 +240,7 @@ export const getMoreProductsByCategoryName = async (
   const productCategoryRef = await getProductCategoryRefByCategoryName(
     categoryName
   );
-  const nextProductsInCategoryQuery = productCollectionRef
+  const nextProductsInCategoryQuery = FIRESTORE_COLLECTION_REFS.productCollectionRef
     .where("productCategoryRef", "==", productCategoryRef)
     .where("stock", ">", 0)
     .orderBy("stock")

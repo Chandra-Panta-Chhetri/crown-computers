@@ -134,10 +134,8 @@ function* updateCategoryById({
   try {
     const productCategories = yield select(selectProductCategories);
     yield delete updatedCategoryInfo.categoryId;
-    const updatedCategory = yield updateProductCategoryById(
-      categoryId,
-      updatedCategoryInfo
-    );
+    yield updateProductCategoryById(categoryId, updatedCategoryInfo);
+    const updatedCategory = { ...updatedCategoryInfo, categoryId };
     const updatedProductCategories = yield updateObjInArrOfObjects(
       "categoryId",
       categoryId,

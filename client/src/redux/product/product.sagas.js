@@ -14,12 +14,13 @@ import {
   getMoreProducts,
   getProductsByCategoryName,
   getMoreProductsByCategoryName,
-  getProductDataAndRefById
+  getProductById
 } from "../../firebase-utils/firebase.product_utils";
 import {
   selectProductsPerPage,
   selectLastVisibleDoc
 } from "./product.selectors";
+import { capitalize } from "../../global.utils";
 
 function* fetchProducts() {
   try {
@@ -69,7 +70,11 @@ function* fetchProductsByCategory({ payload: { categoryName, onFail } }) {
     }
     yield put(initialProductsFetchSuccess(productsInCategory, lastVisibleDoc));
   } catch (err) {
-    yield put(initialProductsFetchFail(`No ${categoryName} products found`));
+    yield put(
+      initialProductsFetchFail(
+        `There are no products in ${capitalize(categoryName)} yet.`
+      )
+    );
     yield onFail();
   }
 }
@@ -103,11 +108,11 @@ function* fetchMoreProductsByCategory({ payload: categoryName }) {
 
 function* fetchProductById({ payload: { id, onFail } }) {
   try {
-    const { productData } = yield getProductDataAndRefById(id);
-    if (!productData) {
+    const product = yield getProductById(id);
+    if (!product) {
       throw Error();
     }
-    yield put(fetchProductByIdSuccess(productData));
+    yield put(fetchProductByIdSuccess(product));
   } catch (err) {
     yield put(
       fetchProductByIdFail(

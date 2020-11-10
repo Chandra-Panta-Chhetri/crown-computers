@@ -1,146 +1,146 @@
 import { firestore } from "./firebase.config";
-import {
-  updateProductStock,
-  getProductDataAndRefById
-} from "./firebase.product_utils";
+import { updateProductStock, getProductById } from "./firebase.product_utils";
 import { truncate } from "../global.utils";
+import {
+  createNewDoc,
+  deleteDocById,
+  deleteDocByRef,
+  executeQuery,
+  FIRESTORE_COLLECTION_REFS,
+  getDocDataByRef,
+  getDocRefById,
+  updateDocDataById,
+  PRODUCT_COLLECTION_NAME,
+  CART_ITEM_COLLECTION_NAME,
+  CART_COLLECTION_NAME
+} from "./firebase.abstract_utils";
 
-export const cartCollectionRef = firestore.collection("carts");
-export const cartItemCollectionRef = firestore.collection("cart_items");
-
-export const createNewCart = async (userRef, isWishList = false, extraInfo) => {
-  const cartRef = await cartCollectionRef.add({
-    cartItems: [],
-    isWishList,
-    userRef,
-    ...extraInfo
-  });
-  return cartRef;
-};
-
-export const clearUserCart = async (cartId) => {
-  const cartRef = firestore.doc(`carts/${cartId}`);
-  await cartRef.update({ cartItems: [] });
-};
-
-export const createNewCartItemDoc = async (productId) => {
-  const productRef = firestore.doc(`products/${productId}`);
-  const newCartItemRef = cartItemCollectionRef.add({ productRef, quantity: 1 });
+export const createNewCartItem = async (productId) => {
+  const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
+  const newCartItemRef = await createNewDoc(
+    FIRESTORE_COLLECTION_REFS.cartItemCollectionRef,
+    {
+      productRef,
+      quantity: 1
+    }
+  );
   return newCartItemRef;
 };
 
-export const deleteCartItemDoc = async (cartItemId) => {
-  const cartItemRef = firestore.doc(`cart_items/${cartItemId}`);
-  await cartItemRef.delete();
-};
-
-export const deleteAllCartItemDocsInCart = async (shoppingCart) => {
-  for (let cartItem of shoppingCart) {
-    await deleteCartItemDoc(cartItem.cartItemId);
+export const deleteAllCartItemInArr = async (arrOfCartItems) => {
+  for (let cartItem of arrOfCartItems) {
+    let { cartItemId } = cartItem;
+    await deleteDocById(CART_ITEM_COLLECTION_NAME, cartItemId);
   }
 };
 
-export const checkCartItemsInStockOrOutdated = async (shoppingCart) => {
-  for (let cartItem of shoppingCart) {
-    const { productData } = await getProductDataAndRefById(cartItem.productId);
-    if (!productData) {
+export const checkCartItemsInStockOrOutdated = async (cart) => {
+  for (let cartItem of cart) {
+    let { productId, name, price, quantity } = cartItem;
+    let product = await getProductById(productId);
+    if (!product) {
       throw Error(
         `${truncate(
-          cartItem.name
-        )} is no longer sold. Please remove the item from the cart and try again`
+          name
+        )} is no longer sold. Please remove the item from the cart and try again.`
       );
-    } else if (cartItem.price !== productData.price) {
+    } else if (price !== product.price) {
       throw Error(
-        `There was a problem. Please remove the item from the cart and add it again`
+        `There was a problem. Please remove the item from the cart and add it again.`
       );
-    } else if (cartItem.quantity > productData.stock) {
+    } else if (quantity > product.stock) {
       throw Error(
-        `There are only ${productData.stock} ${truncate(
-          cartItem.name
-        )} in stock. Please reduce the item's quantity and try again`
+        `There are only ${product.stock} ${truncate(
+          name
+        )} in stock. Please reduce the item's quantity and try again.`
       );
     }
   }
 };
 
-export const updateProductStocksInCart = async (shoppingCart) => {
-  for (let cartItem of shoppingCart) {
-    await updateProductStock(cartItem.productId, cartItem.quantity);
+export const updateProductStocksInCart = async (cart) => {
+  for (let cartItem of cart) {
+    let { productId, quantity } = cartItem;
+    await updateProductStock(productId, quantity);
   }
 };
 
 const getUserCartSnapshot = async (userRef) => {
-  const getUserCartAndCartIdQuery = cartCollectionRef
+  const userCartQuery = FIRESTORE_COLLECTION_REFS.cartCollectionRef
     .where("userRef", "==", userRef)
     .where("isWishList", "==", false);
-  const userCartQuerySnapshot = await getUserCartAndCartIdQuery.get();
-  const userCartSnapshot = userCartQuerySnapshot.docs[0];
-  return userCartSnapshot;
+  const cartSnapshots = await executeQuery(userCartQuery);
+  return cartSnapshots[0];
 };
 
-export const getUserCartAndCartId = async (userRef) => {
+export const getUserCartWithId = async (userRef) => {
   try {
     const cartSnapshot = await getUserCartSnapshot(userRef);
     const cartWithCartItemRefs = cartSnapshot.data().cartItems;
-    const cartWithoutCartItemRefs = await populateCart(cartWithCartItemRefs);
-    return { cart: cartWithoutCartItemRefs, cartId: cartSnapshot.id };
+    const populatedCart = await populateCart(cartWithCartItemRefs);
+    return { cart: populatedCart, cartId: cartSnapshot.id };
   } catch (err) {
-    const newCartRef = await createNewCart(userRef);
+    const newCartRef = await createNewDoc(
+      FIRESTORE_COLLECTION_REFS.cartCollectionRef,
+      { userRef, cartItems: [], isWishList: false }
+    );
     return { cart: [], cartId: newCartRef.id };
   }
 };
 
-export const updateCart = async (cartId, updatedCartInfo) => {
-  const cartRef = firestore.doc(`carts/${cartId}`);
-  await cartRef.update(updatedCartInfo);
-};
-
-export const saveCartItems = async (cartWithoutCartItemRefs, cartId) => {
-  const cartWithCartItemRefs = await replaceCartWithCartItemRefs(
-    cartWithoutCartItemRefs
-  );
-  await updateCart(cartId, { cartItems: cartWithCartItemRefs });
+export const saveCart = async (populatedCart, cartId) => {
+  const cartWithCartItemRefs = await replaceWithCartItemRefs(populatedCart);
+  await updateDocDataById(CART_COLLECTION_NAME, cartId, {
+    cartItems: cartWithCartItemRefs
+  });
 };
 
 export const populateCartItemFromRef = async (cartItemRef) => {
   try {
-    let cartItemSnapshot = await cartItemRef.get();
-    let { productRef, quantity } = cartItemSnapshot.data();
-    let { productData } = await getProductDataAndRefById(productRef.id);
+    let cartItem = await getDocDataByRef(cartItemRef, true, "cartItemId");
+    let { productRef, quantity, cartItemId } = cartItem;
+    let productId = productRef.id;
+    let product = await getProductById(productId);
     return {
-      productId: productRef.id,
-      cartItemId: cartItemSnapshot.id,
-      ...productData,
+      ...product,
+      productId,
+      cartItemId,
       quantity
     };
   } catch (err) {
-    await cartItemRef.delete();
+    await deleteDocByRef(cartItemRef);
     return null;
   }
 };
 
 export const populateCart = async (cartWithCartItemRefs) => {
-  const populatedCart = [];
   try {
+    const populatedCart = [];
     for (let cartItemRef of cartWithCartItemRefs) {
       let cartItem = await populateCartItemFromRef(cartItemRef);
       if (cartItem) {
         populatedCart.push(cartItem);
       }
     }
-  } catch (err) {}
-  return populatedCart;
+    return populatedCart;
+  } catch (err) {
+    return [];
+  }
 };
 
-export const replaceCartWithCartItemRefs = async (cartWithoutCartItemRefs) => {
-  const cartWithCartItemRefs = [];
-  const batch = firestore.batch();
-  for (let cartItem of cartWithoutCartItemRefs) {
-    let cartItemRef = firestore.doc(`cart_items/${cartItem.cartItemId}`);
-    console.log(cartItem);
-    batch.update(cartItemRef, { quantity: cartItem.quantity || 1 });
-    cartWithCartItemRefs.push(cartItemRef);
+export const replaceWithCartItemRefs = async (populatedCart) => {
+  try {
+    const cartWithCartItemRefs = [];
+    const batch = firestore.batch();
+    for (let cartItem of populatedCart) {
+      let { cartItemId, quantity } = cartItem;
+      let cartItemRef = getDocRefById(CART_ITEM_COLLECTION_NAME, cartItemId);
+      batch.update(cartItemRef, { quantity: quantity || 1 });
+      cartWithCartItemRefs.push(cartItemRef);
+    }
+    await batch.commit();
+    return cartWithCartItemRefs;
+  } catch (err) {
+    return [];
   }
-  await batch.commit();
-  return cartWithCartItemRefs;
 };

@@ -62,7 +62,7 @@ const DashboardProductCategories = ({
         {(categories || []).map((category, index) => (
           <CategoryEntry
             category={category}
-            key={index}
+            key={category.categoryId}
             intersectionCb={
               categories.length === index + 1
                 ? fetchMoreOnIntersection

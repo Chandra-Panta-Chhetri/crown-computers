@@ -3,7 +3,7 @@ import { takeLatest, all, call, put, select } from "redux-saga/effects";
 import { addSuccessNotification } from "../notification/notification.actions";
 import { checkoutFail, checkoutSuccess } from "./checkout.actions";
 import { clearCart } from "../cart/cart.actions";
-import { createNewSale } from "../../firebase-utils/firebase.checkout_utils";
+import { createNewSale } from "../../firebase-utils/firebase.sale_utils";
 import {
   selectShoppingCart,
   selectCartTotal,
@@ -68,8 +68,8 @@ function* checkoutCart({
     yield put(
       checkoutSuccess(
         onSuccessfulCheckout,
-        "Payment Successful",
-        `${customerInfo.name.toUpperCase()} your payment was successful. Have a good day`,
+        "Payment Approved",
+        "Payment was successful. Have a good day!",
         paymentMethod,
         customerInfo
       )

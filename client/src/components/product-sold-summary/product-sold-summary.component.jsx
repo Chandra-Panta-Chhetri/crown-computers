@@ -14,7 +14,7 @@ const ProductSoldSummary = ({
     <ProductCategory>{category}</ProductCategory>
     <PriceBreakdownContainer>
       <span>
-        {quantity} x {name} @${price}
+        {quantity} x {name} @ ${price}
       </span>
       <span>${roundNumber(quantity * price)}</span>
     </PriceBreakdownContainer>

@@ -18,7 +18,7 @@ const CategoryEntry = ({ category, intersectionCb, deleteCategoryById }) => {
   const closeEditModal = () => setIsEditModalOpen(false);
 
   const { category: categoryName, imageUrl } = category;
-  console.log("here", categoryName);
+
   return (
     <CategoryEntryContainer ref={intersectionCb}>
       <CardContainer>

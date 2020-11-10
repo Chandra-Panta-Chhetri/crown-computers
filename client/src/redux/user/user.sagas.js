@@ -11,21 +11,21 @@ import {
 import { restoreCart, clearCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../firebase-utils/firebase.config";
 import {
-  createOrGetUser,
+  getUserRefByAuth,
   getUserFromSession
 } from "../../firebase-utils/firebase.user_utils";
-import { getUserCartAndCartId } from "../../firebase-utils/firebase.cart_utils";
+import { getUserCartWithId } from "../../firebase-utils/firebase.cart_utils";
 import { addSuccessNotification } from "../notification/notification.actions";
 import { capitalize } from "../../global.utils";
 import { selectHasAutoSignedIn } from "./user.selectors";
+import { getDocDataByRef } from "../../firebase-utils/firebase.abstract_utils";
 
 function* setUserFromSnapShot(userAuth, additionalData) {
-  const userRef = yield createOrGetUser(userAuth, additionalData);
-  const userSnapshot = yield userRef.get();
-  const userData = yield userSnapshot.data();
-  yield put(signInSuccess({ id: userSnapshot.id, ...userData }));
-  if (!userData.isAdmin) {
-    const { cart, cartId } = yield getUserCartAndCartId(userRef);
+  const userRef = yield getUserRefByAuth(userAuth, additionalData);
+  const user = yield getDocDataByRef(userRef, true);
+  yield put(signInSuccess(user));
+  if (!user.isAdmin) {
+    const { cart, cartId } = yield getUserCartWithId(userRef);
     yield put(restoreCart(cart, cartId));
   }
 }
@@ -77,7 +77,7 @@ function* signUpUser({ payload: { newUserInfo } }) {
     const { email, password, fullName, confirmPassword } = yield newUserInfo;
     if (password !== confirmPassword) throw Error("Passwords must match");
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-    yield createOrGetUser(user, { fullName });
+    yield getUserRefByAuth(user, { fullName });
     yield put(startEmailSignIn({ email, password }));
   } catch (err) {
     yield put(signUpFail(err.message));

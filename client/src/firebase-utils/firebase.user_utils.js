@@ -1,5 +1,11 @@
-import { firestore, auth } from "./firebase.config";
-import { createNewCart } from "./firebase.cart_utils";
+import { auth } from "./firebase.config";
+import {
+  createNewDoc,
+  getDocSnapshotById,
+  setDocDataByRef,
+  FIRESTORE_COLLECTION_REFS,
+  USER_COLLECTION_NAME
+} from "./firebase.abstract_utils";
 
 export const getUserFromSession = () =>
   new Promise((resolve, reject) => {
@@ -10,25 +16,26 @@ export const getUserFromSession = () =>
   });
 
 export const createNewUser = async (userRef, newUserInfo) => {
-  await userRef.set(newUserInfo);
-  await createNewCart(userRef);
+  await setDocDataByRef(userRef, newUserInfo);
+  await createNewDoc(FIRESTORE_COLLECTION_REFS.cartCollectionRef, {
+    userRef,
+    cartItems: [],
+    isWishList: false
+  });
 };
 
-export const createOrGetUser = async (userAuth, extraData) => {
-  const userRef = firestore.doc(`users/${userAuth.uid}`);
-  const userSnapshot = await userRef.get();
+export const getUserRefByAuth = async (userAuth, extraData) => {
+  const { email, uid } = userAuth;
+  const userSnapshot = await getDocSnapshotById(USER_COLLECTION_NAME, uid);
+  const userRef = userSnapshot.ref;
   if (!userSnapshot.exists) {
-    await createNewUser(userRef, {
-      email: userAuth.email,
+    const newUser = {
+      ...extraData,
+      email,
       createdAt: new Date(),
-      isAdmin: false,
-      ...extraData
-    });
+      isAdmin: false
+    };
+    await createNewUser(userRef, newUser);
   }
-  return userRef;
-};
-
-export const getUserRefById = (userId) => {
-  const userRef = firestore.doc(`users/${userId}`);
   return userRef;
 };
