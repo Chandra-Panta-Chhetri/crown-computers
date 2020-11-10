@@ -12,6 +12,9 @@ const DashboardProductCategories = lazy(() =>
     "../../components/dashboard-product-categories/dashboard-product-categories.component"
   )
 );
+const DashboardProducts = lazy(() =>
+  import("../../components/dashboard-products/dashboard-products.component")
+);
 
 const dashboardNavOptions = [
   { title: "Sales", path: "sales", iconClass: "fas fa-chart-line" },
@@ -37,7 +40,7 @@ const Dashboard = ({ match }) => (
         <Route
           exact
           path={`${match.path}/products`}
-          component={DashboardProductCategories}
+          component={DashboardProducts}
         />
         <Route
           exact

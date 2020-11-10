@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SaleEntryContainer = styled.div`
+export const SaleEntryContainer = styled.article`
   margin-bottom: 30px;
 `;
 
