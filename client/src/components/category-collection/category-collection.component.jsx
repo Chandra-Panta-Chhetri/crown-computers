@@ -31,9 +31,7 @@ const CategoryCollection = ({
   ]);
 
   const fetchMoreOnIntersection = usePaginationOnIntersection(
-    () => {
-      fetchMoreProductsInCategory(categoryNameInLowerCase);
-    },
+    () => fetchMoreProductsInCategory(categoryNameInLowerCase),
     isFetchingProducts,
     hasMoreToFetch
   );

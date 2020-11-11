@@ -191,9 +191,9 @@ export const excutePaginatedProductQuery = async (paginatedProductQuery) => {
   }
 };
 
-export const getProducts = async (productsPerPage) => {
+export const getProducts = async (productsPerPage, minStockQuantity) => {
   const paginatedProductsQuery = FIRESTORE_COLLECTION_REFS.productCollectionRef
-    .where("stock", ">", 0)
+    .where("stock", ">", minStockQuantity)
     .orderBy("stock")
     .limit(productsPerPage);
   const productsAndLastVisibleDoc = await excutePaginatedProductQuery(
@@ -202,9 +202,13 @@ export const getProducts = async (productsPerPage) => {
   return productsAndLastVisibleDoc;
 };
 
-export const getMoreProducts = async (lastVisibleDoc, productsPerPage) => {
+export const getMoreProducts = async (
+  lastVisibleDoc,
+  productsPerPage,
+  minStockQuantity
+) => {
   const nextProductsQuery = FIRESTORE_COLLECTION_REFS.productCollectionRef
-    .where("stock", ">", 0)
+    .where("stock", ">", minStockQuantity)
     .orderBy("stock")
     .startAfter(lastVisibleDoc)
     .limit(productsPerPage);
@@ -216,14 +220,15 @@ export const getMoreProducts = async (lastVisibleDoc, productsPerPage) => {
 
 export const getProductsByCategoryName = async (
   categoryName,
-  productsPerPage
+  productsPerPage,
+  minStockQuantity
 ) => {
   const productCategoryRef = await getProductCategoryRefByCategoryName(
     categoryName
   );
   const paginatedProductsInCategoryQuery = FIRESTORE_COLLECTION_REFS.productCollectionRef
     .where("productCategoryRef", "==", productCategoryRef)
-    .where("stock", ">", 0)
+    .where("stock", ">", minStockQuantity)
     .orderBy("stock")
     .limit(productsPerPage);
   const productsAndLastVisibleDoc = await excutePaginatedProductQuery(
@@ -235,14 +240,15 @@ export const getProductsByCategoryName = async (
 export const getMoreProductsByCategoryName = async (
   lastVisibleDoc,
   categoryName,
-  productsPerPage
+  productsPerPage,
+  minStockQuantity
 ) => {
   const productCategoryRef = await getProductCategoryRefByCategoryName(
     categoryName
   );
   const nextProductsInCategoryQuery = FIRESTORE_COLLECTION_REFS.productCollectionRef
     .where("productCategoryRef", "==", productCategoryRef)
-    .where("stock", ">", 0)
+    .where("stock", ">", minStockQuantity)
     .orderBy("stock")
     .startAfter(lastVisibleDoc)
     .limit(productsPerPage);

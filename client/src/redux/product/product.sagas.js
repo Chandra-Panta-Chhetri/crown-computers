@@ -22,10 +22,13 @@ import {
 } from "./product.selectors";
 import { capitalize } from "../../global.utils";
 
-function* fetchProducts() {
+function* fetchProducts({ payload: minStockQuantity }) {
   try {
     const productsPerPage = yield select(selectProductsPerPage);
-    const { products, lastVisibleDoc } = yield getProducts(productsPerPage);
+    const { products, lastVisibleDoc } = yield getProducts(
+      productsPerPage,
+      minStockQuantity
+    );
     if (!products.length) {
       return yield put(noMoreProductsToLoad());
     }
@@ -39,13 +42,14 @@ function* fetchProducts() {
   }
 }
 
-function* fetchMoreProducts() {
+function* fetchMoreProducts({ payload: minStockQuantity }) {
   try {
     const productsPerPage = yield select(selectProductsPerPage);
     const lastDoc = yield select(selectLastVisibleDoc);
     const { products: newProducts, lastVisibleDoc } = yield getMoreProducts(
       lastDoc,
-      productsPerPage
+      productsPerPage,
+      minStockQuantity
     );
     if (!newProducts.length) {
       return yield put(noMoreProductsToLoad());
@@ -58,13 +62,19 @@ function* fetchMoreProducts() {
   }
 }
 
-function* fetchProductsByCategory({ payload: { categoryName, onFail } }) {
+function* fetchProductsByCategory({
+  payload: { categoryName, onFail, minStockQuantity }
+}) {
   try {
     const productsPerPage = yield select(selectProductsPerPage);
     const {
       products: productsInCategory,
       lastVisibleDoc
-    } = yield getProductsByCategoryName(categoryName, productsPerPage);
+    } = yield getProductsByCategoryName(
+      categoryName,
+      productsPerPage,
+      minStockQuantity
+    );
     if (!productsInCategory.length) {
       throw Error();
     }
@@ -79,7 +89,9 @@ function* fetchProductsByCategory({ payload: { categoryName, onFail } }) {
   }
 }
 
-function* fetchMoreProductsByCategory({ payload: categoryName }) {
+function* fetchMoreProductsByCategory({
+  payload: { categoryName, minStockQuantity }
+}) {
   try {
     const productsPerPage = yield select(selectProductsPerPage);
     const lastDoc = yield select(selectLastVisibleDoc);
@@ -89,7 +101,8 @@ function* fetchMoreProductsByCategory({ payload: categoryName }) {
     } = yield getMoreProductsByCategoryName(
       lastDoc,
       categoryName,
-      productsPerPage
+      productsPerPage,
+      minStockQuantity
     );
     if (!newProductsInCategory.length) {
       return yield put(noMoreProductsToLoad());

@@ -1,15 +1,17 @@
 import PRODUCT_ACTION_TYPES from "./product.action.types";
 
-export const startInitialProductsFetch = () => ({
-  type: PRODUCT_ACTION_TYPES.START_INITIAL_PRODUCTS_FETCH
+export const startInitialProductsFetch = (minStockQuantity = 0) => ({
+  type: PRODUCT_ACTION_TYPES.START_INITIAL_PRODUCTS_FETCH,
+  payload: minStockQuantity
 });
 
 export const startInitialProductsFetchByCategory = (
   categoryName,
-  onFail = () => {}
+  onFail = () => {},
+  minStockQuantity = 0
 ) => ({
   type: PRODUCT_ACTION_TYPES.START_INITIAL_FETCH_PRODUCTS_BY_CATEGORY,
-  payload: { categoryName, onFail }
+  payload: { categoryName, onFail, minStockQuantity }
 });
 
 export const initialProductsFetchFail = (errorMsg) => ({
@@ -22,13 +24,17 @@ export const initialProductsFetchSuccess = (products, lastVisibleDoc) => ({
   payload: { products, lastVisibleDoc }
 });
 
-export const startLoadingMoreProducts = () => ({
-  type: PRODUCT_ACTION_TYPES.START_LOADING_MORE_PRODUCTS
+export const startLoadingMoreProducts = (minStockQuantity = 0) => ({
+  type: PRODUCT_ACTION_TYPES.START_LOADING_MORE_PRODUCTS,
+  payload: minStockQuantity
 });
 
-export const startLoadingMoreProductsByCategory = (categoryName) => ({
+export const startLoadingMoreProductsByCategory = (
+  categoryName,
+  minStockQuantity = 0
+) => ({
   type: PRODUCT_ACTION_TYPES.START_LOADING_MORE_PRODUCTS_BY_CATEGORY,
-  payload: categoryName
+  payload: { categoryName, minStockQuantity }
 });
 
 export const loadingMoreProductsFail = (errorMsg) => ({
