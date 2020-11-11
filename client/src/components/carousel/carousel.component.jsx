@@ -12,9 +12,15 @@ const Carousel = ({
   settings = defaultSettings,
   children,
   refHandler,
+  className,
   ...otherProps
 }) => (
-  <CarouselContainer {...settings} ref={refHandler} {...otherProps}>
+  <CarouselContainer
+    {...settings}
+    ref={refHandler}
+    {...otherProps}
+    className={className}
+  >
     {children}
   </CarouselContainer>
 );

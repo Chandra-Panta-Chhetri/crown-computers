@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Carousel from "../carousel/carousel.component";
 import {
   NumOfPreviews,
   ProductImage,
-  ProductImageContainer,
-  ProductImagePreview,
-  ProductImageCarouselContainer
+  ProductImageCarouselContainer,
+  ProductImageContainer
 } from "./product-image-carousel.styles";
+
+import Carousel from "../carousel/carousel.component";
+import ImageCarousel from "../image-carousel/image-carousel.component";
 
 const ProductImageCarousel = ({ imageUrls = [] }) => {
   const [mainImageNav, setMainImageNav] = useState(null);
@@ -36,23 +37,15 @@ const ProductImageCarousel = ({ imageUrls = [] }) => {
       <NumOfPreviews>
         {activeImage} of {imageUrls.length}
       </NumOfPreviews>
-      <Carousel
-        settings={{
+      <ImageCarousel
+        carouselSetting={{
           focusOnSelect: true,
           asNavFor: mainImageNav,
           afterChange: changeActiveImage,
           variableWidth: true
         }}
-      >
-        {imageUrls.map((imageUrl, index) => (
-          <ProductImageContainer key={index}>
-            <ProductImagePreview
-              src={imageUrl}
-              alt={`product preview ${index}`}
-            />
-          </ProductImageContainer>
-        ))}
-      </Carousel>
+        imageUrls={imageUrls}
+      />
     </ProductImageCarouselContainer>
   );
 };

@@ -17,9 +17,3 @@ export const ProductImage = styled.img`
 export const NumOfPreviews = styled.p`
   text-align: center;
 `;
-
-export const ProductImagePreview = styled.img`
-  width: 60px;
-  height: 60px;
-  margin: 0 10px;
-`;
