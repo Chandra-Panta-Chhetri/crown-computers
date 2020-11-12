@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { ProductList } from "./dashboard-products.styles";
 import { DashboardContentTitle } from "../../pages/dashboard/dashboard.styles";
+import { NoCategoriesText as NoProductsText } from "../dashboard-product-categories/dashboard-product-category.styles";
 
 import ProductEntry from "../product-entry/product-entry.component";
 import Skeleton from "../skeleton/skeleton.component";
@@ -51,6 +52,11 @@ const DashboardProducts = ({
         Products
       </DashboardContentTitle>
       <NewProductBtn />
+      {!(products || []).length && !isFetchingProducts && (
+        <NoProductsText>
+          It seems there are no products. Create one using the button above!
+        </NoProductsText>
+      )}
       <ProductList>
         {(products || []).map((product, index) => (
           <ProductEntry
