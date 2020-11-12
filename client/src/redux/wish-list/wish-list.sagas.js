@@ -131,8 +131,14 @@ function* addToWishList({ payload: { item, wishList, onSuccess } }) {
     );
     yield onSuccess();
   } catch (err) {
+    let defaultErrMsg = yield `There was a problem adding ${truncate(
+      item.name
+    )} to ${capitalizedName}. Please try again later.`;
     yield put(
-      updateWishListFail(`Adding To ${capitalizedName} Failed`, err.message)
+      updateWishListFail(
+        `Adding To ${capitalizedName} Failed`,
+        err.message || defaultErrMsg
+      )
     );
   }
 }
@@ -158,8 +164,14 @@ function* removeFromWishList({ payload: { item, wishList } }) {
       )
     );
   } catch (err) {
+    let defaultErrMsg = yield `There was a problem removing ${truncate(
+      item.name
+    )} from ${capitalizedName}. Please try again later.`;
     yield put(
-      updateWishListFail(`Removing From Wish List Failed`, err.message)
+      updateWishListFail(
+        `Removing From Wish List Failed`,
+        err.message || defaultErrMsg
+      )
     );
   }
 }

@@ -73,14 +73,17 @@ function* signOutUser() {
 }
 
 function* signUpUser({ payload: { newUserInfo } }) {
+  const { email, password, fullName, confirmPassword } = yield newUserInfo;
   try {
-    const { email, password, fullName, confirmPassword } = yield newUserInfo;
     if (password !== confirmPassword) throw Error("Passwords must match");
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
     yield getUserRefByAuth(user, { fullName });
     yield put(startEmailSignIn({ email, password }));
   } catch (err) {
-    yield put(signUpFail(err.message));
+    let defaultErrMsg = yield `${capitalize(
+      fullName
+    )}, there was a problem signing up. Please try again later.`;
+    yield put(signUpFail(err.message || defaultErrMsg));
   }
 }
 

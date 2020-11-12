@@ -98,7 +98,10 @@ function* deleteCategoryById({ payload: { categoryToDelete } }) {
       )
     );
   } catch (err) {
-    yield put(deleteCategoryByIdFail(err.message));
+    let defaultErrMsg = yield `There was a problem deleting ${capitalize(
+      name
+    )}. Please try again later.`;
+    yield put(deleteCategoryByIdFail(err.message || defaultErrMsg));
   }
 }
 
@@ -151,7 +154,8 @@ function* updateCategoryById({
     );
     yield onSuccess();
   } catch (err) {
-    yield put(updateCategoryInfoFail(err.message));
+    let defaultErrMsg = yield "There was a problem updating the product category. Please try again later.";
+    yield put(updateCategoryInfoFail(err.message || defaultErrMsg));
   }
 }
 
