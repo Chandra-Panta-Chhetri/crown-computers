@@ -65,3 +65,25 @@ export const fetchProductByIdSuccess = (product) => ({
   type: PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_SUCCESS,
   payload: product
 });
+
+export const startDeleteProductById = (productToDelete) => ({
+  type: PRODUCT_ACTION_TYPES.START_PRODUCT_DELETE_BY_ID,
+  payload: {
+    productToDelete,
+    loadingText: `Deleting ${productToDelete.name}`
+  }
+});
+
+export const deleteProductByIdFail = (errorMsg) => ({
+  type: PRODUCT_ACTION_TYPES.PRODUCT_DELETE_BY_ID_FAIL,
+  payload: { errorTitle: "Product Delete Failed", errorMsg }
+});
+
+export const deleteProductByIdSuccess = (updatedProducts, successMsg) => ({
+  type: PRODUCT_ACTION_TYPES.PRODUCT_DELETE_BY_ID_SUCCESS,
+  payload: {
+    updatedProducts,
+    successTitle: "Product Deleted",
+    successMsg
+  }
+});

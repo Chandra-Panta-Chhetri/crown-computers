@@ -133,7 +133,13 @@ export const uploadFileAndGetUrl = async (file, rootPathToSaveFile = "") =>
     );
   });
 
-export const deleteUploadedFile = async (fileStorageAbsolutePath) => {
-  const fileRef = fileStorage.refFromURL(fileStorageAbsolutePath);
+export const deleteUploadedFile = async (absoluteFilePath) => {
+  const fileRef = fileStorage.refFromURL(absoluteFilePath);
   await fileRef.delete();
+};
+
+export const deleteMultipleUploadedFiles = async (absoluteFilePaths) => {
+  for (let absoluteFilePath of absoluteFilePaths) {
+    await deleteUploadedFile(absoluteFilePath);
+  }
 };

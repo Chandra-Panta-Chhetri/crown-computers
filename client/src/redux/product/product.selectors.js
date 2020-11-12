@@ -31,3 +31,13 @@ export const selectProductData = createSelector(
   [selectProduct],
   (product) => product.productData
 );
+
+export const selectIsUpdatingProducts = createSelector(
+  [selectProduct],
+  (product) => product.isUpdatingProducts
+);
+
+export const selectProductLoadingText = createSelector(
+  [selectProduct],
+  (product) => product.loadingText
+);

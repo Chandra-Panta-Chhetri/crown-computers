@@ -6,7 +6,9 @@ const INITIAL_STATE = {
   productsPerPage: 6,
   lastVisibleDoc: null,
   hasMoreToFetch: true,
-  productData: {}
+  productData: {},
+  isUpdatingProducts: false,
+  loadingText: ""
 };
 
 const productReducer = (prevState = INITIAL_STATE, action) => {
@@ -55,6 +57,23 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         ...prevState,
         productData: action.payload,
         isFetchingProducts: false
+      };
+    case PRODUCT_ACTION_TYPES.START_PRODUCT_DELETE_BY_ID:
+      return {
+        ...prevState,
+        isUpdatingProducts: true,
+        loadingText: action.payload.loadingText
+      };
+    case PRODUCT_ACTION_TYPES.PRODUCT_DELETE_BY_ID_FAIL:
+      return {
+        ...prevState,
+        isUpdatingProducts: false
+      };
+    case PRODUCT_ACTION_TYPES.PRODUCT_DELETE_BY_ID_SUCCESS:
+      return {
+        ...prevState,
+        products: action.payload.updatedProducts,
+        isUpdatingProducts: false
       };
     default:
       return prevState;

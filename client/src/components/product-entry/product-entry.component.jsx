@@ -15,10 +15,12 @@ import {
 import Card from "../card/card.component";
 import Collapse from "../collapse/collapse.component";
 import DeleteConfirmationModal from "../delete-confirmation-modal/delete-confirmation-modal.component";
+import { connect } from "react-redux";
+import { startDeleteProductById } from "../../redux/product/product.actions";
 
 const IMAGES_TO_SHOW_AT_ONCE = 10;
 
-const ProductEntry = ({ product, intersectionCb }) => {
+const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const {
     category,
@@ -50,6 +52,7 @@ const ProductEntry = ({ product, intersectionCb }) => {
           <DeleteConfirmationModal
             modalTitle="Delete Product Confirmation"
             confirmButtonText="Delete Product"
+            onConfirmation={() => deleteProductById(product)}
           >
             <p>
               Are you sure you want to delete <ProductName>{name}</ProductName>{" "}
@@ -83,4 +86,9 @@ const ProductEntry = ({ product, intersectionCb }) => {
   );
 };
 
-export default ProductEntry;
+const mapDispatchToProps = (dispatch) => ({
+  deleteProductById: (productToDelete) =>
+    dispatch(startDeleteProductById(productToDelete))
+});
+
+export default connect(null, mapDispatchToProps)(ProductEntry);

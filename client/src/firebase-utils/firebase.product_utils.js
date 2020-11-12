@@ -11,7 +11,8 @@ import {
   updateDocDataByRef,
   uploadFileAndGetUrl,
   PRODUCT_COLLECTION_NAME,
-  PRODUCT_CATEGORY_COLLECTION_NAME
+  PRODUCT_CATEGORY_COLLECTION_NAME,
+  deleteMultipleUploadedFiles
 } from "./firebase.abstract_utils";
 
 const PRODUCT_CATEGORY_IMAGES_DIRECTORY = "product_category_images";
@@ -99,6 +100,12 @@ export const deleteProductCategoryById = async (
   await deleteAllProductsInCategory(productCategoryRef);
   await deleteUploadedFile(categoryImageStoragePath);
   await deleteDocByRef(productCategoryRef);
+};
+
+export const deleteProductById = async (productId, imageUrls) => {
+  const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
+  await deleteMultipleUploadedFiles(imageUrls);
+  await productRef.delete();
 };
 
 export const executePaginatedCategoryQuery = async (paginatedCategoryQuery) => {

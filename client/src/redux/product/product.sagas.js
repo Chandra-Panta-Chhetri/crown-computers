@@ -1,6 +1,8 @@
 import PRODUCT_ACTION_TYPES from "./product.action.types";
 import { takeLatest, put, call, all, select } from "redux-saga/effects";
 import {
+  deleteProductByIdFail,
+  deleteProductByIdSuccess,
   fetchProductByIdFail,
   fetchProductByIdSuccess,
   initialProductsFetchFail,
@@ -14,13 +16,15 @@ import {
   getMoreProducts,
   getProductsByCategoryName,
   getMoreProductsByCategoryName,
-  getProductById
+  getProductById,
+  deleteProductById
 } from "../../firebase-utils/firebase.product_utils";
 import {
   selectProductsPerPage,
-  selectLastVisibleDoc
+  selectLastVisibleDoc,
+  selectProductCollection
 } from "./product.selectors";
-import { capitalize } from "../../global.utils";
+import { capitalize, removeObjFromArrOfObjects } from "../../global.utils";
 
 function* fetchProducts({ payload: minStockQuantity }) {
   try {
@@ -136,6 +140,31 @@ function* fetchProductById({ payload: { id, onFail } }) {
   }
 }
 
+function* deleteProduct({ payload: { productToDelete } }) {
+  const { name, productId, imageUrls } = yield productToDelete;
+  try {
+    const products = yield select(selectProductCollection);
+    yield deleteProductById(productId, imageUrls);
+    const updatedProducts = yield removeObjFromArrOfObjects(
+      "productId",
+      productId,
+      products,
+      `${capitalize(name)} has been deleted or does not exist.`
+    );
+    yield put(
+      deleteProductByIdSuccess(
+        updatedProducts,
+        `${capitalize(name)} has been deleted.`
+      )
+    );
+  } catch (err) {
+    let defaultErrMsg = yield `There was a problem deleting ${capitalize(
+      name
+    )}.`;
+    yield put(deleteProductByIdFail(err.message || defaultErrMsg));
+  }
+}
+
 function* watchProductsFetchStart() {
   yield takeLatest(
     PRODUCT_ACTION_TYPES.START_INITIAL_PRODUCTS_FETCH,
@@ -171,12 +200,20 @@ function* watchFetchProductByIdStart() {
   );
 }
 
+function* watchProductDeleteById() {
+  yield takeLatest(
+    PRODUCT_ACTION_TYPES.START_PRODUCT_DELETE_BY_ID,
+    deleteProduct
+  );
+}
+
 export default function* productSagas() {
   yield all([
     call(watchProductsFetchStart),
     call(watchProductsFetchByCategory),
     call(watchLoadMoreProducts),
     call(watchLoadMoreProductsByCategory),
-    call(watchFetchProductByIdStart)
+    call(watchFetchProductByIdStart),
+    call(watchProductDeleteById)
   ]);
 }

@@ -13,7 +13,9 @@ import {
   selectIsFetchingProducts,
   selectHasMoreProductsToFetch,
   selectProductCollection,
-  selectProductsPerPage
+  selectProductsPerPage,
+  selectIsUpdatingProducts,
+  selectProductLoadingText
 } from "../../redux/product/product.selectors";
 import {
   startInitialProductsFetch,
@@ -29,7 +31,9 @@ const DashboardProducts = ({
   productsPerPage,
   hasMoreProductsToFetch,
   fetchProducts,
-  fetchMoreProducts
+  fetchMoreProducts,
+  isUpdatingProducts,
+  productLoadingText
 }) => {
   const fetchMoreOnIntersection = usePaginationOnIntersection(
     () => fetchMoreProducts(MIN_STOCK_QUANTITY),
@@ -63,7 +67,10 @@ const DashboardProducts = ({
           <Skeleton count={productsPerPage} height="300px" margin="0 0 30px" />
         )}
       </ProductList>
-      <FullPageSpinner isLoading={false} loadingText={""} />
+      <FullPageSpinner
+        isLoading={isUpdatingProducts}
+        loadingText={productLoadingText}
+      />
     </>
   );
 };
@@ -72,7 +79,9 @@ const mapStateToProps = createStructuredSelector({
   isFetchingProducts: selectIsFetchingProducts,
   products: selectProductCollection,
   productsPerPage: selectProductsPerPage,
-  hasMoreProductsToFetch: selectHasMoreProductsToFetch
+  hasMoreProductsToFetch: selectHasMoreProductsToFetch,
+  isUpdatingProducts: selectIsUpdatingProducts,
+  productLoadingText: selectProductLoadingText
 });
 
 const mapDispatchToProps = (dispatch) => ({

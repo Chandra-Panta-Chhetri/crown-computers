@@ -2,9 +2,9 @@ import CART_ACTION_TYPES from "../cart/cart.action.types";
 import CHECKOUT_ACTION_TYPES from "../checkout/checkout.action.types";
 import USER_ACTION_TYPES from "../user/user.action.types";
 import SALE_ACTION_TYPES from "../sale/sale.action.types";
-import PRODUCT_ACTION_TYPES from "../product/product.action.types";
 import PRODUCT_CATEGORY_ACTION_TYPES from "../product-category/product-category.action.types";
 import WISH_LIST_ACTION_TYPES from "../wish-list/wish-list.action.types";
+import PRODUCT_ACTION_TYPES from "../product/product.action.types";
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import {
   addErrorNotification,
@@ -42,7 +42,8 @@ function* watchErrorNotifications() {
       WISH_LIST_ACTION_TYPES.FETCH_WISH_LIST_BY_ID_FAIL,
       WISH_LIST_ACTION_TYPES.WISH_LIST_DELETE_BY_ID_FAIL,
       WISH_LIST_ACTION_TYPES.CREATE_WISH_LIST_FAIL,
-      WISH_LIST_ACTION_TYPES.UPDATE_WISH_LIST_FAIL
+      WISH_LIST_ACTION_TYPES.UPDATE_WISH_LIST_FAIL,
+      PRODUCT_ACTION_TYPES.PRODUCT_DELETE_BY_ID_FAIL
     ],
     showErrorNotification
   );
@@ -56,7 +57,8 @@ function* watchSuccessNotifications() {
       PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_BY_ID_SUCCESS,
       WISH_LIST_ACTION_TYPES.WISH_LIST_DELETE_BY_ID_SUCCESS,
       WISH_LIST_ACTION_TYPES.CREATE_WISH_LIST_SUCCESS,
-      WISH_LIST_ACTION_TYPES.UPDATE_WISH_LIST_SUCCESS
+      WISH_LIST_ACTION_TYPES.UPDATE_WISH_LIST_SUCCESS,
+      PRODUCT_ACTION_TYPES.PRODUCT_DELETE_BY_ID_SUCCESS
     ],
     showSuccessNotification
   );
