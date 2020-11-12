@@ -1,6 +1,8 @@
 import PRODUCT_ACTION_TYPES from "./product.action.types";
 import { takeLatest, put, call, all, select } from "redux-saga/effects";
 import {
+  createNewProductFail,
+  createNewProductSuccess,
   deleteProductByIdFail,
   deleteProductByIdSuccess,
   fetchProductByIdFail,
@@ -17,14 +19,19 @@ import {
   getProductsByCategoryName,
   getMoreProductsByCategoryName,
   getProductById,
-  deleteProductById
+  deleteProductById,
+  createNewProduct
 } from "../../firebase-utils/firebase.product_utils";
 import {
   selectProductsPerPage,
   selectLastVisibleDoc,
   selectProductCollection
 } from "./product.selectors";
-import { capitalize, removeObjFromArrOfObjects } from "../../global.utils";
+import {
+  addUniqueItemsToCollection,
+  capitalize,
+  removeObjFromArrOfObjects
+} from "../../global.utils";
 
 function* fetchProducts({ payload: minStockQuantity }) {
   try {
@@ -58,7 +65,13 @@ function* fetchMoreProducts({ payload: minStockQuantity }) {
     if (!newProducts.length) {
       return yield put(noMoreProductsToLoad());
     }
-    yield put(loadingMoreProductsSuccess(newProducts, lastVisibleDoc));
+    const prevProducts = yield select(selectProductCollection);
+    const updatedProducts = yield addUniqueItemsToCollection(
+      prevProducts,
+      newProducts,
+      "productId"
+    );
+    yield put(loadingMoreProductsSuccess(updatedProducts, lastVisibleDoc));
   } catch (err) {
     yield put(
       loadingMoreProductsFail("There was a problem loading more products.")
@@ -165,6 +178,30 @@ function* deleteProduct({ payload: { productToDelete } }) {
   }
 }
 
+function* createProduct({ payload: { newProductInfo, onSuccess } }) {
+  const { name } = yield newProductInfo;
+  try {
+    const products = yield select(selectProductCollection);
+    const createdProduct = yield createNewProduct(newProductInfo);
+    const updatedProducts = yield [...products, createdProduct];
+    yield put(
+      createNewProductSuccess(
+        updatedProducts,
+        `${capitalize(name)} has been created.`
+      )
+    );
+    yield onSuccess();
+  } catch (err) {
+    yield put(
+      createNewProductFail(
+        `There was a problem creating ${capitalize(
+          name
+        )}. Ensure the uploaded image(s) is a png/jpg/jpeg and each is less than 100 kb.`
+      )
+    );
+  }
+}
+
 function* watchProductsFetchStart() {
   yield takeLatest(
     PRODUCT_ACTION_TYPES.START_INITIAL_PRODUCTS_FETCH,
@@ -207,6 +244,10 @@ function* watchProductDeleteById() {
   );
 }
 
+function* watchCreateNewProduct() {
+  yield takeLatest(PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT, createProduct);
+}
+
 export default function* productSagas() {
   yield all([
     call(watchProductsFetchStart),
@@ -214,6 +255,7 @@ export default function* productSagas() {
     call(watchLoadMoreProducts),
     call(watchLoadMoreProductsByCategory),
     call(watchFetchProductByIdStart),
-    call(watchProductDeleteById)
+    call(watchProductDeleteById),
+    call(watchCreateNewProduct)
   ]);
 }

@@ -114,7 +114,7 @@ export const executeQuery = async (query) => {
   return queryDocSnapshots;
 };
 
-export const uploadFileAndGetUrl = async (file, rootPathToSaveFile = "") =>
+export const uploadFile = async (file, rootPathToSaveFile = "") =>
   new Promise((resolve, reject) => {
     const uniqueFileName = new Date().getTime() + file.name;
     const fileStoragePath = `${rootPathToSaveFile}/${uniqueFileName}`;
@@ -132,6 +132,17 @@ export const uploadFileAndGetUrl = async (file, rootPathToSaveFile = "") =>
           .catch((err) => reject(err))
     );
   });
+
+export const uploadMultipleFiles = async (files, rootPathToSaveFiles = "") => {
+  const fileUrls = [];
+  try {
+    for (let file of files) {
+      let fileUrl = await uploadFile(file, rootPathToSaveFiles);
+      fileUrls.push(fileUrl);
+    }
+  } catch (err) {}
+  return fileUrls;
+};
 
 export const deleteUploadedFile = async (absoluteFilePath) => {
   const fileRef = fileStorage.refFromURL(absoluteFilePath);

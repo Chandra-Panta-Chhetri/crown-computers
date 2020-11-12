@@ -42,9 +42,12 @@ export const loadingMoreProductsFail = (errorMsg) => ({
   payload: { errorTitle: "Fetching More Products Failed", errorMsg }
 });
 
-export const loadingMoreProductsSuccess = (newProducts, lastVisibleDoc) => ({
+export const loadingMoreProductsSuccess = (
+  updatedProducts,
+  lastVisibleDoc
+) => ({
   type: PRODUCT_ACTION_TYPES.LOADING_MORE_PRODUCTS_SUCCESS,
-  payload: { newProducts, lastVisibleDoc }
+  payload: { updatedProducts, lastVisibleDoc }
 });
 
 export const noMoreProductsToLoad = () => ({
@@ -84,6 +87,29 @@ export const deleteProductByIdSuccess = (updatedProducts, successMsg) => ({
   payload: {
     updatedProducts,
     successTitle: "Product Deleted",
+    successMsg
+  }
+});
+
+export const createNewProduct = (newProductInfo, onSuccess) => ({
+  type: PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT,
+  payload: {
+    newProductInfo,
+    onSuccess,
+    loadingText: `Creating ${newProductInfo.name}`
+  }
+});
+
+export const createNewProductFail = (errorMsg) => ({
+  type: PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT_FAIL,
+  payload: { errorTitle: "Product Creation Failed", errorMsg }
+});
+
+export const createNewProductSuccess = (updatedProducts, successMsg) => ({
+  type: PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT_SUCCESS,
+  payload: {
+    updatedProducts,
+    successTitle: "Product Created",
     successMsg
   }
 });

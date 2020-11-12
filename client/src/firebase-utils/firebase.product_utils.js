@@ -9,10 +9,11 @@ import {
   getDocRefById,
   populateDocSnapshots,
   updateDocDataByRef,
-  uploadFileAndGetUrl,
+  uploadFile,
   PRODUCT_COLLECTION_NAME,
   PRODUCT_CATEGORY_COLLECTION_NAME,
-  deleteMultipleUploadedFiles
+  deleteMultipleUploadedFiles,
+  uploadMultipleFiles
 } from "./firebase.abstract_utils";
 
 const PRODUCT_CATEGORY_IMAGES_DIRECTORY = "product_category_images";
@@ -39,7 +40,7 @@ export const updateProductStock = async (productId, quantityToCheckout) => {
 };
 
 export const createNewProductCategory = async (newCategoryInfo) => {
-  const imageUrl = await uploadFileAndGetUrl(
+  const imageUrl = await uploadFile(
     newCategoryInfo.image,
     PRODUCT_CATEGORY_IMAGES_DIRECTORY
   );
@@ -66,7 +67,7 @@ export const updateProductCategoryById = async (
   );
   if (updatedProductCategoryInfo.image) {
     await deleteUploadedFile(updatedProductCategoryInfo.imageUrl);
-    const newImageUrl = await uploadFileAndGetUrl(
+    const newImageUrl = await uploadFile(
       updatedProductCategoryInfo.image,
       PRODUCT_CATEGORY_IMAGES_DIRECTORY
     );
@@ -100,6 +101,37 @@ export const deleteProductCategoryById = async (
   await deleteAllProductsInCategory(productCategoryRef);
   await deleteUploadedFile(categoryImageStoragePath);
   await deleteDocByRef(productCategoryRef);
+};
+
+export const createNewProduct = async (newProductInfo) => {
+  console.log(newProductInfo, "starting to create product");
+  const imageUrls = await uploadMultipleFiles(
+    newProductInfo.images,
+    PRODUCT_IMAGES_DIRECTORY
+  );
+  newProductInfo.imageUrls = imageUrls;
+  newProductInfo.productCategoryRef = getDocRefById(
+    newProductInfo.productCategoryId
+  );
+  delete newProductInfo.images;
+  delete newProductInfo.productCategoryId;
+  const newProductRef = await createNewDoc(
+    FIRESTORE_COLLECTION_REFS.productCollectionRef,
+    newProductInfo
+  );
+  delete newProductInfo.productCategoryRef;
+  console.log(
+    {
+      ...newProductInfo,
+      productId: newProductRef.id
+    },
+    "Creating new product"
+  );
+  const createdProduct = {
+    ...newProductInfo,
+    productId: newProductRef.id
+  };
+  return createdProduct;
 };
 
 export const deleteProductById = async (productId, imageUrls) => {

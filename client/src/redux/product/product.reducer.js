@@ -49,7 +49,7 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
       return {
         ...prevState,
         isFetchingProducts: false,
-        products: [...prevState.products, ...action.payload.newProducts],
+        products: action.payload.updatedProducts,
         lastVisibleDoc: action.payload.lastVisibleDoc
       };
     case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID_SUCCESS:
@@ -59,17 +59,20 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         isFetchingProducts: false
       };
     case PRODUCT_ACTION_TYPES.START_PRODUCT_DELETE_BY_ID:
+    case PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT:
       return {
         ...prevState,
         isUpdatingProducts: true,
         loadingText: action.payload.loadingText
       };
     case PRODUCT_ACTION_TYPES.PRODUCT_DELETE_BY_ID_FAIL:
+    case PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT_FAIL:
       return {
         ...prevState,
         isUpdatingProducts: false
       };
     case PRODUCT_ACTION_TYPES.PRODUCT_DELETE_BY_ID_SUCCESS:
+    case PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT_SUCCESS:
       return {
         ...prevState,
         products: action.payload.updatedProducts,
