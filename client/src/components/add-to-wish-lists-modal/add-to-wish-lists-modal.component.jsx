@@ -71,7 +71,7 @@ const WishListsModal = ({
 
   return (
     <WishListsModalContainer
-      isOpen={true}
+      isOpen
       closeModalHandler={closeModal}
       modalTitle="Select Wish Lists"
       numOfWishLists={numOfWishLists}

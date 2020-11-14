@@ -40,7 +40,7 @@ const CreateWishListModal = ({
 
   return (
     <CreateWishListModalContainer
-      isOpen={true}
+      isOpen
       closeModalHandler={closeModalHandler}
       modalTitle={modalTitle}
     >

@@ -7,7 +7,7 @@ import {
 
 const Checkbox = ({
   label,
-  inputChangeHandler = undefined,
+  inputChangeHandler,
   checkedStatus,
   ...otherFieldProps
 }) => (
