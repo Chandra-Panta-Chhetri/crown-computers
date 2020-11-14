@@ -104,7 +104,6 @@ export const deleteProductCategoryById = async (
 };
 
 export const createNewProduct = async (newProductInfo) => {
-  console.log(newProductInfo, "starting to create product");
   const imageUrls = await uploadMultipleFiles(
     newProductInfo.images,
     PRODUCT_IMAGES_DIRECTORY
@@ -119,14 +118,10 @@ export const createNewProduct = async (newProductInfo) => {
     FIRESTORE_COLLECTION_REFS.productCollectionRef,
     newProductInfo
   );
-  delete newProductInfo.productCategoryRef;
-  console.log(
-    {
-      ...newProductInfo,
-      productId: newProductRef.id
-    },
-    "Creating new product"
+  newProductInfo.category = getProductCategoryName(
+    newProductInfo.productCategoryRef
   );
+  delete newProductInfo.productCategoryRef;
   const createdProduct = {
     ...newProductInfo,
     productId: newProductRef.id

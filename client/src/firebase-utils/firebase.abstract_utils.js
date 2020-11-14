@@ -66,6 +66,20 @@ export const getDocDataByRef = async (
 
 const getLastVisibleDoc = (docSnapshots) => getLastElementInArray(docSnapshots);
 
+export const getAllDocsInCollection = async (
+  collectionRef,
+  includeDocId,
+  nameOfIdField = "id"
+) => {
+  const docsInCollectionSnapshots = await executeQuery(collectionRef);
+  const populatedDocs = populateDocSnapshots(
+    docsInCollectionSnapshots,
+    includeDocId,
+    nameOfIdField
+  );
+  return populatedDocs;
+};
+
 export const populateDocSnapshots = (
   docSnapshots,
   includeDocId,

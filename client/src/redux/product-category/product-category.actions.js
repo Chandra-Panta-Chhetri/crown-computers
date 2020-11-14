@@ -38,6 +38,20 @@ export const noMoreCategoriesToLoad = () => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.NO_MORE_PRODUCT_CATEGORIES_TO_LOAD
 });
 
+export const fetchAllCategories = () => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.FETCH_ALL_PRODUCT_CATEGORIES
+});
+
+export const fetchAllCategoriesFail = (errorMsg) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.FETCH_ALL_PRODUCT_CATEGORIES_FAIL,
+  payload: { errorTitle: "", errorMsg }
+});
+
+export const fetchAllCategoriesSuccess = (productCategories) => ({
+  type: PRODUCT_CATEGORY_ACTION_TYPES.FETCH_ALL_PRODUCT_CATEGORIES_SUCCESS,
+  payload: { productCategories, lastVisibleDoc: null }
+});
+
 export const startDeleteCategoryById = (categoryToDelete) => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID,
   payload: {

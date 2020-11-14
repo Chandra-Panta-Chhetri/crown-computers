@@ -13,6 +13,7 @@ const INITIAL_STATE = {
 const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
     case PRODUCT_CATEGORY_ACTION_TYPES.START_INITIAL_PRODUCT_CATEGORIES_FETCH:
+    case PRODUCT_CATEGORY_ACTION_TYPES.FETCH_ALL_PRODUCT_CATEGORIES:
       return {
         ...prevState,
         isFetchingCategories: true,
@@ -28,12 +29,14 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
     case PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_FAIL:
     case PRODUCT_CATEGORY_ACTION_TYPES.LOADING_MORE_PRODUCT_CATEGORIES_FAIL:
     case PRODUCT_CATEGORY_ACTION_TYPES.NO_MORE_PRODUCT_CATEGORIES_TO_LOAD:
+    case PRODUCT_CATEGORY_ACTION_TYPES.FETCH_ALL_PRODUCT_CATEGORIES_FAIL:
       return {
         ...prevState,
         isFetchingCategories: false,
         hasMoreToFetch: false
       };
     case PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_SUCCESS:
+    case PRODUCT_CATEGORY_ACTION_TYPES.FETCH_ALL_PRODUCT_CATEGORIES_SUCCESS:
       return {
         ...prevState,
         ...action.payload,

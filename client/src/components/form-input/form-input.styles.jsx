@@ -24,10 +24,7 @@ export const InputLabel = styled.label`
   left: 7px;
   top: 10px;
   transition: 300ms ease all;
-
-  &.shrink {
-    ${shrinkLabelMixin}
-  }
+  ${shrinkLabelMixin}
 `;
 
 export const FormField = styled.input`
@@ -41,6 +38,24 @@ export const FormField = styled.input`
   border: 1px solid ${secondaryColor};
   background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
   text-transform: ${(props) => (props.uppercaseInput ? "uppercase" : "none")};
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const Textarea = styled.textarea`
+  color: ${mainColor};
+  font-size: 18px;
+  padding: 10px 10px 10px 7px;
+  display: block;
+  width: 100%;
+  border: none;
+  resize: vertical;
+  min-height: 65px;
+  border-radius: 6px;
+  border: 1px solid ${secondaryColor};
+  background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
 
   &:focus {
     outline: none;

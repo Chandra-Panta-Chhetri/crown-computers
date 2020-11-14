@@ -179,8 +179,10 @@ function* deleteProduct({ payload: { productToDelete } }) {
 }
 
 function* createProduct({ payload: { newProductInfo, onSuccess } }) {
-  const { name } = yield newProductInfo;
+  const { name, price, stock } = yield newProductInfo;
   try {
+    newProductInfo.price = Number(price);
+    newProductInfo.stock = Number(stock);
     const products = yield select(selectProductCollection);
     const createdProduct = yield createNewProduct(newProductInfo);
     const updatedProducts = yield [...products, createdProduct];
@@ -194,7 +196,7 @@ function* createProduct({ payload: { newProductInfo, onSuccess } }) {
   } catch (err) {
     yield put(
       createNewProductFail(
-        `There was a problem creating ${capitalize(
+        `Failed to create ${capitalize(
           name
         )}. Ensure the uploaded image(s) is a png/jpg/jpeg and each is less than 100 kb.`
       )

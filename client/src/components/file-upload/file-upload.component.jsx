@@ -79,7 +79,7 @@ const FormInput = ({
   return (
     <>
       <FileUploadContainer>
-        <InputLabel className="shrink">{label}</InputLabel>
+        <InputLabel>{label}</InputLabel>
         <DragDropText>Drag and drop your files anywhere or</DragDropText>
         <UploadFileBtn
           type="button"

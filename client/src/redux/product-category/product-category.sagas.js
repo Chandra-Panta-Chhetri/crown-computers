@@ -6,6 +6,8 @@ import {
   loadingMoreCategoriesFail,
   loadingMoreCategoriesSuccess,
   noMoreCategoriesToLoad,
+  fetchAllCategoriesFail,
+  fetchAllCategoriesSuccess,
   deleteCategoryByIdFail,
   deleteCategoryByIdSuccess,
   createNewCategoryFail,
@@ -20,6 +22,7 @@ import {
   createNewProductCategory,
   updateProductCategoryById
 } from "../../firebase-utils/firebase.product_utils";
+import { FIRESTORE_COLLECTION_REFS } from "../../firebase-utils/firebase.abstract_utils";
 import {
   selectLastVisibleDoc,
   selectCategoriesPerPage,
@@ -31,6 +34,7 @@ import {
   removeObjFromArrOfObjects,
   updateObjInArrOfObjects
 } from "../../global.utils";
+import { getAllDocsInCollection } from "../../firebase-utils/firebase.abstract_utils";
 
 function* fetchCategories() {
   try {
@@ -74,6 +78,23 @@ function* fetchMoreCategories() {
   } catch (err) {
     yield put(
       loadingMoreCategoriesFail("There was a problem loading more categories.")
+    );
+  }
+}
+
+function* fetchAllCategories() {
+  try {
+    const productCategories = yield getAllDocsInCollection(
+      FIRESTORE_COLLECTION_REFS.productCategoryCollectionRef,
+      true,
+      "categoryId"
+    );
+    yield put(fetchAllCategoriesSuccess(productCategories));
+  } catch (err) {
+    yield put(
+      fetchAllCategoriesFail(
+        "There was a problem loading all product categories."
+      )
     );
   }
 }
@@ -173,6 +194,13 @@ function* watchLoadMoreProductCategories() {
   );
 }
 
+function* watchFetchAllCategories() {
+  yield takeLatest(
+    PRODUCT_CATEGORY_ACTION_TYPES.FETCH_ALL_PRODUCT_CATEGORIES,
+    fetchAllCategories
+  );
+}
+
 function* watchCategoryDeleteById() {
   yield takeLatest(
     PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID,
@@ -198,6 +226,7 @@ export default function* productCategorySagas() {
   yield all([
     call(watchCategoriesFetchStart),
     call(watchLoadMoreProductCategories),
+    call(watchFetchAllCategories),
     call(watchCategoryDeleteById),
     call(watchCreateNewCategory),
     call(watchUpdateCategoryInfo)

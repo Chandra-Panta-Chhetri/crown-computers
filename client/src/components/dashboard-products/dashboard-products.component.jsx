@@ -36,15 +36,15 @@ const DashboardProducts = ({
   isUpdatingProducts,
   productLoadingText
 }) => {
-  const fetchMoreOnIntersection = usePaginationOnIntersection(
-    () => fetchMoreProducts(MIN_STOCK_QUANTITY),
-    isFetchingProducts,
-    hasMoreProductsToFetch
-  );
+  // const fetchMoreOnIntersection = usePaginationOnIntersection(
+  //   () => fetchMoreProducts(MIN_STOCK_QUANTITY),
+  //   isFetchingProducts,
+  //   hasMoreProductsToFetch
+  // );
 
-  useEffect(() => {
-    fetchProducts(MIN_STOCK_QUANTITY);
-  }, [fetchProducts]);
+  // useEffect(() => {
+  //   fetchProducts(MIN_STOCK_QUANTITY);
+  // }, [fetchProducts]);
 
   return (
     <>

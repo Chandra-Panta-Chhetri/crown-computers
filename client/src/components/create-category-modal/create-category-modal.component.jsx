@@ -57,7 +57,7 @@ const CreateCategoryModal = ({
 
   return (
     <NewCategoryModal
-      isOpen={true}
+      isOpen
       closeModalHandler={closeModalHandler}
       modalTitle={modalTitle}
     >
