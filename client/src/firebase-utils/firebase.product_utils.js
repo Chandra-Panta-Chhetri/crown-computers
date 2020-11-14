@@ -129,6 +129,8 @@ export const createNewProduct = async (newProductInfo) => {
   return createdProduct;
 };
 
+export const updateProductById = async (productId, updatedProductInfo) => {};
+
 export const deleteProductById = async (productId, imageUrls) => {
   const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
   await deleteMultipleUploadedFiles(imageUrls);

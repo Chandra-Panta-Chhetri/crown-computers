@@ -113,3 +113,31 @@ export const createNewProductSuccess = (updatedProducts, successMsg) => ({
     successMsg
   }
 });
+
+export const updateProductInfo = (
+  updatedProductInfo,
+  productId,
+  onSuccess
+) => ({
+  type: PRODUCT_ACTION_TYPES.UPDATE_PRODUCT_BY_ID,
+  payload: {
+    updatedProductInfo,
+    productId,
+    onSuccess,
+    loadingText: "Updating product"
+  }
+});
+
+export const updateProductInfoFail = (errorMsg) => ({
+  type: PRODUCT_ACTION_TYPES.UPDATE_PRODUCT_BY_ID_FAIL,
+  payload: { errorTitle: "Product Update Failed", errorMsg }
+});
+
+export const updateProductInfoSuccess = (updatedProducts, successMsg) => ({
+  type: PRODUCT_ACTION_TYPES.UPDATE_PRODUCT_BY_ID_SUCCESS,
+  payload: {
+    updatedProducts,
+    successTitle: "Product Updated",
+    successMsg
+  }
+});

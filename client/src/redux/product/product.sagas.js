@@ -11,7 +11,9 @@ import {
   initialProductsFetchSuccess,
   loadingMoreProductsFail,
   loadingMoreProductsSuccess,
-  noMoreProductsToLoad
+  noMoreProductsToLoad,
+  updateProductInfoFail,
+  updateProductInfoSuccess
 } from "./product.actions";
 import {
   getProducts,
@@ -20,7 +22,8 @@ import {
   getMoreProductsByCategoryName,
   getProductById,
   deleteProductById,
-  createNewProduct
+  createNewProduct,
+  updateProductById
 } from "../../firebase-utils/firebase.product_utils";
 import {
   selectProductsPerPage,
@@ -30,7 +33,8 @@ import {
 import {
   addUniqueItemsToCollection,
   capitalize,
-  removeObjFromArrOfObjects
+  removeObjFromArrOfObjects,
+  updateObjInArrOfObjects
 } from "../../global.utils";
 
 function* fetchProducts({ payload: minStockQuantity }) {
@@ -204,6 +208,31 @@ function* createProduct({ payload: { newProductInfo, onSuccess } }) {
   }
 }
 
+function* updateProductInfoById({
+  payload: { updatedProductInfo, productId, onSuccess }
+}) {
+  try {
+    const products = yield select(selectProductCollection);
+    yield delete updatedProductInfo.productId;
+    yield updateProductById(productId, updatedProductInfo);
+    const updatedProduct = { ...updatedProductInfo, productId };
+    const updatedProducts = yield updateObjInArrOfObjects(
+      "productId",
+      productId,
+      products,
+      "There was a problem updating the product as it may have been deleted or does not exist.",
+      updatedProduct
+    );
+    yield put(
+      updateProductInfoSuccess(updatedProducts, "Product info has been updated")
+    );
+    yield onSuccess();
+  } catch (err) {
+    let defaultErrMsg = yield "There was a problem updating the product. Please try again later.";
+    yield put(updateProductInfoFail(err.message || defaultErrMsg));
+  }
+}
+
 function* watchProductsFetchStart() {
   yield takeLatest(
     PRODUCT_ACTION_TYPES.START_INITIAL_PRODUCTS_FETCH,
@@ -250,6 +279,13 @@ function* watchCreateNewProduct() {
   yield takeLatest(PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT, createProduct);
 }
 
+function* watchUpdateProductInfo() {
+  yield takeLatest(
+    PRODUCT_ACTION_TYPES.UPDATE_PRODUCT_BY_ID,
+    updateProductInfoById
+  );
+}
+
 export default function* productSagas() {
   yield all([
     call(watchProductsFetchStart),
@@ -258,6 +294,7 @@ export default function* productSagas() {
     call(watchLoadMoreProductsByCategory),
     call(watchFetchProductByIdStart),
     call(watchProductDeleteById),
-    call(watchCreateNewProduct)
+    call(watchCreateNewProduct),
+    call(watchUpdateProductInfo)
   ]);
 }
