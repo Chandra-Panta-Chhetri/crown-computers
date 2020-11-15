@@ -24,8 +24,7 @@ export const ProductActionContainer = styled.div`
 
 export const EditProductIcon = styled.i`
   cursor: pointer;
-  pointer-events: ${(props) => (props.disabled ? "none" : "all")};
-  color: ${(props) => (props.disabled ? "gray" : secondaryColor)};
+  color: ${secondaryColor};
   margin-right: 10px;
 
   &:hover {

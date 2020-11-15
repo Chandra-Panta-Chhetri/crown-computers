@@ -19,7 +19,6 @@ import CreateProductModal from "../create-product-modal/create-product-modal.com
 
 import { connect } from "react-redux";
 import { startDeleteProductById } from "../../redux/product/product.actions";
-import useImageUrlsToFiles from "../../hooks/useImageUrlsToFiles.hook";
 
 const IMAGES_TO_SHOW_AT_ONCE = 10;
 
@@ -45,21 +44,6 @@ const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
     slidesToScroll: numOfImagesToShown
   };
 
-  const convertFilesArrToNestedObj = (newFiles) => {
-    const filesAsObj = {};
-    for (let file of newFiles) {
-      filesAsObj[file.name] = file;
-    }
-    return { ...filesAsObj };
-  };
-
-  const { files, isConvertingUrlsToFiles } = useImageUrlsToFiles(
-    imageUrls,
-    "product-preview"
-  );
-
-  const productImageFiles = convertFilesArrToNestedObj(files);
-
   return (
     <ProductEntryContainer ref={intersectionCb}>
       <Card>
@@ -67,15 +51,14 @@ const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
           <EditProductIcon
             onClick={() => setIsEditModalOpen(true)}
             className="fas fa-pencil-alt"
-            disabled={isConvertingUrlsToFiles}
           />
-          {isEditModalOpen && !isConvertingUrlsToFiles && (
+          {isEditModalOpen && (
             <CreateProductModal
               closeModalHandler={closeEditModal}
               isEditing
               modalTitle="Edit Product"
               submitBtnText="Update Product"
-              defaultProduct={{ ...product, images: productImageFiles }}
+              defaultProduct={product}
             />
           )}
           <DeleteConfirmationModal

@@ -36,7 +36,6 @@ const CreateProductModal = ({
     fetchAllCategories();
   }, [fetchAllCategories]);
 
-  console.log(defaultProduct);
   const [productInfo, setProductInfo] = useState({
     name: defaultProduct ? defaultProduct.name : "",
     price: defaultProduct ? defaultProduct.price : "0.01",
@@ -46,15 +45,15 @@ const CreateProductModal = ({
       ? defaultProduct.productCategoryId
       : DEFAULT_PRODUCT_CATEGORY_ID,
     specifications: defaultProduct ? defaultProduct.specifications : [],
-    images: defaultProduct ? defaultProduct.images : []
+    images: []
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const numOfProductImages = productInfo.images.length;
-    if (!numOfProductImages) {
+    if (!isEditing && !numOfProductImages) {
       return displayInfoNotification(
-        isEditing ? "Product Update Failed" : "Product Creation Failed",
+        "Product Creation Failed",
         "At least one product image is required."
       );
     }
@@ -161,7 +160,6 @@ const CreateProductModal = ({
           accept=".jpg,.png,.jpeg"
           label={isEditing ? "New Product Images" : "Product Images*"}
           updateFilesCb={updateUploadedFiles}
-          defaultFiles={productInfo.images}
           multiple
         />
         <SubmitProductBtn type="submit">{submitBtnText}</SubmitProductBtn>
