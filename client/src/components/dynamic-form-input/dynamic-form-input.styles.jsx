@@ -1,13 +1,18 @@
 import styled from "styled-components";
+import { mainColor } from "../form-input/form-input.styles";
+
+export const DynamicFormInputContainer = styled.div`
+  margin-bottom: 30px;
+`;
 
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  h4 {
-    margin: 0 0 5px;
-  }
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: ${mainColor};
+  margin-top: -15px;
 
   i {
     cursor: pointer;

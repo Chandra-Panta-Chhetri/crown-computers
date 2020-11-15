@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { Header, InputGroup } from "./dynamic-form-input.styles";
+import {
+  Header,
+  InputGroup,
+  DynamicFormInputContainer
+} from "./dynamic-form-input.styles";
 
 const DynamicFormInput = ({
   defaultInputFields = [],
@@ -8,11 +12,9 @@ const DynamicFormInput = ({
   onChangeCb,
   title
 }) => {
-  const [inputFields, setInputFields] = useState([
-    ...defaultInputFields,
-    inputFieldStructure
-  ]);
-
+  const [inputFields, setInputFields] = useState(
+    defaultInputFields.length ? defaultInputFields : [inputFieldStructure]
+  );
   const keysOfInputFieldStructure = Object.keys(inputFieldStructure);
 
   const handleChange = (index, e) => {
@@ -27,16 +29,14 @@ const DynamicFormInput = ({
   };
 
   const removeField = (index) => {
-    if (inputFields.length > 1) {
-      inputFields.splice(index, 1);
-      setInputFields([...inputFields]);
-    }
+    inputFields.splice(index, 1);
+    setInputFields([...inputFields]);
   };
 
   return (
-    <div>
+    <DynamicFormInputContainer>
       <Header>
-        <h4>{title}</h4>
+        <span>{title}</span>
         <i className="fa fa-plus" onClick={addNewField} />
       </Header>
       {inputFields.map((inputField, inputFieldIndex) => (
@@ -59,7 +59,7 @@ const DynamicFormInput = ({
           />
         </InputGroup>
       ))}
-    </div>
+    </DynamicFormInputContainer>
   );
 };
 

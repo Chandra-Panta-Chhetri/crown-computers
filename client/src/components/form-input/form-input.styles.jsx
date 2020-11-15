@@ -56,6 +56,7 @@ export const Textarea = styled.textarea`
   border-radius: 6px;
   border: 1px solid ${secondaryColor};
   background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
+  font-family: "Open Sans", sans-serif;
 
   &:focus {
     outline: none;

@@ -77,22 +77,15 @@ const CreateProductModal = ({
     >
       <form onSubmit={handleSubmit}>
         <FormInput
-          label="Product Name"
+          label="Name*"
           inputValue={productInfo.name}
           inputChangeHandler={handleChange}
           name="name"
+          placeholder="Dell XPS 15 9500"
           required
         />
         <FormInput
-          label="Product Description"
-          inputValue={productInfo.description}
-          inputChangeHandler={handleChange}
-          name="description"
-          isTextarea
-          required
-        />
-        <FormInput
-          label="Product Price"
+          label="Price*"
           inputValue={productInfo.price}
           inputChangeHandler={handleChange}
           name="price"
@@ -102,7 +95,7 @@ const CreateProductModal = ({
           min="0.01"
         />
         <FormInput
-          label="Product Stock"
+          label="Stock*"
           inputValue={productInfo.stock}
           inputChangeHandler={handleChange}
           name="stock"
@@ -113,7 +106,7 @@ const CreateProductModal = ({
         <FormSelect
           name="productCategoryId"
           noneSelectedText="Select A Category"
-          label="Product Category"
+          label="Product Category*"
           selectedOptionChangeHandler={handleChange}
           nameOfOptionField="category"
           nameOfValueField="categoryId"
@@ -124,15 +117,34 @@ const CreateProductModal = ({
         <DynamicFormInput
           inputFieldStructure={{ label: "", value: "" }}
           inputFieldComponents={[
-            { component: FormInput, props: { required: true, label: "Label" } },
-            { component: FormInput, props: { required: true, label: "Detail" } }
+            {
+              component: FormInput,
+              props: { required: true, label: "Label", placeholder: "Storage" }
+            },
+            {
+              component: FormInput,
+              props: {
+                required: true,
+                label: "Detail",
+                placeholder: "512 GB SSD"
+              }
+            }
           ]}
           onChangeCb={updateSpecifications}
           title="Specifications"
         />
+        <FormInput
+          label="Description*"
+          inputValue={productInfo.description}
+          inputChangeHandler={handleChange}
+          name="description"
+          placeholder="A 15-inch laptop with an InfinityEdge display."
+          isTextarea
+          required
+        />
         <FileUpload
           accept=".jpg,.png,.jpeg"
-          label={"Product Images"}
+          label={"Product Images*"}
           updateFilesCb={updateUploadedFiles}
           multiple
         />
