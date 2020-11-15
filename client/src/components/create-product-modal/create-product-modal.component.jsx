@@ -36,6 +36,7 @@ const CreateProductModal = ({
     fetchAllCategories();
   }, [fetchAllCategories]);
 
+  console.log(defaultProduct);
   const [productInfo, setProductInfo] = useState({
     name: defaultProduct ? defaultProduct.name : "",
     price: defaultProduct ? defaultProduct.price : "0.01",
@@ -45,29 +46,30 @@ const CreateProductModal = ({
       ? defaultProduct.productCategoryId
       : DEFAULT_PRODUCT_CATEGORY_ID,
     specifications: defaultProduct ? defaultProduct.specifications : [],
-    images: []
+    images: defaultProduct ? defaultProduct.images : []
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const numOfProductImages = productInfo.images.length;
-    if (!isEditing && !numOfProductImages) {
+    if (!numOfProductImages) {
       return displayInfoNotification(
-        "Product Creation Failed",
-        "To create a new product, at least one product image is required."
+        isEditing ? "Product Update Failed" : "Product Creation Failed",
+        "At least one product image is required."
       );
     }
-    if (isEditing) {
-      return updateProduct(
-        {
-          ...defaultProduct,
-          ...productInfo
-        },
-        defaultProduct.productId,
-        closeModalHandler
-      );
-    }
-    createNewProduct(productInfo, closeModalHandler);
+    console.log({ ...defaultProduct, ...productInfo }, "submitting");
+    // if (isEditing) {
+    //   return updateProduct(
+    //     {
+    //       ...defaultProduct,
+    //       ...productInfo
+    //     },
+    //     defaultProduct.productId,
+    //     closeModalHandler
+    //   );
+    // }
+    // createNewProduct(productInfo, closeModalHandler);
   };
 
   const handleChange = (e) => {
@@ -160,6 +162,7 @@ const CreateProductModal = ({
           accept=".jpg,.png,.jpeg"
           label={isEditing ? "New Product Images" : "Product Images*"}
           updateFilesCb={updateUploadedFiles}
+          defaultFiles={productInfo.images}
           multiple
         />
         <SubmitProductBtn type="submit">{submitBtnText}</SubmitProductBtn>

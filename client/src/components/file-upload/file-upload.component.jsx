@@ -23,10 +23,11 @@ const FormInput = ({
   updateFilesCb,
   maxFileSizeInBytes = 100000,
   displayWarningNotification,
+  defaultFiles = {},
   ...otherProps
 }) => {
   const fileInputField = useRef(null);
-  const [files, setFiles] = useState({});
+  const [files, setFiles] = useState(defaultFiles);
 
   const convertBytesToKiloBytes = (bytes) =>
     Math.round(bytes / KILO_BYTES_PER_BYTE);
