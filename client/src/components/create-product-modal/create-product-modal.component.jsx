@@ -10,7 +10,10 @@ import FormSelect from "../form-select/form-select.component";
 import DynamicFormInput from "../dynamic-form-input/dynamic-form-input.component";
 
 import { connect } from "react-redux";
-import { createNewProduct } from "../../redux/product/product.actions";
+import {
+  createNewProduct,
+  updateProductInfo
+} from "../../redux/product/product.actions";
 import { fetchAllCategories } from "../../redux/product-category/product-category.actions";
 import { selectProductCategories } from "../../redux/product-category/product-category.selectors";
 import { addInfoNotification } from "../../redux/notification/notification.actions";
@@ -24,6 +27,7 @@ const CreateProductModal = ({
   defaultProduct,
   submitBtnText = "Create New Product",
   createNewProduct,
+  updateProduct,
   displayInfoNotification,
   fetchAllCategories,
   productCategories
@@ -53,6 +57,16 @@ const CreateProductModal = ({
         "To create a new product, at least one product image is required."
       );
     }
+    if (isEditing) {
+      return updateProduct(
+        {
+          ...defaultProduct,
+          ...productInfo
+        },
+        defaultProduct.productId,
+        closeModalHandler
+      );
+    }
     createNewProduct(productInfo, closeModalHandler);
   };
 
@@ -65,7 +79,6 @@ const CreateProductModal = ({
     setProductInfo({ ...productInfo, images: files });
 
   const updateSpecifications = (specifications) => {
-    console.log(specifications);
     setProductInfo({ ...productInfo, specifications });
   };
 
@@ -115,6 +128,7 @@ const CreateProductModal = ({
           required
         />
         <DynamicFormInput
+          defaultInputFields={productInfo.specifications}
           inputFieldStructure={{ label: "", value: "" }}
           inputFieldComponents={[
             {
@@ -144,7 +158,7 @@ const CreateProductModal = ({
         />
         <FileUpload
           accept=".jpg,.png,.jpeg"
-          label={"Product Images*"}
+          label={isEditing ? "New Product Images" : "Product Images*"}
           updateFilesCb={updateUploadedFiles}
           multiple
         />
@@ -161,6 +175,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   createNewProduct: (newProductInfo, onSuccess) =>
     dispatch(createNewProduct(newProductInfo, onSuccess)),
+  updateProduct: (updatedProductInfo, productId, onSuccess) =>
+    dispatch(updateProductInfo(updatedProductInfo, productId, onSuccess)),
   displayInfoNotification: (title, msg) =>
     dispatch(addInfoNotification(title, msg)),
   fetchAllCategories: () => dispatch(fetchAllCategories())

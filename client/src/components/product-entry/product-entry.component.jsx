@@ -15,6 +15,8 @@ import {
 import Card from "../card/card.component";
 import Collapse from "../collapse/collapse.component";
 import DeleteConfirmationModal from "../delete-confirmation-modal/delete-confirmation-modal.component";
+import CreateProductModal from "../create-product-modal/create-product-modal.component";
+
 import { connect } from "react-redux";
 import { startDeleteProductById } from "../../redux/product/product.actions";
 
@@ -22,6 +24,7 @@ const IMAGES_TO_SHOW_AT_ONCE = 10;
 
 const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const closeEditModal = () => setIsEditModalOpen(false);
   const {
     category,
     description,
@@ -49,6 +52,15 @@ const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
             onClick={() => setIsEditModalOpen(true)}
             className="fas fa-pencil-alt"
           />
+          {isEditModalOpen && (
+            <CreateProductModal
+              closeModalHandler={closeEditModal}
+              isEditing
+              modalTitle="Edit Product"
+              submitBtnText="Update Product"
+              defaultProduct={product}
+            />
+          )}
           <DeleteConfirmationModal
             modalTitle="Delete Product Confirmation"
             confirmButtonText="Delete Product"

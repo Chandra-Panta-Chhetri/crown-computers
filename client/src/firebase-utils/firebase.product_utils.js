@@ -24,6 +24,7 @@ export const getProductById = async (productId) => {
     const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
     const product = await getDocDataByRef(productRef, true, "productId");
     product.category = await getProductCategoryName(product.productCategoryRef);
+    product.productCategoryId = product.productCategoryRef.id;
     delete product.productCategoryRef;
     return product;
   } catch (err) {

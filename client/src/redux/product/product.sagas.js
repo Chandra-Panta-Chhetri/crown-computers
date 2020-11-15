@@ -214,7 +214,7 @@ function* updateProductInfoById({
   try {
     const products = yield select(selectProductCollection);
     yield delete updatedProductInfo.productId;
-    yield updateProductById(productId, updatedProductInfo);
+    //yield updateProductById(productId, updatedProductInfo);
     const updatedProduct = { ...updatedProductInfo, productId };
     const updatedProducts = yield updateObjInArrOfObjects(
       "productId",
