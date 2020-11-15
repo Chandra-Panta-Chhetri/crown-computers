@@ -58,18 +58,17 @@ const CreateProductModal = ({
         "At least one product image is required."
       );
     }
-    console.log({ ...defaultProduct, ...productInfo }, "submitting");
-    // if (isEditing) {
-    //   return updateProduct(
-    //     {
-    //       ...defaultProduct,
-    //       ...productInfo
-    //     },
-    //     defaultProduct.productId,
-    //     closeModalHandler
-    //   );
-    // }
-    // createNewProduct(productInfo, closeModalHandler);
+    if (isEditing) {
+      return updateProduct(
+        {
+          ...defaultProduct,
+          ...productInfo
+        },
+        defaultProduct.productId,
+        closeModalHandler
+      );
+    }
+    createNewProduct(productInfo, closeModalHandler);
   };
 
   const handleChange = (e) => {

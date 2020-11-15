@@ -42,9 +42,9 @@ const DashboardProducts = ({
   //   hasMoreProductsToFetch
   // );
 
-  useEffect(() => {
-    fetchProducts(MIN_STOCK_QUANTITY);
-  }, [fetchProducts]);
+  // useEffect(() => {
+  //   fetchProducts(MIN_STOCK_QUANTITY);
+  // }, [fetchProducts]);
 
   return (
     <>

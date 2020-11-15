@@ -105,13 +105,12 @@ export const deleteProductCategoryById = async (
 };
 
 export const createNewProduct = async (newProductInfo) => {
-  const imageUrls = await uploadMultipleFiles(
-    newProductInfo.images,
-    PRODUCT_IMAGES_DIRECTORY
-  );
+  const { images, productCategoryId } = newProductInfo;
+  const imageUrls = await uploadMultipleFiles(images, PRODUCT_IMAGES_DIRECTORY);
   newProductInfo.imageUrls = imageUrls;
   newProductInfo.productCategoryRef = getDocRefById(
-    newProductInfo.productCategoryId
+    PRODUCT_CATEGORY_COLLECTION_NAME,
+    productCategoryId
   );
   delete newProductInfo.images;
   delete newProductInfo.productCategoryId;
@@ -119,18 +118,29 @@ export const createNewProduct = async (newProductInfo) => {
     FIRESTORE_COLLECTION_REFS.productCollectionRef,
     newProductInfo
   );
-  newProductInfo.category = getProductCategoryName(
+  newProductInfo.category = await getProductCategoryName(
     newProductInfo.productCategoryRef
   );
   delete newProductInfo.productCategoryRef;
   const createdProduct = {
     ...newProductInfo,
+    productCategoryId,
     productId: newProductRef.id
   };
   return createdProduct;
 };
 
-export const updateProductById = async (productId, updatedProductInfo) => {};
+export const updateProductById = async (productId, updatedProductInfo) => {
+  const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
+  await deleteMultipleUploadedFiles(updatedProductInfo.imageUrls);
+  const newImageUrls = await uploadMultipleFiles(
+    updatedProductInfo.images,
+    PRODUCT_IMAGES_DIRECTORY
+  );
+  updatedProductInfo.imageUrls = newImageUrls;
+  delete updatedProductInfo.images;
+  await updateDocDataByRef(productRef, updatedProductInfo);
+};
 
 export const deleteProductById = async (productId, imageUrls) => {
   const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);

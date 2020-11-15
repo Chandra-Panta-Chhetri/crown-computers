@@ -185,8 +185,8 @@ function* deleteProduct({ payload: { productToDelete } }) {
 function* createProduct({ payload: { newProductInfo, onSuccess } }) {
   const { name, price, stock } = yield newProductInfo;
   try {
-    newProductInfo.price = Number(price);
-    newProductInfo.stock = Number(stock);
+    newProductInfo.price = yield Number(price);
+    newProductInfo.stock = yield Number(stock);
     const products = yield select(selectProductCollection);
     const createdProduct = yield createNewProduct(newProductInfo);
     const updatedProducts = yield [...products, createdProduct];
@@ -214,7 +214,7 @@ function* updateProductInfoById({
   try {
     const products = yield select(selectProductCollection);
     yield delete updatedProductInfo.productId;
-    //yield updateProductById(productId, updatedProductInfo);
+    yield updateProductById(productId, updatedProductInfo);
     const updatedProduct = { ...updatedProductInfo, productId };
     const updatedProducts = yield updateObjInArrOfObjects(
       "productId",
