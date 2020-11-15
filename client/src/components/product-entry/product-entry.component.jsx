@@ -55,7 +55,7 @@ const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
 
   const { files, isConvertingUrlsToFiles } = useImageUrlsToFiles(
     imageUrls,
-    name
+    "product-preview"
   );
 
   const productImageFiles = convertFilesArrToNestedObj(files);

@@ -96,7 +96,7 @@ const FormInput = ({
           ref={fileInputField}
           onChange={handleNewFileUpload}
           title=""
-          value={""}
+          value=""
           {...otherProps}
         />
       </FileUploadContainer>
@@ -107,7 +107,7 @@ const FormInput = ({
             let file = files[fileKey];
             let isImageFile = file.type.split("/")[0] === "image";
             return (
-              <FilePreview key={index}>
+              <FilePreview key={fileKey}>
                 {isImageFile && (
                   <img
                     src={URL.createObjectURL(file)}
