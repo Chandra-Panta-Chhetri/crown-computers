@@ -212,10 +212,15 @@ function* updateProductInfoById({
   payload: { updatedProductInfo, productId, onSuccess }
 }) {
   try {
+    const { price, stock } = yield updatedProductInfo;
+    updatedProductInfo.price = yield Number(price);
+    updatedProductInfo.stock = yield Number(stock);
     const products = yield select(selectProductCollection);
     yield delete updatedProductInfo.productId;
-    yield updateProductById(productId, updatedProductInfo);
-    const updatedProduct = { ...updatedProductInfo, productId };
+    const updatedProduct = yield updateProductById(
+      productId,
+      updatedProductInfo
+    );
     const updatedProducts = yield updateObjInArrOfObjects(
       "productId",
       productId,

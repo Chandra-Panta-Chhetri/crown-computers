@@ -131,15 +131,27 @@ export const createNewProduct = async (newProductInfo) => {
 };
 
 export const updateProductById = async (productId, updatedProductInfo) => {
+  const { productCategoryId, images, imageUrls } = updatedProductInfo;
   const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
-  await deleteMultipleUploadedFiles(updatedProductInfo.imageUrls);
+  await deleteMultipleUploadedFiles(imageUrls);
   const newImageUrls = await uploadMultipleFiles(
-    updatedProductInfo.images,
+    images,
     PRODUCT_IMAGES_DIRECTORY
   );
-  updatedProductInfo.imageUrls = newImageUrls;
+  updatedProductInfo.productCategoryRef = getDocRefById(
+    PRODUCT_CATEGORY_COLLECTION_NAME,
+    productCategoryId
+  );
   delete updatedProductInfo.images;
+  delete updatedProductInfo.productCategoryId;
+  delete updatedProductInfo.category;
+  updatedProductInfo.imageUrls = newImageUrls;
   await updateDocDataByRef(productRef, updatedProductInfo);
+  updatedProductInfo.category = await getProductCategoryName(
+    updatedProductInfo.productCategoryRef
+  );
+  delete updatedProductInfo.productCategoryRef;
+  return { ...updatedProductInfo };
 };
 
 export const deleteProductById = async (productId, imageUrls) => {
