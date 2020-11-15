@@ -159,8 +159,10 @@ export const uploadMultipleFiles = async (files, rootPathToSaveFiles = "") => {
 };
 
 export const deleteUploadedFile = async (absoluteFilePath) => {
-  const fileRef = fileStorage.refFromURL(absoluteFilePath);
-  await fileRef.delete();
+  try {
+    const fileRef = fileStorage.refFromURL(absoluteFilePath);
+    await fileRef.delete();
+  } catch (err) {}
 };
 
 export const deleteMultipleUploadedFiles = async (absoluteFilePaths) => {
