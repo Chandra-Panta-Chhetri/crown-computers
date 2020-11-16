@@ -53,7 +53,7 @@ export const fetchAllCategoriesSuccess = (productCategories) => ({
 });
 
 export const startDeleteCategoryById = (categoryToDelete) => ({
-  type: PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID,
+  type: PRODUCT_CATEGORY_ACTION_TYPES.DELETE_CATEGORY_BY_ID,
   payload: {
     categoryToDelete,
     loadingText: `Deleting ${categoryToDelete.category}`
@@ -61,7 +61,7 @@ export const startDeleteCategoryById = (categoryToDelete) => ({
 });
 
 export const deleteCategoryByIdFail = (errorMsg) => ({
-  type: PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_FAIL,
+  type: PRODUCT_CATEGORY_ACTION_TYPES.DELETE_CATEGORY_BY_ID_FAIL,
   payload: { errorTitle: "Product Category Delete Failed", errorMsg }
 });
 
@@ -69,7 +69,7 @@ export const deleteCategoryByIdSuccess = (
   updatedProductCategories,
   successMsg
 ) => ({
-  type: PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_SUCCESS,
+  type: PRODUCT_CATEGORY_ACTION_TYPES.DELETE_CATEGORY_BY_ID_SUCCESS,
   payload: {
     updatedProductCategories,
     successTitle: "Product Category Deleted",

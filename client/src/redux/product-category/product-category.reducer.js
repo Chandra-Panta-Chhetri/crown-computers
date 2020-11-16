@@ -49,7 +49,7 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
         lastVisibleDoc: action.payload.lastVisibleDoc,
         isFetchingCategories: false
       };
-    case PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID:
+    case PRODUCT_CATEGORY_ACTION_TYPES.DELETE_CATEGORY_BY_ID:
     case PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY:
     case PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_BY_ID:
       return {
@@ -57,14 +57,14 @@ const productCategoryReducer = (prevState = INITIAL_STATE, action) => {
         isUpdatingCategories: true,
         loadingText: action.payload.loadingText
       };
-    case PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_FAIL:
+    case PRODUCT_CATEGORY_ACTION_TYPES.DELETE_CATEGORY_BY_ID_FAIL:
     case PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_FAIL:
     case PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_BY_ID_FAIL:
       return {
         ...prevState,
         isUpdatingCategories: false
       };
-    case PRODUCT_CATEGORY_ACTION_TYPES.CATEGORY_DELETE_BY_ID_SUCCESS:
+    case PRODUCT_CATEGORY_ACTION_TYPES.DELETE_CATEGORY_BY_ID_SUCCESS:
     case PRODUCT_CATEGORY_ACTION_TYPES.CREATE_NEW_CATEGORY_SUCCESS:
     case PRODUCT_CATEGORY_ACTION_TYPES.UPDATE_CATEGORY_BY_ID_SUCCESS:
       return {

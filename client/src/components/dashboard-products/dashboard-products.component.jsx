@@ -36,11 +36,11 @@ const DashboardProducts = ({
   isUpdatingProducts,
   productLoadingText
 }) => {
-  // const fetchMoreOnIntersection = usePaginationOnIntersection(
-  //   () => fetchMoreProducts(MIN_STOCK_QUANTITY),
-  //   isFetchingProducts,
-  //   hasMoreProductsToFetch
-  // );
+  const fetchMoreOnIntersection = usePaginationOnIntersection(
+    () => fetchMoreProducts(MIN_STOCK_QUANTITY),
+    isFetchingProducts,
+    hasMoreProductsToFetch
+  );
 
   useEffect(() => {
     fetchProducts(MIN_STOCK_QUANTITY);
@@ -62,11 +62,11 @@ const DashboardProducts = ({
           <ProductEntry
             product={product}
             key={product.productId}
-            // intersectionCb={
-            //   index + 1 === products.length
-            //     ? fetchMoreOnIntersection
-            //     : undefined
-            // }
+            intersectionCb={
+              index + 1 === products.length
+                ? fetchMoreOnIntersection
+                : undefined
+            }
           />
         ))}
         {isFetchingProducts && (

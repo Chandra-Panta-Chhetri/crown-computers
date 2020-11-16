@@ -39,7 +39,7 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
       };
     case PRODUCT_ACTION_TYPES.START_LOADING_MORE_PRODUCTS:
     case PRODUCT_ACTION_TYPES.START_LOADING_MORE_PRODUCTS_BY_CATEGORY:
-    case PRODUCT_ACTION_TYPES.START_FETCH_PRODUCT_BY_ID:
+    case PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID:
       return {
         ...prevState,
         isFetchingProducts: true,
@@ -58,7 +58,7 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         productData: action.payload,
         isFetchingProducts: false
       };
-    case PRODUCT_ACTION_TYPES.START_PRODUCT_DELETE_BY_ID:
+    case PRODUCT_ACTION_TYPES.DELETE_PRODUCT_BY_ID:
     case PRODUCT_ACTION_TYPES.UPDATE_PRODUCT_BY_ID:
     case PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT:
       return {
@@ -66,14 +66,14 @@ const productReducer = (prevState = INITIAL_STATE, action) => {
         isUpdatingProducts: true,
         loadingText: action.payload.loadingText
       };
-    case PRODUCT_ACTION_TYPES.PRODUCT_DELETE_BY_ID_FAIL:
+    case PRODUCT_ACTION_TYPES.DELETE_PRODUCT_BY_ID_FAIL:
     case PRODUCT_ACTION_TYPES.UPDATE_PRODUCT_BY_ID_FAIL:
     case PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT_FAIL:
       return {
         ...prevState,
         isUpdatingProducts: false
       };
-    case PRODUCT_ACTION_TYPES.PRODUCT_DELETE_BY_ID_SUCCESS:
+    case PRODUCT_ACTION_TYPES.DELETE_PRODUCT_BY_ID_SUCCESS:
     case PRODUCT_ACTION_TYPES.UPDATE_PRODUCT_BY_ID_SUCCESS:
     case PRODUCT_ACTION_TYPES.CREATE_NEW_PRODUCT_SUCCESS:
       return {

@@ -51,31 +51,35 @@ export const createNewProductCategory = async (newCategoryInfo) => {
     FIRESTORE_COLLECTION_REFS.productCategoryCollectionRef,
     newCategoryInfo
   );
-  const createdProductCategory = {
+  return {
     ...newCategoryInfo,
     categoryId: newProductCategoryRef.id
   };
-  return createdProductCategory;
 };
 
 export const updateProductCategoryById = async (
   categoryId,
   updatedProductCategoryInfo
 ) => {
+  const { image: newImage, imageUrl } = updatedProductCategoryInfo;
   const productCategoryRef = getDocRefById(
     PRODUCT_CATEGORY_COLLECTION_NAME,
     categoryId
   );
-  if (updatedProductCategoryInfo.image) {
-    await deleteUploadedFile(updatedProductCategoryInfo.imageUrl);
+  if (newImage) {
+    await deleteUploadedFile(imageUrl);
     const newImageUrl = await uploadFile(
-      updatedProductCategoryInfo.image,
+      newImage,
       PRODUCT_CATEGORY_IMAGES_DIRECTORY
     );
     updatedProductCategoryInfo.imageUrl = newImageUrl;
   }
   delete updatedProductCategoryInfo.image;
   await updateDocDataByRef(productCategoryRef, updatedProductCategoryInfo);
+  return {
+    ...updatedProductCategoryInfo,
+    categoryId
+  };
 };
 
 export const deleteAllProductsInCategory = async (productCategoryRef) => {
@@ -122,21 +126,24 @@ export const createNewProduct = async (newProductInfo) => {
     newProductInfo.productCategoryRef
   );
   delete newProductInfo.productCategoryRef;
-  const createdProduct = {
+  return {
     ...newProductInfo,
     productCategoryId,
     productId: newProductRef.id
   };
-  return createdProduct;
 };
 
 export const updateProductById = async (productId, updatedProductInfo) => {
-  const { productCategoryId, images, imageUrls } = updatedProductInfo;
+  const {
+    productCategoryId,
+    images: newImages,
+    imageUrls
+  } = updatedProductInfo;
   const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
-  if (images.length) {
+  if (newImages.length) {
     await deleteMultipleUploadedFiles(imageUrls);
     const newImageUrls = await uploadMultipleFiles(
-      images,
+      newImages,
       PRODUCT_IMAGES_DIRECTORY
     );
     updatedProductInfo.imageUrls = newImageUrls;
@@ -159,7 +166,7 @@ export const updateProductById = async (productId, updatedProductInfo) => {
 export const deleteProductById = async (productId, imageUrls) => {
   const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
   await deleteMultipleUploadedFiles(imageUrls);
-  await productRef.delete();
+  await deleteDocByRef(productRef);
 };
 
 export const executePaginatedCategoryQuery = async (paginatedCategoryQuery) => {

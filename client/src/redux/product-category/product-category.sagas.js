@@ -102,8 +102,8 @@ function* fetchAllCategories() {
 function* deleteCategoryById({ payload: { categoryToDelete } }) {
   const { categoryId, category: name, imageUrl } = yield categoryToDelete;
   try {
-    const productCategories = yield select(selectProductCategories);
     yield deleteProductCategoryById(categoryId, imageUrl);
+    const productCategories = yield select(selectProductCategories);
     const updatedProductCategories = yield removeObjFromArrOfObjects(
       "categoryId",
       categoryId,
@@ -127,17 +127,17 @@ function* deleteCategoryById({ payload: { categoryToDelete } }) {
 }
 
 function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
+  const { category } = yield newCategoryInfo;
   try {
+    const newCategory = yield createNewProductCategory({
+      ...newCategoryInfo
+    });
     const productCategories = yield select(selectProductCategories);
-    const createdCategory = yield createNewProductCategory(newCategoryInfo);
-    const updatedProductCategories = yield [
-      ...productCategories,
-      createdCategory
-    ];
+    const updatedProductCategories = yield [...productCategories, newCategory];
     yield put(
       createNewCategorySuccess(
         updatedProductCategories,
-        `${capitalize(createdCategory.category)} category has been created.`
+        `${capitalize(category)} category has been created.`
       )
     );
     yield onSuccess();
@@ -145,7 +145,7 @@ function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
     yield put(
       createNewCategoryFail(
         `There was a problem creating ${capitalize(
-          newCategoryInfo.category
+          category
         )}. Ensure the uploaded image is a png/jpg/jpeg and is less than 100 kb.`
       )
     );
@@ -156,10 +156,11 @@ function* updateCategoryById({
   payload: { updatedCategoryInfo, categoryId, onSuccess }
 }) {
   try {
-    const productCategories = yield select(selectProductCategories);
     yield delete updatedCategoryInfo.categoryId;
-    yield updateProductCategoryById(categoryId, updatedCategoryInfo);
-    const updatedCategory = { ...updatedCategoryInfo, categoryId };
+    const updatedCategory = yield updateProductCategoryById(categoryId, {
+      ...updatedCategoryInfo
+    });
+    const productCategories = yield select(selectProductCategories);
     const updatedProductCategories = yield updateObjInArrOfObjects(
       "categoryId",
       categoryId,
@@ -203,7 +204,7 @@ function* watchFetchAllCategories() {
 
 function* watchCategoryDeleteById() {
   yield takeLatest(
-    PRODUCT_CATEGORY_ACTION_TYPES.START_CATEGORY_DELETE_BY_ID,
+    PRODUCT_CATEGORY_ACTION_TYPES.DELETE_CATEGORY_BY_ID,
     deleteCategoryById
   );
 }

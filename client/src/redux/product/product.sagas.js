@@ -50,9 +50,7 @@ function* fetchProducts({ payload: minStockQuantity }) {
     yield put(initialProductsFetchSuccess(products, lastVisibleDoc));
   } catch (err) {
     yield put(
-      initialProductsFetchFail(
-        "There was a problem with displaying the products."
-      )
+      initialProductsFetchFail("There was a problem displaying the products.")
     );
   }
 }
@@ -134,7 +132,7 @@ function* fetchMoreProductsByCategory({
   } catch (err) {
     yield put(
       loadingMoreProductsFail(
-        `There was a problem loading more ${categoryName} products.`
+        `There was a problem loading more ${capitalize(categoryName)} products.`
       )
     );
   }
@@ -160,8 +158,8 @@ function* fetchProductById({ payload: { id, onFail } }) {
 function* deleteProduct({ payload: { productToDelete } }) {
   const { name, productId, imageUrls } = yield productToDelete;
   try {
-    const products = yield select(selectProductCollection);
     yield deleteProductById(productId, imageUrls);
+    const products = yield select(selectProductCollection);
     const updatedProducts = yield removeObjFromArrOfObjects(
       "productId",
       productId,
@@ -183,13 +181,13 @@ function* deleteProduct({ payload: { productToDelete } }) {
 }
 
 function* createProduct({ payload: { newProductInfo, onSuccess } }) {
-  const { name, price, stock } = yield newProductInfo;
+  const { name } = yield newProductInfo;
   try {
-    newProductInfo.price = yield Number(price);
-    newProductInfo.stock = yield Number(stock);
+    newProductInfo.price = yield Number(newProductInfo.price);
+    newProductInfo.stock = yield Number(newProductInfo.stock);
+    const newProduct = yield createNewProduct({ ...newProductInfo });
     const products = yield select(selectProductCollection);
-    const createdProduct = yield createNewProduct(newProductInfo);
-    const updatedProducts = yield [...products, createdProduct];
+    const updatedProducts = yield [...products, newProduct];
     yield put(
       createNewProductSuccess(
         updatedProducts,
@@ -212,15 +210,13 @@ function* updateProductInfoById({
   payload: { updatedProductInfo, productId, onSuccess }
 }) {
   try {
-    const { price, stock } = yield updatedProductInfo;
-    updatedProductInfo.price = yield Number(price);
-    updatedProductInfo.stock = yield Number(stock);
-    const products = yield select(selectProductCollection);
+    updatedProductInfo.price = yield Number(updatedProductInfo.price);
+    updatedProductInfo.stock = yield Number(updatedProductInfo.stock);
     yield delete updatedProductInfo.productId;
-    const updatedProduct = yield updateProductById(
-      productId,
-      updatedProductInfo
-    );
+    const updatedProduct = yield updateProductById(productId, {
+      ...updatedProductInfo
+    });
+    const products = yield select(selectProductCollection);
     const updatedProducts = yield updateObjInArrOfObjects(
       "productId",
       productId,
@@ -267,17 +263,11 @@ function* watchLoadMoreProductsByCategory() {
 }
 
 function* watchFetchProductByIdStart() {
-  yield takeLatest(
-    PRODUCT_ACTION_TYPES.START_FETCH_PRODUCT_BY_ID,
-    fetchProductById
-  );
+  yield takeLatest(PRODUCT_ACTION_TYPES.FETCH_PRODUCT_BY_ID, fetchProductById);
 }
 
 function* watchProductDeleteById() {
-  yield takeLatest(
-    PRODUCT_ACTION_TYPES.START_PRODUCT_DELETE_BY_ID,
-    deleteProduct
-  );
+  yield takeLatest(PRODUCT_ACTION_TYPES.DELETE_PRODUCT_BY_ID, deleteProduct);
 }
 
 function* watchCreateNewProduct() {
