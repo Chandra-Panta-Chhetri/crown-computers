@@ -1,3 +1,5 @@
+const KILO_BYTES_PER_BYTE = 1024;
+
 export const truncate = (str, maxStrLength = 20) =>
   str.length > maxStrLength ? str.substr(0, maxStrLength - 1) + "..." : str;
 
@@ -16,6 +18,9 @@ export const getLastElementInArray = (arr) => arr[arr.length - 1];
 
 export const convertNestedObjectToArray = (nestedObj) =>
   Object.keys(nestedObj).map((key) => nestedObj[key]);
+
+export const convertBytesToKiloBytes = (bytes) =>
+  Math.round(bytes / KILO_BYTES_PER_BYTE);
 
 export const isVariableDefined = (variable) => typeof variable !== "undefined";
 

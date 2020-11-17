@@ -1,6 +1,7 @@
 import React from "react";
-import { FormSelectContainer, SelectFormInput } from "./form-select.styles";
-import { InputLabel } from "../file-upload/file-upload.styles";
+import { SelectFormInput } from "./form-select.styles";
+import { FormInputContainer as FormSelectContainer } from "../form-input/form-input.styles";
+import { InputLabel } from "../form-input/form-input.styles";
 
 const FormSelect = ({
   noneSelectedText = "Select an Option",

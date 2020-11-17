@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { shrinkLabelMixin } from "../form-input/form-input.styles";
 import Button from "../button/button.component";
 
 export const FileUploadContainer = styled.section`
@@ -11,11 +10,6 @@ export const FileUploadContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-export const InputLabel = styled.label`
-  position: absolute;
-  ${shrinkLabelMixin}
 `;
 
 export const FormField = styled.input`

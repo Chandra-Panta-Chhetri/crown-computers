@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   ProductEntryContainer,
-  FlexContainer,
+  FlexRowContainer,
   CategoryName,
   InventoryCount,
   SpecificationBanner,
@@ -9,12 +9,12 @@ import {
   EditProductIcon,
   ProductName,
   ProductImages,
-  Heading
+  Heading,
+  DeleteProductModal
 } from "./product-entry.styles";
 
 import Card from "../card/card.component";
 import Collapse from "../collapse/collapse.component";
-import DeleteConfirmationModal from "../delete-confirmation-modal/delete-confirmation-modal.component";
 import CreateProductModal from "../create-product-modal/create-product-modal.component";
 
 import { connect } from "react-redux";
@@ -61,7 +61,7 @@ const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
               defaultProduct={product}
             />
           )}
-          <DeleteConfirmationModal
+          <DeleteProductModal
             modalTitle="Delete Product Confirmation"
             confirmButtonText="Delete Product"
             onConfirmation={() => deleteProductById(product)}
@@ -70,15 +70,15 @@ const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
               Are you sure you want to delete <ProductName>{name}</ProductName>{" "}
               ?
             </p>
-          </DeleteConfirmationModal>
+          </DeleteProductModal>
         </ProductActionContainer>
         <CategoryName>{category}</CategoryName>
-        <FlexContainer>
+        <FlexRowContainer>
           <ProductName>{name}</ProductName>
           <span>
             <i className="fas fa-tag" /> ${price}
           </span>
-        </FlexContainer>
+        </FlexRowContainer>
         <InventoryCount>
           <i className="fas fa-boxes" /> In Inventory: {stock}
         </InventoryCount>

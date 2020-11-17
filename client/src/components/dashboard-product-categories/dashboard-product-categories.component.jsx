@@ -72,9 +72,9 @@ const DashboardProductCategories = ({
         ))}
         {isFetchingCategories && (
           <Skeleton
-            width="28%"
+            width="31.33%"
             height="290px"
-            margin="0 10px 40px"
+            margin="0 0.7rem 0.9rem"
             count={categoriesPerPage}
             flexGrow
           />

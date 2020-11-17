@@ -1,24 +1,7 @@
 import styled from "styled-components";
-import { mainColor, secondaryColor } from "../form-input/form-input.styles";
-
-export const FormSelectContainer = styled.div`
-  position: relative;
-  margin: 25px 0 35px;
-`;
+import { FormFieldStyles } from "../form-input/form-input.styles";
 
 export const SelectFormInput = styled.select`
-  color: ${mainColor};
-  font-size: 18px;
-  padding: 10px 10px 10px 7px;
-  display: block;
-  width: 100%;
-  border: none;
-  border-radius: 6px;
-  border: 1px solid ${secondaryColor};
-  background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
+  ${FormFieldStyles}
   text-transform: capitalize;
-
-  &:focus {
-    outline: none;
-  }
 `;

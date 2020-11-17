@@ -44,6 +44,7 @@ const SignUp = ({ signUpUser }) => {
             label="Full Name*"
             inputValue={fullName}
             inputChangeHandler={handleChange}
+            placeholder="John Doe"
             required
           />
           <FormInput
@@ -52,6 +53,7 @@ const SignUp = ({ signUpUser }) => {
             label="Email*"
             inputValue={email}
             inputChangeHandler={handleChange}
+            placeholder="john.doe@gmail.com"
             required
           />
           <FormInput
@@ -60,6 +62,7 @@ const SignUp = ({ signUpUser }) => {
             label="Password*"
             inputValue={password}
             inputChangeHandler={handleChange}
+            placeholder="******"
             required
           />
           <FormInput
@@ -68,6 +71,7 @@ const SignUp = ({ signUpUser }) => {
             label="Confirm Password*"
             inputValue={confirmPassword}
             inputChangeHandler={handleChange}
+            placeholder="******"
             required
           />
           <FormButton type="submit">Sign Up</FormButton>

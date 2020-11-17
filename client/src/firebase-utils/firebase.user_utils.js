@@ -4,7 +4,8 @@ import {
   getDocSnapshotById,
   setDocDataByRef,
   FIRESTORE_COLLECTION_REFS,
-  USER_COLLECTION_NAME
+  USER_COLLECTION_NAME,
+  getDocRefFromSnapshot
 } from "./firebase.abstract_utils";
 
 export const getUserFromSession = () =>
@@ -27,7 +28,7 @@ export const createNewUser = async (userRef, newUserInfo) => {
 export const getUserRefByAuth = async (userAuth, extraData) => {
   const { email, uid } = userAuth;
   const userSnapshot = await getDocSnapshotById(USER_COLLECTION_NAME, uid);
-  const userRef = userSnapshot.ref;
+  const userRef = getDocRefFromSnapshot(userSnapshot);
   if (!userSnapshot.exists) {
     const newUser = {
       ...extraData,

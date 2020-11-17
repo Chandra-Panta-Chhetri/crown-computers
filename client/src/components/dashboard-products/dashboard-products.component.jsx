@@ -23,6 +23,7 @@ import {
   startLoadingMoreProducts
 } from "../../redux/product/product.actions";
 import { createStructuredSelector } from "reselect";
+import { fetchAllCategories } from "../../redux/product-category/product-category.actions";
 
 const MIN_STOCK_QUANTITY = -1;
 
@@ -34,7 +35,8 @@ const DashboardProducts = ({
   fetchProducts,
   fetchMoreProducts,
   isUpdatingProducts,
-  productLoadingText
+  productLoadingText,
+  fetchAllCategories
 }) => {
   const fetchMoreOnIntersection = usePaginationOnIntersection(
     () => fetchMoreProducts(MIN_STOCK_QUANTITY),
@@ -45,6 +47,10 @@ const DashboardProducts = ({
   useEffect(() => {
     fetchProducts(MIN_STOCK_QUANTITY);
   }, [fetchProducts]);
+
+  useEffect(() => {
+    fetchAllCategories();
+  }, [fetchAllCategories]);
 
   return (
     <>
@@ -94,7 +100,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchProducts: (minStockQuantity) =>
     dispatch(startInitialProductsFetch(minStockQuantity)),
   fetchMoreProducts: (minStockQuantity) =>
-    dispatch(startLoadingMoreProducts(minStockQuantity))
+    dispatch(startLoadingMoreProducts(minStockQuantity)),
+  fetchAllCategories: () => dispatch(fetchAllCategories())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardProducts);

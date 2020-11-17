@@ -45,6 +45,7 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
             label="Email*"
             inputValue={email}
             inputChangeHandler={handleUserCredentialsChange}
+            placeholder="john.doe@gmail.com"
             required
           />
           <FormInput
@@ -53,6 +54,7 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
             label="Password*"
             inputValue={password}
             inputChangeHandler={handleUserCredentialsChange}
+            placeholder="******"
             required
           />
           <FormButton type="submit">Log In</FormButton>

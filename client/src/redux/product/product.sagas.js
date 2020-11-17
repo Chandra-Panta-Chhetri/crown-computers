@@ -85,6 +85,7 @@ function* fetchProductsByCategory({
   payload: { categoryName, onFail, minStockQuantity }
 }) {
   try {
+    console.log(categoryName);
     const productsPerPage = yield select(selectProductsPerPage);
     const {
       products: productsInCategory,
@@ -99,6 +100,7 @@ function* fetchProductsByCategory({
     }
     yield put(initialProductsFetchSuccess(productsInCategory, lastVisibleDoc));
   } catch (err) {
+    console.log(err.message);
     yield put(
       initialProductsFetchFail(
         `There are no products in ${capitalize(categoryName)} yet.`

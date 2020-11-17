@@ -3,9 +3,8 @@ import { secondaryColor } from "../../global.styles";
 import Card from "../card/card.component";
 
 export const CategoryEntryContainer = styled.article`
-  flex-grow: 1;
-  width: 28%;
-  margin: 0 10px 40px;
+  width: 33.33%;
+  padding: 0.7rem;
   position: relative;
 `;
 

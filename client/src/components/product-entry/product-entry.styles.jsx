@@ -7,6 +7,8 @@ import {
   ImageContainer,
   ImagePreview
 } from "../image-carousel/image-carousel.styles";
+import DeleteConfirmationModal from "../delete-confirmation-modal/delete-confirmation-modal.component";
+import { ModalContent } from "../modal/modal.styles";
 
 export const ProductEntryContainer = styled.article`
   width: 100%;
@@ -32,6 +34,12 @@ export const EditProductIcon = styled.i`
   }
 `;
 
+export const DeleteProductModal = styled(DeleteConfirmationModal)`
+  ${ModalContent} {
+    height: 44%;
+  }
+`;
+
 export const CategoryName = styled.span`
   text-transform: uppercase;
   font-weight: bold;
@@ -40,7 +48,7 @@ export const CategoryName = styled.span`
   letter-spacing: 2px;
 `;
 
-export const FlexContainer = styled.div`
+export const FlexRowContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0 0 15px;

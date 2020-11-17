@@ -27,6 +27,7 @@ export const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  margin-left: 15px;
 
   .input-field {
     margin-bottom: 5px;

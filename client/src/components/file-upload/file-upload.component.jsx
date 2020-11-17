@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import {
   FileUploadContainer,
-  InputLabel,
   FormField,
   DragDropText,
   UploadFileBtn,
@@ -11,12 +10,14 @@ import {
   FileMetaData,
   RemoveFileIcon
 } from "./file-upload.styles";
+import { InputLabel } from "../form-input/form-input.styles";
 
-import { convertNestedObjectToArray } from "../../global.utils";
+import {
+  convertNestedObjectToArray,
+  convertBytesToKiloBytes
+} from "../../global.utils";
 import { connect } from "react-redux";
 import { addWarningNotification } from "../../redux/notification/notification.actions";
-
-const KILO_BYTES_PER_BYTE = 1024;
 
 const FormInput = ({
   label,
@@ -28,9 +29,6 @@ const FormInput = ({
 }) => {
   const fileInputField = useRef(null);
   const [files, setFiles] = useState(defaultFiles);
-
-  const convertBytesToKiloBytes = (bytes) =>
-    Math.round(bytes / KILO_BYTES_PER_BYTE);
 
   const handleUploadBtnClick = () => {
     fileInputField.current.click();

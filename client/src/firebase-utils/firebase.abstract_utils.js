@@ -41,6 +41,8 @@ export const getDocSnapshotById = async (collectionName, docId) => {
 
 export const getDocSnapshotByRef = async (docRef) => await docRef.get();
 
+export const getDocRefFromSnapshot = (docSnapshot) => docSnapshot.ref;
+
 export const getDocDataFromSnapshot = (
   docSnapshot,
   includeDocId = false,

@@ -14,7 +14,7 @@ export const initialCategoriesFetchSuccess = (
 
 export const initialCategoriesFetchFail = (errorMsg) => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.INITIAL_PRODUCT_CATEGORIES_FETCH_FAIL,
-  payload: { errorTitle: "Categories Fetching Failed", errorMsg }
+  payload: { errorTitle: "Fetching Categories Failed", errorMsg }
 });
 
 export const startLoadingMoreCategories = () => ({
@@ -44,7 +44,7 @@ export const fetchAllCategories = () => ({
 
 export const fetchAllCategoriesFail = (errorMsg) => ({
   type: PRODUCT_CATEGORY_ACTION_TYPES.FETCH_ALL_PRODUCT_CATEGORIES_FAIL,
-  payload: { errorTitle: "", errorMsg }
+  payload: { errorTitle: "Fetching Categories Failed", errorMsg }
 });
 
 export const fetchAllCategoriesSuccess = (productCategories) => ({

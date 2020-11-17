@@ -13,7 +13,9 @@ import {
   PRODUCT_COLLECTION_NAME,
   PRODUCT_CATEGORY_COLLECTION_NAME,
   deleteMultipleUploadedFiles,
-  uploadMultipleFiles
+  uploadMultipleFiles,
+  getDocDataFromSnapshot,
+  getDocRefFromSnapshot
 } from "./firebase.abstract_utils";
 
 const PRODUCT_CATEGORY_IMAGES_DIRECTORY = "product_category_images";
@@ -47,6 +49,7 @@ export const createNewProductCategory = async (newCategoryInfo) => {
   );
   delete newCategoryInfo.image;
   newCategoryInfo.imageUrl = imageUrl;
+  newCategoryInfo.category = newCategoryInfo.category.toLowerCase();
   const newProductCategoryRef = await createNewDoc(
     FIRESTORE_COLLECTION_REFS.productCategoryCollectionRef,
     newCategoryInfo
@@ -90,8 +93,8 @@ export const deleteAllProductsInCategory = async (productCategoryRef) => {
   );
   const productSnapshots = await executeQuery(productsInCategoryQuery);
   for (let productSnapshot of productSnapshots) {
-    let productRef = productSnapshot.ref;
-    await deleteDocByRef(productRef);
+    let product = getDocDataFromSnapshot(productSnapshot, true, "productId");
+    await deleteProductById(product.productId, product.imageUrls);
   }
 };
 
@@ -220,7 +223,9 @@ export const getProductCategoryRefByCategoryName = async (categoryName) => {
     const productCategorySnapshots = await executeQuery(
       productCategoryWithNameQuery
     );
-    const productCategoryRef = productCategorySnapshots[0].ref;
+    const productCategoryRef = getDocRefFromSnapshot(
+      productCategorySnapshots[0]
+    );
     return productCategoryRef;
   } catch (err) {
     return null;

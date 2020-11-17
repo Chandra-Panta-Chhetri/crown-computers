@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   NewProductModal,
   SubmitProductBtn
@@ -14,7 +14,6 @@ import {
   createNewProduct,
   updateProductInfo
 } from "../../redux/product/product.actions";
-import { fetchAllCategories } from "../../redux/product-category/product-category.actions";
 import { selectProductCategories } from "../../redux/product-category/product-category.selectors";
 import { addInfoNotification } from "../../redux/notification/notification.actions";
 
@@ -29,17 +28,12 @@ const CreateProductModal = ({
   createNewProduct,
   updateProduct,
   displayInfoNotification,
-  fetchAllCategories,
   productCategories
 }) => {
-  useEffect(() => {
-    fetchAllCategories();
-  }, [fetchAllCategories]);
-
   const [productInfo, setProductInfo] = useState({
     name: defaultProduct ? defaultProduct.name : "",
-    price: defaultProduct ? defaultProduct.price : "0.01",
-    stock: defaultProduct ? defaultProduct.stock : "0",
+    price: defaultProduct ? defaultProduct.price : "",
+    stock: defaultProduct ? defaultProduct.stock : "",
     description: defaultProduct ? defaultProduct.description : "",
     productCategoryId: defaultProduct
       ? defaultProduct.productCategoryId
@@ -70,10 +64,8 @@ const CreateProductModal = ({
     createNewProduct(productInfo, closeModalHandler);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProductInfo({ ...productInfo, [name]: value });
-  };
+  const handleChange = (e) =>
+    setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
 
   const updateUploadedFiles = (files) =>
     setProductInfo({ ...productInfo, images: files });
@@ -104,6 +96,7 @@ const CreateProductModal = ({
           name="price"
           required
           type="number"
+          placeholder="1799.99"
           step="0.01"
           min="0.01"
         />
@@ -113,6 +106,7 @@ const CreateProductModal = ({
           inputChangeHandler={handleChange}
           name="stock"
           required
+          placeholder="100"
           type="number"
           min="0"
         />
@@ -178,8 +172,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateProduct: (updatedProductInfo, productId, onSuccess) =>
     dispatch(updateProductInfo(updatedProductInfo, productId, onSuccess)),
   displayInfoNotification: (title, msg) =>
-    dispatch(addInfoNotification(title, msg)),
-  fetchAllCategories: () => dispatch(fetchAllCategories())
+    dispatch(addInfoNotification(title, msg))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProductModal);
