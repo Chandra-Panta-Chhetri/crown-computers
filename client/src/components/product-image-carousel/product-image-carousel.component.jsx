@@ -19,6 +19,16 @@ const ProductImageCarousel = ({ imageUrls = [] }) => {
   }, [setMainImageNav, mainImageCarouselRef]);
 
   const changeActiveImage = (index) => setActiveImage(index + 1);
+  const mainCarouselSettings = {
+    arrows: false,
+    afterChange: changeActiveImage
+  };
+  const secondaryCarouselSettings = {
+    focusOnSelect: true,
+    asNavFor: mainImageNav,
+    afterChange: changeActiveImage,
+    variableWidth: true
+  };
 
   if (!imageUrls.length) return null;
 
@@ -26,7 +36,7 @@ const ProductImageCarousel = ({ imageUrls = [] }) => {
     <ProductImageCarouselContainer>
       <Carousel
         refHandler={(slider) => setMainImageCarouselRef(slider)}
-        settings={{ arrows: false, afterChange: changeActiveImage }}
+        settings={mainCarouselSettings}
       >
         {imageUrls.map((imageUrl, index) => (
           <ProductImageContainer key={index}>
@@ -38,13 +48,9 @@ const ProductImageCarousel = ({ imageUrls = [] }) => {
         {activeImage} of {imageUrls.length}
       </NumOfPreviews>
       <ImageCarousel
-        carouselSetting={{
-          focusOnSelect: true,
-          asNavFor: mainImageNav,
-          afterChange: changeActiveImage,
-          variableWidth: true
-        }}
+        carouselSetting={secondaryCarouselSettings}
         imageUrls={imageUrls}
+        maxImagesToShowAtOnce={4}
       />
     </ProductImageCarouselContainer>
   );

@@ -10,6 +10,8 @@ import { connect } from "react-redux";
 import { startInitialProductsFetchByCategory } from "../../redux/product/product.actions";
 import { selectProductCollection } from "../../redux/product/product.selectors";
 
+const MIN_PRODUCTS_TO_SHOW = 3;
+
 const ProductsCarousel = ({
   categoryName,
   fetchProductsInCategory,
@@ -23,7 +25,7 @@ const ProductsCarousel = ({
     });
   }, [fetchProductsInCategory, categoryName]);
 
-  if (!isCarouselShown) {
+  if (!isCarouselShown || products.length < MIN_PRODUCTS_TO_SHOW) {
     return null;
   }
 

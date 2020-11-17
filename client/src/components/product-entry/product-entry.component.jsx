@@ -34,14 +34,10 @@ const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
     specifications,
     imageUrls
   } = product;
-  const numOfImages = imageUrls.length;
-  const numOfImagesToShown =
-    numOfImages > IMAGES_TO_SHOW_AT_ONCE ? IMAGES_TO_SHOW_AT_ONCE : numOfImages;
   const imageCarouselSettings = {
     dots: true,
     infinite: true,
-    slidesToShow: numOfImagesToShown,
-    slidesToScroll: numOfImagesToShown
+    variableWidth: true
   };
 
   return (
@@ -92,6 +88,7 @@ const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
         <ProductImages
           imageUrls={imageUrls}
           carouselSetting={imageCarouselSettings}
+          maxImagesToShowAtOnce={IMAGES_TO_SHOW_AT_ONCE}
         />
       </Card>
     </ProductEntryContainer>

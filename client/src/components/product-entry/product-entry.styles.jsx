@@ -84,4 +84,9 @@ export const ProductImages = styled(ImageCarousel)`
   ${ImagePreview} {
     margin: 0 10px 0;
   }
+
+  .slick-track {
+    display: flex;
+    justify-content: start;
+  }
 `;
