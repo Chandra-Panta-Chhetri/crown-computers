@@ -6,14 +6,14 @@ import {
 } from "./dynamic-form-input.styles";
 
 const DynamicFormInput = ({
-  defaultInputFields = [],
+  defaultInputFields,
   inputFieldStructure,
   inputFieldComponents = [],
   onChangeCb,
   title
 }) => {
   const [inputFields, setInputFields] = useState(
-    defaultInputFields.length ? defaultInputFields : [inputFieldStructure]
+    defaultInputFields ? defaultInputFields : [inputFieldStructure]
   );
   const keysOfInputFieldStructure = Object.keys(inputFieldStructure);
 
