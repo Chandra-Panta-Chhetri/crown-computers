@@ -8,6 +8,7 @@ export const FormContainer = styled.form`
 export const FormTitle = styled.h4`
   font-weight: bold;
   margin-top: 0;
+  margin-bottom: 30px;
 `;
 
 export const ContinueButton = styled(Button)`

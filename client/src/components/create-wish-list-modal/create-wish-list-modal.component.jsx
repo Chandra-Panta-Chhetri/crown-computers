@@ -46,9 +46,10 @@ const CreateWishListModal = ({
     >
       <form onSubmit={handleSubmit}>
         <FormInput
-          label="Wish List Name"
+          label="Wish List Name*"
           inputValue={wishListName}
           inputChangeHandler={handleChange}
+          placeholder="Birthday"
           required
         />
         <ConfirmWishListInfoBtn

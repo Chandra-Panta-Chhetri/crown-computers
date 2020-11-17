@@ -28,10 +28,7 @@ export const cardElementStyles = {
   base: {
     color: "black",
     fontSize: "17px",
-    iconColor: "black",
-    "::placeholder": {
-      color: "black"
-    }
+    iconColor: "black"
   },
   invalid: {
     iconColor: "red",

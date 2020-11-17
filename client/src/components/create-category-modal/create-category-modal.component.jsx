@@ -17,7 +17,7 @@ import { addInfoNotification } from "../../redux/notification/notification.actio
 const CreateCategoryModal = ({
   createNewCategory,
   closeModalHandler,
-  modalTitle = "Create New Product Category",
+  modalTitle = "Create New Category",
   isEditing = false,
   defaultCategory,
   submitBtnText = "Create New Category",
@@ -63,15 +63,16 @@ const CreateCategoryModal = ({
     >
       <form onSubmit={handleSubmit}>
         <FormInput
-          label="Category Name"
+          label="Category Name*"
           inputValue={categoryInfo.category}
           inputChangeHandler={handleChange}
           name="category"
           required
+          placeholder="Phones"
         />
         <FileUpload
           accept=".jpg,.png,.jpeg"
-          label={isEditing ? "New Category Image" : "Category Image"}
+          label={isEditing ? "New Category Image" : "Category Image*"}
           updateFilesCb={updateUploadedFiles}
         />
         <SubmitCategoryBtn type="submit">{submitBtnText}</SubmitCategoryBtn>

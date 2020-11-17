@@ -52,7 +52,7 @@ const CardDetailsForm = ({
         type="submit"
         disabled={!stripeLoaded || !isCardDetailFilled}
       >
-        Confirm & Pay {amountToBePaid}
+        Confirm & Pay ${amountToBePaid}
       </PayNowButton>
     </FormContainer>
   );

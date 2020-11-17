@@ -35,22 +35,24 @@ const BillingDetailsForm = ({
         />
       )}
       <FormInput
-        label="Street"
+        label="Street*"
         name="line1"
         inputChangeHandler={handleChange}
         inputValue={formValues.line1}
         required
+        placeholder="123 Kingston Rd"
       />
       <FormInput
-        label="City"
+        label="City*"
         name="city"
         inputChangeHandler={handleChange}
         inputValue={formValues.city}
         required
+        placeholder="toronto"
       />
-      <FormInput label="Country" name="country" inputValue="Canada" readOnly />
+      <FormInput label="Country*" name="country" inputValue="Canada" readOnly />
       <FormInput
-        label="Postal Code"
+        label="Postal Code*"
         name="postal_code"
         pattern="^([A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d)$"
         title="A1A 2A3 or A1A2A3"
@@ -58,6 +60,7 @@ const BillingDetailsForm = ({
         inputValue={formValues.postal_code}
         required
         uppercaseInput
+        placeholder="A1A2A3"
       />
       <Button onClick={prevStep} type="button">
         Back
