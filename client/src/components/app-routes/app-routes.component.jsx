@@ -23,6 +23,7 @@ const WishList = lazy(() =>
 const Dashboard = lazy(() =>
   import("../../pages/dashboard/dashboard.component")
 );
+const UserProfile = lazy(() => import("../../pages/profile/profile.component"));
 
 const AppRoutes = ({ currentUser }) => {
   const isAdmin = currentUser && currentUser.isAdmin;
@@ -81,6 +82,16 @@ const AppRoutes = ({ currentUser }) => {
             path="/dashboard"
             render={(props) =>
               isAdmin ? <Dashboard {...props} /> : <Redirect to="/" />
+            }
+          />
+          <Route
+            path="/profile"
+            render={(props) =>
+              isAuthenticated ? (
+                <UserProfile {...props} />
+              ) : (
+                <Redirect to="/login" />
+              )
             }
           />
           <Route component={PageNotFound} />
