@@ -16,6 +16,7 @@ import {
   checkCartItemsInStockOrOutdated,
   updateProductStocksInCart
 } from "../../firebase-utils/firebase.cart_utils";
+import { analytics } from "../../firebase-utils/firebase.config";
 
 function* processPayment(
   stripeInstance,
@@ -54,6 +55,7 @@ function* checkoutCart({
   }
 }) {
   try {
+    yield analytics.logEvent("checkout_start", { checkoutInfo, price });
     const shoppingCart = yield select(selectShoppingCart);
     const { customerInfo } = yield checkoutInfo;
     yield checkCartItemsInStockOrOutdated(shoppingCart);
@@ -75,6 +77,11 @@ function* checkoutCart({
       )
     );
   } catch (err) {
+    yield analytics.logEvent("checkout_fail", {
+      err: err.message,
+      checkoutInfo,
+      price
+    });
     yield put(checkoutFail(err.message));
   }
 }
@@ -89,6 +96,10 @@ function* handleCheckoutSuccess({
   }
 }) {
   try {
+    yield analytics.logEvent("checkout_success", {
+      paymentMethod,
+      customerInfo
+    });
     const shoppingCart = yield select(selectShoppingCart);
     const shoppingCartSubtotal = yield select(selectCartTotal);
     const numItemsSold = yield select(selectNumCartItems);
@@ -106,7 +117,15 @@ function* handleCheckoutSuccess({
       cartId,
       numItemsSold
     );
-  } catch (err) {}
+    yield analytics.logEvent("sale_created", {
+      paymentMethod,
+      customerInfo,
+      shoppingCartSubtotal,
+      numItemsSold
+    });
+  } catch (err) {
+    yield analytics.logEvent("sale_failed_to_create", { err: err.message });
+  }
 }
 
 function* watchCheckoutStart() {

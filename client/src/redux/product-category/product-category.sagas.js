@@ -35,6 +35,7 @@ import {
   updateObjInArrOfObjects
 } from "../../global.utils";
 import { getAllDocsInCollection } from "../../firebase-utils/firebase.abstract_utils";
+import { analytics } from "../../firebase-utils/firebase.config";
 
 function* fetchCategories() {
   try {
@@ -44,6 +45,7 @@ function* fetchCategories() {
     );
     yield put(initialCategoriesFetchSuccess(categories, lastVisibleDoc));
   } catch (err) {
+    yield analytics.logEvent("category_load_fail", { err: err.message });
     yield put(
       initialCategoriesFetchFail(
         "There was a problem with displaying the product categories."
@@ -76,6 +78,7 @@ function* fetchMoreCategories() {
       )
     );
   } catch (err) {
+    yield analytics.logEvent("category_load_more_fail", { err: err.message });
     yield put(
       loadingMoreCategoriesFail("There was a problem loading more categories.")
     );
@@ -122,6 +125,10 @@ function* deleteCategoryById({ payload: { categoryToDelete } }) {
     let defaultErrMsg = yield `There was a problem deleting ${capitalize(
       name
     )}. Please try again later.`;
+    yield analytics.logEvent("category_delete_fail", {
+      err: err.message || defaultErrMsg,
+      categoryToDelete
+    });
     yield put(deleteCategoryByIdFail(err.message || defaultErrMsg));
   }
 }
@@ -142,6 +149,10 @@ function* createNewCategory({ payload: { newCategoryInfo, onSuccess } }) {
     );
     yield onSuccess();
   } catch (err) {
+    yield analytics.logEvent("category_create_fail", {
+      err: err.message,
+      newCategoryInfo
+    });
     yield put(
       createNewCategoryFail(
         `There was a problem creating ${capitalize(
@@ -177,6 +188,11 @@ function* updateCategoryById({
     yield onSuccess();
   } catch (err) {
     let defaultErrMsg = yield "There was a problem updating the product category. Please try again later.";
+    yield analytics.logEvent("category_update_fail", {
+      err: err.message || defaultErrMsg,
+      updatedCategoryInfo,
+      categoryId
+    });
     yield put(updateCategoryInfoFail(err.message || defaultErrMsg));
   }
 }

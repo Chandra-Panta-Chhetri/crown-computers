@@ -1,11 +1,11 @@
 import { auth } from "./firebase.config";
 import {
   createNewDoc,
-  getDocSnapshotById,
   setDocDataByRef,
   FIRESTORE_COLLECTION_REFS,
-  USER_COLLECTION_NAME,
-  getDocRefFromSnapshot
+  getDocRefById,
+  getDocDataByRef,
+  USER_COLLECTION_NAME
 } from "./firebase.abstract_utils";
 
 export const getUserFromSession = () =>
@@ -16,27 +16,25 @@ export const getUserFromSession = () =>
     }, reject);
   });
 
-export const createNewUser = async (userRef, newUserInfo) => {
-  await setDocDataByRef(userRef, newUserInfo);
+export const createNewUserFromAuth = async (userAuth, extraData) => {
+  const { uid, email } = userAuth;
+  const newUserInfo = {
+    ...extraData,
+    email,
+    createdAt: new Date(),
+    isAdmin: false
+  };
+  const newUserDocRef = getDocRefById(USER_COLLECTION_NAME, uid);
+  await setDocDataByRef(newUserDocRef, newUserInfo);
   await createNewDoc(FIRESTORE_COLLECTION_REFS.cartCollectionRef, {
-    userRef,
+    userRef: newUserDocRef,
     cartItems: [],
     isWishList: false
   });
 };
 
-export const getUserRefByAuth = async (userAuth, extraData) => {
-  const { email, uid } = userAuth;
-  const userSnapshot = await getDocSnapshotById(USER_COLLECTION_NAME, uid);
-  const userRef = getDocRefFromSnapshot(userSnapshot);
-  if (!userSnapshot.exists) {
-    const newUser = {
-      ...extraData,
-      email,
-      createdAt: new Date(),
-      isAdmin: false
-    };
-    await createNewUser(userRef, newUser);
-  }
-  return userRef;
+export const getUserById = async (userId) => {
+  const userRef = getDocRefById(USER_COLLECTION_NAME, userId);
+  const user = await getDocDataByRef(userRef, true, "userId");
+  return user;
 };

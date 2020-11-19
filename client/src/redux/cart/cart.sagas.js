@@ -19,6 +19,7 @@ import {
   addSuccessNotification
 } from "../notification/notification.actions";
 import { truncate } from "../../global.utils";
+import { analytics } from "../../firebase-utils/firebase.config";
 
 function* addItemToCart({ payload: { item } }) {
   try {
@@ -83,16 +84,17 @@ function* updateItemQuantity({ payload: { item, newQuantity } }) {
 }
 
 function* handleCartUpdateSuccess({
-  payload: { cart: cartWithoutCartItemRefs, successTitle, successMsg }
+  payload: { cart, successTitle, successMsg }
 }) {
   try {
     yield put(addSuccessNotification(successTitle, successMsg));
     const currentUser = yield select(selectCurrentUser);
     const cartId = yield select(selectCartId);
     if (currentUser && !currentUser.isAdmin && cartId) {
-      yield saveCart(cartWithoutCartItemRefs, cartId);
+      yield saveCart(cart, cartId);
     }
   } catch (err) {
+    yield analytics.logEvent("cart_save_fail", { cart, successTitle });
     yield put(
       addErrorNotification(
         "Saving Cart Failed",

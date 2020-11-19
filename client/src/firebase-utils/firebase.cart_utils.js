@@ -12,7 +12,8 @@ import {
   updateDocDataById,
   PRODUCT_COLLECTION_NAME,
   CART_ITEM_COLLECTION_NAME,
-  CART_COLLECTION_NAME
+  CART_COLLECTION_NAME,
+  USER_COLLECTION_NAME
 } from "./firebase.abstract_utils";
 
 export const createNewCartItem = async (productId) => {
@@ -65,7 +66,7 @@ export const updateProductStocksInCart = async (cart) => {
   }
 };
 
-const getUserCartSnapshot = async (userRef) => {
+const getUserCartSnapshotFromRef = async (userRef) => {
   const userCartQuery = FIRESTORE_COLLECTION_REFS.cartCollectionRef
     .where("userRef", "==", userRef)
     .where("isWishList", "==", false);
@@ -73,9 +74,10 @@ const getUserCartSnapshot = async (userRef) => {
   return cartSnapshots[0];
 };
 
-export const getUserCartWithId = async (userRef) => {
+export const getUserCartWithId = async (userId) => {
+  const userRef = getDocRefById(USER_COLLECTION_NAME, userId);
   try {
-    const cartSnapshot = await getUserCartSnapshot(userRef);
+    const cartSnapshot = await getUserCartSnapshotFromRef(userRef);
     const cartWithCartItemRefs = cartSnapshot.data().cartItems;
     const populatedCart = await populateCart(cartWithCartItemRefs);
     return { cart: populatedCart, cartId: cartSnapshot.id };

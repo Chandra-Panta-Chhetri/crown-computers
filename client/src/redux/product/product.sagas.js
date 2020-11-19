@@ -36,6 +36,7 @@ import {
   removeObjFromArrOfObjects,
   updateObjInArrOfObjects
 } from "../../global.utils";
+import { analytics } from "../../firebase-utils/firebase.config";
 
 function* fetchProducts({ payload: minStockQuantity }) {
   try {
@@ -49,6 +50,7 @@ function* fetchProducts({ payload: minStockQuantity }) {
     }
     yield put(initialProductsFetchSuccess(products, lastVisibleDoc));
   } catch (err) {
+    yield analytics.logEvent("product_load_fail", { err: err.message });
     yield put(
       initialProductsFetchFail("There was a problem displaying the products.")
     );
@@ -75,6 +77,7 @@ function* fetchMoreProducts({ payload: minStockQuantity }) {
     );
     yield put(loadingMoreProductsSuccess(updatedProducts, lastVisibleDoc));
   } catch (err) {
+    yield analytics.logEvent("product_load_more_fail", { err: err.message });
     yield put(
       loadingMoreProductsFail("There was a problem loading more products.")
     );
@@ -85,7 +88,6 @@ function* fetchProductsByCategory({
   payload: { categoryName, onFail, minStockQuantity }
 }) {
   try {
-    console.log(categoryName);
     const productsPerPage = yield select(selectProductsPerPage);
     const {
       products: productsInCategory,
@@ -100,7 +102,6 @@ function* fetchProductsByCategory({
     }
     yield put(initialProductsFetchSuccess(productsInCategory, lastVisibleDoc));
   } catch (err) {
-    console.log(err.message);
     yield put(
       initialProductsFetchFail(
         `There are no products in ${capitalize(categoryName)} yet.`
@@ -178,6 +179,10 @@ function* deleteProduct({ payload: { productToDelete } }) {
     let defaultErrMsg = yield `There was a problem deleting ${capitalize(
       name
     )}.`;
+    yield analytics.logEvent("delete_product_fail", {
+      err: err.message || defaultErrMsg,
+      productToDelete
+    });
     yield put(deleteProductByIdFail(err.message || defaultErrMsg));
   }
 }
@@ -198,6 +203,10 @@ function* createProduct({ payload: { newProductInfo, onSuccess } }) {
     );
     yield onSuccess();
   } catch (err) {
+    yield analytics.logEvent("create_product_fail", {
+      err: err.message,
+      newProductInfo
+    });
     yield put(
       createNewProductFail(
         `Failed to create ${capitalize(
@@ -232,6 +241,11 @@ function* updateProductInfoById({
     yield onSuccess();
   } catch (err) {
     let defaultErrMsg = yield "There was a problem updating the product. Please try again later.";
+    yield analytics.logEvent("update_product_fail", {
+      err: err.message || defaultErrMsg,
+      updatedProductInfo,
+      productId
+    });
     yield put(updateProductInfoFail(err.message || defaultErrMsg));
   }
 }

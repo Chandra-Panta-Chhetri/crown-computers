@@ -11,21 +11,21 @@ import {
 import { restoreCart, clearCart } from "../cart/cart.actions";
 import { auth, googleProvider } from "../../firebase-utils/firebase.config";
 import {
-  getUserRefByAuth,
+  createNewUserFromAuth,
+  getUserById,
   getUserFromSession
 } from "../../firebase-utils/firebase.user_utils";
 import { getUserCartWithId } from "../../firebase-utils/firebase.cart_utils";
 import { addSuccessNotification } from "../notification/notification.actions";
 import { capitalize } from "../../global.utils";
 import { selectHasAutoSignedIn } from "./user.selectors";
-import { getDocDataByRef } from "../../firebase-utils/firebase.abstract_utils";
+import { analytics } from "../../firebase-utils/firebase.config";
 
-function* setUserFromSnapShot(userAuth, additionalData) {
-  const userRef = yield getUserRefByAuth(userAuth, additionalData);
-  const user = yield getDocDataByRef(userRef, true);
+function* setUserFromAuth(userAuth) {
+  const user = yield getUserById(userAuth.uid);
   yield put(signInSuccess(user));
   if (!user.isAdmin) {
-    const { cart, cartId } = yield getUserCartWithId(userRef);
+    const { cart, cartId } = yield getUserCartWithId(userAuth.uid);
     yield put(restoreCart(cart, cartId));
   }
 }
@@ -33,10 +33,14 @@ function* setUserFromSnapShot(userAuth, additionalData) {
 function* signInWithGoogle() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
-    yield call(setUserFromSnapShot, user, {
+    yield call(setUserFromAuth, user, {
       fullName: user.displayName
     });
   } catch (err) {
+    yield analytics.logEvent("user_sign_in_fail", {
+      method: "google",
+      err: err.message
+    });
     yield put(signInFail("Google sign in failed"));
   }
 }
@@ -44,8 +48,13 @@ function* signInWithGoogle() {
 function* signInWithEmail({ payload: { email, password } }) {
   try {
     const { user } = yield auth.signInWithEmailAndPassword(email, password);
-    yield call(setUserFromSnapShot, user);
+    yield call(setUserFromAuth, user);
   } catch (err) {
+    yield analytics.logEvent("user_sign_in_fail", {
+      email,
+      method: "email",
+      err: err.message
+    });
     yield put(signInFail("Email or password incorrect"));
   }
 }
@@ -56,7 +65,7 @@ function* autoSignIn() {
     if (!user) {
       throw Error();
     }
-    yield call(setUserFromSnapShot, user);
+    yield call(setUserFromAuth, user);
   } catch (err) {
     yield put(signInFail("Auto sign in failed, please login again"));
     yield put(clearCart());
@@ -76,13 +85,19 @@ function* signUpUser({ payload: { newUserInfo } }) {
   const { email, password, fullName, confirmPassword } = yield newUserInfo;
   try {
     if (password !== confirmPassword) throw Error("Passwords must match");
+    yield analytics.logEvent("user_sign_up_start", { email, fullName });
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-    yield getUserRefByAuth(user, { fullName });
+    yield createNewUserFromAuth(user, { fullName });
     yield put(startEmailSignIn({ email, password }));
   } catch (err) {
     let defaultErrMsg = yield `${capitalize(
       fullName
     )}, there was a problem signing up. Please try again later.`;
+    yield analytics.logEvent("user_sign_up_fail", {
+      email,
+      fullName,
+      err: err.message || defaultErrMsg
+    });
     yield put(signUpFail(err.message || defaultErrMsg));
   }
 }

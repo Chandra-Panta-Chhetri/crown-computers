@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
+import "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -21,4 +22,5 @@ googleProvider.setCustomParameters({ prompt: "select_account" });
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const fileStorage = firebase.storage();
+export const analytics = firebase.analytics();
 export default firebase;

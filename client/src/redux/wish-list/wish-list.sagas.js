@@ -42,10 +42,11 @@ import {
   CART_ITEM_COLLECTION_NAME,
   CART_COLLECTION_NAME
 } from "../../firebase-utils/firebase.abstract_utils";
+import { analytics } from "../../firebase-utils/firebase.config";
 
 function* fetchWishLists() {
   try {
-    const { id: userId } = yield select(selectCurrentUser);
+    const { userId } = yield select(selectCurrentUser);
     const wishLists = yield getWishLists(userId);
     yield put(wishListsFetchSuccess(wishLists));
   } catch (err) {
@@ -90,6 +91,10 @@ function* removeWishListById({ payload: { wishListToDelete } }) {
       )
     );
   } catch (err) {
+    yield analytics.logEvent("delete_wish_list_fail", {
+      err: err.message,
+      wishListToDelete
+    });
     yield put(
       deleteWishListByIdFail(
         `There was a problem deleting ${wishListName}. It has been deleted or you do not have permission to do so.`
@@ -101,13 +106,17 @@ function* removeWishListById({ payload: { wishListToDelete } }) {
 function* createWishList({ payload: { newWishListInfo, onSuccess } }) {
   const wishListName = yield capitalize(newWishListInfo.wishListName);
   try {
-    const { id: userId } = yield select(selectCurrentUser);
+    const { userId } = yield select(selectCurrentUser);
     const newWishList = yield createNewWishList(userId, newWishListInfo);
     yield put(
       createWishListSuccess(newWishList, `${wishListName} was created!`)
     );
     yield onSuccess();
   } catch (err) {
+    yield analytics.logEvent("create_wish_list_fail", {
+      newWishListInfo,
+      err: err.message
+    });
     yield put(
       createWishListFail(
         `A problem occurred while creating ${wishListName}. Please ensure you are logged in.`
@@ -198,6 +207,11 @@ function* updateWishList({
     );
     yield onSuccess();
   } catch (err) {
+    yield analytics.logEvent("update_wish_list_fail", {
+      err: err.message,
+      wishListId,
+      updatedWishList
+    });
     yield put(
       updateWishListFail(
         "Wish List Update Failed",
