@@ -1,5 +1,6 @@
 import { getLastElementInArray } from "../global.utils";
 import { firestore, fileStorage } from "./firebase.config";
+import imageCompression from "browser-image-compression";
 
 export const CART_COLLECTION_NAME = "carts";
 export const CART_ITEM_COLLECTION_NAME = "cart_items";
@@ -148,6 +149,19 @@ export const uploadFile = async (file, rootPathToSaveFile = "") =>
           .catch((err) => reject(err))
     );
   });
+
+export const compressImageFiles = async (imageFiles, options) => {
+  try {
+    const compressedImageFiles = [];
+    for (let imageFile of imageFiles) {
+      let compressedImage = await imageCompression(imageFile, options);
+      compressedImageFiles.push(compressedImage);
+    }
+    return compressedImageFiles;
+  } catch (err) {
+    return imageFiles;
+  }
+};
 
 export const uploadMultipleFiles = async (files, rootPathToSaveFiles = "") => {
   const fileUrls = [];

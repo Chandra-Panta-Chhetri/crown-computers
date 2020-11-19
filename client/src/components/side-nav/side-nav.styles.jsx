@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { secondaryColor } from "../../global.styles";
 
 export const SideNavContainer = styled.section`
-  position: absolute;
+  position: fixed;
   width: 100%;
   top: 0;
   left: 0;
   margin-bottom: 50px;
+  z-index: 100;
 `;
 
 export const Navbar = styled.div`

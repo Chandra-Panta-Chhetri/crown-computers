@@ -15,7 +15,8 @@ import {
   deleteMultipleUploadedFiles,
   uploadMultipleFiles,
   getDocDataFromSnapshot,
-  getDocRefFromSnapshot
+  getDocRefFromSnapshot,
+  compressImageFiles
 } from "./firebase.abstract_utils";
 
 const PRODUCT_CATEGORY_IMAGES_DIRECTORY = "product_category_images";
@@ -43,8 +44,12 @@ export const updateProductStock = async (productId, quantityToCheckout) => {
 };
 
 export const createNewProductCategory = async (newCategoryInfo) => {
+  const imageFile = newCategoryInfo.image;
+  const [compressedImage] = await compressImageFiles([imageFile], {
+    maxWidthOrHeight: 350
+  });
   const imageUrl = await uploadFile(
-    newCategoryInfo.image,
+    compressedImage,
     PRODUCT_CATEGORY_IMAGES_DIRECTORY
   );
   delete newCategoryInfo.image;
@@ -71,8 +76,11 @@ export const updateProductCategoryById = async (
   );
   if (newImage) {
     await deleteUploadedFile(imageUrl);
+    const [compressedImage] = await compressImageFiles([newImage], {
+      maxWidthOrHeight: 350
+    });
     const newImageUrl = await uploadFile(
-      newImage,
+      compressedImage,
       PRODUCT_CATEGORY_IMAGES_DIRECTORY
     );
     updatedProductCategoryInfo.imageUrl = newImageUrl;
@@ -113,7 +121,13 @@ export const deleteProductCategoryById = async (
 
 export const createNewProduct = async (newProductInfo) => {
   const { images, productCategoryId } = newProductInfo;
-  const imageUrls = await uploadMultipleFiles(images, PRODUCT_IMAGES_DIRECTORY);
+  const compressedImages = await compressImageFiles(images, {
+    maxWidthOrHeight: 400
+  });
+  const imageUrls = await uploadMultipleFiles(
+    compressedImages,
+    PRODUCT_IMAGES_DIRECTORY
+  );
   newProductInfo.imageUrls = imageUrls;
   newProductInfo.productCategoryRef = getDocRefById(
     PRODUCT_CATEGORY_COLLECTION_NAME,
@@ -145,8 +159,11 @@ export const updateProductById = async (productId, updatedProductInfo) => {
   const productRef = getDocRefById(PRODUCT_COLLECTION_NAME, productId);
   if (newImages.length) {
     await deleteMultipleUploadedFiles(imageUrls);
+    const compressedImages = await compressImageFiles(newImages, {
+      maxWidthOrHeight: 400
+    });
     const newImageUrls = await uploadMultipleFiles(
-      newImages,
+      compressedImages,
       PRODUCT_IMAGES_DIRECTORY
     );
     updatedProductInfo.imageUrls = newImageUrls;
