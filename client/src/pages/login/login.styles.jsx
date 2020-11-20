@@ -5,5 +5,9 @@ export const LoginContainer = styled.section`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 25px;
+`;
+
+export const DividerText = styled.h5`
+  margin: 0 0 15px;
+  font-weight: bold;
 `;

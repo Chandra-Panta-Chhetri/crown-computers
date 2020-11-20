@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LoginContainer } from "./login.styles";
+import { LoginContainer, DividerText } from "./login.styles";
 import {
   FormContainer,
   Form,
@@ -45,7 +45,7 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
             label="Email*"
             inputValue={email}
             inputChangeHandler={handleUserCredentialsChange}
-            placeholder="john.doe@gmail.com"
+            placeholder="John.Doe@gmail.com"
             required
           />
           <FormInput
@@ -58,7 +58,7 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
             required
           />
           <FormButton type="submit">Log In</FormButton>
-          <h5>Or login with</h5>
+          <DividerText>Or login with</DividerText>
           <FormButton type="button" onClick={startGoogleSignIn}>
             Google
           </FormButton>

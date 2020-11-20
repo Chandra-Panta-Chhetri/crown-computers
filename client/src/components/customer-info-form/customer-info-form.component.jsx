@@ -31,7 +31,7 @@ const CustomerInfoForm = ({ nextStep, handleChange, formValues }) => {
         inputChangeHandler={handleChange}
         inputValue={formValues.email}
         required
-        placeholder="john.doe@gmail.com"
+        placeholder="John.Doe@gmail.com"
       />
       <FormInput
         label="Phone Number*"

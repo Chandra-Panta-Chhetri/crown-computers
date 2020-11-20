@@ -53,7 +53,7 @@ const SignUp = ({ signUpUser }) => {
             label="Email*"
             inputValue={email}
             inputChangeHandler={handleChange}
-            placeholder="john.doe@gmail.com"
+            placeholder="John.Doe@gmail.com"
             required
           />
           <FormInput
