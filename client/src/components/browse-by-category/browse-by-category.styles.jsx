@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-export const BrowseByCategoryContainer = styled.div`
+export const Heading = styled.h2`
+  width: 100%;
+  text-align: center;
+`;
+
+export const CategoriesContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;

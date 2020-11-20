@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowseByCategoryContainer } from "./browse-by-category.styles";
+import { CategoriesContainer, Heading } from "./browse-by-category.styles";
 import { CategoryDirectorySkeleton } from "../category-directory/category-directory.styles";
 
 import CategoryDirectory from "../category-directory/category-directory.component";
@@ -36,22 +36,25 @@ const BrowseByCategory = ({
   }, [fetchInitialCategories]);
 
   return (
-    <BrowseByCategoryContainer>
-      {(productCategories || []).map((category, index) => (
-        <CategoryDirectory
-          key={index}
-          categoryInfo={category}
-          intersectionCb={
-            productCategories.length === index + 1
-              ? fetchMoreOnIntersection
-              : undefined
-          }
-        />
-      ))}
-      {isFetchingCategories && (
-        <CategoryDirectorySkeleton flexGrow count={categoriesPerPage} />
-      )}
-    </BrowseByCategoryContainer>
+    <>
+      <Heading>Browse By Category</Heading>
+      <CategoriesContainer>
+        {(productCategories || []).map((category, index) => (
+          <CategoryDirectory
+            key={index}
+            categoryInfo={category}
+            intersectionCb={
+              productCategories.length === index + 1
+                ? fetchMoreOnIntersection
+                : undefined
+            }
+          />
+        ))}
+        {isFetchingCategories && (
+          <CategoryDirectorySkeleton flexGrow count={categoriesPerPage} />
+        )}
+      </CategoriesContainer>
+    </>
   );
 };
 

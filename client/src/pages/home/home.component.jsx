@@ -13,7 +13,6 @@ const Home = ({ history }) => (
     >
       <Button onClick={() => history.push("/shop")}>Browse Collection</Button>
     </Jumbotron>
-    <h2>Browse By Category</h2>
     <BrowseByCategory />
   </HomeContainer>
 );
