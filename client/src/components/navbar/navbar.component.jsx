@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   NavBarContainer,
   LogoContainer,
   NavBarItems,
   NavItem,
   LogOutBtn,
-  Username
+  Username,
+  ToggleIcon,
+  FlexContainer,
+  NavMenuClose
 } from "./navbar.styles";
 
 import CartDropDown from "../cart-drop-down/cart-drop-down.component";
@@ -17,48 +20,75 @@ import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
 import { startLogOut } from "../../redux/user/user.actions";
 
-const Navbar = ({ currentUser, hidden, logOut }) => (
-  <NavBarContainer>
-    <LogoContainer>
-      <i className="fas fa-plug fa-3x"></i>
-      {currentUser && (
-        <Username>
-          <span>{currentUser.fullName}</span>
-          <i className="far fa-user" />
-        </Username>
-      )}
-    </LogoContainer>
-    <NavBarItems>
-      <NavItem exact to="/" activeClassName="active">
-        Home
-      </NavItem>
-      <NavItem to="/shop" activeClassName="active">
-        Shop
-      </NavItem>
-      {currentUser && (
-        <NavItem to="/wish-lists" activeClassName="active">
-          Wish Lists
-        </NavItem>
-      )}
-      {!currentUser ? (
-        <NavItem to="/login" activeClassName="active">
-          Log In
-        </NavItem>
-      ) : (
-        <LogOutBtn onClick={logOut} to="/">
-          Log Out
-        </LogOutBtn>
-      )}
-      {!currentUser && (
-        <NavItem to="/signup" activeClassName="active">
-          Sign Up
-        </NavItem>
-      )}
-      <CartIcon />
-    </NavBarItems>
-    {hidden ? null : <CartDropDown />}
-  </NavBarContainer>
-);
+const Navbar = ({ currentUser, hidden, logOut }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleCollapse = () => setIsCollapsed(!isCollapsed);
+
+  return (
+    <NavBarContainer>
+      <LogoContainer>
+        <i className="fas fa-plug"></i>
+        {currentUser && (
+          <Username>
+            <span>{currentUser.fullName}</span>
+            <i className="far fa-user" />
+          </Username>
+        )}
+      </LogoContainer>
+      <FlexContainer>
+        <ToggleIcon className="fas fa-bars" onClick={toggleCollapse} />
+        <NavBarItems isCollapsed={isCollapsed}>
+          <NavMenuClose className="fas fa-times" onClick={toggleCollapse} />
+          <NavItem
+            exact
+            to="/"
+            activeClassName="active"
+            onClick={toggleCollapse}
+          >
+            Home
+          </NavItem>
+          <NavItem to="/shop" activeClassName="active" onClick={toggleCollapse}>
+            Shop
+          </NavItem>
+          {currentUser && (
+            <NavItem
+              to="/wish-lists"
+              activeClassName="active"
+              onClick={toggleCollapse}
+            >
+              Wish Lists
+            </NavItem>
+          )}
+          {!currentUser ? (
+            <NavItem
+              to="/login"
+              activeClassName="active"
+              onClick={toggleCollapse}
+            >
+              Log In
+            </NavItem>
+          ) : (
+            <LogOutBtn onClick={logOut} to="/">
+              Log Out
+            </LogOutBtn>
+          )}
+          {!currentUser && (
+            <NavItem
+              to="/signup"
+              activeClassName="active"
+              onClick={toggleCollapse}
+            >
+              Sign Up
+            </NavItem>
+          )}
+        </NavBarItems>
+        <CartIcon />
+      </FlexContainer>
+      {hidden ? null : <CartDropDown />}
+    </NavBarContainer>
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
