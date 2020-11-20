@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { BrowseByCategoryContainer } from "./browse-by-category.styles";
+import { CategoryDirectorySkeleton } from "../category-directory/category-directory.styles";
 
 import CategoryDirectory from "../category-directory/category-directory.component";
-import Skeleton from "../skeleton/skeleton.component";
 
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -49,13 +49,7 @@ const BrowseByCategory = ({
         />
       ))}
       {isFetchingCategories && (
-        <Skeleton
-          width="25%"
-          height="240px"
-          margin="0 7.5px 15px"
-          count={categoriesPerPage}
-          flexGrow
-        />
+        <CategoryDirectorySkeleton flexGrow count={categoriesPerPage} />
       )}
     </BrowseByCategoryContainer>
   );

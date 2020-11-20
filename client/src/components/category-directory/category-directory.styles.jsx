@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { secondaryColorLight, mainColorLight } from "../../global.styles";
+import Skeleton from "../skeleton/skeleton.component";
 
 export const CategoryImage = styled.div`
   width: 100%;
@@ -23,6 +24,14 @@ export const DirectoryContent = styled.div`
   border-radius: 6px;
   width: 20%;
   text-align: center;
+
+  @media only screen and (max-width: 850px) {
+    width: 30%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 60%;
+  }
 `;
 
 export const CategoryDirectoryContainer = styled.div`
@@ -48,6 +57,15 @@ export const CategoryDirectoryContainer = styled.div`
       opacity: 1;
     }
   }
+
+  @media only screen and (max-width: 850px) {
+    width: 45%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    margin: 0 0 8px;
+  }
 `;
 
 export const CategoryName = styled.h1`
@@ -62,4 +80,19 @@ export const DirectorySubtitle = styled.p`
   font-weight: lighter;
   font-size: 16px;
   margin-top: 4px;
+`;
+
+export const CategoryDirectorySkeleton = styled(Skeleton)`
+  width: 25%;
+  margin: 0 7.5px 15px;
+  height: 240px;
+
+  @media only screen and (max-width: 850px) {
+    width: 45%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    margin: 0 0 8px;
+  }
 `;

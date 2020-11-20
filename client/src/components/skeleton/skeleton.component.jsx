@@ -6,13 +6,15 @@ const Skeleton = ({
   height = "100%",
   margin = "0",
   count = 1,
-  flexGrow = false
+  flexGrow = false,
+  className
 }) => (
   <>
     {Array(count)
       .fill()
       .map((skeleton, index) => (
         <SkeletonContainer
+          className={className}
           width={width}
           height={height}
           margin={margin}
