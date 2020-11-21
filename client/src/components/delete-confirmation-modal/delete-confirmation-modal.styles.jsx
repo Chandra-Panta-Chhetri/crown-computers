@@ -1,10 +1,23 @@
 import styled from "styled-components";
 import Modal from "../modal/modal.component";
-import { ModalContent } from "../modal/modal.styles";
+import { ModalContent, ModalBody } from "../modal/modal.styles";
 
 export const DeleteModalContainer = styled(Modal)`
   ${ModalContent} {
     height: 50%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ${ModalBody} {
+    flex-grow: 1;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    ${ModalContent} {
+      height: 90%;
+      width: 90%;
+    }
   }
 `;
 
@@ -20,8 +33,17 @@ export const DeleteIcon = styled.span`
 export const ModalButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-top: auto;
 
   button:first-child {
     margin-right: 30px;
+  }
+
+  @media only screen and (max-width: 530px) {
+    flex-direction: column-reverse;
+
+    button:first-child {
+      margin: 20px 0 0;
+    }
   }
 `;
