@@ -8,7 +8,8 @@ import {
   Username,
   ToggleIcon,
   FlexContainer,
-  NavMenuClose
+  NavMenuClose,
+  LogoIcon
 } from "./navbar.styles";
 
 import CartDropDown from "../cart-drop-down/cart-drop-down.component";
@@ -19,19 +20,27 @@ import { selectCartVisibility } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
 import { startLogOut } from "../../redux/user/user.actions";
+import { truncate } from "../../global.utils";
 
 const Navbar = ({ currentUser, hidden, logOut }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
+  const logOutClick = () => {
+    logOut();
+    if (isCollapsed) {
+      toggleCollapse();
+    }
+  };
+
   return (
     <NavBarContainer>
       <LogoContainer>
-        <i className="fas fa-plug"></i>
+        <LogoIcon className="fas fa-plug" />
         {currentUser && (
           <Username>
-            <span>{currentUser.fullName}</span>
+            <span>{truncate(currentUser.fullName)}</span>
             <i className="far fa-user" />
           </Username>
         )}
@@ -69,7 +78,7 @@ const Navbar = ({ currentUser, hidden, logOut }) => {
               Log In
             </NavItem>
           ) : (
-            <LogOutBtn onClick={logOut} to="/">
+            <LogOutBtn onClick={logOutClick} to="/">
               Log Out
             </LogOutBtn>
           )}

@@ -38,7 +38,7 @@ const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
     <LoginContainer>
       <FormContainer>
         <FormTitle>LOGIN</FormTitle>
-        <Form onSubmit={loginUser}>
+        <Form onSubmit={loginUser} autocomplete="on">
           <FormInput
             type="email"
             name="email"

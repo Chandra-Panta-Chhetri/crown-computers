@@ -28,10 +28,10 @@ export const NavBarContainer = styled.nav`
 export const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+`;
 
-  i {
-    font-size: 35px;
-  }
+export const LogoIcon = styled.i`
+  font-size: 35px;
 `;
 
 export const ToggleIcon = styled.i`
@@ -129,17 +129,27 @@ export const Username = styled.div`
   font-weight: 700;
   text-transform: capitalize;
 
-  span {
-    width: 110px;
-    overflow-x: hidden;
-  }
-
   i {
     margin-left: 5px;
+  }
+
+  @media only screen and (max-width: 500px) {
+    white-space: normal;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    i {
+      display: none;
+    }
   }
 `;
 
 export const LogOutBtn = styled(Link)`
   ${navItemStyles}
   ${navItemsHoverStyles}
+
+  @media only screen and (max-width: 650px) {
+    color: ${secondaryColor};
+  }
 `;
