@@ -13,7 +13,7 @@ import Skeleton from "../skeleton/skeleton.component";
 const CollectionItemSkeleton = () => (
   <CollectionItemContainer>
     <ItemImageContainer>
-      <Skeleton height="200px" />
+      <Skeleton height="250px" />
     </ItemImageContainer>
     <ItemInfoContainer>
       <ItemCategory isLoading>

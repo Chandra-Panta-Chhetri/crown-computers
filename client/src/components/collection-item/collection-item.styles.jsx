@@ -6,11 +6,19 @@ export const CollectionItemContainer = styled.div`
   font-weight: bold;
   width: 25%;
   padding: 0.5em;
+
+  @media only screen and (max-width: 700px) {
+    width: 50%;
+  }
+
+  @media only screen and (max-width: 400px) {
+    width: 100%;
+  }
 `;
 
 export const ItemImage = styled.img`
   width: 100%;
-  height: 50%;
+  height: 250px;
   object-fit: cover;
   object-position: center;
   margin-bottom: 5px;
@@ -29,8 +37,7 @@ export const ItemStock = styled.h4`
 `;
 
 export const AddItemToCartBtn = styled(AddToCartBtn)`
-  bottom: 10px;
-  left: 15px;
+  bottom: 15px;
   width: 90%;
   position: absolute;
   visibility: hidden;
@@ -41,10 +48,13 @@ export const AddItemToCartBtn = styled(AddToCartBtn)`
 export const ItemImageContainer = styled.div`
   position: relative;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   &:hover {
     ${ItemImage} {
-      opacity: 0.5;
+      opacity: 0.2;
     }
 
     ${AddItemToCartBtn},
