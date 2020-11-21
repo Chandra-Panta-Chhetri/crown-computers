@@ -24,11 +24,14 @@ export const ModalContent = styled.div`
   background: white;
   border-radius: 6px;
   box-shadow: 0 5px 3px black;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 `;
 
 export const ModalTitle = styled.h3`

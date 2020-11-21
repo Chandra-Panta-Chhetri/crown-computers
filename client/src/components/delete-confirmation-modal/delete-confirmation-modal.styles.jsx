@@ -5,8 +5,6 @@ import { ModalContent, ModalBody } from "../modal/modal.styles";
 export const DeleteModalContainer = styled(Modal)`
   ${ModalContent} {
     height: 50%;
-    display: flex;
-    flex-direction: column;
   }
 
   ${ModalBody} {
