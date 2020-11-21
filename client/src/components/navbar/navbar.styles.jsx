@@ -43,7 +43,7 @@ export const ToggleIcon = styled.i`
   cursor: pointer;
   display: none;
 
-  @media only screen and (max-width: 650px) {
+  @media only screen and (max-width: 750px) {
     display: initial;
   }
 `;
@@ -57,7 +57,7 @@ export const NavMenuClose = styled.i`
   background: none;
   cursor: pointer;
 
-  @media only screen and (max-width: 650px) {
+  @media only screen and (max-width: 750px) {
     display: initial;
     top: 30px;
     right: 30px;
@@ -70,7 +70,7 @@ export const FlexContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  @media only screen and (max-width: 650px) {
+  @media only screen and (max-width: 750px) {
     flex-direction: row-reverse;
   }
 `;
@@ -89,7 +89,7 @@ export const NavBarItems = styled.div`
     transition: border-bottom 350ms ease-out;
   }
 
-  @media only screen and (max-width: 650px) {
+  @media only screen and (max-width: 750px) {
     position: fixed;
     background: #2c3e50;
     top: 0;
@@ -113,7 +113,7 @@ export const NavItem = styled(NavLink)`
   ${navItemStyles}
   ${navItemsHoverStyles}
 
-  @media only screen and (max-width: 650px) {
+  @media only screen and (max-width: 750px) {
     display: initial;
     color: ${secondaryColor};
 
@@ -149,7 +149,7 @@ export const LogOutBtn = styled(Link)`
   ${navItemStyles}
   ${navItemsHoverStyles}
 
-  @media only screen and (max-width: 650px) {
+  @media only screen and (max-width: 750px) {
     color: ${secondaryColor};
   }
 `;

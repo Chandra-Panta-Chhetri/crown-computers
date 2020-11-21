@@ -2,8 +2,7 @@ import React from "react";
 import {
   PreviewContainer,
   WishListItemImage,
-  WishListItemName,
-  WishListItemPrice
+  WishListItemName
 } from "./wish-list-item-preview.styles";
 
 import { truncate } from "../../global.utils";
@@ -11,8 +10,11 @@ import { truncate } from "../../global.utils";
 const WishListItemPreview = ({ item: { imageUrls, name, price } }) => (
   <PreviewContainer>
     <WishListItemImage src={imageUrls[0]} alt={name} />
-    <WishListItemName>{truncate(name, 20)}</WishListItemName>
-    <WishListItemPrice>${price} ea.</WishListItemPrice>
+    <div>
+      <WishListItemName>
+        {truncate(name, 20)} (${price})
+      </WishListItemName>
+    </div>
   </PreviewContainer>
 );
 

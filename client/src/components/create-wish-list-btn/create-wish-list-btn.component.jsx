@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { NewWishListBtn } from "./create-wish-list-btn.styles";
 
+import Button from "../button/button.component";
 import CreateWishListModal from "../create-wish-list-modal/create-wish-list-modal.component";
 
 const CreateWishListBtn = ({ className }) => {
@@ -8,14 +8,14 @@ const CreateWishListBtn = ({ className }) => {
 
   return (
     <>
-      <NewWishListBtn
+      <Button
         className={className}
         variant="icon"
         iconClass="fas fa-plus"
         onClick={() => setIsAddModalOpen(true)}
       >
         New Wish List
-      </NewWishListBtn>
+      </Button>
       {isAddModalOpen && (
         <CreateWishListModal
           closeModalHandler={() => setIsAddModalOpen(false)}

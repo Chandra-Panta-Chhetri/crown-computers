@@ -6,15 +6,11 @@ export const PreviewContainer = styled.div`
 `;
 
 export const WishListItemImage = styled.img`
-  width: 40px;
+  width: 60px;
+  height: 60px;
   margin-right: 10px;
 `;
 
 export const WishListItemName = styled.span`
-  flex-grow: 1;
   text-transform: capitalize;
-`;
-
-export const WishListItemPrice = styled.span`
-  white-space: nowrap;
 `;

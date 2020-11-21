@@ -7,7 +7,16 @@ export const WishListOverviewContainer = styled.section`
 `;
 
 export const StyledCreateWishListBtn = styled(CreateWishListBtn)`
-  margin: 0 23px 20px auto;
+  margin: 0 1.2em 20px auto;
+  padding-right: 0.8rem;
+
+  @media only screen and (max-width: 750px) {
+    margin-right: 0;
+  }
+
+  @media only screen and (max-width: 550px) {
+    width: 100%;
+  }
 `;
 
 export const TotalWishListsText = styled.p`
@@ -16,6 +25,10 @@ export const TotalWishListsText = styled.p`
   margin-left: 12px;
   font-weight: bold;
   letter-spacing: 1.5px;
+
+  @media only screen and (max-width: 750px) {
+    margin: 0 0 10px;
+  }
 `;
 
 export const NoWishListsText = styled.p`
@@ -32,4 +45,8 @@ export const WishListsContainer = styled.article`
   justify-content: ${(props) =>
     !props.numberOfWishLists ? "center" : "flex-start"};
   flex-wrap: wrap;
+
+  @media only screen and (max-width: 550px) {
+    flex-direction: ${(props) => (!props.numberOfWishLists ? "row" : "column")};
+  }
 `;

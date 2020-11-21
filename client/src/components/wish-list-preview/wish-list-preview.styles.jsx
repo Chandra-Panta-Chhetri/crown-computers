@@ -8,7 +8,15 @@ import { DeleteIcon } from "../delete-confirmation-modal/delete-confirmation-mod
 export const WishListPreviewContainer = styled.section`
   width: 33%;
   padding: 0.8em;
-  min-height: 430px;
+
+  @media only screen and (max-width: 850px) {
+    width: 50%;
+  }
+
+  @media only screen and (max-width: 750px) {
+    width: 100%;
+    padding: 0 0 1em;
+  }
 `;
 
 export const PreviewCard = styled(Card)`
@@ -48,6 +56,7 @@ export const WishListItemPreviewContainer = styled.section`
   display: flex;
   flex-direction: column;
   margin-top: 10px;
+  min-height: 250px;
 
   div:last-child {
     margin-bottom: 0;
