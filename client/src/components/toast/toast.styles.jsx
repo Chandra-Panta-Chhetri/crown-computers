@@ -14,12 +14,32 @@ const bottomLeft = css`
       transform: translateX(0);
     }
   }
+
+  @media only screen and (max-width: 600px) {
+    bottom: 2px;
+    left: 5px;
+    right: 15px;
+    animation: toast-in-bottom 0.7s;
+
+    @keyframes toast-in-bottom {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+  }
 `;
 
 const toast = css`
   width: 365px;
   color: #fff;
   padding: 20px 15px 10px 10px;
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 export const NotificationsContainer = styled.div`
@@ -28,6 +48,12 @@ export const NotificationsContainer = styled.div`
   position: fixed;
   z-index: 999999;
   ${bottomLeft}
+
+  @media only screen and (max-width: 600px) {
+    height: 140px;
+    padding: 5px 10px 0;
+    overflow-y: auto;
+  }
 `;
 
 export const Notification = styled.div`
