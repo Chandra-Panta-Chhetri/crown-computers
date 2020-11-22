@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { startLogOut } from "../../redux/user/user.actions";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
+import { truncate } from "../../global.utils";
 
 const SideNav = ({ match, logOut, currentUser, navOptions = [] }) => {
   const [isMenuShown, setIsMenuShown] = useState(false);
@@ -32,7 +33,7 @@ const SideNav = ({ match, logOut, currentUser, navOptions = [] }) => {
             <i className="fas fa-bars" onClick={toggleMenuVisibility} />
           </MenuBars>
           <AdminName>
-            {currentUser && currentUser.fullName}
+            {currentUser && truncate(currentUser.fullName)}
             <i className="fas fa-user-shield" />
           </AdminName>
         </NavbarBrand>

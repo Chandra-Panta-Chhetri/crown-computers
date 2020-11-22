@@ -35,6 +35,12 @@ export const AdminName = styled.span`
   i {
     margin-left: 7px;
   }
+
+  @media only screen and (max-width: 650px) {
+    i {
+      display: none;
+    }
+  }
 `;
 
 export const SideNavTitle = styled.span`
@@ -43,6 +49,10 @@ export const SideNavTitle = styled.span`
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: bold;
+
+  @media only screen and (max-width: 650px) {
+    display: none;
+  }
 `;
 
 export const NavMenu = styled.nav`
@@ -59,7 +69,7 @@ export const NavMenu = styled.nav`
 `;
 
 export const NavMenuItems = styled.ul`
-  width: 100%;
+  width: 90%;
   padding-left: 0;
 `;
 
@@ -86,6 +96,10 @@ export const MenuBars = styled.span`
   background: none;
   color: ${secondaryColor};
   cursor: pointer;
+
+  @media only screen and (max-width: 650px) {
+    margin-left: 0;
+  }
 `;
 
 export const NavMenuOption = styled.li`
