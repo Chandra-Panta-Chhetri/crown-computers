@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import {
   CategoriesList,
-  NoCategoriesText
+  NoCategoriesText,
+  PageHeading,
+  CategoryEntrySkeleton
 } from "./dashboard-product-category.styles";
-import { DashboardContentTitle } from "../../pages/dashboard/dashboard.styles";
 
-import Skeleton from "../skeleton/skeleton.component";
 import CategoryEntry from "../category-entry/category-entry.component";
 import FullPageSpinner from "../full-page-spinner/full-page-spinner.component";
 import NewCategoryBtn from "../new-category-btn/new-category-btn.component";
@@ -48,9 +48,7 @@ const DashboardProductCategories = ({
 
   return (
     <>
-      <DashboardContentTitle underlineWidth={260}>
-        Product Categories
-      </DashboardContentTitle>
+      <PageHeading underlineWidth={260}>Product Categories</PageHeading>
       <NewCategoryBtn />
       {!categories.length && !isFetchingCategories && (
         <NoCategoriesText>
@@ -71,13 +69,7 @@ const DashboardProductCategories = ({
           />
         ))}
         {isFetchingCategories && (
-          <Skeleton
-            width="31.33%"
-            height="290px"
-            margin="0 0.7rem 0.9rem"
-            count={categoriesPerPage}
-            flexGrow
-          />
+          <CategoryEntrySkeleton count={categoriesPerPage} />
         )}
       </CategoriesList>
       <FullPageSpinner

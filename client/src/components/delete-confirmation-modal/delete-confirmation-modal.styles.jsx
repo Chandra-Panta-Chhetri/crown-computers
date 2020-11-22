@@ -7,15 +7,15 @@ export const DeleteModalContainer = styled(Modal)`
     height: 50%;
   }
 
-  ${ModalBody} {
-    flex-grow: 1;
-  }
-
   @media only screen and (max-width: 1000px) {
     ${ModalContent} {
       height: 90%;
       width: 90%;
     }
+  }
+
+  ${ModalBody} {
+    flex-grow: 1;
   }
 `;
 

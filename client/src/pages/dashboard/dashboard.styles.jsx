@@ -29,4 +29,8 @@ export const DashboardContentTitle = styled.h3`
       props.underlineWidth ? `${(props.underlineWidth / 2) * -1}px` : "-30px"};
     border-bottom: 2px solid ${secondaryColor};
   }
+
+  @media only screen and (max-width: 450px) {
+    letter-spacing: 0;
+  }
 `;

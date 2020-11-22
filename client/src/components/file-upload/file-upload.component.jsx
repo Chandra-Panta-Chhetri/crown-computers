@@ -5,7 +5,8 @@ import {
   DragDropText,
   UploadFileBtn,
   FilePreviewContainer,
-  FilePreview,
+  ImagePreview,
+  PreviewContainer,
   PreviewList,
   FileMetaData,
   RemoveFileIcon
@@ -22,7 +23,7 @@ import { addWarningNotification } from "../../redux/notification/notification.ac
 const FormInput = ({
   label,
   updateFilesCb,
-  maxFileSizeInBytes = 100000,
+  maxFileSizeInBytes = 500000,
   displayWarningNotification,
   defaultFiles = {},
   ...otherProps
@@ -105,24 +106,26 @@ const FormInput = ({
             let file = files[fileKey];
             let isImageFile = file.type.split("/")[0] === "image";
             return (
-              <FilePreview key={fileKey}>
-                {isImageFile && (
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={`file preview ${index}`}
-                  />
-                )}
-                <FileMetaData isImageFile={isImageFile}>
-                  <span>{file.name}</span>
-                  <aside>
-                    <span>{convertBytesToKiloBytes(file.size)} kb</span>
-                    <RemoveFileIcon
-                      className="fas fa-trash-alt"
-                      onClick={() => removeFile(fileKey)}
+              <PreviewContainer key={fileKey}>
+                <div>
+                  {isImageFile && (
+                    <ImagePreview
+                      src={URL.createObjectURL(file)}
+                      alt={`file preview ${index}`}
                     />
-                  </aside>
-                </FileMetaData>
-              </FilePreview>
+                  )}
+                  <FileMetaData isImageFile={isImageFile}>
+                    <span>{file.name}</span>
+                    <aside>
+                      <span>{convertBytesToKiloBytes(file.size)} kb</span>
+                      <RemoveFileIcon
+                        className="fas fa-trash-alt"
+                        onClick={() => removeFile(fileKey)}
+                      />
+                    </aside>
+                  </FileMetaData>
+                </div>
+              </PreviewContainer>
             );
           })}
         </PreviewList>

@@ -24,7 +24,7 @@ const CreateProductModal = ({
   modalTitle = "Create New Product",
   isEditing = false,
   defaultProduct,
-  submitBtnText = "Create New Product",
+  submitBtnText = "Create Product",
   createNewProduct,
   updateProduct,
   displayInfoNotification,

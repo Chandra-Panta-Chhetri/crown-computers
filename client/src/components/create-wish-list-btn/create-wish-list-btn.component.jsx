@@ -19,7 +19,7 @@ const CreateWishListBtn = ({ className }) => {
       {isAddModalOpen && (
         <CreateWishListModal
           closeModalHandler={() => setIsAddModalOpen(false)}
-          modalTitle="Create New Wish List"
+          modalTitle="Create Wish List"
         />
       )}
     </>

@@ -9,10 +9,5 @@ export const CheckoutModal = styled(Modal)`
 
   @media only screen and (max-width: 1000px) {
     padding-top: 35px;
-
-    ${ModalContent} {
-      width: 90%;
-      height: 90%;
-    }
   }
 `;

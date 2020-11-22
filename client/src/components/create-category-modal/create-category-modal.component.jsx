@@ -20,7 +20,7 @@ const CreateCategoryModal = ({
   modalTitle = "Create New Category",
   isEditing = false,
   defaultCategory,
-  submitBtnText = "Create New Category",
+  submitBtnText = "Create Category",
   updateCategory,
   displayInfoNotification
 }) => {

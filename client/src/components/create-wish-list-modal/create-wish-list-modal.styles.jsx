@@ -7,13 +7,6 @@ export const CreateWishListModalContainer = styled(Modal)`
   ${ModalContent} {
     height: 54%;
   }
-
-  @media only screen and (max-width: 1000px) {
-    ${ModalContent} {
-      height: 90%;
-      width: 90%;
-    }
-  }
 `;
 
 export const ConfirmWishListInfoBtn = styled(Button)`

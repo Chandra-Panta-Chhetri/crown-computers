@@ -26,6 +26,11 @@ export const ModalContent = styled.div`
   box-shadow: 0 5px 3px black;
   display: flex;
   flex-direction: column;
+
+  @media only screen and (max-width: 1000px) {
+    height: 90%;
+    width: 90%;
+  }
 `;
 
 export const ModalBody = styled.div`
