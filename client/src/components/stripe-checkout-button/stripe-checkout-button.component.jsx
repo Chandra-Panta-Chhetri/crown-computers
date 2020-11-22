@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { CheckoutModal } from "./stripe-checkout-button.styles";
 
 import Button from "../button/button.component";
-import Modal from "../modal/modal.component";
 import CheckoutFrom from "../checkout-form/checkout-form.component";
 import { Elements } from "@stripe/react-stripe-js";
 
@@ -21,7 +21,7 @@ const StripeCheckoutButton = ({ price, label, history }) => {
       >
         {label}
       </Button>
-      <Modal
+      <CheckoutModal
         isOpen={isOpen}
         closeModalHandler={() => setIsOpen(false)}
         modalTitle="Billing & Payment Details"
@@ -32,7 +32,7 @@ const StripeCheckoutButton = ({ price, label, history }) => {
             onSuccessfulCheckout={() => history.push("/")}
           />
         </Elements>
-      </Modal>
+      </CheckoutModal>
     </>
   );
 };

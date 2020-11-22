@@ -6,6 +6,10 @@ export const OrderSummaryContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-self: flex-end;
+
+  @media only screen and (max-width: 850px) {
+    width: 100%;
+  }
 `;
 
 export const Heading = styled.h2`
