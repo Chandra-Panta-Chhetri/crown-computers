@@ -12,7 +12,8 @@ import {
   WishListEditIcon,
   WishListDetailContainer,
   NoItemsText,
-  AddItemToCartBtn
+  AddItemToCartBtn,
+  ResponsiveTableContainer
 } from "./wish-list-detail.styles";
 import {
   TableHeadings,
@@ -62,6 +63,7 @@ const WishListDetail = ({
   );
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { wishListName, items, createdAt } = wishList;
+  const hasItemsInWishList = (items || []).length > 0;
 
   if (isFetchingWishList) {
     return <WishListDetailSkeleton />;
@@ -92,66 +94,73 @@ const WishListDetail = ({
           </WishListCreatedDate>
         </div>
       </Header>
-      <WishListItemsTable>
-        <TableHeadings>
-          <tr>
-            <TableHeading>Product</TableHeading>
-            <TableHeading>Unit Price</TableHeading>
-            <TableHeading>Left In Stock</TableHeading>
-            <TableHeading></TableHeading>
-            <TableHeading>Remove</TableHeading>
-          </tr>
-        </TableHeadings>
-        <tbody>
-          {(items || []).map((wishListItem, index) => (
-            <tr key={index}>
-              <ItemTableData>
-                <ProductMetaInfo>
-                  <ProductImage
-                    src={wishListItem.imageUrls[0]}
-                    alt={wishListItem.name}
-                  />
-                  <ProductInfo>
-                    <WishListItemCategory
-                      onClick={() =>
-                        history.push(`/shop/category/${wishListItem.category}`)
-                      }
-                    >
-                      {wishListItem.category}
-                    </WishListItemCategory>
-                    <WishListItemName
-                      onClick={() =>
-                        history.push(`/shop/${wishListItem.productId}`)
-                      }
-                    >
-                      {wishListItem.name}
-                    </WishListItemName>
-                  </ProductInfo>
-                </ProductMetaInfo>
-              </ItemTableData>
-              <ItemTableData>${wishListItem.price}</ItemTableData>
-              <ItemTableData>{wishListItem.stock}</ItemTableData>
-              <ItemTableData>
-                <AddItemToCartBtn itemsToAddOnClick={[wishListItem]} />
-              </ItemTableData>
-              <ItemTableData>
-                <RemoveItemButton
-                  onClick={() => removeFromWishList(wishListItem, wishList)}
-                >
-                  <Icon className="fas fa-trash-alt"></Icon>
-                </RemoveItemButton>
-              </ItemTableData>
-            </tr>
-          ))}
-        </tbody>
-      </WishListItemsTable>
+      {}
       {(items || []).length === 0 && (
         <NoItemsText>
           It seems you have no items in your wish list. Add items using the shop
           page!
         </NoItemsText>
       )}
-      {(items || []).length > 0 && (
+      {hasItemsInWishList && (
+        <ResponsiveTableContainer>
+          <WishListItemsTable>
+            <TableHeadings>
+              <tr>
+                <TableHeading>Product</TableHeading>
+                <TableHeading>Unit Price</TableHeading>
+                <TableHeading>In Stock</TableHeading>
+                <TableHeading></TableHeading>
+                <TableHeading>Remove</TableHeading>
+              </tr>
+            </TableHeadings>
+            <tbody>
+              {(items || []).map((wishListItem, index) => (
+                <tr key={index}>
+                  <ItemTableData>
+                    <ProductMetaInfo>
+                      <ProductImage
+                        src={wishListItem.imageUrls[0]}
+                        alt={wishListItem.name}
+                      />
+                      <ProductInfo>
+                        <WishListItemCategory
+                          onClick={() =>
+                            history.push(
+                              `/shop/category/${wishListItem.category}`
+                            )
+                          }
+                        >
+                          {wishListItem.category}
+                        </WishListItemCategory>
+                        <WishListItemName
+                          onClick={() =>
+                            history.push(`/shop/${wishListItem.productId}`)
+                          }
+                        >
+                          {wishListItem.name}
+                        </WishListItemName>
+                      </ProductInfo>
+                    </ProductMetaInfo>
+                  </ItemTableData>
+                  <ItemTableData>${wishListItem.price}</ItemTableData>
+                  <ItemTableData>{wishListItem.stock}</ItemTableData>
+                  <ItemTableData>
+                    <AddItemToCartBtn itemsToAddOnClick={[wishListItem]} />
+                  </ItemTableData>
+                  <ItemTableData>
+                    <RemoveItemButton
+                      onClick={() => removeFromWishList(wishListItem, wishList)}
+                    >
+                      <Icon className="fas fa-trash-alt"></Icon>
+                    </RemoveItemButton>
+                  </ItemTableData>
+                </tr>
+              ))}
+            </tbody>
+          </WishListItemsTable>
+        </ResponsiveTableContainer>
+      )}
+      {hasItemsInWishList && (
         <AddAllToCart itemsToAddOnClick={items} label="Add All To Cart" />
       )}
       {isEditModalOpen && (

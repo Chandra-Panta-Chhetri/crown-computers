@@ -3,17 +3,22 @@ import {
   WishListDetailContainer,
   Header
 } from "../wish-list-detail/wish-list-detail.styles";
+import {
+  BackToWishListsSkeleton,
+  WishListNameSkeleton,
+  AddAllToCartSkeleton
+} from "./wish-list-detail-skeleton.styles";
 
 import Skeleton from "../skeleton/skeleton.component";
 
 const WishListDetailSkeleton = () => (
   <WishListDetailContainer>
     <Header>
-      <Skeleton height="60px" width="35%" />
-      <Skeleton height="60px" width="35%" />
+      <BackToWishListsSkeleton />
+      <WishListNameSkeleton />
     </Header>
     <Skeleton height="250px" />
-    <Skeleton height="60px" width="35%" margin="20px 0 0 0" />
+    <AddAllToCartSkeleton />
   </WishListDetailContainer>
 );
 

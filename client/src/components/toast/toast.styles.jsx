@@ -45,7 +45,7 @@ const toast = css`
 export const NotificationsContainer = styled.div`
   font-size: 14px;
   box-sizing: border-box;
-  position: fixed;
+  position: absolute;
   z-index: 999999;
   ${bottomLeft}
 

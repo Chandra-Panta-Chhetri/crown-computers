@@ -18,6 +18,11 @@ export const Header = styled.section`
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 15px;
+
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const WishListName = styled.p`
@@ -27,6 +32,10 @@ export const WishListName = styled.p`
   text-align: right;
   font-size: 16px;
   letter-spacing: 1.9px;
+
+  @media only screen and (max-width: 700px) {
+    text-align: left;
+  }
 `;
 
 export const WishListEditIcon = styled.i`
@@ -51,6 +60,14 @@ export const BackToWishListsBtn = styled(Button)`
   i {
     width: 13%;
   }
+
+  @media only screen and (max-width: 700px) {
+    margin-bottom: 15px;
+  }
+`;
+
+export const ResponsiveTableContainer = styled.div`
+  overflow-x: auto;
 `;
 
 export const WishListItemsTable = styled.table`
@@ -66,6 +83,7 @@ export const ItemTableData = styled.td`
 export const AddItemToCartBtn = styled(AddToCartButton)`
   padding-left: 3.5rem;
   padding-right: 0.8rem;
+  white-space: nowrap;
 
   i {
     width: 25%;
@@ -103,4 +121,8 @@ export const AddAllToCart = styled(AddToCartButton)`
   width: fit-content;
   padding-left: 3.7rem;
   padding-right: 1.2rem;
+
+  @media only screen and (max-width: 400px) {
+    width: 100%;
+  }
 `;
