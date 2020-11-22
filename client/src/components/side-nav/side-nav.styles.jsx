@@ -1,5 +1,38 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { secondaryColor } from "../../global.styles";
+
+const NavMenuOptionStyles = css`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+  height: 60px;
+
+  a {
+    text-decoration: none;
+    color: ${secondaryColor};
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-size: 20px;
+    text-transform: capitalize;
+
+    &:hover {
+      background-color: ${secondaryColor};
+      color: white;
+    }
+
+    i {
+      margin-right: 14px;
+    }
+  }
+
+  .active-nav-menu-option {
+    color: white;
+  }
+`;
 
 export const SideNavContainer = styled.section`
   position: fixed;
@@ -71,6 +104,8 @@ export const NavMenu = styled.nav`
 export const NavMenuItems = styled.ul`
   width: 90%;
   padding-left: 0;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const NavMenuClose = styled.li`
@@ -103,34 +138,10 @@ export const MenuBars = styled.span`
 `;
 
 export const NavMenuOption = styled.li`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  list-style: none;
-  height: 60px;
+  ${NavMenuOptionStyles}
+`;
 
-  a {
-    text-decoration: none;
-    color: ${secondaryColor};
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    font-size: 20px;
-    text-transform: capitalize;
-
-    &:hover {
-      background-color: ${secondaryColor};
-      color: white;
-    }
-
-    i {
-      margin-right: 14px;
-    }
-  }
-
-  .active-nav-menu-option {
-    color: white;
-  }
+export const LogOutOption = styled.li`
+  ${NavMenuOptionStyles}
+  margin-top: auto
 `;

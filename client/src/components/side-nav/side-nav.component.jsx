@@ -9,11 +9,11 @@ import {
   NavMenuItems,
   NavMenuClose,
   MenuBars,
-  NavMenuOption
+  NavMenuOption,
+  LogOutOption
 } from "./side-nav.styles";
 
 import { NavLink, withRouter } from "react-router-dom";
-import Button from "../button/button.component";
 
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -39,7 +39,6 @@ const SideNav = ({ match, logOut, currentUser, navOptions = [] }) => {
         </NavbarBrand>
         <div>
           <SideNavTitle>Dashboard</SideNavTitle>
-          <Button onClick={() => logOut()}>Log Out</Button>
         </div>
       </Navbar>
       <NavMenu isMenuShown={isMenuShown}>
@@ -62,6 +61,12 @@ const SideNav = ({ match, logOut, currentUser, navOptions = [] }) => {
               </NavMenuOption>
             );
           })}
+          <LogOutOption onClick={logOut}>
+            <NavLink to="/login">
+              <i className="fas fa-sign-out-alt" />
+              <span>Log Out</span>
+            </NavLink>
+          </LogOutOption>
         </NavMenuItems>
       </NavMenu>
     </SideNavContainer>
