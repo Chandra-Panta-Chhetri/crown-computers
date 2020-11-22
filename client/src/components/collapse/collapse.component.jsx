@@ -6,7 +6,7 @@ import {
   CollapseContent
 } from "./collapse.styles";
 
-const Collapse = ({ title, children }) => {
+const Collapse = ({ title, children, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleCollapse = () => setIsOpen(!isOpen);
   const contentRef = useRef(null);
@@ -19,7 +19,7 @@ const Collapse = ({ title, children }) => {
   }, [contentRef, isOpen]);
 
   return (
-    <CollapseContainer>
+    <CollapseContainer className={className}>
       <CollapseTitle onClick={toggleCollapse}>
         <p>{title}</p>
         <CollapseIcon

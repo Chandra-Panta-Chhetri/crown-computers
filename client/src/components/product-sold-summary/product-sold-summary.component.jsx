@@ -2,7 +2,8 @@ import React from "react";
 import {
   ProductSoldSummaryContainer,
   ProductCategory,
-  PriceBreakdownContainer
+  PriceBreakdownContainer,
+  TotalProductSale
 } from "./product-sold-summary.styles";
 
 import { roundNumber } from "../../global.utils";
@@ -14,9 +15,9 @@ const ProductSoldSummary = ({
     <ProductCategory>{category}</ProductCategory>
     <PriceBreakdownContainer>
       <span>
-        {quantity} x {name} @ ${price}
+        {quantity} x {name} (${price} ea.)
       </span>
-      <span>${roundNumber(quantity * price)}</span>
+      <TotalProductSale>${roundNumber(quantity * price)}</TotalProductSale>
     </PriceBreakdownContainer>
   </ProductSoldSummaryContainer>
 );

@@ -28,7 +28,7 @@ export const CollapseIcon = styled.i`
 
 export const CollapseContent = styled.div`
   background-color: #eee;
-  overflow: hidden;
+  overflow-y: auto;
   padding: ${(props) => (props.isOpen ? "18px 15px" : "0px")};
   transition: max-height 1s cubic-bezier(0, 1, 0, 1);
 `;

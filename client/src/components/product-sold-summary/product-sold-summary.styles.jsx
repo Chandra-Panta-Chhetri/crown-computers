@@ -14,9 +14,21 @@ export const ProductCategory = styled.span`
 export const PriceBreakdownContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 
   span {
     font-weight: bold;
+  }
+
+  @media only screen and (max-width: 750px) {
+    flex-direction: column;
+  }
+`;
+
+export const TotalProductSale = styled.span`
+  @media only screen and (max-width: 750px) {
+    text-align: right;
+    width: 100%;
+    margin-top: 10px;
   }
 `;
