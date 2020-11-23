@@ -11,6 +11,10 @@ export const ItemImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media only screen and (max-width: 600px) {
+    margin-right: 10px;
+  }
 `;
 
 export const ItemImage = styled.img`
@@ -20,6 +24,14 @@ export const ItemImage = styled.img`
   object-position: center;
   margin-bottom: 5px;
   display: block;
+
+  @media only screen and (max-width: 660px) {
+    width: 220px;
+  }
+
+  @media only screen and (max-width: 500px) {
+    width: 200px;
+  }
 `;
 
 export const ItemName = styled.h5`

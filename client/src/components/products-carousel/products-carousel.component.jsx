@@ -25,19 +25,44 @@ const ProductsCarousel = ({
     });
   }, [fetchProductsInCategory, categoryName]);
 
-  if (!isCarouselShown || products.length < MIN_PRODUCTS_TO_SHOW) {
+  if (!isCarouselShown || products.length <= MIN_PRODUCTS_TO_SHOW) {
     return null;
   }
 
   const carouselConfig = {
-    slidesToShow: products.length < 4 ? products.length : 4,
-    slidesToSwipe: products.length < 4 ? products.length : 4
+    slidesToShow: 4,
+    slidesToSwipe: 4,
+    dots: true,
+    infinite: true,
+    responsive: [
+      {
+        breakpoint: 850,
+        settings: {
+          slidesToShow: 3,
+          slidesToSwipe: 1
+        }
+      },
+      {
+        breakpoint: 660,
+        settings: {
+          slidesToShow: 2,
+          slidesToSwipe: 1
+        }
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+          slidesToSwipe: 1
+        }
+      }
+    ]
   };
 
   return (
     <>
       <CarouselHeading>More Products To Explore</CarouselHeading>
-      <ProductsCarouselContainer {...carouselConfig}>
+      <ProductsCarouselContainer settings={carouselConfig}>
         {products.map((product) => (
           <ProductCarouselItem product={product} key={product.productId} />
         ))}
