@@ -25,6 +25,7 @@ export const AddToWishListBtn = styled(Button)`
   width: 100%;
   justify-content: center;
   margin-top: auto;
+  margin-bottom: 10px;
 
   i {
     width: 15%;

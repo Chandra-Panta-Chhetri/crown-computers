@@ -28,8 +28,8 @@ export const ModalContent = styled.div`
   flex-direction: column;
 
   @media only screen and (max-width: 1000px) {
-    height: 90%;
-    width: 90%;
+    height: 90% !important;
+    width: 90% !important;
   }
 `;
 

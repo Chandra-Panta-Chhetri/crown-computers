@@ -16,4 +16,5 @@ export const CheckboxLabel = styled.label`
 export const CheckboxInput = styled.input`
   font-size: 18px;
   margin: 0 8px 0 0;
+  transform: scale(1.5);
 `;

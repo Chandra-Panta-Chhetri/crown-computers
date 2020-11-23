@@ -13,6 +13,7 @@ export const CollectionItemContainer = styled.div`
 
   @media only screen and (max-width: 400px) {
     width: 100%;
+    padding: 0 0 0.5em;
   }
 `;
 
