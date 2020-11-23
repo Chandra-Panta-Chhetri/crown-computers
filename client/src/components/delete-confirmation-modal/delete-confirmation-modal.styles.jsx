@@ -9,7 +9,7 @@ export const DeleteModalContainer = styled(Modal)`
 
   @media only screen and (max-width: 1000px) {
     ${ModalContent} {
-      height: 90%;
+      height: 90% !important;
       width: 90%;
     }
   }

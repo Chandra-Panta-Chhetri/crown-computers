@@ -42,15 +42,15 @@ const SideNav = ({ match, logOut, currentUser, navOptions = [] }) => {
         </div>
       </Navbar>
       <NavMenu isMenuShown={isMenuShown}>
-        <NavMenuItems onClick={toggleMenuVisibility}>
-          <NavMenuClose>
+        <NavMenuItems>
+          <NavMenuClose onClick={toggleMenuVisibility}>
             <span>
               <i className="fas fa-times" />
             </span>
           </NavMenuClose>
           {navOptions.map((option, index) => {
             return (
-              <NavMenuOption key={index}>
+              <NavMenuOption key={index} onClick={toggleMenuVisibility}>
                 <NavLink
                   to={`${match.path}/${option.path}`}
                   activeClassName="active-nav-menu-option"
@@ -62,7 +62,7 @@ const SideNav = ({ match, logOut, currentUser, navOptions = [] }) => {
             );
           })}
           <LogOutOption onClick={logOut}>
-            <NavLink to="/login">
+            <NavLink to="#">
               <i className="fas fa-sign-out-alt" />
               <span>Log Out</span>
             </NavLink>

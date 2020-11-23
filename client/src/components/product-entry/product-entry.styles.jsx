@@ -37,6 +37,7 @@ export const EditProductIcon = styled.i`
 export const DeleteProductModal = styled(DeleteConfirmationModal)`
   ${ModalContent} {
     height: 44%;
+    margin-top: 20px;
   }
 `;
 
@@ -53,11 +54,19 @@ export const FlexRowContainer = styled.div`
   justify-content: space-between;
   margin: 0 0 15px;
   font-weight: bold;
+
+  @media only screen and (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 export const ProductName = styled.span`
   font-weight: bold;
   text-transform: capitalize;
+
+  @media only screen and (max-width: 500px) {
+    margin-bottom: 5px;
+  }
 `;
 
 export const InventoryCount = styled.span`
@@ -69,6 +78,14 @@ export const SpecificationBanner = styled(Banner)`
 
   ${BannerLabel}, ${BannerDetail} {
     color: black;
+  }
+
+  @media only screen and (max-width: 500px) {
+    flex-direction: column;
+
+    ${BannerLabel} {
+      margin-bottom: 5px;
+    }
   }
 `;
 
