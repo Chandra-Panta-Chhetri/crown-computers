@@ -79,14 +79,6 @@ export const SpecificationBanner = styled(Banner)`
   ${BannerLabel}, ${BannerDetail} {
     color: black;
   }
-
-  @media only screen and (max-width: 500px) {
-    flex-direction: column;
-
-    ${BannerLabel} {
-      margin-bottom: 5px;
-    }
-  }
 `;
 
 export const Heading = styled.h4`

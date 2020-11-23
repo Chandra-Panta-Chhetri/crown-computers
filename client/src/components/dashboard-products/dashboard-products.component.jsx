@@ -68,11 +68,11 @@ const DashboardProducts = ({
           <ProductEntry
             product={product}
             key={product.productId}
-            // intersectionCb={
-            //   index + 1 === products.length
-            //     ? fetchMoreOnIntersection
-            //     : undefined
-            // }
+            intersectionCb={
+              index + 1 === products.length
+                ? fetchMoreOnIntersection
+                : undefined
+            }
           />
         ))}
         {isFetchingProducts && (

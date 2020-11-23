@@ -6,6 +6,10 @@ import AddToWishListBtn from "../add-to-wish-list-btn/add-to-wish-list-btn.compo
 export const ProductDetailContainer = styled.section`
   display: flex;
   padding: 0;
+
+  @media only screen and (max-width: 750px) {
+    flex-direction: column;
+  }
 `;
 
 export const ProductInfoContainer = styled.div`
@@ -13,6 +17,12 @@ export const ProductInfoContainer = styled.div`
   padding-left: 1.3rem;
   flex-grow: 1;
   width: 65%;
+
+  @media only screen and (max-width: 750px) {
+    width: 100%;
+    margin-top: 20px;
+    padding-left: 0;
+  }
 `;
 
 export const ProductCategory = styled.h5`
@@ -54,6 +64,10 @@ export const ProductActionContainer = styled.div`
   display: flex;
   margin-top: 20px;
   align-items: center;
+
+  @media only screen and (max-width: 400px) {
+    flex-direction: column;
+  }
 `;
 
 export const AddProductToCart = styled(AddToCartBtn)`
@@ -64,9 +78,19 @@ export const AddProductToCart = styled(AddToCartBtn)`
   i {
     width: 25%;
   }
+
+  @media only screen and (max-width: 400px) {
+    width: 100%;
+    margin-top: 10px;
+  }
 `;
 
 export const ProductPrice = styled.span`
   font-weight: bold;
   font-size: 1.7rem;
+
+  @media only screen and (max-width: 400px) {
+    width: 100%;
+    text-align: left;
+  }
 `;

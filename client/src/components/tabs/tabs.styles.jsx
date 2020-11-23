@@ -12,8 +12,8 @@ export const TabsContainer = styled.div`
 
 export const TabHeadings = styled.div`
   display: flex;
-  border-bottom: 1px solid #ccc;
   padding-left: 0;
+  overflow-x: auto;
 `;
 
 export const TabHeading = styled.span`

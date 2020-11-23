@@ -2,6 +2,10 @@ import styled from "styled-components";
 
 export const ProductImageCarouselContainer = styled.div`
   width: 35%;
+
+  @media only screen and (max-width: 750px) {
+    width: 100%;
+  }
 `;
 
 export const ProductImageContainer = styled.div`
