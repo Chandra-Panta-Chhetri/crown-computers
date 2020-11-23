@@ -14,12 +14,13 @@ export const TabHeadings = styled.div`
   display: flex;
   padding-left: 0;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 `;
 
 export const TabHeading = styled.span`
   cursor: pointer;
   flex-grow: 1;
   border-bottom: 2px solid ${mainBorderColor};
-  padding: 8px 0;
+  padding: 8px 20px 8px 0;
   ${(props) => (props.activeTab ? activeTabStyles : null)}
 `;
