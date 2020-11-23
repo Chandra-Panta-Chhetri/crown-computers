@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Spinner from "../../components/spinner/spinner.component";
 import FullPageSpinner from "../../components/full-page-spinner/full-page-spinner.component";
 
@@ -21,9 +21,6 @@ const WishListOverview = lazy(() =>
 const WishListDetail = lazy(() =>
   import("../../components/wish-list-detail/wish-list-detail.component")
 );
-const PageNotFound = lazy(() =>
-  import("../../components/page-not-found/page-not-found.component")
-);
 
 const WishList = ({
   match,
@@ -42,7 +39,7 @@ const WishList = ({
             path={`${match.path}/:wishListId`}
             component={WishListDetail}
           />
-          <Route component={PageNotFound} />
+          <Redirect from="*" to="/404" />
         </Switch>
       </Suspense>
       <FullPageSpinner

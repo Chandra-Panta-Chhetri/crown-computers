@@ -83,7 +83,8 @@ const AppRoutes = ({ currentUser }) => {
               isAdmin ? <Dashboard {...props} /> : <Redirect to="/" />
             }
           />
-          <Route component={PageNotFound} />
+          <Route path="/404" component={PageNotFound} />
+          <Redirect from="*" to="/404" />
         </Switch>
       </Suspense>
     </ErrorBoundary>

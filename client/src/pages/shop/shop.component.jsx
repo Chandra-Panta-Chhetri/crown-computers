@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Spinner from "../../components/spinner/spinner.component";
 import FullPageSpinner from "../../components/full-page-spinner/full-page-spinner.component";
 
@@ -23,9 +23,6 @@ const ProductDetail = lazy(() =>
 );
 const CategoryCollection = lazy(() =>
   import("../../components/category-collection/category-collection.component")
-);
-const PageNotFound = lazy(() =>
-  import("../../components/page-not-found/page-not-found.component")
 );
 
 const ShopPage = ({
@@ -50,7 +47,7 @@ const ShopPage = ({
             path={`${match.path}/category/:productCategory`}
             component={CategoryCollection}
           />
-          <Route component={PageNotFound} />
+          <Redirect from="*" to="/404" />
         </Switch>
       </Suspense>
       <FullPageSpinner
