@@ -12,6 +12,7 @@ export const CartDropDownContainer = styled.article`
   z-index: 10;
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
 
   &:after {
     bottom: 100%;
