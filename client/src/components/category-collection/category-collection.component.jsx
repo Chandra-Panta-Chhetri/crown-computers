@@ -1,32 +1,62 @@
 import React from "react";
-import { CategoryCollectionContainer } from "./category-collection.styles";
 
-import CollectionItem from "../collection-item/collection-item.component";
-import withSpinner from "../with-spinner/with-spinner.component";
+import ProductCollection from "../product-collection/product-collection.component";
 
 import {
-  selectCategoryCollection,
-  selectIsFetchingCollection
-} from "../../redux/collection/collection.selectors";
+  selectIsFetchingProducts,
+  selectHasMoreProductsToFetch
+} from "../../redux/product/product.selectors";
+import {
+  startInitialProductsFetchByCategory,
+  startLoadingMoreProductsByCategory
+} from "../../redux/product/product.actions";
+import usePaginationOnIntersection from "../../hooks/usePaginationOnIntersection.hook";
+import useRedirect from "../../hooks/useRedirect.hook";
 import { connect } from "react-redux";
-import { compose } from "redux";
+import { createStructuredSelector } from "reselect";
 
-const CategoryCollection = ({ collectionInCategory }) => (
-  <CategoryCollectionContainer>
-    {collectionInCategory.items.map((item) => (
-      <CollectionItem key={item.id} item={item} />
-    ))}
-  </CategoryCollectionContainer>
-);
+const CategoryCollection = ({
+  fetchProductsInCategory,
+  fetchMoreProductsInCategory,
+  isFetchingProducts,
+  hasMoreToFetch,
+  match
+}) => {
+  const categoryNameInLowerCase = decodeURI(
+    match.params.productCategory
+  ).toLowerCase();
 
-const mapStateToProps = (state, ownProps) => ({
-  collectionInCategory: selectCategoryCollection(
-    ownProps.match.params.productCategory
-  )(state),
-  isLoading: selectIsFetchingCollection(state)
+  const { redirectComponent } = useRedirect(fetchProductsInCategory, [
+    categoryNameInLowerCase
+  ]);
+
+  const fetchMoreOnIntersection = usePaginationOnIntersection(
+    () => fetchMoreProductsInCategory(categoryNameInLowerCase),
+    isFetchingProducts,
+    hasMoreToFetch
+  );
+
+  return (
+    <>
+      {redirectComponent}
+      <ProductCollection
+        intersectionCb={fetchMoreOnIntersection}
+        isFetchingProducts={isFetchingProducts}
+      />
+    </>
+  );
+};
+
+const mapStateToProps = createStructuredSelector({
+  isFetchingProducts: selectIsFetchingProducts,
+  hasMoreToFetch: selectHasMoreProductsToFetch
 });
 
-export default compose(
-  connect(mapStateToProps),
-  withSpinner
-)(CategoryCollection);
+const mapDispatchToProps = (dispatch) => ({
+  fetchProductsInCategory: (categoryName, onFail) =>
+    dispatch(startInitialProductsFetchByCategory(categoryName, onFail)),
+  fetchMoreProductsInCategory: (categoryName) =>
+    dispatch(startLoadingMoreProductsByCategory(categoryName))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryCollection);

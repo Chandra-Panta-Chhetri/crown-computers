@@ -1,2 +1,4 @@
 .env-cmdrc
 node_modules
+.vscode
+debug.log

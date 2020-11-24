@@ -2,13 +2,12 @@ import styled from "styled-components";
 
 export const CartIconContainer = styled.div`
   cursor: pointer;
-`;
-
-export const NumCartItems = styled.span`
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
 `;
 
 export const ShoppingCartIcon = styled.span`
-  margin-right: 4px;
+  margin-right: 5px;
   font-size: 20px;
 `;

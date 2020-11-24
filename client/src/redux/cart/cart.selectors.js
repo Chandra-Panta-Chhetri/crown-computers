@@ -2,9 +2,21 @@ import { createSelector } from "reselect";
 
 const selectCart = (state) => state.cart;
 
-export const selectCartItems = createSelector(
+export const selectShoppingCart = createSelector(
   [selectCart],
   (cart) => cart.shoppingCart
+);
+
+export const selectCartId = createSelector([selectCart], (cart) => cart.cartId);
+
+export const selectIsUpdatingCart = createSelector(
+  [selectCart],
+  (cart) => cart.isUpdatingCart
+);
+
+export const selectCartLoadingText = createSelector(
+  [selectCart],
+  (cart) => cart.loadingText
 );
 
 export const selectCartVisibility = createSelector(
@@ -13,7 +25,7 @@ export const selectCartVisibility = createSelector(
 );
 
 export const selectNumCartItems = createSelector(
-  [selectCartItems],
+  [selectShoppingCart],
   (shoppingCart) =>
     shoppingCart.reduce(
       (accumalatedQuantity, cartItem) =>
@@ -23,7 +35,7 @@ export const selectNumCartItems = createSelector(
 );
 
 export const selectCartTotal = createSelector(
-  [selectCartItems],
+  [selectShoppingCart],
   (shoppingCart) =>
     shoppingCart.reduce(
       (accumalatedPrice, cartItem) =>
@@ -31,3 +43,9 @@ export const selectCartTotal = createSelector(
       0
     )
 );
+
+export const selectCartItemQuantityById = (id) =>
+  createSelector([selectShoppingCart], (shoppingCart) => {
+    const cartItem = shoppingCart.find((cartItem) => cartItem.productId === id);
+    return cartItem ? cartItem.quantity : 0;
+  });

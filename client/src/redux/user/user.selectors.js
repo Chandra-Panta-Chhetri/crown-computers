@@ -7,7 +7,22 @@ export const selectCurrentUser = createSelector(
   (user) => user.currentUser
 );
 
-export const selectAuthError = createSelector(
+export const selectIsChangingAuthState = createSelector(
   [selectUser],
-  (user) => user.authErrorMsg
+  (user) => user.isChangingAuthState
+);
+
+export const selectUserLoadingText = createSelector(
+  [selectUser],
+  (user) => user.loadingText
+);
+
+export const selectWasSignedIn = createSelector(
+  [selectCurrentUser],
+  (currentUser) => Boolean(currentUser)
+);
+
+export const selectHasAutoSignedIn = createSelector(
+  [selectUser],
+  (user) => user.hasAutoSignedIn
 );

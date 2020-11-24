@@ -1,57 +1,74 @@
 import React from "react";
 import {
-  CartSummaryItemContainer,
-  ItemContent,
-  ImageContainer,
-  ItemImage,
-  ItemActions,
-  ItemQuantity,
-  ItemChangeQuantityIcon,
-  ItemRemoveContainer,
-  ItemPrice
+  ChangeQuantityButton,
+  RemoveItemButton,
+  ProductCategory,
+  ProductStockLeft,
+  ItemInfoSection,
+  ProductImage,
+  ProductInfo,
+  ProductMetaInfo,
+  ProductName,
+  ItemQuantityContainer,
+  Icon
 } from "./cart-summary-item.styles";
 
 import { connect } from "react-redux";
-import { removeFromCart, changeQuantity } from "../../redux/cart/cart.actions";
+import {
+  removeFromCart,
+  changeItemQuantity
+} from "../../redux/cart/cart.actions";
 
-const CheckoutItem = ({ item, removeItem, changeQuantity }) => {
-  const { name, imageUrl, price, quantity } = item;
+const CheckoutItem = ({ item, removeItem, changeItemQuantity }) => {
+  const { name, imageUrls, price, quantity, stock, category } = item;
+
+  const increaseItemQuantity = (e) => changeItemQuantity(item, quantity + 1);
+
+  const decreaseItemQuantity = (e) =>
+    quantity - 1 > 0 ? changeItemQuantity(item, quantity - 1) : "";
+
   return (
-    <CartSummaryItemContainer>
-      <ItemContent>
-        <ImageContainer>
-          <ItemImage src={imageUrl} alt={name} />
-        </ImageContainer>
-        <ItemActions>
-          <span>{name}</span>
-          <ItemQuantity>
-            <ItemChangeQuantityIcon
-              className="fa fa-minus"
-              onClick={() => changeQuantity(item, quantity - 1)}
-            ></ItemChangeQuantityIcon>
-            {quantity}
-            <ItemChangeQuantityIcon
-              className="fa fa-plus"
-              onClick={() => changeQuantity(item, quantity + 1)}
-            ></ItemChangeQuantityIcon>
-          </ItemQuantity>
-          <ItemRemoveContainer
-            className="summary-item-remove"
-            onClick={() => removeItem(item)}
-          >
-            <i className="fas fa-trash"></i> Remove
-          </ItemRemoveContainer>
-        </ItemActions>
-      </ItemContent>
-      <ItemPrice>${price * quantity}</ItemPrice>
-    </CartSummaryItemContainer>
+    <tr>
+      <ItemInfoSection>
+        <ProductMetaInfo>
+          <ProductImage src={imageUrls[0]} alt={name} />
+          <ProductInfo>
+            <ProductCategory>{category}</ProductCategory>
+            <ProductName>{name}</ProductName>
+            {stock < 10 && (
+              <ProductStockLeft>Only {stock} left in stock</ProductStockLeft>
+            )}
+          </ProductInfo>
+        </ProductMetaInfo>
+      </ItemInfoSection>
+      <ItemInfoSection>${price}</ItemInfoSection>
+      <ItemInfoSection>
+        <ItemQuantityContainer>
+          <ChangeQuantityButton
+            className="fa fa-minus"
+            onClick={decreaseItemQuantity}
+          ></ChangeQuantityButton>
+          {quantity}
+          <ChangeQuantityButton
+            className="fa fa-plus"
+            onClick={increaseItemQuantity}
+          ></ChangeQuantityButton>
+        </ItemQuantityContainer>
+      </ItemInfoSection>
+      <ItemInfoSection>${price * quantity}</ItemInfoSection>
+      <ItemInfoSection>
+        <RemoveItemButton onClick={() => removeItem(item)}>
+          <Icon className="fa fa-trash-alt" />
+        </RemoveItemButton>
+      </ItemInfoSection>
+    </tr>
   );
 };
 
 const mapDispatchToProps = (dispatch) => ({
   removeItem: (item) => dispatch(removeFromCart(item)),
-  changeQuantity: (item, newQuantity) =>
-    dispatch(changeQuantity(item, newQuantity))
+  changeItemQuantity: (item, newQuantity) =>
+    dispatch(changeItemQuantity(item, newQuantity))
 });
 
 export default connect(null, mapDispatchToProps)(CheckoutItem);

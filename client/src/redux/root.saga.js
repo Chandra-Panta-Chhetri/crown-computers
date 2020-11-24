@@ -1,10 +1,24 @@
 import { all, call } from "redux-saga/effects";
-import collectionSagas from "./collection/collection.sagas";
+import productSagas from "./product/product.sagas";
 import userSagas from "./user/user.sagas";
 import cartSagas from "./cart/cart.sagas";
+import productCategorySagas from "./product-category/product-category.sagas";
+import checkoutSagas from "./checkout/checkout.sagas";
+import wishListSagas from "./wish-list/wish-list.sagas";
+import saleSagas from "./sale/sale.sagas";
+import notificationSagas from "./notification/notification.sagas";
 
 function* rootSaga() {
-  yield all([call(collectionSagas), call(userSagas), call(cartSagas)]);
+  yield all([
+    call(productSagas),
+    call(userSagas),
+    call(cartSagas),
+    call(productCategorySagas),
+    call(checkoutSagas),
+    call(wishListSagas),
+    call(saleSagas),
+    call(notificationSagas)
+  ]);
 }
 
 export default rootSaga;

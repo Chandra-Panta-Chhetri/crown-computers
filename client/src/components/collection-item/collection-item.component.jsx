@@ -1,34 +1,40 @@
 import React from "react";
 import {
   CollectionItemContainer,
-  AddToCartButton,
   ItemImageContainer,
   ItemImage,
   ItemInfoContainer,
   ItemCategory,
-  ItemPrice
+  ItemPrice,
+  ItemStock,
+  ItemName,
+  AddItemToCartBtn
 } from "./collection-item.styles";
 
-import { connect } from "react-redux";
-import { addToCart } from "../../redux/cart/cart.actions";
+import { withRouter } from "react-router-dom";
 
-const CollectionItem = ({ item, dispatch }) => {
-  const { name, imageUrl, price, category } = item;
+const CollectionItem = ({ item, history, intersectionCb }) => {
+  const { name, imageUrls, price, category, stock, productId } = item;
   return (
-    <CollectionItemContainer>
+    <CollectionItemContainer ref={intersectionCb}>
       <ItemImageContainer>
-        <ItemImage src={imageUrl} alt={name} />
-        <AddToCartButton onClick={() => dispatch(addToCart(item))}>
-          <i className="fas fa-cart-plus"></i> Add To Cart
-        </AddToCartButton>
+        <ItemImage src={imageUrls[0]} alt={name} />
+        <ItemStock>In Stock: {stock}</ItemStock>
+        <AddItemToCartBtn itemsToAddOnClick={[item]} />
       </ItemImageContainer>
       <ItemInfoContainer>
-        <ItemCategory>{category.toUpperCase()}</ItemCategory>
-        <h4>{name}</h4>
+        <ItemCategory
+          onClick={() => history.push(`/shop/category/${encodeURI(category)}`)}
+        >
+          {category}
+        </ItemCategory>
+        <ItemName onClick={() => history.push(`/shop/${productId}`)}>
+          {name}
+        </ItemName>
         <ItemPrice>${price}</ItemPrice>
       </ItemInfoContainer>
     </CollectionItemContainer>
   );
 };
 
-export default connect()(CollectionItem);
+export default withRouter(CollectionItem);

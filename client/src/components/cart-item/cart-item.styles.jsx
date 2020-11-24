@@ -1,15 +1,43 @@
 import styled from "styled-components";
+import { secondaryColor, mainColorLight } from "../../global.styles";
 
-export const CartItemContainer = styled.div`
+export const CartItemContainer = styled.li`
+  margin-bottom: 18px;
   display: flex;
-  padding: 0 10px;
-  height: 100%;
-  width: 100%;
+  align-items: center;
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 `;
 
 export const ItemImage = styled.img`
-  width: 50%;
-  height: 80%;
-  align-self: center;
-  margin-left: 4px;
+  float: left;
+  margin-right: 12px;
+  width: 70px;
+  height: 70px;
+`;
+
+export const ItemName = styled.span`
+  display: block;
+  padding-top: 10px;
+  font-size: 16px;
+  font-weight: 700;
+`;
+
+export const ItemPrice = styled.span`
+  color: ${secondaryColor};
+  margin-right: 8px;
+  font-weight: 700;
+`;
+
+export const ItemQuantity = styled.span`
+  float: right;
+  color: ${mainColorLight};
+`;
+
+export const ItemInfo = styled.div`
+  width: 100%;
 `;

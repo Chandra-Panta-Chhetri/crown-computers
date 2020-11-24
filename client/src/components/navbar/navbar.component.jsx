@@ -1,43 +1,103 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   NavBarContainer,
   LogoContainer,
   NavBarItems,
-  NavItem
+  NavItem,
+  LogOutBtn,
+  Username,
+  ToggleIcon,
+  FlexContainer,
+  NavMenuClose,
+  LogoIcon
 } from "./navbar.styles";
 
 import CartDropDown from "../cart-drop-down/cart-drop-down.component";
 import CartIcon from "../cart-icon/cart-icon.component";
 
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { selectCartVisibility } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
-import { logOutStart } from "../../redux/user/user.actions";
+import { startLogOut } from "../../redux/user/user.actions";
+import { truncate } from "../../global.utils";
 
-const NavBar = ({ currentUser, hidden, logOut }) => (
-  <NavBarContainer>
-    <LogoContainer>
-      <Link to="/">
-        <i className="fas fa-home fa-3x"></i>
-      </Link>
-    </LogoContainer>
-    <NavBarItems>
-      <NavItem to="/product-collection">Collection</NavItem>
-      {!currentUser ? (
-        <NavItem to="/login">Log In</NavItem>
-      ) : (
-        <NavItem onClick={logOut} to="/">
-          Log Out
-        </NavItem>
-      )}
-      {!currentUser ? <NavItem to="/signup">Sign Up</NavItem> : null}
-      <CartIcon />
-    </NavBarItems>
-    {hidden ? null : <CartDropDown />}
-  </NavBarContainer>
-);
+const Navbar = ({ currentUser, hidden, logOut }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleCollapse = () => setIsCollapsed(!isCollapsed);
+
+  const logOutClick = () => {
+    logOut();
+    if (isCollapsed) {
+      toggleCollapse();
+    }
+  };
+
+  return (
+    <NavBarContainer>
+      <LogoContainer>
+        <LogoIcon className="fas fa-plug" />
+        {currentUser && (
+          <Username>
+            <span>{truncate(currentUser.fullName)}</span>
+            <i className="far fa-user" />
+          </Username>
+        )}
+      </LogoContainer>
+      <FlexContainer>
+        <ToggleIcon className="fas fa-bars" onClick={toggleCollapse} />
+        <NavBarItems isCollapsed={isCollapsed}>
+          <NavMenuClose className="fas fa-times" onClick={toggleCollapse} />
+          <NavItem
+            exact
+            to="/"
+            activeClassName="active"
+            onClick={toggleCollapse}
+          >
+            Home
+          </NavItem>
+          <NavItem to="/shop" activeClassName="active" onClick={toggleCollapse}>
+            Shop
+          </NavItem>
+          {currentUser && (
+            <NavItem
+              to="/wish-lists"
+              activeClassName="active"
+              onClick={toggleCollapse}
+            >
+              Wish Lists
+            </NavItem>
+          )}
+          {!currentUser ? (
+            <NavItem
+              to="/login"
+              activeClassName="active"
+              onClick={toggleCollapse}
+            >
+              Log In
+            </NavItem>
+          ) : (
+            <LogOutBtn onClick={logOutClick} to="/">
+              Log Out
+            </LogOutBtn>
+          )}
+          {!currentUser && (
+            <NavItem
+              to="/signup"
+              activeClassName="active"
+              onClick={toggleCollapse}
+            >
+              Sign Up
+            </NavItem>
+          )}
+        </NavBarItems>
+        <CartIcon />
+      </FlexContainer>
+      {hidden ? null : <CartDropDown />}
+    </NavBarContainer>
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
@@ -45,7 +105,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  logOut: () => dispatch(logOutStart())
+  logOut: () => dispatch(startLogOut())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

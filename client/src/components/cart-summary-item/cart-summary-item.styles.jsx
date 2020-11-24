@@ -1,54 +1,70 @@
 import styled from "styled-components";
 
-export const CartSummaryItemContainer = styled.article`
-  display: flex;
-  padding: 25px 40px;
-  border: 4px solid #efefef;
-  border-radius: 8px;
-  justify-content: space-between;
-  margin-bottom: 10px;
+export const ItemInfoSection = styled.td`
+  padding: 1.1em;
 `;
 
-export const ItemContent = styled.section`
-  display: flex;
-`;
-
-export const ImageContainer = styled.div`
-  width: 15%;
-  margin-right: 15px;
-`;
-
-export const ItemImage = styled.img`
-  width: 100%;
-  height: 100%;
-`;
-
-export const ItemActions = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 15px;
-  font-size: 16px;
-  justify-content: center;
-`;
-
-export const ItemQuantity = styled.span`
+export const ProductMetaInfo = styled.div`
   display: flex;
   align-items: center;
-  margin: 8px 0;
+  text-align: left;
 `;
 
-export const ItemChangeQuantityIcon = styled.i`
+export const ProductImage = styled.img`
+  width: 80px;
+  height: 80px;
+`;
+
+export const ProductInfo = styled.div`
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+`;
+
+export const ProductName = styled.h5`
+  margin: 0;
+  text-transform: capitalize;
+`;
+
+export const ProductCategory = styled.span`
+  width: fit-content;
+  color: gray;
+  margin: 4px 0 0;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+`;
+
+export const ProductStockLeft = styled.span`
+  color: red;
+  font-weight: 700;
+  margin: auto 0 0;
+`;
+
+export const ItemQuantityContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ChangeQuantityButton = styled.i`
   cursor: pointer;
   margin: 0 5px;
+  font-size: 20px;
 `;
 
-export const ItemRemoveContainer = styled.span`
+export const RemoveItemButton = styled.span`
   cursor: pointer;
   color: red;
-  align-self: flex-start;
+  width: fit-content;
+  font-weight: 700;
 `;
 
-export const ItemPrice = styled.span`
-  font-size: 20px;
-  font-weight: bold;
+export const Icon = styled.i`
+  font-size: 22px;
+
+  &:hover {
+    transform: scale(1.3);
+  }
 `;

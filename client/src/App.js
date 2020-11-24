@@ -1,63 +1,81 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { useEffect } from "react";
 import { GlobalStyles } from "./global.styles";
 
-import NavBar from "./components/navbar/navbar.component";
-import { Route, Switch, Redirect } from "react-router-dom";
-import Spinner from "./components/spinner/spinner.component";
-import ErrorBoundary from "./components/error-boundary/error-boundary.component";
+import Navbar from "./components/navbar/navbar.component";
+import Toast from "./components/toast/toast.component";
+import AppRoutes from "./components/app-routes/app-routes.component";
+import FullPageSpinner from "./components/full-page-spinner/full-page-spinner.component";
+import { withRouter } from "react-router-dom";
 
+import {
+  selectCurrentUser,
+  selectIsChangingAuthState,
+  selectUserLoadingText,
+  selectWasSignedIn
+} from "./redux/user/user.selectors";
+import { startAutoSignIn } from "./redux/user/user.actions";
+import { selectCartVisibility } from "./redux/cart/cart.selectors";
+import { toggleCartVisibility } from "./redux/cart/cart.actions";
+import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
-import { selectCurrentUser } from "./redux/user/user.selectors";
-import { signInUserFromSession } from "./redux/user/user.actions";
+import { compose } from "redux";
 
-const LogIn = lazy(() => import("./pages/login/login.component"));
-const SignUp = lazy(() => import("./pages/signup/signup.component"));
-const CartSummary = lazy(() =>
-  import("./pages/cart-summary/cart-summary.component")
-);
-const ProductCollection = lazy(() =>
-  import("./pages/product-collection/product-collection.component")
-);
-const Home = lazy(() => import("./pages/home/home.component"));
-
-const App = ({ signInUserFromSession, currentUser }) => {
+const App = ({
+  autoSignIn,
+  history,
+  isCartHidden,
+  toggleCartVisibility,
+  isChangingAuthState,
+  wasSignedIn,
+  userLoadingText,
+  currentUser
+}) => {
+  const isAdmin = currentUser && currentUser.isAdmin;
   useEffect(() => {
-    signInUserFromSession();
-  }, [signInUserFromSession]);
+    if (wasSignedIn) {
+      autoSignIn();
+    }
+  }, [autoSignIn]);
+
+  useEffect(() => {
+    return history.listen(() => {
+      //scrolls user back to top of page as in some cases where only the content changes
+      //and component is the same, user not scrolled to top
+      window.scrollTo(0, 0);
+      if (!isCartHidden) {
+        toggleCartVisibility();
+      }
+    });
+  }, [history, toggleCartVisibility, isCartHidden]);
 
   return (
     <div>
       <GlobalStyles />
-      <NavBar />
-      <ErrorBoundary>
-        <Suspense fallback={<Spinner />}>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/product-collection" component={ProductCollection} />
-            <Route
-              exact
-              path="/login"
-              render={() => (currentUser ? <Redirect to="/" /> : <LogIn />)}
-            />
-            <Route
-              exact
-              path="/signup"
-              render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
-            />
-            <Route exact path="/cart-summary" component={CartSummary} />
-          </Switch>
-        </Suspense>
-      </ErrorBoundary>
+      {isAdmin || <Navbar />}
+      <AppRoutes />
+      <FullPageSpinner
+        isLoading={isChangingAuthState}
+        loadingText={userLoadingText}
+      />
+      <Toast autoDelete dismissTime={1400} />
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  currentUser: selectCurrentUser(state)
+const mapStateToProps = createStructuredSelector({
+  isCartHidden: selectCartVisibility,
+  isChangingAuthState: selectIsChangingAuthState,
+  userLoadingText: selectUserLoadingText,
+  wasSignedIn: selectWasSignedIn,
+  currentUser: selectCurrentUser
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  signInUserFromSession: () => dispatch(signInUserFromSession())
+  autoSignIn: () => dispatch(startAutoSignIn()),
+  toggleCartVisibility: () => dispatch(toggleCartVisibility())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter
+)(App);

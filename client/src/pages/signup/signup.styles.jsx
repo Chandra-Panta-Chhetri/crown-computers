@@ -1,7 +1,6 @@
 import styled from "styled-components";
-
 import Button from "../../components/button/button.component";
-import { Link } from "react-router-dom";
+import Card from "../../components/card/card.component";
 
 export const SignUpContainer = styled.section`
   display: flex;
@@ -9,13 +8,19 @@ export const SignUpContainer = styled.section`
   justify-content: center;
 `;
 
-export const FormContainer = styled.div`
+export const FormContainer = styled(Card)`
   display: flex;
   flex-direction: column;
-  border: 4px solid #efefef;
   align-items: center;
-  border-radius: 8px;
-  width: 40%;
+  width: 50%;
+
+  @media only screen and (max-width: 850px) {
+    width: 80%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 export const Form = styled.form`
@@ -24,17 +29,11 @@ export const Form = styled.form`
 
 export const FormTitle = styled.h1`
   margin-bottom: 0;
-`;
-
-export const ErrorText = styled.h5`
-  color: red;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
 `;
 
 export const FormButton = styled(Button)`
   width: 100%;
   margin-bottom: 15px;
-`;
-
-export const FormRedirectLink = styled(Link)`
-  color: blue;
 `;

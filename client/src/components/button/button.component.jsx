@@ -1,8 +1,47 @@
 import React from "react";
-import { ButtonContainer } from "./button.styles";
+import {
+  DefaultButton,
+  ButtonWithIcon,
+  ButtonWithNoBorder
+} from "./button.styles";
+import { secondaryColor } from "../../global.styles";
 
-const Button = ({ children, ...otherButtonAttr }) => (
-  <ButtonContainer {...otherButtonAttr}>{children}</ButtonContainer>
-);
+const Button = ({
+  children,
+  iconClass = "",
+  variant,
+  color = secondaryColor,
+  className,
+  ...otherButtonAttr
+}) => {
+  switch (variant) {
+    case "icon":
+      return (
+        <ButtonWithIcon
+          {...otherButtonAttr}
+          color={color}
+          className={className}
+        >
+          <i className={iconClass} /> <span>{children}</span>
+        </ButtonWithIcon>
+      );
+    case "no-border":
+      return (
+        <ButtonWithNoBorder
+          {...otherButtonAttr}
+          color={color}
+          className={className}
+        >
+          <i className={iconClass} /> <span>{children}</span>
+        </ButtonWithNoBorder>
+      );
+    default:
+      return (
+        <DefaultButton {...otherButtonAttr} color={color} className={className}>
+          {children}
+        </DefaultButton>
+      );
+  }
+};
 
 export default Button;

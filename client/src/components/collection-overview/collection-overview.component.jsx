@@ -1,30 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import CollectionPreview from "../../components/collection-preview/collection-preview.component";
-import withSpinner from "../with-spinner/with-spinner.component";
+import ProductCollection from "../product-collection/product-collection.component";
 
-import { createStructuredSelector } from "reselect";
-import { connect } from "react-redux";
-import { compose } from "redux";
 import {
-  selectCollectionFromKeys,
-  selectIsFetchingCollection
-} from "../../redux/collection/collection.selectors";
+  selectIsFetchingProducts,
+  selectHasMoreProductsToFetch
+} from "../../redux/product/product.selectors";
+import {
+  startInitialProductsFetch,
+  startLoadingMoreProducts
+} from "../../redux/product/product.actions";
+import usePaginationOnIntersection from "../../hooks/usePaginationOnIntersection.hook";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-const CollectionOverview = ({ productCollection }) => (
-  <div className="collection-overview">
-    {productCollection.map(({ id, ...otherCollectionFields }) => (
-      <CollectionPreview key={id} {...otherCollectionFields} />
-    ))}
-  </div>
-);
+const CollectionOverview = ({
+  fetchInitialProducts,
+  fetchMoreProducts,
+  isFetchingProducts,
+  hasMoreProductsToFetch
+}) => {
+  const fetchMoreOnIntersection = usePaginationOnIntersection(
+    fetchMoreProducts,
+    isFetchingProducts,
+    hasMoreProductsToFetch
+  );
+
+  useEffect(() => {
+    fetchInitialProducts();
+  }, [fetchInitialProducts]);
+
+  return (
+    <ProductCollection
+      intersectionCb={fetchMoreOnIntersection}
+      isFetchingProducts={isFetchingProducts}
+    />
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
-  productCollection: selectCollectionFromKeys,
-  isLoading: selectIsFetchingCollection
+  isFetchingProducts: selectIsFetchingProducts,
+  hasMoreProductsToFetch: selectHasMoreProductsToFetch
 });
 
-export default compose(
-  connect(mapStateToProps),
-  withSpinner
-)(CollectionOverview);
+const mapDispatchToProps = (dispatch) => ({
+  fetchInitialProducts: () => dispatch(startInitialProductsFetch()),
+  fetchMoreProducts: () => dispatch(startLoadingMoreProducts())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionOverview);

@@ -1,49 +1,57 @@
 import styled, { css } from "styled-components";
 
-const subColor = "grey";
-const mainColor = "black";
+export const secondaryColor = "grey";
+export const mainColor = "black";
 
-const shrinkLabelMixin = css`
-  top: -18px;
-  font-size: 12px;
-  color: ${mainColor};
-`;
-
-export const FormInputContainer = styled.div`
-  position: relative;
-  margin: 45px 0;
-`;
-
-export const InputLabel = styled.label`
-  color: ${subColor};
-  font-size: 16px;
-  font-weight: normal;
-  position: absolute;
-  pointer-events: none;
-  left: 5px;
-  top: 10px;
-  transition: 300ms ease all;
-
-  &.shrink {
-    ${shrinkLabelMixin}
-  }
-`;
-
-export const FormField = styled.input`
+export const FormFieldStyles = css`
   color: ${mainColor};
   font-size: 18px;
-  padding: 10px 10px 10px 5px;
+  padding: 10px 10px 10px 7px;
   display: block;
   width: 100%;
   border: none;
   border-radius: 6px;
-  border: 1px solid ${subColor};
+  border: 1px solid ${secondaryColor};
+  background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
+  text-transform: ${(props) => (props.uppercaseInput ? "uppercase" : "none")};
 
   &:focus {
     outline: none;
   }
+`;
 
-  &:focus ~ ${InputLabel} {
-    ${shrinkLabelMixin}
+export const FormInputContainer = styled.div`
+  position: relative;
+  margin: 25px 0 35px;
+`;
+
+export const InputLabel = styled.label`
+  top: -21px;
+  font-size: 12px;
+  color: ${mainColor};
+  left: 0;
+  position: absolute;
+`;
+
+export const FormField = styled.input`
+  ${FormFieldStyles}
+`;
+
+export const Textarea = styled.textarea`
+  color: ${mainColor};
+  font-size: 18px;
+  padding: 10px 10px 10px 7px;
+  display: block;
+  width: 100%;
+  border: none;
+  resize: vertical;
+  min-height: 160px;
+  border-radius: 6px;
+  border: 1px solid ${secondaryColor};
+  background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
   }
 `;

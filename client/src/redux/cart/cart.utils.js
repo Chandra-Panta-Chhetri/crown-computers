@@ -1,27 +1,71 @@
-export const addToCart = (shoppingCart, item) => {
-  const itemIndex = shoppingCart.findIndex(
-    (cartItem) => cartItem.id === item.id
-  );
-  if (itemIndex === -1) {
-    return [...shoppingCart, { ...item, quantity: 1 }];
-  }
-  const prevQuantity = shoppingCart[itemIndex].quantity;
-  shoppingCart[itemIndex] = { ...item, quantity: prevQuantity + 1 };
+import {
+  deleteDocById,
+  CART_ITEM_COLLECTION_NAME
+} from "../../firebase-utils/firebase.abstract_utils";
+import { createNewCartItem } from "../../firebase-utils/firebase.cart_utils";
+
+const updateItemQuantityInCart = (
+  shoppingCart,
+  itemStock,
+  newQuantity,
+  itemIndex
+) => {
+  if (!hasEnoughInStock(itemStock, newQuantity)) throw Error();
+  shoppingCart[itemIndex] = {
+    ...shoppingCart[itemIndex],
+    quantity: newQuantity
+  };
   return [...shoppingCart];
 };
 
-export const removeFromCart = (shoppingCart, item) =>
-  shoppingCart.filter((cartItem) => cartItem.id !== item.id);
+export const addToCart = async (shoppingCart, item, isLoggedIn) => {
+  const itemIndex = shoppingCart.findIndex(
+    (cartItem) => cartItem.productId === item.productId
+  );
+
+  if (itemIndex === -1) {
+    if (!isLoggedIn) {
+      return [...shoppingCart, { ...item, quantity: 1 }];
+    }
+    const { id: newCartItemId } = await createNewCartItem(item.productId);
+    return [
+      ...shoppingCart,
+      { ...item, quantity: 1, cartItemId: newCartItemId }
+    ];
+  }
+  const newQuantity = shoppingCart[itemIndex].quantity + 1;
+  const updatedCart = updateItemQuantityInCart(
+    shoppingCart,
+    item.stock,
+    newQuantity,
+    itemIndex
+  );
+  return updatedCart;
+};
 
 export const changeItemQuantity = (shoppingCart, { item, newQuantity }) => {
-  if (newQuantity <= 0) {
-    return removeFromCart(shoppingCart, item);
-  }
   const itemIndex = shoppingCart.findIndex(
-    (cartItem) => cartItem.id === item.id
+    (cartItem) => cartItem.productId === item.productId
   );
   if (itemIndex !== -1) {
-    shoppingCart[itemIndex] = { ...item, quantity: newQuantity };
+    const updatedCart = updateItemQuantityInCart(
+      shoppingCart,
+      item.stock,
+      newQuantity,
+      itemIndex
+    );
+    return updatedCart;
   }
-  return [...shoppingCart];
+  return shoppingCart;
 };
+
+export const removeFromCart = async (shoppingCart, item, isLoggedIn) => {
+  if (isLoggedIn) {
+    await deleteDocById(CART_ITEM_COLLECTION_NAME, item.cartItemId);
+  }
+  return shoppingCart.filter(
+    (cartItem) => cartItem.productId !== item.productId
+  );
+};
+
+const hasEnoughInStock = (stock, quantity) => quantity <= stock;

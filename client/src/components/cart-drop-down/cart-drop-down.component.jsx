@@ -1,28 +1,35 @@
 import React from "react";
-import { CartDropDownContainer, ViewCartButton } from "./cart-drop-down.styles";
+import {
+  CartDropDownContainer,
+  CartDropDownHeader,
+  CartTotal,
+  LighterText
+} from "./cart-drop-down.styles";
 
 import CartItems from "../cart-items/cart-items.component";
+import Button from "../button/button.component";
 
 import { withRouter } from "react-router-dom";
-import { toggleCartVisibility } from "../../redux/cart/cart.actions";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import { roundNumber } from "../../global.utils";
+import { selectCartTotal } from "../../redux/cart/cart.selectors";
 
-const CartDropDown = ({ history, toggleCartVisibility }) => (
+const CartDropDown = ({ history, cartTotal }) => (
   <CartDropDownContainer>
+    <CartDropDownHeader>
+      <CartTotal>
+        <LighterText>Total:</LighterText>
+        <span>${roundNumber(cartTotal)}</span>
+      </CartTotal>
+    </CartDropDownHeader>
     <CartItems />
-    <ViewCartButton
-      onClick={() => {
-        history.push("/cart-summary");
-        toggleCartVisibility();
-      }}
-    >
-      View Cart
-    </ViewCartButton>
+    <Button onClick={() => history.push("/cart-summary")}>Checkout</Button>
   </CartDropDownContainer>
 );
 
-const mapDispatchToProps = (dispatch) => ({
-  toggleCartVisibility: () => dispatch(toggleCartVisibility())
+const mapStateToProps = (state) => ({
+  cartTotal: selectCartTotal(state)
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(CartDropDown));
+export default compose(connect(mapStateToProps), withRouter)(CartDropDown);

@@ -6,3 +6,8 @@ export const LoginContainer = styled.section`
   align-items: center;
   text-align: center;
 `;
+
+export const DividerText = styled.h5`
+  margin: 0 0 15px;
+  font-weight: bold;
+`;

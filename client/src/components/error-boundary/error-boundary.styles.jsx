@@ -1,12 +1,13 @@
 import styled from "styled-components";
+import { secondaryColor } from "../../global.styles";
 
 export const ErrorImageOverlay = styled.div`
-  height: 60vh;
+  height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  text-align: center;
 `;
 
 export const ErrorImageContainer = styled.div`
@@ -20,5 +21,5 @@ export const ErrorImageContainer = styled.div`
 
 export const ErrorImageText = styled.h2`
   font-size: 28px;
-  color: #2f8e89;
+  color: ${secondaryColor};
 `;

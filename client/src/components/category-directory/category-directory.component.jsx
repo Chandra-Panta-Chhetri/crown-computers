@@ -1,21 +1,26 @@
 import React from "react";
 import {
   CategoryDirectoryContainer,
-  DirectoryImage,
+  CategoryImage,
   DirectoryContent,
-  DirectoryTitle,
+  CategoryName,
   DirectorySubtitle
 } from "./category-directory.styles";
 
 import { withRouter } from "react-router-dom";
 
-const CategoryDirectory = ({ label, imageUrl, history, routePath }) => (
+const CategoryDirectory = ({
+  categoryInfo: { category, imageUrl },
+  history,
+  intersectionCb
+}) => (
   <CategoryDirectoryContainer
-    onClick={() => history.push(`/product-collection/${routePath}`)}
+    onClick={() => history.push(`/shop/category/${encodeURI(category)}`)}
+    ref={intersectionCb}
   >
-    <DirectoryImage imageUrl={imageUrl}></DirectoryImage>
+    <CategoryImage imageUrl={imageUrl}></CategoryImage>
     <DirectoryContent>
-      <DirectoryTitle>{label.toUpperCase()}</DirectoryTitle>
+      <CategoryName>{category}</CategoryName>
       <DirectorySubtitle>SHOP NOW</DirectorySubtitle>
     </DirectoryContent>
   </CategoryDirectoryContainer>

@@ -3,30 +3,35 @@ import {
   OrderSummaryContainer,
   Heading,
   PriceSummaryContainer,
-  Price
+  Price,
+  PriceSummaryItem
 } from "./order-summary.styles";
 
-import StripeCheckOutButton from "../stripe-checkout-button/stripe-checkout-button.component";
+import StripeCheckoutButton from "../stripe-checkout-button/stripe-checkout-button.component";
+
+import { roundNumber } from "../../global.utils";
+
+const TAX_RATE = 0.13;
 
 const OrderSummary = ({ cartTotal }) => {
-  const subtotal = Math.round(cartTotal * 100) / 100;
-  const totalTax = Math.round(cartTotal * 0.13 * 100) / 100;
-  const total = Math.round(cartTotal * 1.13 * 100) / 100;
+  const subTotal = roundNumber(cartTotal);
+  const totalTax = roundNumber(subTotal * TAX_RATE);
+  const total = roundNumber(subTotal + totalTax);
   return (
     <OrderSummaryContainer>
       <Heading>Order Summary</Heading>
       <PriceSummaryContainer>
-        <div>
-          Subtotal <Price>${subtotal}</Price>
-        </div>
-        <div>
-          Total Tax <Price>${totalTax}</Price>
-        </div>
-        <div>
+        <PriceSummaryItem>
+          Subtotal <Price>${subTotal}</Price>
+        </PriceSummaryItem>
+        <PriceSummaryItem>
+          Tax <Price>${totalTax}</Price>
+        </PriceSummaryItem>
+        <PriceSummaryItem>
           Total <Price>${total}</Price>
-        </div>
+        </PriceSummaryItem>
       </PriceSummaryContainer>
-      <StripeCheckOutButton price={total} label="Pay Now" />
+      <StripeCheckoutButton price={total} label="Proceed To Checkout" />
     </OrderSummaryContainer>
   );
 };

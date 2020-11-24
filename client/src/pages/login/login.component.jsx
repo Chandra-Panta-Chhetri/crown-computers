@@ -1,42 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { LoginContainer } from "./login.styles";
+import React, { useState } from "react";
+import { LoginContainer, DividerText } from "./login.styles";
 import {
   FormContainer,
   Form,
   FormTitle,
-  ErrorText,
-  FormButton,
-  FormRedirectLink
+  FormButton
 } from "../signup/signup.styles";
 
 import FormInput from "../../components/form-input/form-input.component";
+import { Link } from "react-router-dom";
 
 import {
   startGoogleSignIn,
-  startEmailSignIn,
-  clearAuthError
+  startEmailSignIn
 } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
-import { selectAuthError } from "../../redux/user/user.selectors";
 
-const LogIn = ({
-  startGoogleSignIn,
-  loginErrorMsg,
-  clearAuthError,
-  startEmailSignIn
-}) => {
+const LogIn = ({ startGoogleSignIn, startEmailSignIn }) => {
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     password: ""
   });
 
-  useEffect(() => {
-    clearAuthError();
-  }, [clearAuthError]);
-
   const { email, password } = userCredentials;
 
-  const storeCredentials = (e) => {
+  const handleUserCredentialsChange = (e) => {
     const { value, name } = e.target;
     setUserCredentials({ ...userCredentials, [name]: value });
   };
@@ -50,48 +38,43 @@ const LogIn = ({
     <LoginContainer>
       <FormContainer>
         <FormTitle>LOGIN</FormTitle>
-        <ErrorText>{loginErrorMsg}</ErrorText>
-        <Form onSubmit={loginUser}>
+        <Form onSubmit={loginUser} autocomplete="on">
           <FormInput
             type="email"
             name="email"
-            label="Email"
-            value={email}
-            handler={storeCredentials}
+            label="Email*"
+            inputValue={email}
+            inputChangeHandler={handleUserCredentialsChange}
+            placeholder="John.Doe@gmail.com"
             required
           />
           <FormInput
             type="password"
             name="password"
-            label="Password"
-            value={password}
-            handler={storeCredentials}
+            label="Password*"
+            inputValue={password}
+            inputChangeHandler={handleUserCredentialsChange}
+            placeholder="******"
             required
           />
           <FormButton type="submit">Log In</FormButton>
-          <h5>Or login with</h5>
+          <DividerText>Or login with</DividerText>
           <FormButton type="button" onClick={startGoogleSignIn}>
-            <i className="fab fa-google"></i> Google
+            Google
           </FormButton>
         </Form>
         <h5>
-          Don't have an account?{" "}
-          <FormRedirectLink to="/signup">Sign up now</FormRedirectLink>
+          Don't have an account? <Link to="/signup">Sign up now</Link>
         </h5>
       </FormContainer>
     </LoginContainer>
   );
 };
 
-const mapStateToProps = (state) => ({
-  loginErrorMsg: selectAuthError(state)
-});
-
 const mapDispatchToProps = (dispatch) => ({
   startGoogleSignIn: () => dispatch(startGoogleSignIn()),
   startEmailSignIn: ({ email, password }) =>
-    dispatch(startEmailSignIn({ email, password })),
-  clearAuthError: () => dispatch(clearAuthError())
+    dispatch(startEmailSignIn({ email, password }))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
+export default connect(null, mapDispatchToProps)(LogIn);

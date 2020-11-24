@@ -1,38 +1,50 @@
-import { addToCart, changeItemQuantity } from "./cart.utils";
-import { removeFromCart } from "./cart.utils";
-
 import CART_ACTION_TYPES from "./cart.action.types";
-const INITIALSTATE = {
+
+const INITIAL_STATE = {
   hidden: true,
-  shoppingCart: []
+  shoppingCart: [],
+  cartId: null,
+  isUpdatingCart: false,
+  loadingText: ""
 };
 
-const cartReducer = (prevState = INITIALSTATE, action) => {
+const cartReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
     case CART_ACTION_TYPES.TOGGLE_CART_VISIBILITY:
       return {
         ...prevState,
         hidden: !prevState.hidden
       };
-    case CART_ACTION_TYPES.ADD_TO_CART:
+    case CART_ACTION_TYPES.START_ADD_TO_CART:
+    case CART_ACTION_TYPES.START_CHANGE_QUANTITY:
+    case CART_ACTION_TYPES.START_REMOVE_FROM_CART:
       return {
         ...prevState,
-        shoppingCart: addToCart(prevState.shoppingCart, action.payload)
+        isUpdatingCart: true,
+        loadingText: action.payload.loadingText
       };
-    case CART_ACTION_TYPES.REMOVE_FROM_CART:
+    case CART_ACTION_TYPES.UPDATE_CART_SUCCESS:
       return {
         ...prevState,
-        shoppingCart: removeFromCart(prevState.shoppingCart, action.payload)
+        shoppingCart: action.payload.cart,
+        isUpdatingCart: false
       };
-    case CART_ACTION_TYPES.CHANGE_QUANTITY:
+    case CART_ACTION_TYPES.UPDATE_CART_FAIL:
       return {
         ...prevState,
-        shoppingCart: changeItemQuantity(prevState.shoppingCart, action.payload)
+        isUpdatingCart: false
       };
     case CART_ACTION_TYPES.CLEAR_CART:
       return {
         ...prevState,
-        shoppingCart: []
+        shoppingCart: [],
+        cartId: null
+      };
+    case CART_ACTION_TYPES.RESTORE_CART:
+      return {
+        ...prevState,
+        shoppingCart: action.payload.cart,
+        cartId: action.payload.cartId
       };
     default:
       return prevState;

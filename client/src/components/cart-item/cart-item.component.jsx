@@ -1,15 +1,23 @@
 import React from "react";
-import { CartItemContainer, ItemImage } from "./cart-item.styles";
+import {
+  CartItemContainer,
+  ItemImage,
+  ItemName,
+  ItemPrice,
+  ItemQuantity,
+  ItemInfo
+} from "./cart-item.styles";
+
+import { truncate } from "../../global.utils";
 
 const CartItem = ({ item }) => (
   <CartItemContainer>
-    <div>
-      <p>{item.name}</p>
-      <p>
-        <span>{item.quantity}</span> x ${item.price}
-      </p>
-    </div>
-    <ItemImage src={item.imageUrl} alt={item.name} />
+    <ItemImage src={item.imageUrls[0]} alt={item.name} />
+    <ItemInfo>
+      <ItemName>{truncate(item.name)}</ItemName>
+      <ItemPrice>${item.price}</ItemPrice>
+      <ItemQuantity>Qty: {item.quantity}</ItemQuantity>
+    </ItemInfo>
   </CartItemContainer>
 );
 

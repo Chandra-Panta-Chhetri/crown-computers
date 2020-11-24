@@ -1,12 +1,34 @@
 import React from "react";
-import { FormInputContainer, InputLabel, FormField } from "./form-input.styles";
+import {
+  FormInputContainer,
+  InputLabel,
+  FormField,
+  Textarea
+} from "./form-input.styles";
 
-const FormInput = ({ label, handler, ...otherFieldProps }) => (
-  <FormInputContainer>
-    <InputLabel className={otherFieldProps.value.length ? "shrink" : ""}>
-      {label}
-    </InputLabel>
-    <FormField onChange={handler} {...otherFieldProps} />
+const FormInput = ({
+  label,
+  inputChangeHandler,
+  inputValue,
+  isTextarea = false,
+  className,
+  ...otherFieldProps
+}) => (
+  <FormInputContainer className={className}>
+    <InputLabel>{label}</InputLabel>
+    {!isTextarea ? (
+      <FormField
+        onChange={inputChangeHandler}
+        value={inputValue}
+        {...otherFieldProps}
+      />
+    ) : (
+      <Textarea
+        onChange={inputChangeHandler}
+        value={inputValue}
+        {...otherFieldProps}
+      />
+    )}
   </FormInputContainer>
 );
 

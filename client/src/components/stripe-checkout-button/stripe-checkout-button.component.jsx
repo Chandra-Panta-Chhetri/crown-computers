@@ -1,39 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
+import { CheckoutModal } from "./stripe-checkout-button.styles";
 
-import StripeCheckout from "react-stripe-checkout";
 import Button from "../button/button.component";
+import CheckoutFrom from "../checkout-form/checkout-form.component";
+import { Elements } from "@stripe/react-stripe-js";
 
-import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
+import { withRouter } from "react-router-dom";
 
-const StripeCheckOutButton = ({ price, label }) => {
-  const priceInCents = price * 100;
+const stripe = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
-  const onToken = async (stripeToken) => {
-    try {
-      stripeToken.amount = priceInCents;
-      const response = await axios.post("/checkout", stripeToken);
-      alert(response.data.success);
-    } catch (e) {
-      alert(`Payment failed. Please try again! ${e.response.data.msg}`);
-    }
-  };
-
+const StripeCheckoutButton = ({ price, label, history }) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <StripeCheckout
-      name="Crown Computers"
-      amount={priceInCents}
-      currency="CAD"
-      email="chandra.panta345@hotmail.com"
-      shippingAddress
-      billingAddress={true}
-      token={onToken}
-      stripeKey="pk_test_51H2dKlGzDF5ZEPUIwxzCtFWIicqIlBU4ZJJ09f6XxAZX7O3spzP8FJrjZrB5Ey2VjY7oNZy3byehChIfHcOzjEpv002BfotJtp"
-    >
-      <Button>{label}</Button>
-    </StripeCheckout>
+    <>
+      <Button
+        onClick={() => setIsOpen(true)}
+        variant="icon"
+        iconClass="far fa-credit-card fa-2x"
+      >
+        {label}
+      </Button>
+      <CheckoutModal
+        isOpen={isOpen}
+        closeModalHandler={() => setIsOpen(false)}
+        modalTitle="Billing & Payment Details"
+      >
+        <Elements stripe={stripe}>
+          <CheckoutFrom
+            amountToBePaid={price}
+            onSuccessfulCheckout={() => history.push("/")}
+          />
+        </Elements>
+      </CheckoutModal>
+    </>
   );
 };
 
-//For testing 4242424242424242
-
-export default StripeCheckOutButton;
+export default withRouter(StripeCheckoutButton);
