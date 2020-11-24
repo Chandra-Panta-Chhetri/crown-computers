@@ -27,7 +27,50 @@ const ProductImageCarousel = ({ imageUrls = [] }) => {
     focusOnSelect: true,
     asNavFor: mainImageNav,
     afterChange: changeActiveImage,
-    variableWidth: true
+    variableWidth: imageUrls.length < 5,
+    slidesToShow: imageUrls.length < 5 ? imageUrls.length : 5,
+    slidesToScroll: 1,
+    infinite: true,
+    responsive: [
+      {
+        breakpoint: 1000,
+        settings: {
+          slidesToShow: imageUrls.length < 4 ? imageUrls.length : 4
+        }
+      },
+      {
+        breakpoint: 870,
+        settings: {
+          slidesToShow: imageUrls.length < 3 ? imageUrls.length : 3
+        }
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: imageUrls.length < 8 ? imageUrls.length : 8
+        }
+      },
+      {
+        breakpoint: 700,
+        settings: {
+          slidesToShow: imageUrls.length < 6 ? imageUrls.length : 6
+        }
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: imageUrls.length < 5 ? imageUrls.length : 5,
+          arrows: false
+        }
+      },
+      {
+        breakpoint: 350,
+        settings: {
+          slidesToShow: imageUrls.length < 4 ? imageUrls.length : 4,
+          arrows: false
+        }
+      }
+    ]
   };
 
   if (!imageUrls.length) return null;
@@ -50,7 +93,6 @@ const ProductImageCarousel = ({ imageUrls = [] }) => {
       <ImageCarousel
         carouselSetting={secondaryCarouselSettings}
         imageUrls={imageUrls}
-        maxImagesToShowAtOnce={4}
       />
     </ProductImageCarouselContainer>
   );

@@ -34,7 +34,7 @@ export const ProductImagesSkeleton = styled(Skeleton)`
   width: 35%;
   height: 350px;
 
-  @media only screen and (max-width: 750px) {
+  @media only screen and (max-width: 800px) {
     width: 100%;
   }
 `;
@@ -44,7 +44,7 @@ export const ProductsCarouselSkeleton = styled(Skeleton)`
   height: 25px;
   margin: 50px 0 20px;
 
-  @media only screen and (max-width: 750px) {
+  @media only screen and (max-width: 800px) {
     margin: 20px 0 20px;
     width: 45%;
   }

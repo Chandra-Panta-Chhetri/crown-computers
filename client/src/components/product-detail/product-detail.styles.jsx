@@ -7,7 +7,7 @@ export const ProductDetailContainer = styled.section`
   display: flex;
   padding: 0;
 
-  @media only screen and (max-width: 750px) {
+  @media only screen and (max-width: 800px) {
     flex-direction: column;
   }
 `;
@@ -18,7 +18,7 @@ export const ProductInfoContainer = styled.div`
   flex-grow: 1;
   width: 65%;
 
-  @media only screen and (max-width: 750px) {
+  @media only screen and (max-width: 800px) {
     width: 100%;
     margin-top: 20px;
     padding-left: 0;
