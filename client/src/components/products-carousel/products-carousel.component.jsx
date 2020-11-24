@@ -31,29 +31,26 @@ const ProductsCarousel = ({
 
   const carouselConfig = {
     slidesToShow: 4,
-    slidesToSwipe: 4,
+    slidesToScroll: 1,
     dots: true,
     infinite: true,
     responsive: [
       {
         breakpoint: 850,
         settings: {
-          slidesToShow: 3,
-          slidesToSwipe: 1
+          slidesToShow: 3
         }
       },
       {
         breakpoint: 660,
         settings: {
-          slidesToShow: 2,
-          slidesToSwipe: 1
+          slidesToShow: 2
         }
       },
       {
         breakpoint: 500,
         settings: {
-          slidesToShow: 1,
-          slidesToSwipe: 1
+          slidesToShow: 1
         }
       }
     ]

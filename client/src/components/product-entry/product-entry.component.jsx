@@ -20,8 +20,6 @@ import CreateProductModal from "../create-product-modal/create-product-modal.com
 import { connect } from "react-redux";
 import { startDeleteProductById } from "../../redux/product/product.actions";
 
-const IMAGES_TO_SHOW_AT_ONCE = 10;
-
 const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const closeEditModal = () => setIsEditModalOpen(false);
@@ -35,9 +33,11 @@ const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
     imageUrls
   } = product;
   const imageCarouselSettings = {
-    dots: true,
+    dots: false,
     infinite: true,
-    variableWidth: true
+    variableWidth: true,
+    slidesToShow: imageUrls.length < 10 ? imageUrls.length : 10,
+    slidesToScroll: 1
   };
 
   return (
@@ -88,7 +88,6 @@ const ProductEntry = ({ product, intersectionCb, deleteProductById }) => {
         <ProductImages
           imageUrls={imageUrls}
           carouselSetting={imageCarouselSettings}
-          maxImagesToShowAtOnce={IMAGES_TO_SHOW_AT_ONCE}
         />
       </Card>
     </ProductEntryContainer>
