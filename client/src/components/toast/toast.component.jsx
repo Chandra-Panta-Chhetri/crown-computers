@@ -28,7 +28,7 @@ const Toast = ({ toastList, deleteNotification, autoDelete, dismissTime }) => {
   return (
     <NotificationsContainer>
       {toastList.map((toast, i) => (
-        <Notification key={i} backgroundColor={toast.backgroundColor}>
+        <Notification key={toast.id} backgroundColor={toast.backgroundColor}>
           <RemoveNotificationButton
             onClick={() => deleteNotification(toast.id)}
           >

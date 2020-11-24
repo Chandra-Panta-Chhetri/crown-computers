@@ -45,12 +45,12 @@ const toast = css`
 export const NotificationsContainer = styled.div`
   font-size: 14px;
   box-sizing: border-box;
-  position: absolute;
+  position: fixed;
   z-index: 999999;
+  pointer-events: none;
   ${bottomLeft}
 
   @media only screen and (max-width: 600px) {
-    height: 140px;
     padding: 5px 10px 0;
     overflow-y: auto;
   }
@@ -119,7 +119,7 @@ export const NotificationTitle = styled.p`
   text-align: left;
   margin-top: 0;
   margin-bottom: 6px;
-  width: 300px;
+  width: 100%;
   height: 18px;
   text-transform: capitalize;
 `;

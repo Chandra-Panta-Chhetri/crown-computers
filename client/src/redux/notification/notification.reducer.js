@@ -13,10 +13,7 @@ const notificationReducer = (prevState = INITIAL_STATE, action) => {
     case NOTIFICATION_ACTION_TYPES.ADD_WARNING_NOTIFICATION:
       return {
         ...prevState,
-        notifications: [
-          ...prevState.notifications,
-          { ...action.payload, id: prevState.id }
-        ],
+        notifications: [{ ...action.payload, id: prevState.id }],
         id: prevState.id + 1
       };
     case NOTIFICATION_ACTION_TYPES.DELETE_NOTIFICATION:

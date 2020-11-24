@@ -116,6 +116,8 @@ export const NavItem = styled(NavLink)`
   @media only screen and (max-width: 750px) {
     display: initial;
     color: ${secondaryColor};
+    font-size: 20px;
+    letter-spacing: 2.2px;
 
     &:hover {
       color: white;
@@ -151,5 +153,7 @@ export const LogOutBtn = styled(Link)`
 
   @media only screen and (max-width: 750px) {
     color: ${secondaryColor};
+    font-size: 20px;
+    letter-spacing: 2.2px;
   }
 `;
