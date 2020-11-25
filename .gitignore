@@ -1,4 +1,5 @@
 .env-cmdrc
 node_modules
 .vscode
-debug.log
+cloud_functions
+*.log

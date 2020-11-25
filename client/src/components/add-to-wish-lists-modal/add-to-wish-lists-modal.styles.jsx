@@ -35,6 +35,7 @@ export const AddToWishListBtn = styled(Button)`
 export const NoWishListsText = styled.p`
   font-size: 17px;
   text-transform: none;
+  text-align: center;
 
   span {
     color: ${secondaryColor};

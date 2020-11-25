@@ -32,10 +32,13 @@ function* setUserFromAuth(userAuth) {
 
 function* signInWithGoogle() {
   try {
-    const { user } = yield auth.signInWithPopup(googleProvider);
-    yield call(setUserFromAuth, user, {
-      fullName: user.displayName
-    });
+    const { additionalUserInfo, user } = yield auth.signInWithPopup(
+      googleProvider
+    );
+    if (additionalUserInfo.isNewUser) {
+      yield createNewUserFromAuth(user, { fullName: user.displayName });
+    }
+    yield call(setUserFromAuth, user);
   } catch (err) {
     yield analytics.logEvent("user_sign_in_fail", {
       method: "google",

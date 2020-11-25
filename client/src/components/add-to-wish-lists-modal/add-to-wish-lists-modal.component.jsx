@@ -34,9 +34,6 @@ const WishListsModal = ({
   const numOfWishLists = (wishLists || []).length;
 
   useEffect(() => {
-    if (wishLists.length) {
-      return;
-    }
     fetchWishLists();
   }, [fetchWishLists]);
 

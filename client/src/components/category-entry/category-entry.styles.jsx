@@ -60,5 +60,5 @@ export const EditCategoryIcon = styled.i`
 
 export const CategoryImagePreview = styled.img`
   width: 100%;
-  height: 100%;
+  height: 200px;
 `;

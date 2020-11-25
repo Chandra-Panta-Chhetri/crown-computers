@@ -103,6 +103,9 @@ export const populateCartItemFromRef = async (cartItemRef) => {
     let { productRef, quantity, cartItemId } = cartItem;
     let productId = productRef.id;
     let product = await getProductById(productId);
+    if (!product) {
+      throw Error();
+    }
     return {
       ...product,
       productId,

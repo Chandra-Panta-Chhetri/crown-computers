@@ -69,7 +69,8 @@ export const updateProductCategoryById = async (
   categoryId,
   updatedProductCategoryInfo
 ) => {
-  const { image: newImage, imageUrl } = updatedProductCategoryInfo;
+  const { image: newImage, imageUrl, category } = updatedProductCategoryInfo;
+  updatedProductCategoryInfo.category = category.toLowerCase();
   const productCategoryRef = getDocRefById(
     PRODUCT_CATEGORY_COLLECTION_NAME,
     categoryId
