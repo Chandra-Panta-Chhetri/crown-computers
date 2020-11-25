@@ -2,7 +2,8 @@ import React from "react";
 import {
   FormTitle,
   FormContainer,
-  ContinueButton
+  ContinueButton,
+  FormButtonsContainer
 } from "../checkout-form/checkout-form.styles";
 
 import FormInput from "../form-input/form-input.component";
@@ -43,7 +44,9 @@ const CustomerInfoForm = ({ nextStep, handleChange, formValues }) => {
         required
         placeholder="416-232-5432"
       />
-      <ContinueButton type="submit">Continue</ContinueButton>
+      <FormButtonsContainer>
+        <ContinueButton type="submit">Continue</ContinueButton>
+      </FormButtonsContainer>
     </FormContainer>
   );
 };

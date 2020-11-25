@@ -1,16 +1,9 @@
 import styled from "styled-components";
-
 import { loadingDotsAnimationStyles } from "../spinner/spinner.styles";
-
-import Button from "../button/button.component";
 
 export const LoadingText = styled.p`
   margin: 0;
   ${loadingDotsAnimationStyles}
-`;
-
-export const PayNowButton = styled(Button)`
-  float: right;
 `;
 
 export const CardElementContainer = styled.div`

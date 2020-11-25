@@ -2,10 +2,11 @@ import React from "react";
 import {
   FormTitle,
   FormContainer,
-  ContinueButton
+  ContinueButton,
+  FormButtonsContainer,
+  BackButton
 } from "../checkout-form/checkout-form.styles";
 
-import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import Checkbox from "../checkbox/checkbox.component";
 
@@ -62,10 +63,12 @@ const BillingDetailsForm = ({
         uppercaseInput
         placeholder="A1A2A3"
       />
-      <Button onClick={prevStep} type="button">
-        Back
-      </Button>
-      <ContinueButton type="submit">Continue</ContinueButton>
+      <FormButtonsContainer>
+        <BackButton onClick={prevStep} type="button">
+          Back
+        </BackButton>
+        <ContinueButton type="submit">Continue</ContinueButton>
+      </FormButtonsContainer>
     </FormContainer>
   );
 };

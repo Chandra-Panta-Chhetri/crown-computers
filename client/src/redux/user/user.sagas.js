@@ -90,6 +90,9 @@ function* signUpUser({ payload: { newUserInfo } }) {
     yield createNewUserFromAuth(user, { fullName });
     yield put(startEmailSignIn({ email, password }));
   } catch (err) {
+    if (auth.currentUser) {
+      yield auth.currentUser.delete();
+    }
     let defaultErrMsg = yield `${capitalize(
       fullName
     )}, there was a problem signing up. Please try again later.`;

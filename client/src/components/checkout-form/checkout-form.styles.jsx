@@ -11,6 +11,25 @@ export const FormTitle = styled.h4`
   margin-bottom: 30px;
 `;
 
+export const FormButtonsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+  }
+`;
+
+export const BackButton = styled(Button)`
+  @media only screen and (max-width: 600px) {
+    margin-bottom: 20px;
+  }
+`;
+
 export const ContinueButton = styled(Button)`
-  float: right;
+  margin-left: auto;
+
+  @media only screen and (max-width: 600px) {
+    margin-left: 0;
+  }
 `;

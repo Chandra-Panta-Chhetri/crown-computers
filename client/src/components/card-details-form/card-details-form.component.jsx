@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import {
   FormTitle,
-  FormContainer
+  FormContainer,
+  FormButtonsContainer,
+  BackButton,
+  ContinueButton as PayNowButton
 } from "../checkout-form/checkout-form.styles";
 import {
   CardElementContainer,
-  cardElementStyles,
-  PayNowButton
+  cardElementStyles
 } from "./card-details-form.styles";
 
-import Button from "../button/button.component";
 import { CardElement } from "@stripe/react-stripe-js";
 
 import { addInfoNotification } from "../../redux/notification/notification.actions";
@@ -45,15 +46,17 @@ const CardDetailsForm = ({
           onChange={handleCardDetailsChange}
         />
       </CardElementContainer>
-      <Button onClick={prevStep} type="button">
-        Back
-      </Button>
-      <PayNowButton
-        type="submit"
-        disabled={!stripeLoaded || !isCardDetailFilled}
-      >
-        Confirm & Pay ${amountToBePaid}
-      </PayNowButton>
+      <FormButtonsContainer>
+        <BackButton onClick={prevStep} type="button">
+          Back
+        </BackButton>
+        <PayNowButton
+          type="submit"
+          disabled={!stripeLoaded || !isCardDetailFilled}
+        >
+          Confirm & Pay ${amountToBePaid}
+        </PayNowButton>
+      </FormButtonsContainer>
     </FormContainer>
   );
 };
