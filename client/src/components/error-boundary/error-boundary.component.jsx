@@ -15,10 +15,6 @@ class ErrorBoundary extends React.Component {
     return { hasErrored: true };
   }
 
-  componentDidCatch(error, info) {
-    console.log(error);
-  }
-
   render() {
     if (this.state.hasErrored) {
       return (
