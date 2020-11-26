@@ -143,5 +143,9 @@ export const NavMenuOption = styled.li`
 
 export const LogOutOption = styled.li`
   ${NavMenuOptionStyles}
-  margin-top: auto
+  margin-top: auto;
+
+  @media only screen and (max-width: 600px) {
+    margin-top: initial;
+  }
 `;
