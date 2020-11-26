@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { secondaryColor } from "../../global.styles";
 
 export const BadgeContainer = styled.span`
   font-weight: bold;
-  background-color: ${secondaryColor};
+  background-color: ${(props) => props.theme.secondary};
   border-radius: 10px;
   color: white;
   font-size: 13px;

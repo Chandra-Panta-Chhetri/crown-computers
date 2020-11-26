@@ -1,17 +1,14 @@
 import styled, { css } from "styled-components";
 
-export const secondaryColor = "grey";
-export const mainColor = "black";
-
 export const FormFieldStyles = css`
-  color: ${mainColor};
+  color: ${(props) => props.theme.primaryFormColor};
   font-size: 18px;
   padding: 10px 10px 10px 7px;
   display: block;
   width: 100%;
   border: none;
   border-radius: 6px;
-  border: 1px solid ${secondaryColor};
+  border: 1px solid ${(props) => props.theme.secondaryFormColor};
   background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
   text-transform: ${(props) => (props.uppercaseInput ? "uppercase" : "none")};
 
@@ -28,7 +25,7 @@ export const FormInputContainer = styled.div`
 export const InputLabel = styled.label`
   top: -21px;
   font-size: 12px;
-  color: ${mainColor};
+  color: ${(props) => props.theme.primaryFormColor};
   left: 0;
   position: absolute;
 `;
@@ -38,7 +35,7 @@ export const FormField = styled.input`
 `;
 
 export const Textarea = styled.textarea`
-  color: ${mainColor};
+  color: ${(props) => props.theme.primaryFormColor};
   font-size: 18px;
   padding: 10px 10px 10px 7px;
   display: block;
@@ -47,7 +44,7 @@ export const Textarea = styled.textarea`
   resize: vertical;
   min-height: 160px;
   border-radius: 6px;
-  border: 1px solid ${secondaryColor};
+  border: 1px solid ${(props) => props.theme.secondaryFormColor};
   background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
   font-family: inherit;
 

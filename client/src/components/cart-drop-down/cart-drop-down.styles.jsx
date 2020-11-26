@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { mainColor, secondaryColor } from "../../global.styles";
 
 export const CartDropDownContainer = styled.article`
-  background: ${mainColor};
+  background: ${(props) => props.theme.primary};
   width: 320px;
   position: absolute;
   border-radius: 3px;
@@ -23,20 +22,20 @@ export const CartDropDownContainer = styled.article`
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-bottom-color: ${mainColor};
+    border-bottom-color: ${(props) => props.theme.primary};
     border-width: 8px;
     margin-left: -8px;
   }
 `;
 
 export const CartDropDownHeader = styled.div`
-  border-bottom: 1.8px solid ${secondaryColor};
+  border-bottom: 1.8px solid ${(props) => props.theme.secondary};
   padding-bottom: 5px;
 `;
 
 export const CartTotal = styled.div`
   float: right;
-  color: ${secondaryColor};
+  color: ${(props) => props.theme.secondary};
   font-weight: 700;
 `;
 

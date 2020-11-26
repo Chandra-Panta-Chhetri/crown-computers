@@ -1,11 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 
-export const secondaryColor = "#3498db";
-export const secondaryColorLight = "aliceblue";
-export const mainColor = "#E8E8E8";
-export const mainColorLight = "#4a4a4a";
-export const mainBorderColor = "rgba(226, 232, 240, 1)";
-
 export const GlobalStyles = createGlobalStyle`
   body {
     font-family: "Open Sans", sans-serif;
@@ -18,7 +12,7 @@ export const GlobalStyles = createGlobalStyle`
   
   a {
     text-decoration: none;
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
     font-weight: 700;
   }
   

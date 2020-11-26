@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { GlobalStyles } from "./global.styles";
+import { ThemeProvider } from "styled-components";
+import { LIGHT_THEME } from "./theme";
 
 import Navbar from "./components/navbar/navbar.component";
 import Toast from "./components/toast/toast.component";
@@ -49,16 +51,18 @@ const App = ({
   }, [history, toggleCartVisibility, isCartHidden]);
 
   return (
-    <div>
-      <GlobalStyles />
-      {isAdmin || <Navbar />}
-      <AppRoutes />
-      <FullPageSpinner
-        isLoading={isChangingAuthState}
-        loadingText={userLoadingText}
-      />
-      <Toast autoDelete dismissTime={1400} />
-    </div>
+    <ThemeProvider theme={LIGHT_THEME}>
+      <div>
+        <GlobalStyles />
+        {isAdmin || <Navbar />}
+        <AppRoutes />
+        <FullPageSpinner
+          isLoading={isChangingAuthState}
+          loadingText={userLoadingText}
+        />
+        <Toast autoDelete dismissTime={1400} />
+      </div>
+    </ThemeProvider>
   );
 };
 

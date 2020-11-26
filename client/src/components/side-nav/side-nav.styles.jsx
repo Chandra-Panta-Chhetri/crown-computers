@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-import { secondaryColor } from "../../global.styles";
 
 const NavMenuOptionStyles = css`
   display: flex;
@@ -10,7 +9,7 @@ const NavMenuOptionStyles = css`
 
   a {
     text-decoration: none;
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
     width: 100%;
     height: 100%;
     display: flex;
@@ -20,7 +19,7 @@ const NavMenuOptionStyles = css`
     text-transform: capitalize;
 
     &:hover {
-      background-color: ${secondaryColor};
+      background-color: ${(props) => props.theme.secondary};
       color: white;
     }
 
@@ -120,7 +119,7 @@ export const NavMenuClose = styled.li`
     margin-left: 1rem;
     font-size: 2rem;
     background: none;
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
     cursor: pointer;
   }
 `;
@@ -129,7 +128,7 @@ export const MenuBars = styled.span`
   margin-left: 1rem;
   font-size: 2rem;
   background: none;
-  color: ${secondaryColor};
+  color: ${(props) => props.theme.secondary};
   cursor: pointer;
 
   @media only screen and (max-width: 650px) {

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { secondaryColor } from "../../global.styles";
+
 import AddToCartBtn from "../add-to-cart-btn/add-to-cart-btn.component";
 
 export const CollectionItemContainer = styled.div`
@@ -80,7 +80,7 @@ export const ItemCategory = styled.h5`
   color: gray;
 
   &:hover {
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
   }
 `;
 
@@ -91,7 +91,7 @@ export const ItemName = styled.h5`
   text-transform: capitalize;
 
   &:hover {
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
   }
 `;
 

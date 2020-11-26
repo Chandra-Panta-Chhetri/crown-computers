@@ -4,13 +4,12 @@ import {
   ButtonWithIcon,
   ButtonWithNoBorder
 } from "./button.styles";
-import { secondaryColor } from "../../global.styles";
 
 const Button = ({
   children,
   iconClass = "",
   variant,
-  color = secondaryColor,
+  color,
   className,
   ...otherButtonAttr
 }) => {

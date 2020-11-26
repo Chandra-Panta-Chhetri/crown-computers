@@ -5,7 +5,6 @@ import {
   ProductCategory,
   ProductName
 } from "../cart-summary-item/cart-summary-item.styles";
-import { secondaryColor } from "../../global.styles";
 
 export const WishListDetailContainer = styled.article`
   min-height: 250px;
@@ -39,7 +38,7 @@ export const WishListName = styled.p`
 `;
 
 export const WishListEditIcon = styled.i`
-  color: ${secondaryColor};
+  color: ${(props) => props.theme.secondary};
   cursor: pointer;
   font-size: 20px;
   margin-left: 5px;
@@ -94,7 +93,7 @@ export const WishListItemCategory = styled(ProductCategory)`
   cursor: pointer;
 
   &:hover {
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
   }
 `;
 
@@ -104,7 +103,7 @@ export const WishListItemName = styled(ProductName)`
   margin-top: 3px;
 
   &:hover {
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
   }
 `;
 

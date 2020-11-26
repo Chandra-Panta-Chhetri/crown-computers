@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { secondaryColor } from "../../global.styles";
 
 export const ProductCarouselItemContainer = styled.section`
   padding: 10px;
@@ -41,7 +40,7 @@ export const ItemName = styled.h5`
   cursor: pointer;
 
   &:hover {
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
   }
 `;
 

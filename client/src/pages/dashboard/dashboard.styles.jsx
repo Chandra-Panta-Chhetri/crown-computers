@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { secondaryColor } from "../../global.styles";
 
 export const DashboardContainer = styled.article`
   display: flex;
@@ -27,7 +26,7 @@ export const DashboardContentTitle = styled.h3`
     left: 50%;
     margin-left: ${(props) =>
       props.underlineWidth ? `${(props.underlineWidth / 2) * -1}px` : "-30px"};
-    border-bottom: 2px solid ${secondaryColor};
+    border-bottom: 2px solid ${(props) => props.theme.secondary};
   }
 
   @media only screen and (max-width: 450px) {

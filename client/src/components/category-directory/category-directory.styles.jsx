@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { secondaryColorLight, mainColorLight } from "../../global.styles";
 import Skeleton from "../skeleton/skeleton.component";
 
 export const CategoryImage = styled.div`
@@ -19,7 +18,7 @@ export const DirectoryContent = styled.div`
   justify-content: center;
   border: 1px solid black;
   position: absolute;
-  background-color: ${secondaryColorLight};
+  background-color: ${(props) => props.theme.secondaryLight};
   opacity: 0.8;
   border-radius: 6px;
   width: 20%;
@@ -72,7 +71,7 @@ export const CategoryName = styled.h1`
   font-weight: bold;
   margin-bottom: 1px;
   font-size: 22px;
-  color: ${mainColorLight};
+  color: ${(props) => props.theme.primaryLight};
   text-transform: uppercase;
 `;
 

@@ -1,10 +1,9 @@
 import styled, { css } from "styled-components";
 import { NavLink, Link } from "react-router-dom";
-import { mainColorLight, secondaryColor } from "../../global.styles";
 
 const navItemsHoverStyles = css`
   &:hover {
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
   }
 `;
 
@@ -13,7 +12,7 @@ const navItemStyles = css`
   cursor: pointer;
   white-space: nowrap;
   outline: none;
-  color: ${mainColorLight};
+  color: ${(props) => props.theme.primaryLight};
 `;
 
 export const NavBarContainer = styled.nav`
@@ -36,7 +35,7 @@ export const LogoIcon = styled.i`
 
 export const ToggleIcon = styled.i`
   font-size: 30px;
-  color: ${secondaryColor};
+  color: ${(props) => props.theme.secondary};
   float: right;
   line-height: 80px;
   margin-left: 15px;
@@ -61,7 +60,7 @@ export const NavMenuClose = styled.i`
     display: initial;
     top: 30px;
     right: 30px;
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
   }
 `;
 
@@ -84,7 +83,7 @@ export const NavBarItems = styled.div`
   position: relative;
 
   .active {
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
     border-bottom: 3px solid;
     transition: border-bottom 350ms ease-out;
   }
@@ -115,7 +114,7 @@ export const NavItem = styled(NavLink)`
 
   @media only screen and (max-width: 750px) {
     display: initial;
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
     font-size: 20px;
     letter-spacing: 2.2px;
 
@@ -152,7 +151,7 @@ export const LogOutBtn = styled(Link)`
   ${navItemsHoverStyles}
 
   @media only screen and (max-width: 750px) {
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
     font-size: 20px;
     letter-spacing: 2.2px;
   }

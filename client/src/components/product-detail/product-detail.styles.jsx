@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { secondaryColor } from "../../global.styles";
+
 import AddToCartBtn from "../add-to-cart-btn/add-to-cart-btn.component";
 import AddToWishListBtn from "../add-to-wish-list-btn/add-to-wish-list-btn.component";
 
@@ -34,7 +34,7 @@ export const ProductCategory = styled.h5`
   color: gray;
 
   &:hover {
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
   }
 `;
 

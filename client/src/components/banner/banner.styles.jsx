@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { mainBorderColor } from "../../global.styles";
 
 export const BannerLabel = styled.span`
   color: gray;
@@ -8,7 +7,7 @@ export const BannerLabel = styled.span`
 
 export const BannerContainer = styled.div`
   display: flex;
-  border-bottom: 2px solid ${mainBorderColor};
+  border-bottom: 2px solid ${(props) => props.theme.primaryBorderColor};
   padding: 8px 0;
 
   @media only screen and (max-width: 500px) {

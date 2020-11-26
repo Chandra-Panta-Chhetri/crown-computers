@@ -1,6 +1,4 @@
 import styled, { css } from "styled-components";
-const pulseMainColor = "gainsboro";
-const pulseSecondaryColor = "#f8f8f8";
 
 export const pulseAnimation = css`
   @keyframes pulse {
@@ -20,9 +18,9 @@ export const SkeletonContainer = styled.div`
   flex: ${(props) => (props.flexGrow ? "1 1 auto" : "none")};
   background: linear-gradient(
     -90deg,
-    ${pulseMainColor} 0%,
-    ${pulseSecondaryColor} 50%,
-    ${pulseMainColor} 100%
+    ${(props) => props.theme.primarySkeletonPulseColor} 0%,
+    ${(props) => props.theme.secondarySkeletonPulseColor} 50%,
+    ${(props) => props.theme.primarySkeletonPulseColor} 100%
   );
   background-size: 400% 400%;
   animation: pulse 1.2s ease-in infinite;

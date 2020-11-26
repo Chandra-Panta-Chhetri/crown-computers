@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Banner from "../banner/banner.component";
 import { BannerDetail, BannerLabel } from "../banner/banner.styles";
-import { secondaryColor } from "../../global.styles";
+
 import ImageCarousel from "../image-carousel/image-carousel.component";
 import {
   ImageContainer,
@@ -26,7 +26,7 @@ export const ProductActionContainer = styled.div`
 
 export const EditProductIcon = styled.i`
   cursor: pointer;
-  color: ${secondaryColor};
+  color: ${(props) => props.theme.secondary};
   margin-right: 10px;
 
   &:hover {
