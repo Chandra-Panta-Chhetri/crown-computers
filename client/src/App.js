@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { GlobalStyles } from "./global.styles";
 import { ThemeProvider } from "styled-components";
-import { LIGHT_THEME } from "./theme";
 
 import Navbar from "./components/navbar/navbar.component";
 import Toast from "./components/toast/toast.component";
@@ -21,6 +20,7 @@ import { toggleCartVisibility } from "./redux/cart/cart.actions";
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { selectCurrentTheme } from "./redux/theme/theme.selectors";
 
 const App = ({
   autoSignIn,
@@ -30,7 +30,8 @@ const App = ({
   isChangingAuthState,
   wasSignedIn,
   userLoadingText,
-  currentUser
+  currentUser,
+  theme
 }) => {
   const isAdmin = currentUser && currentUser.isAdmin;
   useEffect(() => {
@@ -51,7 +52,7 @@ const App = ({
   }, [history, toggleCartVisibility, isCartHidden]);
 
   return (
-    <ThemeProvider theme={LIGHT_THEME}>
+    <ThemeProvider theme={theme}>
       <div>
         <GlobalStyles />
         {isAdmin || <Navbar />}
@@ -71,7 +72,8 @@ const mapStateToProps = createStructuredSelector({
   isChangingAuthState: selectIsChangingAuthState,
   userLoadingText: selectUserLoadingText,
   wasSignedIn: selectWasSignedIn,
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  theme: selectCurrentTheme
 });
 
 const mapDispatchToProps = (dispatch) => ({
