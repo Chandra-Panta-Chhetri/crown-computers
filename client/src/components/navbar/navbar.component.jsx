@@ -14,6 +14,7 @@ import {
 
 import CartDropDown from "../cart-drop-down/cart-drop-down.component";
 import CartIcon from "../cart-icon/cart-icon.component";
+import ThemeToggle from "../theme-toggle/theme-toggle.component";
 
 import { connect } from "react-redux";
 import { selectCartVisibility } from "../../redux/cart/cart.selectors";
@@ -44,6 +45,7 @@ const Navbar = ({ currentUser, hidden, logOut }) => {
             <i className="far fa-user" />
           </Username>
         )}
+        <ThemeToggle />
       </LogoContainer>
       <FlexContainer>
         <ToggleIcon className="fas fa-bars" onClick={toggleCollapse} />

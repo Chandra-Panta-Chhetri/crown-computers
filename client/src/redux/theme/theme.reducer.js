@@ -1,7 +1,7 @@
 import THEME_ACTION_TYPES from "./theme.action.types";
-import { DARK_THEME, LIGHT_THEME } from "../../theme";
+import { DARK_THEME, LIGHT_THEME } from "./themeStyles";
 
-const THEME_NAME_THEME_MAP = {
+export const THEME_NAME_THEME_MAP = {
   light: LIGHT_THEME,
   dark: DARK_THEME
 };
@@ -10,12 +10,8 @@ const persistedThemeName = localStorage.getItem("theme")
   ? localStorage.getItem("theme")
   : "light";
 
-const persistedTheme = THEME_NAME_THEME_MAP[persistedThemeName]
-  ? THEME_NAME_THEME_MAP[persistedThemeName]
-  : LIGHT_THEME;
-
 const INITIAL_STATE = {
-  theme: persistedTheme
+  themeName: persistedThemeName
 };
 
 const themeReducer = (prevState = INITIAL_STATE, action) => {
@@ -24,7 +20,7 @@ const themeReducer = (prevState = INITIAL_STATE, action) => {
       localStorage.setItem("theme", action.payload);
       return {
         ...prevState,
-        theme: THEME_NAME_THEME_MAP[action.payload]
+        themeName: action.payload
       };
     default:
       return prevState;

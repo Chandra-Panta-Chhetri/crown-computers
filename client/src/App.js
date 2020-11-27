@@ -6,7 +6,6 @@ import Navbar from "./components/navbar/navbar.component";
 import Toast from "./components/toast/toast.component";
 import AppRoutes from "./components/app-routes/app-routes.component";
 import FullPageSpinner from "./components/full-page-spinner/full-page-spinner.component";
-import { withRouter } from "react-router-dom";
 
 import {
   selectCurrentUser,
@@ -20,7 +19,8 @@ import { toggleCartVisibility } from "./redux/cart/cart.actions";
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { selectCurrentTheme } from "./redux/theme/theme.selectors";
+import { withRouter } from "react-router-dom";
+import { selectThemeStyles } from "./redux/theme/theme.selectors";
 
 const App = ({
   autoSignIn,
@@ -73,7 +73,7 @@ const mapStateToProps = createStructuredSelector({
   userLoadingText: selectUserLoadingText,
   wasSignedIn: selectWasSignedIn,
   currentUser: selectCurrentUser,
-  theme: selectCurrentTheme
+  theme: selectThemeStyles
 });
 
 const mapDispatchToProps = (dispatch) => ({
