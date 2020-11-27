@@ -5,6 +5,7 @@ export const GlobalStyles = createGlobalStyle`
     font-family: "Open Sans", sans-serif;
     padding: 20px 60px;
     background-color: ${(props) => props.theme.backgroundColor};
+    transition: background-color 0.5s;
 
     @media only screen and (max-width: 600px) {
       padding: 20px;
