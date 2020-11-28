@@ -6,7 +6,7 @@ import {
   BackButton,
   ContinueButton as PayNowButton
 } from "../checkout-form/checkout-form.styles";
-import { CardElementContainer } from "./card-details-form.styles";
+import { CardElementContainer, WarningText } from "./card-details-form.styles";
 
 import { CardElement } from "@stripe/react-stripe-js";
 
@@ -65,6 +65,10 @@ const CardDetailsForm = ({
           onChange={handleCardDetailsChange}
         />
       </CardElementContainer>
+      <WarningText>
+        Please do not use a real credit card! For testing, use 4242 4242 4242
+        4242, any 3 digits for CVC and any future date.
+      </WarningText>
       <FormButtonsContainer>
         <BackButton onClick={prevStep} type="button">
           Back

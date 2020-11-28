@@ -7,7 +7,7 @@ export const LoadingText = styled.p`
 `;
 
 export const CardElementContainer = styled.div`
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 
   & .StripeElement {
     width: 100%;
@@ -17,4 +17,12 @@ export const CardElementContainer = styled.div`
       props.isDarkMode ? "none" : `2px solid ${props.theme.textColor}`};
     background: ${(props) => props.theme.backgroundColor};
   }
+`;
+
+export const WarningText = styled.p`
+  color: red;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+  letter-spacing: 1.2px;
 `;
