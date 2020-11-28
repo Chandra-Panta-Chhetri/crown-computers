@@ -43,7 +43,7 @@ export const SideNavContainer = styled.section`
 `;
 
 export const Navbar = styled.div`
-  background-color: #060b26;
+  background-color: ${(props) => props.theme.dashboardBackgroundColor};
   height: 80px;
   display: flex;
   justify-content: space-between;
@@ -55,10 +55,15 @@ export const NavbarBrand = styled.div`
   display: flex;
   align-items: center;
   margin-right: 0.7rem;
+
+  @media only screen and (max-width: 410px) {
+    justify-content: space-between;
+    flex-grow: 1;
+  }
 `;
 
 export const AdminName = styled.span`
-  color: #3498db;
+  color: ${(props) => props.theme.dashboardTextColor};
   letter-spacing: 2.5px;
   font-weight: bold;
   text-transform: capitalize;
@@ -73,11 +78,15 @@ export const AdminName = styled.span`
       display: none;
     }
   }
+
+  @media only screen and (max-width: 410px) {
+    display: none;
+  }
 `;
 
 export const SideNavTitle = styled.span`
   margin-right: 16px;
-  color: #3498db;
+  color: ${(props) => props.theme.dashboardTextColor};
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: bold;
@@ -88,7 +97,7 @@ export const SideNavTitle = styled.span`
 `;
 
 export const NavMenu = styled.nav`
-  background-color: #060b26;
+  background-color: ${(props) => props.theme.dashboardBackgroundColor};
   width: 250px;
   height: 100vh;
   display: flex;
@@ -108,7 +117,7 @@ export const NavMenuItems = styled.ul`
 `;
 
 export const NavMenuClose = styled.li`
-  background-color: #060b26;
+  background-color: ${(props) => props.theme.dashboardBackgroundColor};
   width: 100%;
   height: 84px;
   display: flex;
@@ -119,7 +128,7 @@ export const NavMenuClose = styled.li`
     margin-left: 1rem;
     font-size: 2rem;
     background: none;
-    color: ${(props) => props.theme.secondary};
+    color: ${(props) => props.theme.dashboardTextColor};
     cursor: pointer;
   }
 `;
@@ -128,7 +137,7 @@ export const MenuBars = styled.span`
   margin-left: 1rem;
   font-size: 2rem;
   background: none;
-  color: ${(props) => props.theme.secondary};
+  color: ${(props) => props.theme.dashboardTextColor};
   cursor: pointer;
 
   @media only screen and (max-width: 650px) {

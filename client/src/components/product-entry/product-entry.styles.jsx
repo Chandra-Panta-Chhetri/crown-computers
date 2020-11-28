@@ -74,11 +74,7 @@ export const InventoryCount = styled.span`
 `;
 
 export const SpecificationBanner = styled(Banner)`
-  border-bottom: 2px solid darkgray;
-
-  ${BannerLabel}, ${BannerDetail} {
-    color: black;
-  }
+  border-bottom: 2px solid ${(props) => props.theme.textColor};
 `;
 
 export const Heading = styled.h4`

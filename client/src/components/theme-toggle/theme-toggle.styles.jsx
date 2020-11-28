@@ -10,7 +10,7 @@ export const ThemeToggleContainer = styled.button`
   margin-left: 10px;
   outline: none;
   cursor: pointer;
-  border: 2px solid ${(props) => (props.darkMode ? "white" : "black")};
+  border: 2px solid ${(props) => props.theme.dashboardTextColor};
 
   &::before {
     width: 25px;
@@ -25,7 +25,7 @@ export const ThemeToggleContainer = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: ${(props) => (props.darkMode ? "white" : "black")};
+    color: ${(props) => props.theme.dashboardTextColor};
   }
 
   &::after {
@@ -34,7 +34,7 @@ export const ThemeToggleContainer = styled.button`
     position: absolute;
     right: 4px;
     top: 2px;
-    background-color: ${(props) => (props.darkMode ? "white" : "black")};
+    background-color: ${(props) => props.theme.dashboardTextColor};
     content: "";
     border-radius: 25px;
     transition: transform 0.5s;

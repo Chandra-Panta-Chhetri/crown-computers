@@ -63,11 +63,11 @@ export const Textarea = styled.textarea`
   min-height: 160px;
   border-radius: 6px;
   border: ${(props) =>
-    props.isDarkMode
-      ? "none"
-      : `2px solid ${(props) => props.theme.textColor}`};
-  background: ${(props) =>
-    props.readOnly ? props.theme.readOnlyBackgroundColor : "unset"};
+    props.isDarkMode ? "none" : `2px solid ${props.theme.textColor}`};
+  background-color: ${(props) =>
+    props.readOnly
+      ? props.theme.readOnlyBackgroundColor
+      : props.theme.backgroundColor};
   font-family: inherit;
 
   &:focus {

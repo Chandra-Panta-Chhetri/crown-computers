@@ -1,6 +1,7 @@
 export const DARK_THEME = {
   backgroundColor: "#1a1a1a",
-  backgroundColorLight: "#3f3f3f",
+  backgroundColorLight: "#2b2b2b",
+  backgroundColorLighter: "#4f4f4f",
   textColor: "#eee",
   primary: "#E8E8E8",
   primaryLight: "#eee",
@@ -8,18 +9,21 @@ export const DARK_THEME = {
   secondaryLight: "aliceblue",
   secondaryDarkColor: "#1a1a1a",
   primaryBorderColor: "white",
-  primarySkeletonPulseColor: "#3f3f3f",
+  primarySkeletonPulseColor: "#2b2b2b",
   secondarySkeletonPulseColor: "#4a4949",
   primaryFormColor: "white",
   boxShadow: "none",
-  modalBackgroundColor: "#3f3f3f",
+  modalBackgroundColor: "#2b2b2b",
   overlayBackgroundColor: "rgba(71, 71, 71, 0.9)",
-  readOnlyBackgroundColor: "#5c5c5c"
+  readOnlyBackgroundColor: "#5c5c5c",
+  dashboardBackgroundColor: "#2b2b2b",
+  dashboardTextColor: "white"
 };
 
 export const LIGHT_THEME = {
   backgroundColor: "white",
   backgroundColorLight: "aliceblue",
+  backgroundColorLighter: "#ccc",
   textColor: "black",
   primary: "#4a4a4a",
   primaryLight: "#4a4a4a",
@@ -33,5 +37,7 @@ export const LIGHT_THEME = {
   boxShadow: "0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22)",
   modalBackgroundColor: "white",
   overlayBackgroundColor: "rgba(255, 255, 255, 0.9)",
-  readOnlyBackgroundColor: "#dddddd"
+  readOnlyBackgroundColor: "#dddddd",
+  dashboardBackgroundColor: "#060b26",
+  dashboardTextColor: "#3498db"
 };

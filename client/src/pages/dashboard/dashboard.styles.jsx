@@ -26,7 +26,7 @@ export const DashboardContentTitle = styled.h3`
     left: 50%;
     margin-left: ${(props) =>
       props.underlineWidth ? `${(props.underlineWidth / 2) * -1}px` : "-30px"};
-    border-bottom: 2px solid ${(props) => props.theme.secondary};
+    border-bottom: 2px solid ${(props) => props.theme.dashboardTextColor};
   }
 
   @media only screen and (max-width: 450px) {
