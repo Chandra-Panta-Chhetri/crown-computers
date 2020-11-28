@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const ThemeToggleContainer = styled.button`
-  background-color: ${(props) =>
-    props.darkMode ? "rgba(0, 0, 0, 0.171)" : "rgba(255, 255, 255, 0.192)"};
+  background-color: transparent;
   border-radius: 25px;
   width: 60px;
   position: relative;
