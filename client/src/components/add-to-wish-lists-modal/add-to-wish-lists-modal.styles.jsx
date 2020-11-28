@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Button from "../button/button.component";
 import Modal from "../modal/modal.component";
 import { ModalBody } from "../modal/modal.styles";
-import { secondaryColor } from "../../global.styles";
 
 export const WishListsModalContainer = styled(Modal)`
   ${ModalBody} {
@@ -38,7 +37,7 @@ export const NoWishListsText = styled.p`
   text-align: center;
 
   span {
-    color: ${secondaryColor};
+    color: ${(props) => props.theme.secondary};
     cursor: pointer;
   }
 `;

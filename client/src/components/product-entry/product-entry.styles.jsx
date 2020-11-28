@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Banner from "../banner/banner.component";
-import { BannerDetail, BannerLabel } from "../banner/banner.styles";
-import { secondaryColor } from "../../global.styles";
+
 import ImageCarousel from "../image-carousel/image-carousel.component";
 import {
   ImageContainer,
@@ -26,7 +25,7 @@ export const ProductActionContainer = styled.div`
 
 export const EditProductIcon = styled.i`
   cursor: pointer;
-  color: ${secondaryColor};
+  color: ${(props) => props.theme.secondary};
   margin-right: 10px;
 
   &:hover {
@@ -74,11 +73,7 @@ export const InventoryCount = styled.span`
 `;
 
 export const SpecificationBanner = styled(Banner)`
-  border-bottom: 2px solid darkgray;
-
-  ${BannerLabel}, ${BannerDetail} {
-    color: black;
-  }
+  border-bottom: 2px solid ${(props) => props.theme.textColor};
 `;
 
 export const Heading = styled.h4`

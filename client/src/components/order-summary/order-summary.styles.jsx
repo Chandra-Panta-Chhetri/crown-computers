@@ -14,7 +14,7 @@ export const OrderSummaryContainer = styled.section`
 
 export const Heading = styled.h2`
   font-weight: bold;
-  background: #e9ecef;
+  background-color: ${(props) => props.theme.backgroundColorLight};
   padding: 1.1em;
   text-transform: uppercase;
   font-size: 16px;
@@ -30,7 +30,6 @@ export const PriceSummaryContainer = styled.section`
 
 export const Price = styled.span`
   float: right;
-  color: black;
   font-weight: 700;
 `;
 
@@ -39,4 +38,5 @@ export const PriceSummaryItem = styled.p`
   margin-bottom: 5px;
   padding-bottom: 10px;
   border-bottom: 1px dotted #3498db;
+  color: ${(props) => props.theme.textColor};
 `;

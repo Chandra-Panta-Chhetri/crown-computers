@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { GlobalStyles } from "./global.styles";
+import { ThemeProvider } from "styled-components";
 
 import Navbar from "./components/navbar/navbar.component";
 import Toast from "./components/toast/toast.component";
 import AppRoutes from "./components/app-routes/app-routes.component";
 import FullPageSpinner from "./components/full-page-spinner/full-page-spinner.component";
-import { withRouter } from "react-router-dom";
 
 import {
   selectCurrentUser,
@@ -19,6 +19,8 @@ import { toggleCartVisibility } from "./redux/cart/cart.actions";
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { withRouter } from "react-router-dom";
+import { selectThemeStyles } from "./redux/theme/theme.selectors";
 
 const App = ({
   autoSignIn,
@@ -28,7 +30,8 @@ const App = ({
   isChangingAuthState,
   wasSignedIn,
   userLoadingText,
-  currentUser
+  currentUser,
+  theme
 }) => {
   const isAdmin = currentUser && currentUser.isAdmin;
   useEffect(() => {
@@ -49,16 +52,18 @@ const App = ({
   }, [history, toggleCartVisibility, isCartHidden]);
 
   return (
-    <div>
-      <GlobalStyles />
-      {isAdmin || <Navbar />}
-      <AppRoutes />
-      <FullPageSpinner
-        isLoading={isChangingAuthState}
-        loadingText={userLoadingText}
-      />
-      <Toast autoDelete dismissTime={1400} />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div>
+        <GlobalStyles />
+        {isAdmin || <Navbar />}
+        <AppRoutes />
+        <FullPageSpinner
+          isLoading={isChangingAuthState}
+          loadingText={userLoadingText}
+        />
+        <Toast autoDelete dismissTime={1400} />
+      </div>
+    </ThemeProvider>
   );
 };
 
@@ -67,7 +72,8 @@ const mapStateToProps = createStructuredSelector({
   isChangingAuthState: selectIsChangingAuthState,
   userLoadingText: selectUserLoadingText,
   wasSignedIn: selectWasSignedIn,
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  theme: selectThemeStyles
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,8 +3,7 @@ import {
   CategoryDirectoryContainer,
   CategoryImage,
   DirectoryContent,
-  CategoryName,
-  DirectorySubtitle
+  CategoryName
 } from "./category-directory.styles";
 
 import { withRouter } from "react-router-dom";
@@ -21,7 +20,6 @@ const CategoryDirectory = ({
     <CategoryImage imageUrl={imageUrl}></CategoryImage>
     <DirectoryContent>
       <CategoryName>{category}</CategoryName>
-      <DirectorySubtitle>SHOP NOW</DirectorySubtitle>
     </DirectoryContent>
   </CategoryDirectoryContainer>
 );

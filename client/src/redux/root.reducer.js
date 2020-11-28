@@ -6,6 +6,7 @@ import notificationReducer from "./notification/notification.reducer";
 import checkoutReducer from "./checkout/checkout.reducer";
 import wishListReducer from "./wish-list/wish-list.reducer";
 import saleReducer from "./sale/sale.reducer";
+import themeReducer from "./theme/theme.reducer";
 import { combineReducers } from "redux";
 
 export default combineReducers({
@@ -16,5 +17,6 @@ export default combineReducers({
   notification: notificationReducer,
   checkout: checkoutReducer,
   wishList: wishListReducer,
-  sale: saleReducer
+  sale: saleReducer,
+  theme: themeReducer
 });

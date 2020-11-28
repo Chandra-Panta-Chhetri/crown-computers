@@ -1,4 +1,5 @@
 import React from "react";
+import { SameAsBillingCheckbox } from "./billing-details.styles";
 import {
   FormTitle,
   FormContainer,
@@ -8,7 +9,6 @@ import {
 } from "../checkout-form/checkout-form.styles";
 
 import FormInput from "../form-input/form-input.component";
-import Checkbox from "../checkbox/checkbox.component";
 
 const BillingDetailsForm = ({
   prevStep,
@@ -26,10 +26,12 @@ const BillingDetailsForm = ({
 
   return (
     <FormContainer onSubmit={continueToNextStep}>
-      <FormTitle>{formLabel}</FormTitle>
+      <FormTitle isShipping={formType === "shippingDetails"}>
+        {formLabel}
+      </FormTitle>
       {formType === "shippingDetails" && (
-        <Checkbox
-          label="Same As Billing Info"
+        <SameAsBillingCheckbox
+          label="Same As Billing"
           name="sameAsBilling"
           inputChangeHandler={handleChange}
           checkedStatus={sameAsBilling}

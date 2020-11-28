@@ -26,15 +26,17 @@ export const loadingDotsAnimationStyles = css`
       text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
     }
     40% {
-      color: black;
+      color: ${(props) => props.theme.textColor};
       text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
     }
     60% {
-      text-shadow: 0.25em 0 0 black, 0.5em 0 0 rgba(0, 0, 0, 0);
+      text-shadow: 0.25em 0 0 ${(props) => props.theme.textColor},
+        0.5em 0 0 rgba(0, 0, 0, 0);
     }
     80%,
     100% {
-      text-shadow: 0.25em 0 0 black, 0.5em 0 0 black;
+      text-shadow: 0.25em 0 0 ${(props) => props.theme.textColor},
+        0.5em 0 0 ${(props) => props.theme.textColor};
     }
   }
 `;
@@ -42,7 +44,7 @@ export const loadingDotsAnimationStyles = css`
 export const SpinnerTextStyles = css`
   font-size: 18px;
   font-weight: 600;
-  color: black;
+  color: ${(props) => props.theme.textColor};
 `;
 
 export const SpinnerStyles = css`
