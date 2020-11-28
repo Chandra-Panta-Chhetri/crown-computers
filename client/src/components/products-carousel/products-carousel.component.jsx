@@ -32,7 +32,6 @@ const ProductsCarousel = ({
   const carouselConfig = {
     slidesToShow: 4,
     slidesToScroll: 1,
-    dots: true,
     infinite: true,
     responsive: [
       {

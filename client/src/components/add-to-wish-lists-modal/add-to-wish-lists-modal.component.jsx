@@ -100,7 +100,7 @@ const WishListsModal = ({
             <NoWishListsText>
               It seems you have no wish lists.{" "}
               <span onClick={() => history.push("/wish-lists")}>
-                Create wish list
+                Create wish list?
               </span>
             </NoWishListsText>
           )}
