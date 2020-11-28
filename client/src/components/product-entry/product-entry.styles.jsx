@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Banner from "../banner/banner.component";
-import { BannerDetail, BannerLabel } from "../banner/banner.styles";
 
 import ImageCarousel from "../image-carousel/image-carousel.component";
 import {
