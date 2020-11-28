@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 const activeTabStyles = css`
-  border-color: blue;
+  border-color: ${(props) => props.theme.secondary};
   transition: border-color 450ms ease-in-out;
 `;
 

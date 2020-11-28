@@ -13,6 +13,7 @@ export const FormContainer = styled(Card)`
   flex-direction: column;
   align-items: center;
   width: 50%;
+  background-color: ${(props) => props.theme.backgroundColorLight};
 
   @media only screen and (max-width: 850px) {
     width: 80%;

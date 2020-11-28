@@ -10,8 +10,7 @@ export const ThemeToggleContainer = styled.button`
   margin-left: 10px;
   outline: none;
   cursor: pointer;
-  border: 2px solid
-    ${(props) => (props.darkMode ? "white" : props.theme.secondary)};
+  border: 2px solid ${(props) => (props.darkMode ? "white" : "black")};
 
   &::before {
     width: 25px;
@@ -35,11 +34,14 @@ export const ThemeToggleContainer = styled.button`
     position: absolute;
     right: 4px;
     top: 2px;
-    background-color: ${(props) =>
-      props.darkMode ? "white" : props.theme.secondary};
+    background-color: ${(props) => (props.darkMode ? "white" : "black")};
     content: "";
     border-radius: 25px;
     transition: transform 0.5s;
     transform: ${(props) => (props.darkMode ? "translateX(-27px)" : "none")};
+  }
+
+  @media only screen and (max-width: 400px) {
+    margin-left: 0;
   }
 `;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const BannerLabel = styled.span`
-  color: gray;
+  color: ${(props) => props.theme.textColor};
   text-transform: capitalize;
 `;
 
@@ -20,6 +20,6 @@ export const BannerContainer = styled.div`
 `;
 
 export const BannerDetail = styled.span`
-  color: rgba(26, 32, 44, 1);
+  color: ${(props) => props.theme.textColor};
   margin-left: auto;
 `;

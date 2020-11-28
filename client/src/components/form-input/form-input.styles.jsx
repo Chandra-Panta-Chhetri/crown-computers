@@ -8,12 +8,30 @@ export const FormFieldStyles = css`
   width: 100%;
   border: none;
   border-radius: 6px;
-  border: 1px solid ${(props) => props.theme.secondaryFormColor};
-  background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
+  border: ${(props) =>
+    props.isDarkMode ? "none" : `2px solid ${props.theme.textColor}`};
+  background-color: ${(props) =>
+    props.readOnly
+      ? props.theme.readOnlyBackgroundColor
+      : props.theme.backgroundColor};
   text-transform: ${(props) => (props.uppercaseInput ? "uppercase" : "none")};
+  cursor: ${(props) => (props.readOnly ? "not-allowed" : "default")};
 
   &:focus {
     outline: none;
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    border: ${(props) =>
+      props.isDarkMode ? "none" : `2px solid ${props.theme.textColor}`};
+    -webkit-text-fill-color: ${(props) => props.theme.textColor};
+    -webkit-box-shadow: 0 0 0px 1000px ${(props) => props.theme.backgroundColor}
+      inset;
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: ${(props) => props.theme.textColor};
   }
 `;
 
@@ -44,8 +62,12 @@ export const Textarea = styled.textarea`
   resize: vertical;
   min-height: 160px;
   border-radius: 6px;
-  border: 1px solid ${(props) => props.theme.secondaryFormColor};
-  background: ${(props) => (props.readOnly ? "#dddddd" : "unset")};
+  border: ${(props) =>
+    props.isDarkMode
+      ? "none"
+      : `2px solid ${(props) => props.theme.textColor}`};
+  background: ${(props) =>
+    props.readOnly ? props.theme.readOnlyBackgroundColor : "unset"};
   font-family: inherit;
 
   &:focus {

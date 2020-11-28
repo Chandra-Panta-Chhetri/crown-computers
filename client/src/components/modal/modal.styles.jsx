@@ -21,7 +21,7 @@ export const ModalContent = styled.div`
   width: 55%;
   height: 80%;
   overflow-y: auto;
-  background: white;
+  background: ${(props) => props.theme.modalBackgroundColor};
   border-radius: 6px;
   box-shadow: 0 5px 3px black;
   display: flex;
@@ -50,7 +50,7 @@ export const ModalHeader = styled.span`
   font-size: 18px;
 
   h3 {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   i {
@@ -58,7 +58,6 @@ export const ModalHeader = styled.span`
     color: lightgrey;
 
     &:hover {
-      color: black;
       transform: scale(1.3);
     }
   }

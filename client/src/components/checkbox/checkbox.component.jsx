@@ -9,9 +9,10 @@ const Checkbox = ({
   label,
   inputChangeHandler,
   checkedStatus,
+  className,
   ...otherFieldProps
 }) => (
-  <CheckboxContainer>
+  <CheckboxContainer className={className}>
     <CheckboxInput
       type="checkbox"
       onChange={inputChangeHandler}

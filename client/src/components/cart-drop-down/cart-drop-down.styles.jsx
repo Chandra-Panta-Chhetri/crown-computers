@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CartDropDownContainer = styled.article`
-  background: ${(props) => props.theme.primary};
+  background-color: ${(props) => props.theme.backgroundColorLight};
   width: 320px;
   position: absolute;
   border-radius: 3px;

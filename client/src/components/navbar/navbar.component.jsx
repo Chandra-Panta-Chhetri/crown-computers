@@ -39,13 +39,13 @@ const Navbar = ({ currentUser, hidden, logOut }) => {
     <NavBarContainer>
       <LogoContainer>
         <LogoIcon className="fas fa-plug" />
+        <ThemeToggle />
         {currentUser && (
           <Username>
             <span>{truncate(currentUser.fullName)}</span>
             <i className="far fa-user" />
           </Username>
         )}
-        <ThemeToggle />
       </LogoContainer>
       <FlexContainer>
         <ToggleIcon className="fas fa-bars" onClick={toggleCollapse} />

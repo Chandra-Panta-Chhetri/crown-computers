@@ -31,6 +31,10 @@ export const LogoContainer = styled.div`
 
 export const LogoIcon = styled.i`
   font-size: 35px;
+
+  @media only screen and (max-width: 400px) {
+    display: none;
+  }
 `;
 
 export const ToggleIcon = styled.i`
@@ -90,7 +94,7 @@ export const NavBarItems = styled.div`
 
   @media only screen and (max-width: 750px) {
     position: fixed;
-    background: #2c3e50;
+    background: ${(props) => props.theme.secondaryDarkColor};
     top: 0;
     bottom: 0;
     width: 100%;

@@ -13,7 +13,7 @@ export const FullPageSpinnerContainer = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: ${(props) => props.theme.overlayBackgroundColor};
   z-index: 9999;
   display: ${(props) => (props.isLoading ? "block" : "none")};
 

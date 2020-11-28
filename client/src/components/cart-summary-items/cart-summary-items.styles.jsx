@@ -7,7 +7,7 @@ export const CartSummaryItemsContainer = styled.table`
 `;
 
 export const TableHeadings = styled.thead`
-  background: #efefef;
+  background-color: ${(props) => props.theme.backgroundColorLight};
 `;
 
 export const TableHeading = styled.th`

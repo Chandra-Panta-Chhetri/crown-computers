@@ -18,8 +18,8 @@ export const DirectoryContent = styled.div`
   justify-content: center;
   border: 1px solid black;
   position: absolute;
-  background-color: ${(props) => props.theme.secondaryLight};
-  opacity: 0.8;
+  background-color: ${(props) => props.theme.backgroundColorLight};
+  opacity: 0.9;
   border-radius: 6px;
   width: 20%;
   text-align: center;
@@ -71,14 +71,9 @@ export const CategoryName = styled.h1`
   font-weight: bold;
   margin-bottom: 1px;
   font-size: 22px;
-  color: ${(props) => props.theme.primaryLight};
+  margin-top: 0;
+  color: ${(props) => props.theme.textColor};
   text-transform: uppercase;
-`;
-
-export const DirectorySubtitle = styled.p`
-  font-weight: lighter;
-  font-size: 16px;
-  margin-top: 4px;
 `;
 
 export const CategoryDirectorySkeleton = styled(Skeleton)`

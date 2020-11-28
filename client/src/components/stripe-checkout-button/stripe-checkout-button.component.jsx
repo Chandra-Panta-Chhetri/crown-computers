@@ -24,7 +24,7 @@ const StripeCheckoutButton = ({ price, label, history }) => {
       <CheckoutModal
         isOpen={isOpen}
         closeModalHandler={() => setIsOpen(false)}
-        modalTitle="Billing & Payment Details"
+        modalTitle="Checkout"
       >
         <Elements stripe={stripe}>
           <CheckoutFrom

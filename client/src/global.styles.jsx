@@ -6,6 +6,7 @@ export const GlobalStyles = createGlobalStyle`
     padding: 20px 60px;
     background-color: ${(props) => props.theme.backgroundColor};
     transition: background-color 0.5s;
+    color: ${(props) => props.theme.textColor};
 
     @media only screen and (max-width: 600px) {
       padding: 20px;
