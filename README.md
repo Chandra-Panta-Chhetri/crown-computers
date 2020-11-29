@@ -18,6 +18,7 @@ An E-commerce site that sells all things to do with computers. Customers can bro
 ## Features
 
 - Sign up & login using Google account or by creating a regular account (email & password)
+- In-app toast messages
 - Public users can
   - Browse products by category
   - Add/Remove products to/from cart
