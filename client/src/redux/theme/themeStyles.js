@@ -22,7 +22,7 @@ export const DARK_THEME = {
 
 export const LIGHT_THEME = {
   backgroundColor: "white",
-  backgroundColorLight: "aliceblue",
+  backgroundColorLight: "#e6f1f2",
   backgroundColorLighter: "#ccc",
   textColor: "black",
   primary: "#4a4a4a",
