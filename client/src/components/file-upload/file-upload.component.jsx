@@ -86,7 +86,7 @@ const FormInput = ({
         <UploadFileBtn
           type="button"
           onClick={handleUploadBtnClick}
-          color={theme.textColor}
+          color={theme.secondary}
           variant="icon"
           iconClass="fas fa-file-upload"
         >

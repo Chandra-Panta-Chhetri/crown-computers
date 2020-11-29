@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 export const FormFieldStyles = css`
-  color: ${(props) => props.theme.primaryFormColor};
+  color: ${(props) => props.theme.textColor};
   font-size: 18px;
   padding: 10px 10px 10px 7px;
   display: block;
@@ -43,7 +43,7 @@ export const FormInputContainer = styled.div`
 export const InputLabel = styled.label`
   top: -21px;
   font-size: 12px;
-  color: ${(props) => props.theme.primaryFormColor};
+  color: ${(props) => props.theme.textColor};
   left: 0;
   position: absolute;
 `;
@@ -53,7 +53,7 @@ export const FormField = styled.input`
 `;
 
 export const Textarea = styled.textarea`
-  color: ${(props) => props.theme.primaryFormColor};
+  color: ${(props) => props.theme.textColor};
   font-size: 18px;
   padding: 10px 10px 10px 7px;
   display: block;
