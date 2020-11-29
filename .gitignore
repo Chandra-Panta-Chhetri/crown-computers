@@ -3,5 +3,5 @@ node_modules
 .vscode
 cloud_functions
 *.log
-cloud_functions
 database_schemas.png
+pictures
