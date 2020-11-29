@@ -4,7 +4,8 @@ const buttonStyles = css`
   box-sizing: border-box;
   appearance: none;
   background-color: transparent;
-  border: 2px solid ${(props) => props.color};
+  border: 2px solid
+    ${(props) => (props.color ? props.color : props.theme.secondary)};
   cursor: pointer;
   font-size: 1rem;
   line-height: 1;
@@ -13,7 +14,7 @@ const buttonStyles = css`
   text-transform: uppercase;
   font-weight: 700;
   border-radius: 6px;
-  color: ${(props) => props.color};
+  color: ${(props) => (props.color ? props.color : props.theme.secondary)};
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -29,7 +30,8 @@ const buttonStyles = css`
     transform: translateX(-50%);
     width: 0;
     height: 100%;
-    background: ${(props) => props.color};
+    background: ${(props) =>
+      props.color ? props.color : props.theme.secondary};
     z-index: -1;
     transition: width 250ms ease-in-out;
   }

@@ -1,14 +1,13 @@
 import styled from "styled-components";
-import { mainBorderColor } from "../../global.styles";
 
 export const BannerLabel = styled.span`
-  color: gray;
+  color: ${(props) => props.theme.textColor};
   text-transform: capitalize;
 `;
 
 export const BannerContainer = styled.div`
   display: flex;
-  border-bottom: 2px solid ${mainBorderColor};
+  border-bottom: 2px solid ${(props) => props.theme.primaryBorderColor};
   padding: 8px 0;
 
   @media only screen and (max-width: 500px) {
@@ -21,6 +20,6 @@ export const BannerContainer = styled.div`
 `;
 
 export const BannerDetail = styled.span`
-  color: rgba(26, 32, 44, 1);
+  color: ${(props) => props.theme.textColor};
   margin-left: auto;
 `;

@@ -7,27 +7,22 @@ export const LoadingText = styled.p`
 `;
 
 export const CardElementContainer = styled.div`
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 
   & .StripeElement {
     width: 100%;
     padding: 15px;
     border-radius: 6px;
-    border: 1px solid grey;
+    border: ${(props) =>
+      props.isDarkMode ? "none" : `2px solid ${props.theme.textColor}`};
+    background: ${(props) => props.theme.backgroundColor};
   }
 `;
 
-export const cardElementStyles = {
-  base: {
-    color: "black",
-    fontSize: "17px",
-    iconColor: "black"
-  },
-  invalid: {
-    iconColor: "red",
-    color: "red"
-  },
-  complete: {
-    iconColor: "black"
-  }
-};
+export const WarningText = styled.p`
+  color: red;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+  letter-spacing: 1.2px;
+`;

@@ -3,6 +3,9 @@ import { SelectFormInput } from "./form-select.styles";
 import { FormInputContainer as FormSelectContainer } from "../form-input/form-input.styles";
 import { InputLabel } from "../form-input/form-input.styles";
 
+import { connect } from "react-redux";
+import { selectThemeName } from "../../redux/theme/theme.selectors";
+
 const FormSelect = ({
   noneSelectedText = "Select an Option",
   selectedOptionChangeHandler,
@@ -11,11 +14,13 @@ const FormSelect = ({
   nameOfValueField,
   nameOfOptionField,
   label,
+  themeName,
   ...otherProps
 }) => (
   <FormSelectContainer>
     <InputLabel>{label}</InputLabel>
     <SelectFormInput
+      isDarkMode={themeName === "dark"}
       onChange={selectedOptionChangeHandler}
       value={defaultSelectedOption}
       {...otherProps}
@@ -30,4 +35,8 @@ const FormSelect = ({
   </FormSelectContainer>
 );
 
-export default FormSelect;
+const mapStateToProps = (state) => ({
+  themeName: selectThemeName(state)
+});
+
+export default connect(mapStateToProps)(FormSelect);

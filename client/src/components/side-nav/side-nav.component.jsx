@@ -14,6 +14,7 @@ import {
 } from "./side-nav.styles";
 
 import { NavLink, withRouter } from "react-router-dom";
+import ThemeToggle from "../theme-toggle/theme-toggle.component";
 
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -32,6 +33,7 @@ const SideNav = ({ match, logOut, currentUser, navOptions = [] }) => {
           <MenuBars>
             <i className="fas fa-bars" onClick={toggleMenuVisibility} />
           </MenuBars>
+          <ThemeToggle />
           <AdminName>
             {currentUser && truncate(currentUser.fullName)}
             <i className="fas fa-user-shield" />

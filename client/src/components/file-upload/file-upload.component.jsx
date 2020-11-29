@@ -19,6 +19,7 @@ import {
 } from "../../global.utils";
 import { connect } from "react-redux";
 import { addWarningNotification } from "../../redux/notification/notification.actions";
+import { selectThemeStyles } from "../../redux/theme/theme.selectors";
 
 const FormInput = ({
   label,
@@ -26,6 +27,7 @@ const FormInput = ({
   maxFileSizeInBytes = 500000,
   displayWarningNotification,
   defaultFiles = {},
+  theme,
   ...otherProps
 }) => {
   const fileInputField = useRef(null);
@@ -84,7 +86,7 @@ const FormInput = ({
         <UploadFileBtn
           type="button"
           onClick={handleUploadBtnClick}
-          color="gray"
+          color={theme.textColor}
           variant="icon"
           iconClass="fas fa-file-upload"
         >
@@ -134,9 +136,13 @@ const FormInput = ({
   );
 };
 
+const mapStateToProps = (state) => ({
+  theme: selectThemeStyles(state)
+});
+
 const mapDispatchToProps = (dispatch) => ({
   displayWarningNotification: (title, msg) =>
     dispatch(addWarningNotification(title, msg))
 });
 
-export default connect(null, mapDispatchToProps)(FormInput);
+export default connect(mapStateToProps, mapDispatchToProps)(FormInput);

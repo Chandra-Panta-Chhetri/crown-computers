@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { secondaryColor } from "../../global.styles";
+
 import Card from "../card/card.component";
 import DeleteConfirmationModal from "../delete-confirmation-modal/delete-confirmation-modal.component";
 import { ModalContent } from "../modal/modal.styles";
@@ -50,7 +50,7 @@ export const DeleteCategoryModal = styled(DeleteConfirmationModal)`
 
 export const EditCategoryIcon = styled.i`
   cursor: pointer;
-  color: ${secondaryColor};
+  color: ${(props) => props.theme.secondary};
   margin-right: 10px;
 
   &:hover {

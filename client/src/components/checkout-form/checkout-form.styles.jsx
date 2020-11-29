@@ -8,7 +8,7 @@ export const FormContainer = styled.form`
 export const FormTitle = styled.h4`
   font-weight: bold;
   margin-top: 0;
-  margin-bottom: 30px;
+  margin-bottom: ${(props) => (props.isShipping ? "10px" : "35px")};
 `;
 
 export const FormButtonsContainer = styled.div`
