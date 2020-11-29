@@ -1,12 +1,10 @@
 # Crown Computers
 
 An E-commerce site that sells all things to do with computers. Customers can browse the product collection, add items to their cart, save items to wish list(s), checkout their cart. Admins can view sale history, add new products, update existing products, create new product categories, and more.
-
-- [Crown Computers](#crown-computers)
-  - [What app looks like](#what-app-looks-like)
-  - [Features](#features)
-  - [Dependencies](#dependencies)
-  - [Running locally](#running-locally)
+* [What app looks like](#what-app-looks-like)
+* [Features](#features)
+* [Dependencies](#dependencies)
+* [Running locally](#running-locally)
 
 ## What app looks like
 
