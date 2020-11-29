@@ -16,7 +16,7 @@ export const DARK_THEME = {
   modalBackgroundColor: "#2b2b2b",
   overlayBackgroundColor: "rgba(71, 71, 71, 0.9)",
   readOnlyBackgroundColor: "#5c5c5c",
-  dashboardBackgroundColor: "#4f4f4f",
+  dashboardBackgroundColor: "black",
   dashboardTextColor: "white"
 };
 
