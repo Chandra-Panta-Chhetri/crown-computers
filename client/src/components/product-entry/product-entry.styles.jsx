@@ -8,6 +8,7 @@ import {
 } from "../image-carousel/image-carousel.styles";
 import DeleteConfirmationModal from "../delete-confirmation-modal/delete-confirmation-modal.component";
 import { ModalContent } from "../modal/modal.styles";
+import { DeleteIcon } from "../delete-confirmation-modal/delete-confirmation-modal.styles";
 
 export const ProductEntryContainer = styled.article`
   width: 100%;
@@ -27,6 +28,7 @@ export const EditProductIcon = styled.i`
   cursor: pointer;
   color: ${(props) => props.theme.secondary};
   margin-right: 10px;
+  font-size: 20px;
 
   &:hover {
     transform: scale(1.3);
@@ -34,6 +36,10 @@ export const EditProductIcon = styled.i`
 `;
 
 export const DeleteProductModal = styled(DeleteConfirmationModal)`
+  ${DeleteIcon} {
+    font-size: 20px;
+  }
+
   ${ModalContent} {
     height: 44%;
     margin-top: 20px;

@@ -22,7 +22,7 @@ export const CartDropDownContainer = styled.article`
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-bottom-color: ${(props) => props.theme.primary};
+    border-bottom-color: ${(props) => props.theme.backgroundColorLighter};
     border-width: 8px;
     margin-left: -8px;
   }
