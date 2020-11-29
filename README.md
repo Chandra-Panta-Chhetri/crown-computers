@@ -1,6 +1,6 @@
 # Crown Computers
 
-An E-commerce site that sells all things to do with computers. Customers can browse the product collection, add items to their cart, save items to wish list(s), checkout their cart. Admins can view sale history, add new products, update existing products, create new product categories, and more.
+A responsive PWA E-commerce site that sells all things to do with computers. Customers can browse the product collection, add items to their cart, save items to wish list(s), checkout their cart. Admins can view sale history, add new products, update existing products, create new product categories, and more.
 * [What app looks like](#what-app-looks-like)
 * [Features](#features)
 * [Dependencies](#dependencies)
@@ -20,6 +20,8 @@ An E-commerce site that sells all things to do with computers. Customers can bro
 - Sign up & login using Google account or by creating a regular account (email & password)
 - In-app toast messages
 - Dark mode
+- Reponsive site
+- PWA (works offline, native app experience)
 - Public users can
   - Browse products by category
   - Add/Remove products to/from cart
