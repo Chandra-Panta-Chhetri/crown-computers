@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import Card from "../card/card.component";
 import DeleteConfirmationModal from "../delete-confirmation-modal/delete-confirmation-modal.component";
+import { DeleteIcon } from "../delete-confirmation-modal/delete-confirmation-modal.styles";
 import { ModalContent } from "../modal/modal.styles";
 
 export const CategoryEntryContainer = styled.article`
@@ -43,6 +44,10 @@ export const CategoryActionContainer = styled.div`
 `;
 
 export const DeleteCategoryModal = styled(DeleteConfirmationModal)`
+  ${DeleteIcon} {
+    font-size: 18px;
+  }
+
   ${ModalContent} {
     margin-top: 20px;
   }
@@ -52,6 +57,7 @@ export const EditCategoryIcon = styled.i`
   cursor: pointer;
   color: ${(props) => props.theme.secondary};
   margin-right: 10px;
+  font-size: 18px;
 
   &:hover {
     transform: scale(1.3);
