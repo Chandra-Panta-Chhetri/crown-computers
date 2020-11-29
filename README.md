@@ -60,7 +60,8 @@ Main NPM dependencies:
 1. Fork or clone the repo.
 2. Install NPM dependencies via `npm i && cd client && npm i`.
 3. Ensure all dev dependencies are installed as well.
-4. Rename both .env-cmdrc-example files (root & in client folder) to .env-cmdrc and add the env variables.
+4. Checkout dev branch.
+5. Rename both .env-cmdrc-example files (root & in client folder) to .env-cmdrc and add the env variables.
    
    To get env variable values:
      1. Create a [Firebase project](https://console.firebase.google.com/) and go into project settings to get:
@@ -74,7 +75,7 @@ Main NPM dependencies:
      2. Create a [Stripe account](https://dashboard.stripe.com/register) to get:
          - STRIPE_SECRET_KEY
          - REACT_APP_STRIPE_PUBLISHABLE_KEY
-5. Run `npm run dev` in project root.
-6. Project should be running on localhost:3000
+6. Run `npm run dev` in project root.
+7. Frontend should be running on localhost:3000 and API on localhost:8000.
 
 **Note: To deploy cloud functions in cloud_functions folder, run `npm i -g firebase-tools` to install firebase cli globally and run `firebase deploy --only functions`.**
