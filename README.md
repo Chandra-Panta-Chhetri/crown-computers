@@ -18,6 +18,9 @@ A responsive PWA E-commerce site that sells all things to do with computers. Cus
 ## Features
 
 - Sign up & login using Google account or by creating a regular account (email & password)
+- Auto Sign in
+- Infinite scrolling
+- Easy order payment via Stripe
 - In-app toast messages
 - Dark mode
 - Reponsive site
