@@ -51,8 +51,6 @@ const App = ({
     });
   }, [history, toggleCartVisibility, isCartHidden]);
 
-  console.log(process.env);
-
   return (
     <ThemeProvider theme={theme}>
       <div>
