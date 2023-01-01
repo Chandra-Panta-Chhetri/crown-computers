@@ -51,16 +51,15 @@ const App = ({
     });
   }, [history, toggleCartVisibility, isCartHidden]);
 
+  console.log(process.env);
+
   return (
     <ThemeProvider theme={theme}>
       <div>
         <GlobalStyles />
         {isAdmin || <Navbar />}
         <AppRoutes />
-        <FullPageSpinner
-          isLoading={isChangingAuthState}
-          loadingText={userLoadingText}
-        />
+        <FullPageSpinner isLoading={isChangingAuthState} loadingText={userLoadingText} />
         <Toast autoDelete dismissTime={1400} />
       </div>
     </ThemeProvider>
@@ -81,7 +80,4 @@ const mapDispatchToProps = (dispatch) => ({
   toggleCartVisibility: () => dispatch(toggleCartVisibility())
 });
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withRouter
-)(App);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withRouter)(App);

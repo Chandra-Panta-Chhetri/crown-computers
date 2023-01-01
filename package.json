@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "backend server for crown-computers",
   "main": "server.js",
-  "engines": {
-    "node": "12.16.1",
-    "npm": "6.13.4"
-  },
   "scripts": {
     "start": "node server.js",
     "server": "env-cmd --rc-file ./.env-cmdrc -e dev nodemon server.js",
