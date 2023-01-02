@@ -45,8 +45,7 @@ A responsive PWA E-commerce site that sells all things to do with computers. Cus
 
 1. Fork or clone the repo.
 2. Install NPM dependencies by running `npm i && cd client && npm i`.
-3. Checkout dev branch.
-4. Rename both .env-cmdrc-example files (root & in client folder) to .env-cmdrc and add the env variables.
+3. Rename both .env-cmdrc-example files (root & in client folder) to .env-cmdrc and add the env variables.
 
    To get env variable values:
 
@@ -62,7 +61,7 @@ A responsive PWA E-commerce site that sells all things to do with computers. Cus
       - STRIPE_SECRET_KEY
       - REACT_APP_STRIPE_PUBLISHABLE_KEY
 
-5. Run `npm run dev` in project root.
-6. Frontend should be running on localhost:3000 and API on localhost:8000.
+4. Run `npm run dev` in project root.
+5. Frontend should be running on localhost:3000 and API on localhost:8000.
 
 **Note: To deploy cloud functions in cloud_functions folder, run `npm i -g firebase-tools` to install firebase cli globally and run `firebase deploy --only functions`.**
