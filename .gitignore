@@ -1,4 +1,4 @@
-.env-cmdrc
+/.env-cmdrc
 node_modules
 .vscode
 cloud_functions
