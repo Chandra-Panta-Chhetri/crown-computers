@@ -35,7 +35,6 @@ const App = ({
 }) => {
   const isAdmin = currentUser && currentUser.isAdmin;
   useEffect(() => {
-    console.log(process.env);
     if (wasSignedIn) {
       autoSignIn();
     }
